@@ -1,0 +1,68 @@
+{
+    "name": "entpersonnels",
+    "description": "ENT Personnels Paris Descartes",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "framework",
+        "zf2",
+        "doctrine"
+    ],
+    "homepage": "http://parisdescartes.fr/",
+    "authors": [
+        {
+            "name": "Eric Grondin",
+            "email": "eric.grondin@parisdescartes.fr",
+            "homepage": "http://parisdescartes.fr/"
+        },
+        {
+            "name": "Francis Andria",
+            "email": "francis.andria@parisdescartes.fr",
+            "homepage": "http://parisdescartes.fr/"
+        },
+        {
+            "name": "Jeremie Normand",
+            "email": "jeremie.normand@parisdescartes.fr",
+            "homepage": "http://parisdescartes.fr/"
+        },
+        {
+            "name": "Malik Darel Djimbi",
+            "email": "malik-darel.djimbi@parisdescartes.fr",
+            "homepage": "http://parisdescartes.fr/"
+        },
+        {
+            "name": "Mikael Paradot",
+            "email": "mikael.paradot@parisdescartes.fr",
+            "homepage": "http://parisdescartes.fr/"
+        },
+        {
+            "name": "Sarah Duhamel",
+            "email": "sarah.duhamel@parisdescartes.fr",
+            "homepage": "http://parisdescartes.fr/"
+        },
+        {
+            "name": "Thierry Sebbar",
+            "email": "thierry.sebbar@parisdescartes.fr",
+            "homepage": "http://parisdescartes.fr/"
+        },{
+            "name": "Youcef Ouladdaoud",
+            "email": "youcef.ouladdaoud@parisdescartes.fr",
+            "homepage": "http://parisdescartes.fr/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "~2.4",
+        "zendframework/zend-developer-tools": "dev-master",
+        "bjyoungblood/bjy-profiler": "dev-master",
+        "doctrine/doctrine-orm-module" : "0.*"
+    },
+    "require-dev":{
+        "zendframework/zftool": "dev-master",
+        "phpunit/phpunit": "4.6.*"
+    },
+    "autoload" : {
+        "psr-4": {
+            "Ent\\": "module/Ent/src/Ent"
+        }
+    }
+}
