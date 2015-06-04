@@ -7,7 +7,8 @@ return array(
         'ZendDeveloperTools',
         'BjyProfiler',
         'DoctrineModule',
-        'DoctrineORMModule'
+        'DoctrineORMModule',
+        'EfgCasAuth'
     ),
 
     // These are various options for the listeners attached to the ModuleManager
@@ -32,11 +33,11 @@ return array(
         // If enabled, the merged configuration will be cached and used in
         // subsequent requests.
         //'config_cache_enabled' => $booleanValue,
-        'config_cache_enabled' => true,
+//        'config_cache_enabled' => true,
 
         // The key used to create the configuration cache file name.
         //'config_cache_key' => $stringKey,
-        'config_cache_key' => 1,
+//        'config_cache_key' => 1,
 
         // Whether or not to enable a module class map cache.
         // If enabled, creates a module class map cache which will be used
@@ -48,7 +49,7 @@ return array(
 
         // The path in which to cache merged configuration.
         //'cache_dir' => $stringPath,
-        'cache_dir' => __DIR__ . '/../data/cache',
+//        'cache_dir' => __DIR__ . '/../data/cache',
 
         // Whether or not to enable modules dependency checking.
         // Enabled by default, prevents usage of modules that depend on other modules
