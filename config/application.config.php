@@ -8,8 +8,7 @@ return array(
         'BjyProfiler',
         'DoctrineModule',
         'DoctrineORMModule',
-        'EfgCasAuth',
-        'Search'
+        'EfgCasAuth'
     ),
 
     // These are various options for the listeners attached to the ModuleManager
