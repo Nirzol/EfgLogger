@@ -156,7 +156,15 @@ return array(
                     'Ent\Entity' => 'ent_annotation_driver'
                 )
             )
-        )
+        ),
+        'authentication' => array(
+            'orm_default' => array(
+                'object_manager' => 'Doctrine\ORM\EntityManager',
+                'identity_class' => 'Ent\Entity\EntUser',
+                'identity_property' => 'userLogin',
+                'credential_property' => 'password',
+            ),
+        ),
     ),              
     'translator' => array(
         'locale' => 'fr_FR',
