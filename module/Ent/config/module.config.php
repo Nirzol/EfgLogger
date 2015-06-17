@@ -6,6 +6,7 @@ return array(
             'Ent\Controller\Index' => Ent\Controller\IndexController::class
         ),
         'factories' => array(
+            'Ent\Controller\UserFake' => Ent\Factory\UserFakeFactory::class
 //            'AddressBook\Controller\Contact'    => 'AddressBook\Factory\Controller\ContactControllerFactory',
 //            'AddressBook\Controller\ContactRest'    => 'AddressBook\Factory\Controller\ContactRestControllerFactory',
         ),
@@ -18,12 +19,21 @@ return array(
     'router' => array(
         'routes' => array(
             'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Index',
                         'action'     => 'index',
+                    ),
+                ),
+            ),
+            'user' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route'    => '/user',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\UserFake'
                     ),
                 ),
             ),
@@ -117,6 +127,7 @@ return array(
     'service_manager' => array(
         'invokables' => array(
 //            'AddressBook\Service\ContactFake' => AddressBook\Service\Contact\ContactFakeService::class
+                'Ent\Service\UserFake' => Ent\Service\User\UserFakeService::class
         ),
         'factories' => array( 
 //            'AddressBook\Service\ContactZendDb' => 'AddressBook\Factory\Service\ContactZendDbServiceFactory',
