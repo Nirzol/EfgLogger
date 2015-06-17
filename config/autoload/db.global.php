@@ -3,8 +3,8 @@
 return array(
     'db' => array(
         'driver' => 'Pdo_Mysql',
-        'hostname' => 'localhost',
-        'database' => 'addressbook',
+        'hostname' => '',
+        'database' => '',
         'charset' => 'UTF8',
     ),
 );

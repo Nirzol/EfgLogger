@@ -30,28 +30,28 @@ return array(
             }
         )  
     ),
-    'doctrine' => array(
-        'driver' => array(
-            'EfgCasAuth_Entities' => array(
-                'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/EfgCasAuth/Entity')
-            ),
-            'orm_default' => array(
-                'drivers' => array(
-                    'EfgCasAuth\Entity' => 'EfgCasAuth_Entities'
-                ),
-            ),
-        ),
-        'authentication' => array(
-            'orm_default' => array(
-                'object_manager' => 'Doctrine\ORM\EntityManager',
-                'identity_class' => 'EfgCasAuth\Entity\User',
-                'identity_property' => 'email',
-                'credential_property' => 'password',
-            ),
-        ),
-    ),
+//    'doctrine' => array(
+//        'driver' => array(
+//            'EfgCasAuth_Entities' => array(
+//                'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+//                'cache' => 'array',
+//                'paths' => array(__DIR__ . '/../src/EfgCasAuth/Entity')
+//            ),
+//            'orm_default' => array(
+//                'drivers' => array(
+//                    'EfgCasAuth\Entity' => 'EfgCasAuth_Entities'
+//                ),
+//            ),
+//        ),
+//        'authentication' => array(
+//            'orm_default' => array(
+//                'object_manager' => 'Doctrine\ORM\EntityManager',
+//                'identity_class' => 'Ent\Entity\EntUser',
+//                'identity_property' => 'email',
+//                'credential_property' => 'password',
+//            ),
+//        ),
+//    ),
     'doctrine_factories' => array(
         'authenticationadapter' => 'EfgCasAuth\Factory\Authentication\AdapterFactory',
     ),
