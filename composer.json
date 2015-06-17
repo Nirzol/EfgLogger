@@ -51,8 +51,9 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "~2.4",
+        "zendframework/zendframework": "~2.5",
         "zendframework/zend-developer-tools": "dev-master",
+        "zendframework/zend-ldap": "~2.5.0",
         "bjyoungblood/bjy-profiler": "dev-master",
         "doctrine/doctrine-orm-module" : "0.*",
         "jasig/phpcas" : "1.3.*"
