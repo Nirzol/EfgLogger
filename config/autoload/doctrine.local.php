@@ -5,8 +5,8 @@ return array(
             // default connection name
             'orm_default' => array(
                 'params' => array(
-                    'user'     => 'root',
-                    'password' => '',
+                    'user'     => 'ent-p5-dev',
+                    'password' => 'ent4P5',
                 )
             )
         )
