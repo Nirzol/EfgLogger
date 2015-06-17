@@ -65,7 +65,8 @@
     "autoload" : {
         "psr-4": {
             "Ent\\": "module/Ent/src/Ent",
-            "EfgCasAuth\\": "module/EfgCasAuth/src/EfgCasAuth"
+            "EfgCasAuth\\": "module/EfgCasAuth/src/EfgCasAuth",
+            "SearchLdap\\": "module/SearchLdap/src/SearchLdap"
         }
     }
 }
