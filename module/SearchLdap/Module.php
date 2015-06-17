@@ -1,17 +1,17 @@
 <?php
+namespace SearchLdap;
 
-namespace Search;
-
-// use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
-class Module implements ConfigProviderInterface {
-
-    public function getConfig() {
+class Module implements ConfigProviderInterface
+{
+    public function getConfig()
+    {
         return include __DIR__ . '/config/module.config.php';
     }
 
-//    public function getAutoloaderConfig() {
+//    public function getAutoloaderConfig()
+//    {
 //        return array(
 //            'Zend\Loader\StandardAutoloader' => array(
 //                'namespaces' => array(
@@ -20,6 +20,4 @@ class Module implements ConfigProviderInterface {
 //            ),
 //        );
 //    }
-
 }
-
