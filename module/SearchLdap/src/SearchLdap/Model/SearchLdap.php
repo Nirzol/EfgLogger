@@ -65,6 +65,6 @@ class SearchLdap {
         
         $searchResult = $ldap->searchEntries($filter);
         
-        return (count($searchResult) > 0 ? $searchResult : "Aucune personne trouvée");
+        return (count($searchResult) > 0 ? $searchResult : 0);
     }
 }
