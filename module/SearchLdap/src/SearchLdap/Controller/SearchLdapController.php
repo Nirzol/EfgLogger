@@ -46,7 +46,7 @@ class SearchLdapController extends AbstractRestfulController {
     }
 
     public function getList() {
-        $data = 'Bienvenue sur le module de recherche LDAP';
+        $data = 0;
 
         return new JsonModel(array(
             'data' => $data
