@@ -23,7 +23,7 @@ class AuthControllerFactory implements FactoryInterface
         // A modifier spécifique à chaque développement
         $om   = $sm->get('Doctrine\ORM\EntityManager');
         $hydrator = new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($om);
-        $user = new UserRestController($userService, $userForm, $hydrator);
+        $user = new \Ent\Controller\UserRestController($userService, $userForm, $hydrator);
         $user = null;
 
         $authController = new AuthController($authService, $config, $user);
