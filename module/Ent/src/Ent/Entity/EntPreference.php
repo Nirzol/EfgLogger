@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ent_preference", indexes={@ORM\Index(name="fk_pref_user_id", columns={"fk_pref_user_id"}), @ORM\Index(name="fk_pref_service_id", columns={"fk_pref_service_id"}), @ORM\Index(name="fk_pref_status_id", columns={"fk_pref_status_id"}), @ORM\Index(name="fk_pref_profile_id", columns={"fk_pref_profile_id"})})
  * @ORM\Entity
  */
-class EntPreference
+class EntPreference extends Ent
 {
     /**
      * @var integer

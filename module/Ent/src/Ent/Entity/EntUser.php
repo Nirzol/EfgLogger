@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ent_user", uniqueConstraints={@ORM\UniqueConstraint(name="login", columns={"user_login"})})
  * @ORM\Entity
  */
-class EntUser
+class EntUser extends Ent
 {
     /**
      * @var integer

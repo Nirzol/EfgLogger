@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ent_role")
  * @ORM\Entity
  */
-class EntRole
+class EntRole extends Ent
 {
     /**
      * @var integer

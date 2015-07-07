@@ -6,6 +6,8 @@ return array(
 	'server_hostname' => 'servauth.univ-paris5.fr',
 	'server_port' => 443,
 	'server_path' => '/cas',
+        'user_doctrine_orm_service_factory' => 'Ent\Service\UserDoctrineORM',
+        'user_form' => 'Ent\Form\UserForm',
     ),
     'doctrine' => array(
         'authentication' => array(
@@ -17,5 +19,4 @@ return array(
             ),
         ),
     ), 
-
 );
