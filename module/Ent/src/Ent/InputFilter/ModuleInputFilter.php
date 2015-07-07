@@ -2,7 +2,9 @@
 
 namespace Ent\InputFilter;
 
-class ModuleInputFilter extends \Zend\InputFilter\InputFilter {
+use Zend\InputFilter\InputFilter;
+
+class ModuleInputFilter extends InputFilter {
     
     public function __construct() {
         // Filtre pour moduleName
