@@ -31,7 +31,7 @@ class EntUser
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="user_last_connection", type="datetime", nullable=false)
+     * @ORM\Column(name="user_last_connection", type="datetime", nullable=true)
      */
     private $userLastConnection;
 
@@ -274,25 +274,33 @@ class EntUser
     /**
      * Add fkUrRole
      *
-     * @param \Ent\Entity\EntRole $fkUrRole
+     * @param \Doctrine\Common\Collections\Collection $fkUrRole
      *
      * @return EntUser
      */
-    public function addFkUrRole(\Ent\Entity\EntRole $fkUrRole)
+    public function addFkUrRole(\Doctrine\Common\Collections\Collection $fkUrRole)
     {
-        $this->fkUrRole[] = $fkUrRole;
-
-        return $this;
+        /* @var $role \Ent\Entity\EntRole */
+        foreach($fkUrRole as $role) {
+            if( ! $this->fkUrRole->contains($role)) {
+                $this->fkUrRole->add($role);
+                $role->addFkUrUser(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+            }
+        }
     }
 
     /**
      * Remove fkUrRole
      *
-     * @param \Ent\Entity\EntRole $fkUrRole
+     * @param \Doctrine\Common\Collections\Collection $fkUrRole
      */
-    public function removeFkUrRole(\Ent\Entity\EntRole $fkUrRole)
+    public function removeFkUrRole(\Doctrine\Common\Collections\Collection $fkUrRole)
     {
-        $this->fkUrRole->removeElement($fkUrRole);
+        /* @var $role \Ent\Entity\EntRole */
+        foreach ($fkUrRole as $role) {
+            $this->fkUrRole->removeElement($fkUrRole);
+            $role->removeFkUrUser(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+        }
     }
 
     /**

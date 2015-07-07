@@ -13,22 +13,18 @@ class AuthController extends AbstractActionController
      * @var AuthenticationServiceInterface
      */
     protected $authService;
+    
+    protected $config;
    
-    public function __construct(AuthenticationServiceInterface $authService)
+    public function __construct(AuthenticationServiceInterface $authService, $config)
     {
         $this->authService = $authService;
+        $this->config = $config;
     }
-
-//    public function indexAction()
-//    {
-//        echo "hello";
-//        return new ViewModel();
-//    }
 
     public function loginAction()
     {
         //if already login, redirect to index page 
-//        if ($this->getAuthService()->hasIdentity()) {
         if ($this->authService->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
@@ -37,15 +33,12 @@ class AuthController extends AbstractActionController
 
     public function authenticate()
     {
-//        $authService = $this->serviceLocator->get('auth_service');
-
-//        if ($authService->hasIdentity()) {
         if ($this->authService->hasIdentity()) {
             // if already login, redirect to index page 
             return $this->redirect()->toRoute('home');
         }
 
-        $config = $this->getServiceLocator()->get('Config');
+        $config = $this->config;
         // Enable debugging      
         phpCAS::setDebug();
 

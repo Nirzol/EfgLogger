@@ -244,25 +244,32 @@ class EntRole
     /**
      * Add fkUrUser
      *
-     * @param \Ent\Entity\EntUser $fkUrUser
+     * @param \Doctrine\Common\Collections\Collection $fkUrUser 
      *
      * @return EntRole
      */
-    public function addFkUrUser(\Ent\Entity\EntUser $fkUrUser)
+    public function addFkUrUser(\Doctrine\Common\Collections\Collection $fkUrUser)
     {
-        $this->fkUrUser[] = $fkUrUser;
-
-        return $this;
+        /* @var $user \Ent\Entity\EntUser */
+        foreach($fkUrUser as $user) {
+            if( ! $this->fkUrUser->contains($user)) {
+                $this->fkUrUser->add($user);
+//                $user->addFkUrUser(new ArrayCollection(array($this)));
+            }
+        }
     }
 
     /**
      * Remove fkUrUser
      *
-     * @param \Ent\Entity\EntUser $fkUrUser
+     * @param \Doctrine\Common\Collections\Collection $fkUrUser
      */
-    public function removeFkUrUser(\Ent\Entity\EntUser $fkUrUser)
+    public function removeFkUrUser(\Doctrine\Common\Collections\Collection $fkUrUser)
     {
-        $this->fkUrUser->removeElement($fkUrUser);
+        foreach($fkUrUser as $user) {
+            $this->fkUrUser->removeElement($user);
+//                $user->addFkUrUser(new ArrayCollection(array($this)));
+        }
     }
 
     /**

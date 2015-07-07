@@ -6,13 +6,13 @@ return array(
             'Ent\Controller\Index' => Ent\Controller\IndexController::class
         ),
         'factories' => array(
-//            'AddressBook\Controller\Contact'    => 'AddressBook\Factory\Controller\ContactControllerFactory',
-//            'AddressBook\Controller\ContactRest'    => 'AddressBook\Factory\Controller\ContactRestControllerFactory',
+            'Ent\Controller\User'    => 'Ent\Factory\Controller\UserControllerFactory',
+            'Ent\Controller\UserRest'    => 'Ent\Factory\Controller\UserRestControllerFactory',
         ),
     ), 
     'form_elements' => array(
         'factories' => array(
-//            'AddressBook\Form\ContactForm' => 'AddressBook\Factory\Form\ContactFormFactory',  
+            'Ent\Form\UserForm' => 'Ent\Factory\Form\UserFormFactory',  
         ),
     ),
     'router' => array(
@@ -82,6 +82,61 @@ return array(
 //                    ),
                 ),
             ),
+            'user' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/user',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\User',
+                        'action' => 'list',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'show' => array(
+                        'type' => \Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'delete' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/delete',
+                                    'defaults' => array(
+                                        'action' => 'delete',
+                                    ),
+                                ),
+                            ),
+                            'modify' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/modify',
+                                    'defaults' => array(
+                                        'action' => 'modify',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
 //            'contact-rest' => array(
 //                'type'    => \Zend\Mvc\Router\Http\Segment::class,
 //                'options' => array(
@@ -120,7 +175,7 @@ return array(
         ),
         'factories' => array( 
 //            'AddressBook\Service\ContactZendDb' => 'AddressBook\Factory\Service\ContactZendDbServiceFactory',
-//            'AddressBook\Service\ContactDoctrineORM' => 'AddressBook\Factory\Service\ContactDoctrineORMServiceFactory',
+            'Ent\Service\UserDoctrineORM' => 'Ent\Factory\Service\UserDoctrineORMServiceFactory',
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
@@ -146,14 +201,14 @@ return array(
                 )
             )
         ),
-        'authentication' => array(
-            'orm_default' => array(
-                'object_manager' => 'Doctrine\ORM\EntityManager',
-                'identity_class' => 'Ent\Entity\EntUser',
-                'identity_property' => 'userLogin',
-                'credential_property' => 'password',
-            ),
-        ),
+//        'authentication' => array(
+//            'orm_default' => array(
+//                'object_manager' => 'Doctrine\ORM\EntityManager',
+//                'identity_class' => 'Ent\Entity\EntUser',
+//                'identity_property' => 'userLogin',
+//                'credential_property' => 'password',
+//            ),
+//        ),
     ),              
     'translator' => array(
         'locale' => 'fr_FR',

@@ -1,0 +1,40 @@
+
+<h2><?= $this->translate('Détails d\'un contact') ?></h2>
+
+<p>
+    <?= $this->translate('Login :') ?> <?= $this->escapeHtml($user->getUserLogin()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Dernière connexion :') ?> 
+    <?php
+    if ($user->getUserLastConnection() != null) {
+        $user->getUserLastConnection()->format('Y-m-d H:i:s');
+    }
+    ?>
+</p>
+
+<p>
+    <?= $this->translate('Dernière mise à jour :') ?> 
+    <?php 
+    if ($user->getUserLastUpdate() != null) {
+        $user->getUserLastUpdate()->format('Y-m-d H:i:s');
+    }
+    ?>
+</p>
+
+<p>
+    <?= $this->translate('Status :') ?> <?php echo $user->getUserStatus() ?>
+</p>
+
+<p>
+    <?= $this->translate('Rôle :') ?> 
+    <?php
+    foreach ($user->getFkUrRole() as $role) {
+        if ($role->getRoleLibelle()) :
+            echo $this->escapeHtml($role->getRoleLibelle());
+        endif;
+    }
+    ?>
+</p>
+
