@@ -8,7 +8,9 @@ class Ent
     {
         $resultArray = $hydrator->extract($this);
         foreach ($resultArray as $key => $value) {
-            if (is_object($value)) {
+            if (is_object($value) && !($value instanceof \DateTime)) {
+//                var_dump($value);
+                /* @var $value \DateTime */
                 $resultArray[$key] = $value->toArray($hydrator);
             }
         }

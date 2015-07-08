@@ -137,18 +137,18 @@ return array(
                     ),
                 ),
             ),
-//            'contact-rest' => array(
-//                'type'    => \Zend\Mvc\Router\Http\Segment::class,
-//                'options' => array(
-//                    'route'    => '/contact-rest[/:id]',
-//                    'constraints' => array(
-//                        'id'     => '[0-9]+',
-//                    ),
-//                    'defaults' => array(
-//                        'controller' => 'AddressBook\Controller\ContactRest',
-//                    ),
-//                ),
-//            ),
+            'user-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/user-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\UserRest',
+                    ),
+                ),
+            ),
         ),
     ),
     'view_manager' => array(

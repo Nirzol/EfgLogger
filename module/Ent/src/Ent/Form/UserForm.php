@@ -40,7 +40,7 @@ class UserForm extends Form
         ));
 
         $this->add(array(
-            'type' => '\DoctrineModule\Form\Element\ObjectSelect',
+            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox', 
             'name' => 'fkUrRole',
             'attributes' => array(
                 'id' => 'selectUserRole'

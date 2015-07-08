@@ -9,7 +9,7 @@
     <?= $this->translate('Dernière connexion :') ?> 
     <?php
     if ($user->getUserLastConnection() != null) {
-        $user->getUserLastConnection()->format('Y-m-d H:i:s');
+        echo $user->getUserLastConnection()->format('d-m-Y H:i:s');
     }
     ?>
 </p>
@@ -18,7 +18,7 @@
     <?= $this->translate('Dernière mise à jour :') ?> 
     <?php 
     if ($user->getUserLastUpdate() != null) {
-        $user->getUserLastUpdate()->format('Y-m-d H:i:s');
+        echo $user->getUserLastUpdate()->format('d-m-Y H:i:s');
     }
     ?>
 </p>

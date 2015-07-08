@@ -55,7 +55,8 @@ class UserRestController extends AbstractRestfulController
     public function get($id)
     {
         /* @var $result EntUser */
-        $result = $this->contactService->getById($id);
+        $result = $this->userService->getById($id);
+//        var_dump($result);
 
         $data[] = $result->toArray($this->hydrator);
 

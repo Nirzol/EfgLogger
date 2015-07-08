@@ -15,7 +15,7 @@ class UserRestControllerFactory implements FactoryInterface
     {
         /* @var $serviceLocator ControllerManager */
         $sm   = $serviceLocator->getServiceLocator();
-        $userService = $sm->get('Ent\Service\UserDoctrineService');
+        $userService = $sm->get('Ent\Service\UserDoctrineORM');
 
         $userForm    = $sm->get('FormElementManager')->get('Ent\Form\UserForm');
 
