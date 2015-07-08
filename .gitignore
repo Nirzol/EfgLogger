@@ -8,3 +8,4 @@ nbproject
 .settings
 vendor
 application.config.old
+/composer.lock

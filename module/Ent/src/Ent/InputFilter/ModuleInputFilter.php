@@ -56,20 +56,20 @@ class ModuleInputFilter extends InputFilter {
         
         
         // Filtre pour moduleLastUpdate
-        $input = new \Zend\InputFilter\Input('moduleLastUpdate');
-        $input->setRequired(true);
-        
-        $filter = new \Zend\Filter\StringTrim();
-        $input->getFilterChain()->attach($filter);
-        
-        $filter = new \Zend\Filter\StripTags();
-        $input->getFilterChain()->attach($filter);
-        
-        $validator = new \Zend\Validator\Date('moduleLastUpdate');
-        $validator->setFormat('Y-m-d');
-        $input->getFilterChain()->attach($validator);
-        
-        $this->add($input);
+//        $input = new \Zend\InputFilter\Input('moduleLastUpdate');
+//        $input->setRequired(true);
+//        
+//        $filter = new \Zend\Filter\StringTrim();
+//        $input->getFilterChain()->attach($filter);
+//        
+//        $filter = new \Zend\Filter\StripTags();
+//        $input->getFilterChain()->attach($filter);
+//        
+//        $validator = new \Zend\Validator\Date('moduleLastUpdate');
+//        $validator->setFormat('Y-m-d');
+//        $input->getFilterChain()->attach($validator);
+//        
+//        $this->add($input);
     }
     
 }

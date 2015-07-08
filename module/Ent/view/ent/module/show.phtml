@@ -1,0 +1,18 @@
+<?php
+$title = "Détails du module";
+?>
+<h2><?php echo $this->escapeHtml($title); ?></h2>
+<p>
+    <b>Nom du module :</b> <?php echo $this->escapeHtml($module->getModuleName())?>
+</p>
+<p>
+    <b>Libellé du module :</b> <?php echo $this->escapeHtml($module->getModuleLibelle())?>
+</p>
+<p>
+    <b>Description du module :</b> <?php echo $this->escapeHtml($module->getModuleDescription())?>
+</p>
+<?php if($module->getModuleLastUpdate() != null) :?>
+<p>
+    <b>Date de modification :</b> <?php echo $module->getModuleLastUpdate()->format('Y-m-d H:i:s');?>
+</p>
+<?php endif; ?>

@@ -1,0 +1,35 @@
+<?php
+$title = 'Liste des modules';
+$this->headTitle($title);
+?>
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
+    <?= $this->translate($m) ?> 
+<?php endforeach; ?>
+<h2><?php echo $this->escapeHtml($title); ?></h2>
+<p>
+    <a href="<?php echo $this->url('module/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouveau module</a>
+</p>
+<table class="table table-striped">
+    <?php foreach ($listModules as $module) : ?>
+        <tr>
+            <th>Nom du module</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>        
+        </tr>
+        <tr>
+            <td>
+                <?= $this->escapeHtml($module->getModuleName()) ?>
+            </td>
+            <td>
+                <a href="<?= $this->url('module/show', ['id' => $this->escapeUrl($module->getModuleId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
+            </td>
+            <td>
+                <a href="<?= $this->url('module/update', ['id' => $this->escapeUrl($module->getModuleId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
+            </td>
+            <td>
+                <a href="<?= $this->url('module/delete', ['id' => $this->escapeUrl($module->getModuleId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

@@ -45,9 +45,9 @@ class EntModule extends Ent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="module_last_update", type="datetime", nullable=false)
+     * @ORM\Column(name="module_last_update", type="datetime", nullable=true)
      */
-    private $moduleLastUpdate = 'CURRENT_TIMESTAMP';
+    private $moduleLastUpdate;
 
 
 
