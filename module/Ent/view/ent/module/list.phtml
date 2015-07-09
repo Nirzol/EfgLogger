@@ -3,22 +3,22 @@ $title = 'Liste des modules';
 $this->headTitle($title);
 ?>
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
-<div class="alert alert-success" role="alert">
-    <?= $this->translate($m) ?>
-</div>  
+    <div class="alert alert-success" role="alert">
+        <?= $this->translate($m) ?>
+    </div>  
 <?php endforeach; ?> 
 <h2><?php echo $this->escapeHtml($title); ?></h2>
 <p>
     <a href="<?php echo $this->url('module/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouveau module</a>
 </p>
-<table class="table table-striped">
+<table class="table table-striped">  
+    <tr>
+        <th>Nom du module</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>        
+    </tr>
     <?php foreach ($listModules as $module) : ?>
-        <tr>
-            <th>Nom du module</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>        
-        </tr>
         <tr>
             <td>
                 <?= $this->escapeHtml($module->getModuleName()) ?>
