@@ -8,13 +8,24 @@ return array(
         'factories' => array(
             'Ent\Controller\User'    => 'Ent\Factory\Controller\UserControllerFactory',
             'Ent\Controller\UserRest'    => 'Ent\Factory\Controller\UserRestControllerFactory',
-            'Ent\Controller\Module' => function($cm) {
-                $sm = $cm->getServiceLocator($cm);
-                
-                $moduleService = $sm->get('Ent\Service\Module');
-                
-                return new Ent\Controller\ModuleController($moduleService);
-            },
+            'Ent\Controller\Module' => 'Ent\Factory\Controller\ModuleControllerFactory',
+            'Ent\Controller\ModuleRest' => 'Ent\Factory\Controller\ModuleRestControllerFactory',
+//            'Ent\Controller\Module' => function($cm) {
+//                $sm = $cm->getServiceLocator($cm);
+//                
+//                $moduleService = $sm->get('Ent\Service\Module');
+//                
+//                return new Ent\Controller\ModuleController($moduleService);
+//            },
+//            'Ent\Controller\ModuleRest' => function($cm) {
+//                $sm = $cm->getServiceLocator($cm);
+//                $om   = $sm->get('Doctrine\ORM\EntityManager');
+//                
+//                $moduleService = $sm->get('Ent\Service\Module');
+//                $hydrator = new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($om);
+//                
+//                return new Ent\Controller\ModuleRestController($moduleService, $hydrator);
+//            },
         ),
     ), 
     'form_elements' => array(
@@ -211,6 +222,18 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\UserRest',
+                    ),
+                ),
+            ),
+            'module-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/module-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\ModuleRest',
                     ),
                 ),
             ),
