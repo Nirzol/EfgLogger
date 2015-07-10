@@ -20,7 +20,7 @@ class ModuleForm extends Form
         $element->setLabel('Libellé du module : ');
         $this->add($element);
         
-        $element = new \Zend\Form\Element\Text('moduleDescription');
+        $element = new \Zend\Form\Element\Textarea('moduleDescription');
         $element->setLabel('Description du module : ');
         $this->add($element);
         

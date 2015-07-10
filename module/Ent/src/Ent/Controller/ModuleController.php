@@ -5,7 +5,6 @@ namespace Ent\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Ent\Service\ModuleDoctrineService;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Zend\Http\Request;
 use Ent\Form\ModuleForm;
 
@@ -20,12 +19,6 @@ class ModuleController extends AbstractActionController {
      * @var Request
      */
     protected $request;
-    
-    /**
-     *
-     * @var DoctrineObject
-     */
-    protected $hydrator;
 
     public function __construct(ModuleDoctrineService $moduleService) {
         $this->moduleService = $moduleService;
@@ -43,8 +36,7 @@ class ModuleController extends AbstractActionController {
         $form = new ModuleForm();
         
         if ($this->request->isPost()) {
-//            var_dump($this->request->getPost());
-//            var_dump($form);
+
             $module = $this->moduleService->insert($form, $this->request->getPost());            
             if ($module) {
                 $this->flashMessenger()->addSuccessMessage('Le module a bien été ajouté.');
@@ -84,9 +76,9 @@ class ModuleController extends AbstractActionController {
         $module = $this->moduleService->getById($id, $form);                      
         
         if ($this->request->isPost()) {
-            $module_update = $this->moduleService->update($id, $form, $this->request->getPost());
+            $module = $this->moduleService->update($id, $form, $this->request->getPost());
             
-            if ($module_update) {
+            if ($module) {
                 $this->flashMessenger()->addSuccessMessage('Le module a bien été modifié.');
                 
                 return $this->redirect()->toRoute('module');
@@ -99,7 +91,7 @@ class ModuleController extends AbstractActionController {
     }
 
     public function deleteAction() {
-         $id = (int) $this->params('id');
+        $id = (int) $this->params('id');
 
         if (!$id) {
             return $this->redirect()->toRoute('module');
@@ -122,7 +114,7 @@ class ModuleController extends AbstractActionController {
         
         return new ViewModel(array(
             'id' => $id,
-            'module' => $this->moduleService->getById($id)
+            'module' => $module
         ));
     }
 
