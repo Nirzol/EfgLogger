@@ -54,7 +54,6 @@ class ModuleDoctrineService implements ModuleServiceInterface
         }
         
         $this->em->persist($module);
-        var_dump($module);
         $this->em->flush();
         
         return $module;
