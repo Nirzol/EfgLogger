@@ -91,7 +91,7 @@ class ModuleController extends AbstractActionController {
     }
 
     public function deleteAction() {
-         $id = (int) $this->params('id');
+        $id = (int) $this->params('id');
 
         if (!$id) {
             return $this->redirect()->toRoute('module');
@@ -114,7 +114,7 @@ class ModuleController extends AbstractActionController {
         
         return new ViewModel(array(
             'id' => $id,
-            'module' => $this->moduleService->getById($id)
+            'module' => $module
         ));
     }
 
