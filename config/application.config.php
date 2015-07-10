@@ -9,7 +9,8 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'EfgCasAuth',
-        'SearchLdap'
+        'SearchLdap',
+        'Nuxeo'
     ),
 
     // These are various options for the listeners attached to the ModuleManager
