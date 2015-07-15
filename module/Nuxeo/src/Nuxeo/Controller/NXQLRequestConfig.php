@@ -29,7 +29,12 @@ class NXQLRequestConfig {
         'title'         => " ORDER BY dc:title",
     );
     
-    public function requestForDocumentsOfAutor($author) {
+    /**
+     * 
+     * @param type $author
+     * @return string : les documents de l' $author avec les droits d'ecriture
+     */
+    public function requestForDocumentsOfAutor($author, $path=NULL) {
 
         $request = null;
         if( isset($author)) {
@@ -38,10 +43,16 @@ class NXQLRequestConfig {
             $request = $this->nxqlGeneric;
 
             // File an Note
-            $request = $request . $this->nxqlClause['descartes_file_note'];
+//            $request = $request . $this->nxqlClause['descartes_file_note'];
+            $request = $request . $this->nxqlClause['file_note'];
 
+            // Path
+            if ( $path !== NULL) {
+                $request = $request . str_replace("?", $path, $this->nxqlClause['path']);
+            }
+            
             // Author
-            $request = $request . str_replace($this->nxqlClause['contributor'], "?", $author);
+            $request = $request . str_replace("?", "'" . $author . "'", $this->nxqlClause['contributor']);
             
             // Order 
             $request = $request . $this->nxqlOrder["modified"];
@@ -50,4 +61,35 @@ class NXQLRequestConfig {
 
         return $request;
     }
+    
+      /**
+     * 
+     * @param type $author
+     * @return string : les documents de l' $author avec les droits d'ecriture
+     */
+    public function requestForDocumentsInPath($path) {
+
+        $request = null;
+        if( isset($path)) {
+            
+            // generic request
+            $request = $this->nxqlGeneric;
+
+            // File an Note
+            $request = $request . $this->nxqlClause['descartes_file_note'];
+
+            // Path
+            $request = $request . str_replace("?", $path, $this->nxqlClause['contributor']);
+            
+            // Order 
+            $request = $request . $this->nxqlOrder["modified"];
+
+        }
+
+        return $request;
+    }
+    
+    
+    
+    
 }

@@ -21,25 +21,59 @@ class NuxeoController extends AbstractRestfulController
 
     private $username = "Administrator";  // Current ENT user
     
+    /**
+     *  Action GET requests without resource Id : on lance toutes les requetes du tableau de bord
+     *  
+     * @return JsonModel
+     */
     public function getList()
+    {   
+        $documentsArray = array();
+        
+        // A initialiser avec les id des requettes
+        $idArray = array(1, 2);
+        
+        foreach ($idArray as $id) {
+            $tmpArray = $this->getRequestDocuments($id);
+
+            if ( !is_null($tmpArray) && (count($tmpArray) > 0)) {
+                // Il faut un merge intelligent pour ne pas dupliquer les elements
+                $documentsArray = array_merge($documentsArray, $tmpArray);
+            }
+        }
+        
+        return new JsonModel($documentsArray);
+    }
+
+    /**
+     * Action GET requests with resource Id : on lance la requete numero id
+     * @param type $id
+     * @return type
+     */
+    public function get($id)
     {
-        
-//        $requestId = $this->getRequest()->getQuery('id');
-        
-//        error_log("Request Id = " . $requestId);
-        
-//        $requestId = htmlspecialchars($requestId);
-/*
-        if (filter_var($nuxeoAutomationUrl, FILTER_VALIDATE_URL) === false) {
-            
+        $requestId = $this->params('id');
+        error_log("Request Id = " . $requestId);
+        error_log(print_r($requestId, TRUE));    
+
+        if ( !isset($requestId)) {
+            return (new JsonModel(array("Error" => "parameter id manquant.")));
         }
-        else {
-            
+        
+        // Check nuxeo url is on
+        /*
+        if (filter_var($this->nuxeoAutomationUrl, FILTER_VALIDATE_URL) !== false) {
+            return (new JsonModel(array("Error" => "Nuxeo server is down: " . $this->nuxeoAutomationUrl)));
         }
-  
-error_log(print_r($variable, TRUE));    
- */        
-        $requestId = 1;
+        */
+        
+        $documentsArray = $this->getRequestDocuments($id);
+
+        return (new JsonModel($documentsArray));
+        
+    }
+
+    public function getRequestDocuments($requestId) {
         
         $nxqlQuery = null;
         
@@ -54,36 +88,21 @@ error_log(print_r($variable, TRUE));
                 break;
         }
         
-        error_log("Request Id = " . $requestId);
+        error_log("nxqlQuery = " . $nxqlQuery);
         
-        return (new JsonModel(array("Request Id = " => $requestId, "Query" => $nxqlQuery)));
-        
-        
-        if( !isset($nxqlQuery) /*OR isEmpty($nxqlQuery)*/) {
-            $view->setVariable("result", $json);
-            return ( $view);
-        }
-        else {    
-            //echo "<br />Query : " . $nxqlQuery ."<br />";
-            $session = new NuxeoSession($this->nuxeoAutomationUrl, 
+        $session = new NuxeoSession($this->nuxeoAutomationUrl, 
                 $this->nuxeoAdminUsername, $this->nuxeoAdminPassword,"Content-Type: application/json+nxrequest");
 
-            $nuxeoRequest = $session->newRequest("Document.Query");
+        $nuxeoRequest = $session->newRequest("Document.Query");
 
-            $answer = $nuxeoRequest->set('params', 'query', $nxqlQuery);
+        $answer = $nuxeoRequest->set('params', 'query', $nxqlQuery);
 
-            $answer = $answer->sendRequest();
+        $answer = $answer->sendRequest();
 //            var_dump($answer);
-            // $documentsArray = $answer->getDocumentList();
-            $documentsArray = $answer->objectsArrayToArrayOfArray();
+        // $documentsArray = $answer->getDocumentList();
+        $documentsArray = $answer->objectsArrayToArrayOfArray();
 
-            // var_dump($documentsArray);
-
-            $json = json_encode($documentsArray);
-        }
-        
-        return $view;
+        return $documentsArray;
     }
-
 }
 

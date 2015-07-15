@@ -4,9 +4,12 @@ return array(
     'router' => array(
         'routes' => array(
             'nuxeo' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'segment',
                 'options' => array(
-                    'route'    => '/nuxeo',
+                    'route'    => '/nuxeo[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
                     'defaults' => array(
                         'controller' => 'Nuxeo\Controller\Nuxeo',
                     ),
