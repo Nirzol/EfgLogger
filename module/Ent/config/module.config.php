@@ -12,6 +12,8 @@ return array(
             'Ent\Controller\ModuleRest' => 'Ent\Factory\Controller\ModuleRestControllerFactory',
             'Ent\Controller\Status' => 'Ent\Factory\Controller\StatusControllerFactory',
             'Ent\Controller\StatusRest' => 'Ent\Factory\Controller\StatusRestControllerFactory',
+            'Ent\Controller\Action' => 'Ent\Factory\Controller\ActionControllerFactory',
+            'Ent\Controller\ActionRest' => 'Ent\Factory\Controller\ActionRestControllerFactory',
 //            'Ent\Controller\Module' => function($cm) {
 //                $sm = $cm->getServiceLocator($cm);
 //                
@@ -273,6 +275,64 @@ return array(
                     ),
                 ),
             ),
+            'action' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/action',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\Action',
+                        'action' => 'list',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'show' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/show/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'update' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/update/:id',
+                            'defaults' => array(
+                                'action' => 'update',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'delete' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/delete/:id',
+                            'defaults' => array(
+                                'action' => 'delete',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'user-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
@@ -309,6 +369,18 @@ return array(
                     ),
                 ),
             ),
+            'action-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/action-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\ActionRest',
+                    ),
+                ),
+            ),
         ),
     ),
     'view_manager' => array(
@@ -338,6 +410,7 @@ return array(
             'Ent\Service\UserDoctrineORM' => 'Ent\Factory\Service\UserDoctrineORMServiceFactory',
             'Ent\Service\Module' => 'Ent\Factory\Service\ModuleDoctrineORMServiceFactory',
             'Ent\Service\Status' => 'Ent\Factory\Service\StatusDoctrineORMServiceFactory',
+            'Ent\Service\Action' => 'Ent\Factory\Service\ActionDoctrineORMServiceFactory',
 //            'Ent\Service\Module' => function($sm) {
 //
 //                $om = $sm->get('Doctrine\ORM\EntityManager');
