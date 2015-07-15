@@ -45,9 +45,9 @@ class EntAction extends Ent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="action_last_update", type="datetime", nullable=false)
+     * @ORM\Column(name="action_last_update", type="datetime", nullable=true)
      */
-    private $actionLastUpdate = 'CURRENT_TIMESTAMP';
+    private $actionLastUpdate;
 
 
 
