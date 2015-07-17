@@ -60,6 +60,11 @@ class EntModule extends Ent
     {
         return $this->moduleId;
     }
+    
+    public function setModuleId($id) {
+        $this->moduleId = $id;
+        return $this;
+    }
 
     /**
      * Set moduleName
