@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="Bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="ent-staff-p5">
+            <directory>./SearchLdapTest</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
