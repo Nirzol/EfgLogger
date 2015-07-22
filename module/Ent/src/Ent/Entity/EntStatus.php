@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ent_status")
  * @ORM\Entity
  */
-class EntStatus
+class EntStatus extends Ent
 {
     /**
      * @var integer
@@ -45,9 +45,9 @@ class EntStatus
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="status_last_update", type="datetime", nullable=false)
+     * @ORM\Column(name="status_last_update", type="datetime", nullable=true)
      */
-    private $statusLastUpdate = 'CURRENT_TIMESTAMP';
+    private $statusLastUpdate;
 
 
 

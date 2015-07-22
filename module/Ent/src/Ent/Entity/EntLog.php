@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ent_log", indexes={@ORM\Index(name="fk_module_id", columns={"fk_log_module_id"}), @ORM\Index(name="fk_action_id", columns={"fk_log_action_id"}), @ORM\Index(name="fk_user_id", columns={"fk_log_user_id"})})
  * @ORM\Entity
  */
-class EntLog
+class EntLog extends Ent
 {
     /**
      * @var integer

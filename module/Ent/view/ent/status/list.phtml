@@ -1,0 +1,37 @@
+<?php
+$title = 'Liste des status';
+$this->headTitle($title);
+?>
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
+    <div class="alert alert-success" role="alert">
+        <?= $this->translate($m) ?>
+    </div>  
+<?php endforeach; ?> 
+<h2><?php echo $this->escapeHtml($title); ?></h2>
+<p>
+    <a href="<?php echo $this->url('status/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouveau status</a>
+</p>
+<table class="table table-striped">  
+    <tr>
+        <th>Nom du module</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>        
+    </tr>
+    <?php foreach ($listStatus as $status) : ?>
+        <tr>
+            <td>
+                <?= $this->escapeHtml($status->getStatusName()) ?>
+            </td>
+            <td>
+                <a href="<?= $this->url('status/show', ['id' => $this->escapeUrl($status->getStatusId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
+            </td>
+            <td>
+                <a href="<?= $this->url('status/update', ['id' => $this->escapeUrl($status->getStatusId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
+            </td>
+            <td>
+                <a href="<?= $this->url('status/delete', ['id' => $this->escapeUrl($status->getStatusId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

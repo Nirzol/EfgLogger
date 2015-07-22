@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ent_module")
  * @ORM\Entity
  */
-class EntModule
+class EntModule extends Ent
 {
     /**
      * @var integer
@@ -45,9 +45,9 @@ class EntModule
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="module_last_update", type="datetime", nullable=false)
+     * @ORM\Column(name="module_last_update", type="datetime", nullable=true)
      */
-    private $moduleLastUpdate = 'CURRENT_TIMESTAMP';
+    private $moduleLastUpdate;
 
 
 
@@ -59,6 +59,11 @@ class EntModule
     public function getModuleId()
     {
         return $this->moduleId;
+    }
+    
+    public function setModuleId($id) {
+        $this->moduleId = $id;
+        return $this;
     }
 
     /**

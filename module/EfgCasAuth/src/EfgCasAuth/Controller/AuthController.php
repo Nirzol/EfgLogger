@@ -13,22 +13,21 @@ class AuthController extends AbstractActionController
      * @var AuthenticationServiceInterface
      */
     protected $authService;
+    
+    protected $config;
+    
+    protected $user;
    
-    public function __construct(AuthenticationServiceInterface $authService)
+    public function __construct(AuthenticationServiceInterface $authService, $config, $user = null)
     {
         $this->authService = $authService;
+        $this->config = $config;
+        $this->user = $user;
     }
-
-//    public function indexAction()
-//    {
-//        echo "hello";
-//        return new ViewModel();
-//    }
 
     public function loginAction()
     {
         //if already login, redirect to index page 
-//        if ($this->getAuthService()->hasIdentity()) {
         if ($this->authService->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
@@ -37,15 +36,12 @@ class AuthController extends AbstractActionController
 
     public function authenticate()
     {
-//        $authService = $this->serviceLocator->get('auth_service');
-
-//        if ($authService->hasIdentity()) {
         if ($this->authService->hasIdentity()) {
             // if already login, redirect to index page 
             return $this->redirect()->toRoute('home');
         }
 
-        $config = $this->getServiceLocator()->get('Config');
+        $config = $this->config;
         // Enable debugging      
         phpCAS::setDebug();
 
@@ -68,28 +64,14 @@ class AuthController extends AbstractActionController
         // \phpCAS::setExtraCurlOption(CURLOPT_VERBOSE, TRUE);
 
         if (phpCAS::isAuthenticated()) {
-//            $dbAdapter = $this->serviceLocator->get('Zend\Db\Adapter\Adapter');
-//
-//            $authAdapter = new DbTable($dbAdapter, 'user', 'username', 'password');
-//            
-//            $authAdapter = $this->authService->getAdapter();
-//            
-//            //setCredential doit recevoir le MDP 
-//            //mais vu qu'on utilise CAS le mdp est VIDE !!!!
-//            $authAdapter->setIdentity(\phpCAS::getUser())
-//                    ->setCredential('');
-//            
-//            $authService = $this->serviceLocator->get('auth_service');
-//            $authService->setAdapter($authAdapter);
-//            //test si la personne est bien dans la BD
-//            $result = $authService->authenticate();
-            
-            
-//            $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
-//            $authService = $this->authService;
             $adapter = $this->authService->getAdapter();
+            
+            // setCredential doit recevoir le MDP 
+            // mais vu qu'on utilise CAS le mdp est VIDE !!!!
             $adapter->setIdentityValue(phpCAS::getUser());
             $adapter->setCredentialValue('');
+            
+            //test si la personne est bien dans la BD
             $authResult = $this->authService->authenticate();
 
             if ($authResult->isValid()) {
@@ -111,6 +93,10 @@ class AuthController extends AbstractActionController
                 $identity = $authResult->getIdentity();
                 $this->authService->getStorage()->write($identity);
             } else {
+                // TODO
+                // the CAS user _does_not_have_ an account
+                // vous devez avoir une fonction create user pour créer l'utilisateur si celui-ci n'existe pas.
+//                $this->user->create('cas');
                 $loginMsg = $authResult->getMessages();
             }
             // Retour vers l'index

@@ -1,0 +1,44 @@
+<h2><?=$this->translate('Ajouter un user')?></h2>
+<?=$this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
+<div class="form-group<?php if ($form->get('userLogin')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('userLogin')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?= $this->formText($form->get('userLogin')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('userLogin')) ?>           
+    </div>
+</div>
+
+<div class="form-group<?php if ($form->get('userStatus')->getMessages()) echo ' has-error'; ?>"> 
+    <?= $this->formLabel($form->get('userStatus')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <div class="checkbox">
+            <?= $this->formCheckbox($form->get('userStatus')) ?>
+        </div>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('userStatus')) ?>           
+    </div>
+</div>
+
+<div class="form-group<?php if ($form->get('fkUrRole')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('fkUrRole')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <div class="checkbox">
+            <?php
+            $this->formMultiCheckbox()->setSeparator('</div><div class="checkbox">');
+            echo $this->formMultiCheckbox($form->get('fkUrRole')->setLabelAttributes(['class' => '']))
+            ?>
+        </div>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('fkUrRole')) ?>           
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary"><?=$this->translate('Ajouter')?></button>
+    </div>
+</div>
+<?=$this->form()->closeTag()?>

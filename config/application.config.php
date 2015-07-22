@@ -10,7 +10,7 @@ return array(
         'DoctrineORMModule',
         'EfgCasAuth',
         'SearchLdap',
-        'Iframe'
+        'Nuxeo'
     ),
 
     // These are various options for the listeners attached to the ModuleManager
