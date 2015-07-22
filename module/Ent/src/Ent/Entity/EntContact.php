@@ -286,25 +286,31 @@ class EntContact extends Ent
     /**
      * Add fkCsService
      *
-     * @param \Ent\Entity\EntService $fkCsService
+     * @param \Doctrine\Common\Collections\Collection $fkCsService
      *
      * @return EntContact
      */
-    public function addFkCsService(\Ent\Entity\EntService $fkCsService)
+    public function addFkCsService(\Doctrine\Common\Collections\Collection $fkCsService)
     {
-        $this->fkCsService[] = $fkCsService;
-
-        return $this;
+        
+        /* @var $service \Ent\Entity\EntService */
+        foreach($fkCsService as $service) {
+            if( ! $this->fkCsService->contains($service)) {
+                $this->fkCsService->add($service);
+            }
+        }
     }
 
     /**
      * Remove fkCsService
      *
-     * @param \Ent\Entity\EntService $fkCsService
+     * @param \Doctrine\Common\Collections\Collection $fkCsService
      */
-    public function removeFkCsService(\Ent\Entity\EntService $fkCsService)
+    public function removeFkCsService(\Doctrine\Common\Collections\Collection $fkCsService)
     {
-        $this->fkCsService->removeElement($fkCsService);
+        foreach($fkCsService as $service) {
+            $this->fkCsService->removeElement($service);
+        }
     }
 
     /**
