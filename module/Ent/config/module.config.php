@@ -14,47 +14,24 @@ return array(
             'Ent\Controller\StatusRest' => 'Ent\Factory\Controller\StatusRestControllerFactory',
             'Ent\Controller\Action' => 'Ent\Factory\Controller\ActionControllerFactory',
             'Ent\Controller\ActionRest' => 'Ent\Factory\Controller\ActionRestControllerFactory',
-//            'Ent\Controller\Module' => function($cm) {
-//                $sm = $cm->getServiceLocator($cm);
-//                
-//                $moduleService = $sm->get('Ent\Service\Module');
-//                
-//                return new Ent\Controller\ModuleController($moduleService);
-//            },
-//            'Ent\Controller\ModuleRest' => function($cm) {
-//                $sm = $cm->getServiceLocator($cm);
-//                $om   = $sm->get('Doctrine\ORM\EntityManager');
-//                
-//                $moduleService = $sm->get('Ent\Service\Module');
-//                $hydrator = new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($om);
-//                
-//                return new Ent\Controller\ModuleRestController($moduleService, $hydrator);
-//            },
+            'Ent\Controller\StructureRest' => 'Ent\Factory\Controller\StructureRestControllerFactory'
         ),
     ), 
     'form_elements' => array(
         'factories' => array(
             'Ent\Form\UserForm' => 'Ent\Factory\Form\UserFormFactory',  
+            'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',  
         ),
     ),
     'router' => array(
         'routes' => array(
             'home' => array(
-                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Index',
                         'action'     => 'index',
-                    ),
-                ),
-            ),
-            'user' => array(
-                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                'options' => array(
-                    'route'    => '/user',
-                    'defaults' => array(
-                        'controller' => 'Ent\Controller\UserFake'
                     ),
                 ),
             ),
@@ -390,6 +367,18 @@ return array(
                     ),
                 ),
             ),
+            'structure-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/structure-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\StructureRest',
+                    ),
+                ),
+            ),
         ),
     ),
     'view_manager' => array(
@@ -413,7 +402,6 @@ return array(
     'service_manager' => array(
         'invokables' => array(
 //            'AddressBook\Service\ContactFake' => AddressBook\Service\Contact\ContactFakeService::class
-                'Ent\Service\UserFake' => Ent\Service\User\UserFakeService::class
         ),
         'factories' => array( 
 //            'AddressBook\Service\ContactZendDb' => 'AddressBook\Factory\Service\ContactZendDbServiceFactory',
@@ -421,13 +409,7 @@ return array(
             'Ent\Service\Module' => 'Ent\Factory\Service\ModuleDoctrineORMServiceFactory',
             'Ent\Service\Status' => 'Ent\Factory\Service\StatusDoctrineORMServiceFactory',
             'Ent\Service\Action' => 'Ent\Factory\Service\ActionDoctrineORMServiceFactory',
-//            'Ent\Service\Module' => function($sm) {
-//
-//                $om = $sm->get('Doctrine\ORM\EntityManager');
-//                $service = new \Ent\Service\ModuleDoctrineService($om);
-//
-//                return $service;
-//            },
+            'Ent\Service\StructureDoctrineORM' => 'Ent\Factory\Service\StructureDoctrineORMServiceFactory'
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
