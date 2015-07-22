@@ -95,13 +95,13 @@ class StructureRestController extends AbstractRestfulController{
             $structure = $this->structureService->insert($form, $data);
 
             if ($structure) {
-                $this->flashMessenger()->addSuccessMessage('La structure a bien été insérer.');
+                $this->flashMessenger()->addSuccessMessage('La structure a bien été insérée.');
 
                 return new JsonModel(array(
                     'data' => $structure->getStructureId(),
                     'success' => true,
                     'flashMessages' => array(
-                        'success' => 'La structure  a bien été insérer.',
+                        'success' => 'La structure  a bien été insérée.',
                     ),
                 ));
             }
@@ -109,7 +109,7 @@ class StructureRestController extends AbstractRestfulController{
         return new JsonModel(array(
             'success' => false,
             'flashMessages' => array(
-                'error' => 'La structure n\'a pas été insérer.',
+                'error' => 'La structure n\'a pas été insérée.',
             ),
         ));
     }
@@ -122,13 +122,13 @@ class StructureRestController extends AbstractRestfulController{
             $structure = $this->structureService->save($this->structureForm, $data, $structure);
 
             if ($structure) {
-                $this->flashMessenger()->addSuccessMessage('La structure a bien été updater.');
+                $this->flashMessenger()->addSuccessMessage('La structure a bien été updatée.');
 
                 return new JsonModel(array(
                     'data' => $structure->getStructureId(),
                     'success' => true,
                     'flashMessages' => array(
-                        'success' => 'La structure a bien été updater.',
+                        'success' => 'La structure a bien été updatée.',
                     ),
                 ));
             }
@@ -138,7 +138,7 @@ class StructureRestController extends AbstractRestfulController{
             'data' => $structure,
             'success' => false,
             'flashMessages' => array(
-                'error' => 'La structure n\'a pas été updater.',
+                'error' => 'La structure n\'a pas été updatée.',
             ),
         ));
     }
@@ -147,13 +147,13 @@ class StructureRestController extends AbstractRestfulController{
     {
         $this->structureService->delete($id);
 
-        $this->flashMessenger()->addSuccessMessage('La structure a bien été supprimé.');
+        $this->flashMessenger()->addSuccessMessage('La structure a bien été supprimée.');
 
         return new JsonModel(array(
             'data' => 'deleted',
             'success' => true,
             'flashMessages' => array(
-                'error' => 'La structure a bien été supprimé.',
+                'error' => 'La structure a bien été supprimée.',
             ),
         ));
     }
