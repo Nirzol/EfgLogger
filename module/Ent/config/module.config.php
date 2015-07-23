@@ -15,7 +15,8 @@ return array(
             'Ent\Controller\Action' => 'Ent\Factory\Controller\ActionControllerFactory',
             'Ent\Controller\ActionRest' => 'Ent\Factory\Controller\ActionRestControllerFactory',
             'Ent\Controller\StructureRest' => 'Ent\Factory\Controller\StructureRestControllerFactory',
-            'Ent\Controller\Attribute' => 'Ent\Factory\Controller\AttributeControllerFactory'
+            'Ent\Controller\Attribute' => 'Ent\Factory\Controller\AttributeControllerFactory',
+            'Ent\Controller\AttributeRest' => 'Ent\Factory\Controller\AttributeRestControllerFactory'
         ),
     ), 
     'form_elements' => array(
@@ -436,6 +437,18 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\StructureRest',
+                    ),
+                ),
+            ),
+            'attribute-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/attribute-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\AttributeRest',
                     ),
                 ),
             ),
