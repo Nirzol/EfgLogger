@@ -14,6 +14,6 @@ interface ServiceServiceInterface {
     public function getAllRest();
     public function getById($id, $form = null);
     public function insert(Form $form, $dataAssoc);
-    public function save(Form $form, $dataAssoc, EntService $user = null);
+    public function save(Form $form, $dataAssoc, EntService $service = null);
     public function delete($id);
 }
