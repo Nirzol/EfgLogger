@@ -18,7 +18,9 @@ return array(
             'Ent\Controller\Attribute' => 'Ent\Factory\Controller\AttributeControllerFactory',
             'Ent\Controller\AttributeRest' => 'Ent\Factory\Controller\AttributeRestControllerFactory',
             'Ent\Controller\Service' => 'Ent\Factory\Controller\ServiceControllerFactory',
-            'Ent\Controller\ServiceRest' => 'Ent\Factory\Controller\ServiceRestControllerFactory'
+            'Ent\Controller\ServiceRest' => 'Ent\Factory\Controller\ServiceRestControllerFactory',
+            'Ent\Controller\Contact' => 'Ent\Factory\Controller\ContactControllerFactory',
+            'Ent\Controller\ContactRest' => 'Ent\Factory\Controller\ContactRestControllerFactory'
         ),
     ), 
     'form_elements' => array(
@@ -26,7 +28,8 @@ return array(
             'Ent\Form\UserForm' => 'Ent\Factory\Form\UserFormFactory',  
             'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',
             'Ent\Form\AttributeForm' => 'Ent\Factory\Form\AttributeFormFactory',
-            'Ent\Form\ServiceForm' => 'Ent\Factory\Form\ServiceFormFactory'
+            'Ent\Form\ServiceForm' => 'Ent\Factory\Form\ServiceFormFactory',
+            'Ent\Form\ContactForm' => 'Ent\Factory\Form\ContactFormFactory'
         ),
     ),
     'router' => array(
@@ -430,7 +433,62 @@ return array(
                                 'options' => array(
                                     'route' => '/modify',
                                     'defaults' => array(
-                                        'action' => 'update',
+                                        'action' => 'modify',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'contact' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/contact',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\Contact',
+                        'action' => 'list',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'show' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/show/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'delete' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/delete',
+                                    'defaults' => array(
+                                        'action' => 'delete',
+                                    ),
+                                ),
+                            ),
+                            'modify' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/modify',
+                                    'defaults' => array(
+                                        'action' => 'modify',
                                     ),
                                 ),
                             ),
@@ -521,7 +579,19 @@ return array(
                         'controller' => 'Ent\Controller\ServiceRest',
                     ),
                 ),
-            ),            
+            ),  
+            'contact-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/contact-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\ContactRest',
+                    ),
+                ),
+            ),
         ),
     ),
     'view_manager' => array(
@@ -554,7 +624,8 @@ return array(
             'Ent\Service\Action' => 'Ent\Factory\Service\ActionDoctrineORMServiceFactory',
             'Ent\Service\StructureDoctrineORM' => 'Ent\Factory\Service\StructureDoctrineORMServiceFactory',
             'Ent\Service\Attribute' => 'Ent\Factory\Service\AttributeDoctrineORMServiceFactory',
-            'Ent\Service\ServiceDoctrineORM' => 'Ent\Factory\Service\ServiceDoctrineORMServiceFactory'
+            'Ent\Service\ServiceDoctrineORM' => 'Ent\Factory\Service\ServiceDoctrineORMServiceFactory',
+            'Ent\Service\ContactDoctrineORM' => 'Ent\Factory\Service\ContactDoctrineORMServiceFactory'
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
