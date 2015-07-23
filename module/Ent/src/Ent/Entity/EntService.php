@@ -224,25 +224,30 @@ class EntService extends Ent
     /**
      * Add fkSaAttribute
      *
-     * @param \Ent\Entity\EntAttribute $fkSaAttribute
+     * @param \Doctrine\Common\Collections\Collection $fkSaAttribute
      *
      * @return EntService
      */
-    public function addFkSaAttribute(\Ent\Entity\EntAttribute $fkSaAttribute)
+    public function addFkSaAttribute(\Doctrine\Common\Collections\Collection $fkSaAttribute)
     {
-        $this->fkSaAttribute[] = $fkSaAttribute;
-
-        return $this;
+        /* @var $attribute \Ent\Entity\EntAttribute */
+        foreach ($fkSaAttribute as $attribute) {
+            if (!$this->fkSaAttribute->contains($attribute)) {
+                $this->fkSaAttribute->add($attribute);
+            }
+        }
     }
 
     /**
      * Remove fkSaAttribute
      *
-     * @param \Ent\Entity\EntAttribute $fkSaAttribute
+     * @param \Doctrine\Common\Collections\Collection $fkSaAttribute
      */
-    public function removeFkSaAttribute(\Ent\Entity\EntAttribute $fkSaAttribute)
+    public function removeFkSaAttribute(\Doctrine\Common\Collections\Collection $fkSaAttribute)
     {
-        $this->fkSaAttribute->removeElement($fkSaAttribute);
+        foreach ($fkSaAttribute as $attribute) {
+            $this->fkSaAttribute->removeElement($attribute);
+        }
     }
 
     /**
