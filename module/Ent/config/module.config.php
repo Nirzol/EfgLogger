@@ -15,7 +15,7 @@ return array(
             'Ent\Controller\Action' => 'Ent\Factory\Controller\ActionControllerFactory',
             'Ent\Controller\ActionRest' => 'Ent\Factory\Controller\ActionRestControllerFactory',
             'Ent\Controller\StructureRest' => 'Ent\Factory\Controller\StructureRestControllerFactory',
-            'Ent\Controller\Attribute' => 'Ent\Factory\Controller\AttributeControllerFactory'
+            'Ent\Controller\Attribute' => 'Ent\Factory\Controller\AttributeControllerFactory',
             'Ent\Controller\Service' => 'Ent\Factory\Controller\ServiceControllerFactory',
             'Ent\Controller\ServiceRest' => 'Ent\Factory\Controller\ServiceRestControllerFactory'
         ),
@@ -24,8 +24,7 @@ return array(
         'factories' => array(
             'Ent\Form\UserForm' => 'Ent\Factory\Form\UserFormFactory',  
             'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',
-            'Ent\Form\AttributeForm' => 'Ent\Factory\Form\AttributeFormFactory'
-            'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',  
+            'Ent\Form\AttributeForm' => 'Ent\Factory\Form\AttributeFormFactory',
             'Ent\Form\ServiceForm' => 'Ent\Factory\Form\ServiceFormFactory'
         ),
     ),
@@ -383,6 +382,64 @@ return array(
                     ),
                 ),
             ),
+            'service' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/service',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\Service',
+                        'action' => 'list',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'show' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/show/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'update' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/update/:id',
+                            'defaults' => array(
+                                'action' => 'update',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'delete' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/delete/:id',
+                            'defaults' => array(
+                                'action' => 'delete',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'user-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
@@ -486,7 +543,7 @@ return array(
             'Ent\Service\Status' => 'Ent\Factory\Service\StatusDoctrineORMServiceFactory',
             'Ent\Service\Action' => 'Ent\Factory\Service\ActionDoctrineORMServiceFactory',
             'Ent\Service\StructureDoctrineORM' => 'Ent\Factory\Service\StructureDoctrineORMServiceFactory',
-            'Ent\Service\Attribute' => 'Ent\Factory\Service\AttributeDoctrineORMServiceFactory'
+            'Ent\Service\Attribute' => 'Ent\Factory\Service\AttributeDoctrineORMServiceFactory',
             'Ent\Service\ServiceDoctrineORM' => 'Ent\Factory\Service\ServiceDoctrineORMServiceFactory'
         ),
         'aliases' => array(

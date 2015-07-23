@@ -1,0 +1,30 @@
+<?php
+$title = "Détails d'un attribut";
+?>
+<h2><?php echo $this->escapeHtml($title); ?></h2>
+<p>
+    <b>Nom du attribute :</b> <?php echo $this->escapeHtml($attribute->getAttributeName())?>
+</p>
+<p>
+    <b>Libellé du attribute :</b> <?php echo $this->escapeHtml($attribute->getAttributeLibelle())?>
+</p>
+<p>
+    <b>Description du attribute :</b> <?php echo $this->escapeHtml($attribute->getAttributeDescription())?>
+</p>
+<?php if($attribute->getAttributeLastUpdate() != null) :?>
+<p>
+    <b>Date de modification :</b> <?php echo $attribute->getAttributeLastUpdate()->format('Y-m-d H:i:s');?>
+</p>
+<?php endif; ?>
+<p>
+    <b>Service : </b>
+<ul>
+    <?php
+    foreach ($attribute->getFkSaService() as $service) {
+        if ($service->getServiceLibelle()) :
+            echo "<li>".$this->escapeHtml($service->getServiceLibelle())."</li>";
+        endif;
+    }
+    ?>
+</ul>  
+</p>
