@@ -1,0 +1,46 @@
+
+<h2><?= $this->translate('Détails d\'un service') ?></h2>
+
+<p>
+    <?= $this->translate('Nom :') ?> <?= $this->escapeHtml($service->getServiceName()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Libelle :') ?> <?= $this->escapeHtml($service->getServiceLibelle()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Description :') ?> <?= $this->escapeHtml($service->getServiceDescription()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Dernière mise à jour :') ?> 
+    <?php 
+    if ($service->getServiceLastUpdate() != null) {
+        echo $service->getServiceLastUpdate()->format('d-m-Y H:i:s');
+    }
+    ?>
+</p>
+
+<p>
+    <?= $this->translate('Contact :') ?> 
+    <?php
+    foreach ($service->getFkCsContact() as $contact) {
+        if ($contact->getContactLibelle()) :
+            echo $this->escapeHtml($contact->getContactLibelle());
+        endif;
+    }
+    ?>
+</p>
+
+<p>
+    <?= $this->translate('Attributs :') ?> 
+    <?php
+    foreach ($service->getFkSaAttribute() as $attribute) {
+        if ($attribute->getAttributeLibelle()) :
+            echo $this->escapeHtml($attribute->getAttributeLibelle());
+        endif;
+    }
+    ?>
+</p>
+

@@ -1,0 +1,26 @@
+<?php $this->headTitle($this->translate('Liste des services')); ?>
+
+<h1><?=$this->translate('Liste des services')?></h1>
+
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
+    <?=$this->translate($m)?>  
+<?php endforeach; ?>
+
+<table class="table table-striped">
+    <?php foreach ($services as $service) : ?>
+        <tr>
+            <td>
+                <?=$this->escapeHtml($service->getServiceName())?>
+            </td>
+            <td>
+                <a href="<?=$this->url('service/show', ['id'=>$this->escapeUrl($service->getServiceId())])?>" class="btn btn-primary btn-xs"><?=$this->translate('Détails')?></a>
+            </td>
+            <td>
+                <a href="<?=$this->url('service/show/modify', ['id'=>$this->escapeUrl($service->getServiceId())])?>" class="btn btn-warning btn-xs"><?=$this->translate('Modifier')?></a>
+            </td>
+            <td>
+                <a href="<?=$this->url('service/show/delete', ['id'=>$this->escapeUrl($service->getServiceId())])?>" class="btn btn-danger btn-xs"><?=$this->translate('Supprimer')?></a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

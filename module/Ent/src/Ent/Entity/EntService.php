@@ -215,8 +215,8 @@ class EntService extends Ent
     {
         /* @var $contact \Ent\Entity\EntContact */
         foreach ($fkCsContact as $contact) {
-            $this->fkCsContact->removeElement($fkCsContact);
-            $contact->removeFkUrUser(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+            $this->fkCsContact->removeElement($contact);
+            $contact->removeFkCsService(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
         }
     }
 
