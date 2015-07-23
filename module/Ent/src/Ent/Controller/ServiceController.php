@@ -45,9 +45,9 @@ class ServiceController extends AbstractActionController
         $form = $this->serviceForm;
 
         if ($this->request->isPost()) {
-            $user = $this->serviceService->insert($form, $this->request->getPost());
+            $service = $this->serviceService->insert($form, $this->request->getPost());
 
-            if ($user) {
+            if ($service) {
                 $this->flashMessenger()->addSuccessMessage('Le service a bien été inséré.');
 
                 return $this->redirect()->toRoute('service');
