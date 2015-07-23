@@ -14,13 +14,15 @@ return array(
             'Ent\Controller\StatusRest' => 'Ent\Factory\Controller\StatusRestControllerFactory',
             'Ent\Controller\Action' => 'Ent\Factory\Controller\ActionControllerFactory',
             'Ent\Controller\ActionRest' => 'Ent\Factory\Controller\ActionRestControllerFactory',
-            'Ent\Controller\StructureRest' => 'Ent\Factory\Controller\StructureRestControllerFactory'
+            'Ent\Controller\StructureRest' => 'Ent\Factory\Controller\StructureRestControllerFactory',
+            'Ent\Controller\Attribute' => 'Ent\Factory\Controller\AttributeControllerFactory'
         ),
     ), 
     'form_elements' => array(
         'factories' => array(
             'Ent\Form\UserForm' => 'Ent\Factory\Form\UserFormFactory',  
-            'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',  
+            'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',
+            'Ent\Form\AttributeForm' => 'Ent\Factory\Form\AttributeFormFactory'
         ),
     ),
     'router' => array(
@@ -319,6 +321,64 @@ return array(
                     ),
                 ),
             ),
+            'attribute' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/attribute',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\Attribute',
+                        'action' => 'list',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'show' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/show/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'update' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/update/:id',
+                            'defaults' => array(
+                                'action' => 'update',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'delete' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/delete/:id',
+                            'defaults' => array(
+                                'action' => 'delete',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'user-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
@@ -409,7 +469,8 @@ return array(
             'Ent\Service\Module' => 'Ent\Factory\Service\ModuleDoctrineORMServiceFactory',
             'Ent\Service\Status' => 'Ent\Factory\Service\StatusDoctrineORMServiceFactory',
             'Ent\Service\Action' => 'Ent\Factory\Service\ActionDoctrineORMServiceFactory',
-            'Ent\Service\StructureDoctrineORM' => 'Ent\Factory\Service\StructureDoctrineORMServiceFactory'
+            'Ent\Service\StructureDoctrineORM' => 'Ent\Factory\Service\StructureDoctrineORMServiceFactory',
+            'Ent\Service\Attribute' => 'Ent\Factory\Service\AttributeDoctrineORMServiceFactory'
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'

@@ -45,9 +45,9 @@ class EntAttribute extends Ent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="attribute_last_update", type="datetime", nullable=false)
+     * @ORM\Column(name="attribute_last_update", type="datetime", nullable=true)
      */
-    private $attributeLastUpdate = 'CURRENT_TIMESTAMP';
+    private $attributeLastUpdate;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -174,25 +174,33 @@ class EntAttribute extends Ent
     /**
      * Add fkSaService
      *
-     * @param \Ent\Entity\EntService $fkSaService
+     * @param \Doctrine\Common\Collections\Collection $fkSaService
      *
      * @return EntAttribute
      */
-    public function addFkSaService(\Ent\Entity\EntService $fkSaService)
+    public function addFkSaService(\Doctrine\Common\Collections\Collection $fkSaService)
     {
-        $this->fkSaService[] = $fkSaService;
-
-        return $this;
+        /* @var $service \Ent\Entity\EntService */
+        foreach ($fkSaService as $service) {
+            if (!$this->fkSaService->contains($service)) {
+                $this->fkSaService->add($service);
+                $service->addFkSaAttribute(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+            }
+        }
     }
 
     /**
      * Remove fkSaService
      *
-     * @param \Ent\Entity\EntService $fkSaService
+     * @param \Doctrine\Common\Collections\Collection $fkSaService
      */
-    public function removeFkSaService(\Ent\Entity\EntService $fkSaService)
+    public function removeFkSaService(\Doctrine\Common\Collections\Collection $fkSaService)
     {
-        $this->fkSaService->removeElement($fkSaService);
+        /* @var $service \Ent\Entity\EntService */
+        foreach ($fkSaService as $service) {
+            $this->fkSaService->removeElement($service);
+            $service->removeFkSaAttribute(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+        }
     }
 
     /**
