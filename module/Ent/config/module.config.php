@@ -15,6 +15,7 @@ return array(
             'Ent\Controller\Action' => 'Ent\Factory\Controller\ActionControllerFactory',
             'Ent\Controller\ActionRest' => 'Ent\Factory\Controller\ActionRestControllerFactory',
             'Ent\Controller\StructureRest' => 'Ent\Factory\Controller\StructureRestControllerFactory',
+            'Ent\Controller\Attribute' => 'Ent\Factory\Controller\AttributeControllerFactory'
             'Ent\Controller\Service' => 'Ent\Factory\Controller\ServiceControllerFactory',
             'Ent\Controller\ServiceRest' => 'Ent\Factory\Controller\ServiceRestControllerFactory'
         ),
@@ -22,6 +23,8 @@ return array(
     'form_elements' => array(
         'factories' => array(
             'Ent\Form\UserForm' => 'Ent\Factory\Form\UserFormFactory',  
+            'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',
+            'Ent\Form\AttributeForm' => 'Ent\Factory\Form\AttributeFormFactory'
             'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',  
             'Ent\Form\ServiceForm' => 'Ent\Factory\Form\ServiceFormFactory'
         ),
@@ -322,12 +325,12 @@ return array(
                     ),
                 ),
             ),
-            'service' => array(
+            'attribute' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/service',
+                    'route' => '/attribute',
                     'defaults' => array(
-                        'controller' => 'Ent\Controller\Service',
+                        'controller' => 'Ent\Controller\Attribute',
                         'action' => 'list',
                     ),
                 ),
@@ -483,6 +486,7 @@ return array(
             'Ent\Service\Status' => 'Ent\Factory\Service\StatusDoctrineORMServiceFactory',
             'Ent\Service\Action' => 'Ent\Factory\Service\ActionDoctrineORMServiceFactory',
             'Ent\Service\StructureDoctrineORM' => 'Ent\Factory\Service\StructureDoctrineORMServiceFactory',
+            'Ent\Service\Attribute' => 'Ent\Factory\Service\AttributeDoctrineORMServiceFactory'
             'Ent\Service\ServiceDoctrineORM' => 'Ent\Factory\Service\ServiceDoctrineORMServiceFactory'
         ),
         'aliases' => array(
