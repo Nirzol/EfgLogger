@@ -1,0 +1,58 @@
+
+<h2><?= $this->translate('Détails d\'un contact') ?></h2>
+
+<p>
+    <?= $this->translate('Nom :') ?> <?= $this->escapeHtml($contact->getContactName()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Libelle :') ?> <?= $this->escapeHtml($contact->getContactLibelle()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Description :') ?> <?= $this->escapeHtml($contact->getContactDescription()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Service :') ?> <?= $this->escapeHtml($contact->getContactService()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Mailto :') ?> <?= $this->escapeHtml($contact->getContactMailto()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Dernière mise à jour :') ?> 
+    <?php 
+    if ($contact->getContactLastUpdate() != null) {
+        echo $contact->getContactLastUpdate()->format('d-m-Y H:i:s');
+    }
+    ?>
+</p>
+
+<p>
+    <?= $this->translate('Structure :') ?> <?= $this->escapeHtml($contact->getFkContactStructure()->getStructureLibelle()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Services :') ?> 
+    <?php
+    foreach ($contact->getFkCsService() as $service) {
+        if ($service->getServiceLibelle()) :
+            echo $this->escapeHtml($service->getServiceLibelle());
+        endif;
+    }
+    ?>
+</p>
+
+<p>
+    <?= $this->translate('Logins :') ?> 
+    <?php
+    foreach ($contact->getFkUcUser() as $user) {
+        if ($user->getUserLogin()) :
+            echo $this->escapeHtml($user->getUserLogin());
+        endif;
+    }
+    ?>
+</p>
+

@@ -1,0 +1,26 @@
+<?php $this->headTitle($this->translate('Liste des contacts')); ?>
+
+<h1><?=$this->translate('Liste des contacts')?></h1>
+
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
+    <?=$this->translate($m)?>  
+<?php endforeach; ?>
+
+<table class="table table-striped">
+    <?php foreach ($contacts as $contact) : ?>
+        <tr>
+            <td>
+                <?=$this->escapeHtml($contact->getContactName())?>
+            </td>
+            <td>
+                <a href="<?=$this->url('contact/show', ['id'=>$this->escapeUrl($contact->getContactId())])?>" class="btn btn-primary btn-xs"><?=$this->translate('Détails')?></a>
+            </td>
+            <td>
+                <a href="<?=$this->url('contact/show/modify', ['id'=>$this->escapeUrl($contact->getContactId())])?>" class="btn btn-warning btn-xs"><?=$this->translate('Modifier')?></a>
+            </td>
+            <td>
+                <a href="<?=$this->url('contact/show/delete', ['id'=>$this->escapeUrl($contact->getContactId())])?>" class="btn btn-danger btn-xs"><?=$this->translate('Supprimer')?></a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
