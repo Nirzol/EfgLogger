@@ -32,8 +32,8 @@ class ModuleControllerTest extends AbstractControllerTestCase
                 ->willReturn((new \Ent\Entity\EntModule)
                         ->setModuleId('2')
                         ->setModuleName('testModule')
-                        ->setModuleLibelle('testModule')
-                        ->setModuleDescription('testModule'));
+                        ->setModuleLibelle('testModuleLibelle')
+                        ->setModuleDescription('testModuleDescription'));
         
         $this->getApplicationServiceLocator()
                 ->setAllowOverride(true)
@@ -42,7 +42,7 @@ class ModuleControllerTest extends AbstractControllerTestCase
         $this->dispatch('/module/show/2');
         
         $this->assertContains('testModule', $this->getResponse()->getContent());
-        $this->assertContains('testModule', $this->getResponse()->getContent());
-        $this->assertContains('testModule', $this->getResponse()->getContent());
+        $this->assertContains('testModuleLibelle', $this->getResponse()->getContent());
+        $this->assertContains('testModuleDescription', $this->getResponse()->getContent());
     }
 }
