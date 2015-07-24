@@ -9,6 +9,8 @@ return array(
                     'host'     => 'ultrafixe.dsi.univ-paris5.fr',
                     'port'     => '3306',
                     'dbname'   => 'ent-p5-dev',
+                    'user'     => 'ent-p5-dev',
+                    'password' => 'ent4P5',
                 )
             )
         )
