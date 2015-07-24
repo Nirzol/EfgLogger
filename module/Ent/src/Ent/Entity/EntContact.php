@@ -61,7 +61,7 @@ class EntContact extends Ent
      *
      * @ORM\Column(name="contact_last_update", type="datetime", nullable=false)
      */
-    private $contactLastUpdate = 'CURRENT_TIMESTAMP';
+    private $contactLastUpdate;
 
     /**
      * @var \Ent\Entity\EntStructure
@@ -286,25 +286,32 @@ class EntContact extends Ent
     /**
      * Add fkCsService
      *
-     * @param \Ent\Entity\EntService $fkCsService
+     * @param \Doctrine\Common\Collections\Collection $fkCsService
      *
      * @return EntContact
      */
-    public function addFkCsService(\Ent\Entity\EntService $fkCsService)
+    public function addFkCsService(\Doctrine\Common\Collections\Collection $fkCsService)
     {
-        $this->fkCsService[] = $fkCsService;
-
-        return $this;
+        
+        /* @var $service \Ent\Entity\EntService */
+        foreach($fkCsService as $service) {
+            if( ! $this->fkCsService->contains($service)) {
+                $this->fkCsService->add($service);
+            }
+        }
     }
 
     /**
      * Remove fkCsService
      *
-     * @param \Ent\Entity\EntService $fkCsService
+     * @param \Doctrine\Common\Collections\Collection $fkCsService
      */
-    public function removeFkCsService(\Ent\Entity\EntService $fkCsService)
+    public function removeFkCsService(\Doctrine\Common\Collections\Collection $fkCsService)
     {
-        $this->fkCsService->removeElement($fkCsService);
+        /* @var $service \Ent\Entity\EntService */
+        foreach($fkCsService as $service) {
+            $this->fkCsService->removeElement($service);
+        }
     }
 
     /**
@@ -324,11 +331,15 @@ class EntContact extends Ent
      *
      * @return EntContact
      */
-    public function addFkUcUser(\Ent\Entity\EntUser $fkUcUser)
+    public function addFkUcUser(\Doctrine\Common\Collections\Collection $fkUcUser)
     {
-        $this->fkUcUser[] = $fkUcUser;
-
-        return $this;
+        /* @var $user \Ent\Entity\EntUser */
+        foreach($fkUcUser as $user) {
+            if( ! $this->fkUcUser->contains($user)) {
+                $this->fkUcUser->add($user);
+                $user->addFkUcContact(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+            }
+        }
     }
 
     /**
@@ -336,9 +347,13 @@ class EntContact extends Ent
      *
      * @param \Ent\Entity\EntUser $fkUcUser
      */
-    public function removeFkUcUser(\Ent\Entity\EntUser $fkUcUser)
+    public function removeFkUcUser(\Doctrine\Common\Collections\Collection $fkUcUser)
     {
-        $this->fkUcUser->removeElement($fkUcUser);
+        /* @var $user \Ent\Entity\EntUser */
+        foreach ($fkUcUser as $user) {
+            $this->fkUcUser->removeElement($user);
+            $user->removeFkUcContact(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+        }
     }
 
     /**

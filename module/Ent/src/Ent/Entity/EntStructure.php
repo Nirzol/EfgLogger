@@ -17,7 +17,6 @@ class EntStructure extends Ent
      *
      * @ORM\Column(name="structure_id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $structureId;
 
@@ -61,10 +60,24 @@ class EntStructure extends Ent
      *
      * @ORM\Column(name="structure_last_update", type="datetime", nullable=false)
      */
-    private $structureLastUpdate = 'CURRENT_TIMESTAMP';
+    private $structureLastUpdate;
 
 
 
+    /**
+     * Set structureId
+     *
+     * @param integer $structureId
+     *
+     * @return EntStructure
+     */
+    public function setStructureId($structureId)
+    {
+        $this->structureId = $structureId;
+
+        return $this;
+    }
+    
     /**
      * Get structureId
      *

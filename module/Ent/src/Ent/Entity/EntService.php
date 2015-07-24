@@ -47,7 +47,7 @@ class EntService extends Ent
      *
      * @ORM\Column(name="service_last_update", type="datetime", nullable=false)
      */
-    private $serviceLastUpdate = 'CURRENT_TIMESTAMP';
+    private $serviceLastUpdate;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -190,25 +190,34 @@ class EntService extends Ent
     /**
      * Add fkCsContact
      *
-     * @param \Ent\Entity\EntContact $fkCsContact
+     * @param \Doctrine\Common\Collections\Collection $fkCsContact
      *
      * @return EntService
      */
-    public function addFkCsContact(\Ent\Entity\EntContact $fkCsContact)
+    public function addFkCsContact(\Doctrine\Common\Collections\Collection $fkCsContact)
     {
-        $this->fkCsContact[] = $fkCsContact;
-
-        return $this;
+        
+        /* @var $contact \Ent\Entity\EntContact */
+        foreach($fkCsContact as $contact) {
+            if( ! $this->fkCsContact->contains($contact)) {
+                $this->fkCsContact->add($contact);
+                $contact->addFkCsService(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+            }
+        }
     }
 
     /**
      * Remove fkCsContact
      *
-     * @param \Ent\Entity\EntContact $fkCsContact
+     * @param \Doctrine\Common\Collections\Collection $fkCsContact
      */
-    public function removeFkCsContact(\Ent\Entity\EntContact $fkCsContact)
+    public function removeFkCsContact(\Doctrine\Common\Collections\Collection $fkCsContact)
     {
-        $this->fkCsContact->removeElement($fkCsContact);
+        /* @var $contact \Ent\Entity\EntContact */
+        foreach ($fkCsContact as $contact) {
+            $this->fkCsContact->removeElement($fkCsContact);
+            $contact->removeFkUrUser(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+        }
     }
 
     /**
@@ -224,25 +233,30 @@ class EntService extends Ent
     /**
      * Add fkSaAttribute
      *
-     * @param \Ent\Entity\EntAttribute $fkSaAttribute
+     * @param \Doctrine\Common\Collections\Collection $fkSaAttribute
      *
      * @return EntService
      */
-    public function addFkSaAttribute(\Ent\Entity\EntAttribute $fkSaAttribute)
+    public function addFkSaAttribute(\Doctrine\Common\Collections\Collection $fkSaAttribute)
     {
-        $this->fkSaAttribute[] = $fkSaAttribute;
-
-        return $this;
+        /* @var $attribute \Ent\Entity\EntAttribute */
+        foreach ($fkSaAttribute as $attribute) {
+            if (!$this->fkSaAttribute->contains($attribute)) {
+                $this->fkSaAttribute->add($attribute);
+            }
+        }
     }
 
     /**
      * Remove fkSaAttribute
      *
-     * @param \Ent\Entity\EntAttribute $fkSaAttribute
+     * @param \Doctrine\Common\Collections\Collection $fkSaAttribute
      */
-    public function removeFkSaAttribute(\Ent\Entity\EntAttribute $fkSaAttribute)
+    public function removeFkSaAttribute(\Doctrine\Common\Collections\Collection $fkSaAttribute)
     {
-        $this->fkSaAttribute->removeElement($fkSaAttribute);
+        foreach ($fkSaAttribute as $attribute) {
+            $this->fkSaAttribute->removeElement($attribute);
+        }
     }
 
     /**

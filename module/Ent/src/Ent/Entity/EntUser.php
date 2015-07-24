@@ -210,11 +210,14 @@ class EntUser extends Ent
      *
      * @return EntUser
      */
-    public function addFkUcContact(\Ent\Entity\EntContact $fkUcContact)
+    public function addFkUcContact(\Doctrine\Common\Collections\Collection $fkUcContact)
     {
-        $this->fkUcContact[] = $fkUcContact;
-
-        return $this;
+        /* @var $contact \Ent\Entity\EntContact */
+        foreach($fkUcContact as $contact) {
+            if( ! $this->fkUcContact->contains($contact)) {
+                $this->fkUcContact->add($contact);
+            }
+        }
     }
 
     /**
@@ -222,9 +225,12 @@ class EntUser extends Ent
      *
      * @param \Ent\Entity\EntContact $fkUcContact
      */
-    public function removeFkUcContact(\Ent\Entity\EntContact $fkUcContact)
+    public function removeFkUcContact(\Doctrine\Common\Collections\Collection $fkUcContact)
     {
-        $this->fkUcContact->removeElement($fkUcContact);
+        /* @var $contact \Ent\Entity\EntContact */
+        foreach ($fkUcContact as $contact) {
+            $this->fkUcContact->removeElement($contact);
+        }
     }
 
     /**

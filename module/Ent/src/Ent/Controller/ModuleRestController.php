@@ -4,7 +4,6 @@ namespace Ent\Controller;
 
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Ent\Entity\EntModule;
-use Ent\Entity\Ent;
 use Ent\Form\ModuleForm;
 use Ent\Service\ModuleDoctrineService;
 use Zend\View\Model\JsonModel;
@@ -54,7 +53,7 @@ class ModuleRestController extends AbstractRestfulController
         $data = array();
         
         if($result) {
-            /* @var $result Ent */
+            /* @var $result EntModule */
             $data[] = $result->toArray($this->hydrator);
         }
         return new JsonModel(array(

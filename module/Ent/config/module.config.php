@@ -15,28 +15,19 @@ return array(
             'Ent\Controller\StatusRest' => 'Ent\Factory\Controller\StatusRestControllerFactory',
             'Ent\Controller\Action' => 'Ent\Factory\Controller\ActionControllerFactory',
             'Ent\Controller\ActionRest' => 'Ent\Factory\Controller\ActionRestControllerFactory',
-//            'Ent\Controller\Module' => function($cm) {
-//                $sm = $cm->getServiceLocator($cm);
-//                
-//                $moduleService = $sm->get('Ent\Service\Module');
-//                
-//                return new Ent\Controller\ModuleController($moduleService);
-//            },
-//            'Ent\Controller\ModuleRest' => function($cm) {
-//                $sm = $cm->getServiceLocator($cm);
-//                $om   = $sm->get('Doctrine\ORM\EntityManager');
-//                
-//                $moduleService = $sm->get('Ent\Service\Module');
-//                $hydrator = new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($om);
-//                
-//                return new Ent\Controller\ModuleRestController($moduleService, $hydrator);
-//            },
-            'Ent\Controller\Profile' => 'Ent\Factory\Controller\ProfileControllerFactory',
+            'Ent\Controller\StructureRest' => 'Ent\Factory\Controller\StructureRestControllerFactory',
+            'Ent\Controller\Attribute' => 'Ent\Factory\Controller\AttributeControllerFactory',
+            'Ent\Controller\AttributeRest' => 'Ent\Factory\Controller\AttributeRestControllerFactory',
+            'Ent\Controller\Service' => 'Ent\Factory\Controller\ServiceControllerFactory',
+            'Ent\Controller\ServiceRest' => 'Ent\Factory\Controller\ServiceRestControllerFactory'
         ),
     ), 
     'form_elements' => array(
         'factories' => array(
             'Ent\Form\UserForm' => 'Ent\Factory\Form\UserFormFactory',  
+            'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',
+            'Ent\Form\AttributeForm' => 'Ent\Factory\Form\AttributeFormFactory',
+            'Ent\Form\ServiceForm' => 'Ent\Factory\Form\ServiceFormFactory'
         ),
     ),
     'router' => array(
@@ -394,6 +385,119 @@ return array(
                     ),
                 ),
             ),
+            'attribute' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/attribute',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\Attribute',
+                        'action' => 'list',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'show' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/show/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'update' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/update/:id',
+                            'defaults' => array(
+                                'action' => 'update',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'delete' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/delete/:id',
+                            'defaults' => array(
+                                'action' => 'delete',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'service' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/service',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\Service',
+                        'action' => 'list',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'show' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/show/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'delete' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/delete',
+                                    'defaults' => array(
+                                        'action' => 'delete',
+                                    ),
+                                ),
+                            ),
+                            'modify' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/modify',
+                                    'defaults' => array(
+                                        'action' => 'update',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'user-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
@@ -442,6 +546,42 @@ return array(
                     ),
                 ),
             ),
+            'structure-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/structure-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\StructureRest',
+                    ),
+                ),
+            ),
+            'attribute-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/attribute-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\AttributeRest',
+                    ),
+                ),
+            ),
+            'service-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/service-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\ServiceRest',
+                    ),
+                ),
+            ),            
         ),
     ),
     'view_manager' => array(
@@ -472,14 +612,10 @@ return array(
             'Ent\Service\Module' => 'Ent\Factory\Service\ModuleDoctrineORMServiceFactory',
             'Ent\Service\Status' => 'Ent\Factory\Service\StatusDoctrineORMServiceFactory',
             'Ent\Service\Action' => 'Ent\Factory\Service\ActionDoctrineORMServiceFactory',
-//            'Ent\Service\Module' => function($sm) {
-//
-//                $om = $sm->get('Doctrine\ORM\EntityManager');
-//                $service = new \Ent\Service\ModuleDoctrineService($om);
-//
-//                return $service;
-//            },
             'Ent\Service\Profile' => 'Ent\Factory\Service\ProfileDoctrineORMServiceFactory',
+            'Ent\Service\StructureDoctrineORM' => 'Ent\Factory\Service\StructureDoctrineORMServiceFactory',
+            'Ent\Service\Attribute' => 'Ent\Factory\Service\AttributeDoctrineORMServiceFactory',
+            'Ent\Service\ServiceDoctrineORM' => 'Ent\Factory\Service\ServiceDoctrineORMServiceFactory'
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
