@@ -68,7 +68,7 @@ class EntLog extends Ent
      *
      * @ORM\Column(name="log_datetime", type="datetime", nullable=false)
      */
-    private $logDatetime = 'CURRENT_TIMESTAMP';
+    private $logDatetime;
 
     /**
      * @var \Ent\Entity\EntModule

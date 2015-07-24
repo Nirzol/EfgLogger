@@ -5,6 +5,7 @@ namespace Nuxeo\Controller;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 use Nuxeo\Model\NuxeoSession;
+use Nuxeo\Service\NXQLRequestConfig;
 
 /**
  * Les requetes doivent avoir ce format :
@@ -81,10 +82,10 @@ class NuxeoController extends AbstractRestfulController
         
         switch ($requestId) {
             case 1:
-                $nxqlQuery = $requests->requestForDocumentsOfAutor($this->username);
+                $nxqlQuery = $requests->getDocumentsRequest($this->username);
                 break;
             default:
-                $nxqlQuery = $requests->requestForDocumentsOfAutor($this->username);
+                $nxqlQuery = $requests->getDocumentsRequest($this->username);
                 break;
         }
         

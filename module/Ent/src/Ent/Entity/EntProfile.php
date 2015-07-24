@@ -52,9 +52,9 @@ class EntProfile extends Ent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="profile_last_update", type="datetime", nullable=false)
+     * @ORM\Column(name="profile_last_update", type="datetime", nullable=true)
      */
-    private $profileLastUpdate = 'CURRENT_TIMESTAMP';
+    private $profileLastUpdate;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
