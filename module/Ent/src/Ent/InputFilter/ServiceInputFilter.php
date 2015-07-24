@@ -69,5 +69,10 @@ class ServiceInputFilter extends InputFilter{
                 ),
             ),
         ));
+        
+        $this->add(array(
+            'name' => 'fkCsContact',
+            'required' => false,
+        ));
     }
 }
