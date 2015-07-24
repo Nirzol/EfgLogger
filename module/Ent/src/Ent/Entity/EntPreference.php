@@ -33,7 +33,7 @@ class EntPreference extends Ent
      *
      * @ORM\Column(name="pref_last_update", type="datetime", nullable=false)
      */
-    private $prefLastUpdate = 'CURRENT_TIMESTAMP';
+    private $prefLastUpdate;
 
     /**
      * @var \Ent\Entity\EntUser
