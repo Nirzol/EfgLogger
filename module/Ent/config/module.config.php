@@ -21,7 +21,9 @@ return array(
             'Ent\Controller\Service' => 'Ent\Factory\Controller\ServiceControllerFactory',
             'Ent\Controller\ServiceRest' => 'Ent\Factory\Controller\ServiceRestControllerFactory',
             'Ent\Controller\Contact' => 'Ent\Factory\Controller\ContactControllerFactory',
-            'Ent\Controller\ContactRest' => 'Ent\Factory\Controller\ContactRestControllerFactory'
+            'Ent\Controller\ContactRest' => 'Ent\Factory\Controller\ContactRestControllerFactory',
+            'Ent\Controller\Preference' => 'Ent\Factory\Controller\PreferenceControllerFactory',
+            'Ent\Controller\PreferenceRest' => 'Ent\Factory\Controller\PreferenceRestControllerFactory'
         ),
     ), 
     'form_elements' => array(
@@ -30,7 +32,8 @@ return array(
             'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',
             'Ent\Form\AttributeForm' => 'Ent\Factory\Form\AttributeFormFactory',
             'Ent\Form\ServiceForm' => 'Ent\Factory\Form\ServiceFormFactory',
-            'Ent\Form\ContactForm' => 'Ent\Factory\Form\ContactFormFactory'
+            'Ent\Form\ContactForm' => 'Ent\Factory\Form\ContactFormFactory',
+            'Ent\Form\PreferenceForm' => 'Ent\Factory\Form\PreferenceFormFactory'
         ),
     ),
     'router' => array(
@@ -556,6 +559,64 @@ return array(
                     ),
                 ),
             ),
+            'preference' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/preference',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\Preference',
+                        'action' => 'list',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'show' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/show/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'update' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/update/:id',
+                            'defaults' => array(
+                                'action' => 'update',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'delete' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/delete/:id',
+                            'defaults' => array(
+                                'action' => 'delete',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'user-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
@@ -652,6 +713,18 @@ return array(
                     ),
                 ),
             ),
+            'preference-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/preference-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\PreferenceRest',
+                    ),
+                ),
+            ),
         ),
     ),
     'view_manager' => array(
@@ -686,7 +759,8 @@ return array(
             'Ent\Service\StructureDoctrineORM' => 'Ent\Factory\Service\StructureDoctrineORMServiceFactory',
             'Ent\Service\Attribute' => 'Ent\Factory\Service\AttributeDoctrineORMServiceFactory',
             'Ent\Service\ServiceDoctrineORM' => 'Ent\Factory\Service\ServiceDoctrineORMServiceFactory',
-            'Ent\Service\ContactDoctrineORM' => 'Ent\Factory\Service\ContactDoctrineORMServiceFactory'
+            'Ent\Service\ContactDoctrineORM' => 'Ent\Factory\Service\ContactDoctrineORMServiceFactory',
+            'Ent\Service\Preference' => 'Ent\Factory\Service\PreferenceDoctrineORMServiceFactory'
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
