@@ -11,7 +11,6 @@ use Zend\Form\Form;
  */
 interface StructureServiceInterface {
     public function getAll();
-    public function getAllRest();
     public function getById($id, $form = null);
     public function insert(Form $form, $dataAssoc);
     public function save(Form $form, $dataAssoc, EntStructure $user = null);
