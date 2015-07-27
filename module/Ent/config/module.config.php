@@ -23,7 +23,9 @@ return array(
             'Ent\Controller\Contact' => 'Ent\Factory\Controller\ContactControllerFactory',
             'Ent\Controller\ContactRest' => 'Ent\Factory\Controller\ContactRestControllerFactory',
             'Ent\Controller\Preference' => 'Ent\Factory\Controller\PreferenceControllerFactory',
-            'Ent\Controller\PreferenceRest' => 'Ent\Factory\Controller\PreferenceRestControllerFactory'
+            'Ent\Controller\PreferenceRest' => 'Ent\Factory\Controller\PreferenceRestControllerFactory',
+            'Ent\Controller\Profile' => 'Ent\Factory\Controller\ProfileControllerFactory',
+            'Ent\Controller\ProfileRest' => 'Ent\Factory\Controller\ProfileRestControllerFactory'
         ),
     ), 
     'form_elements' => array(
@@ -274,7 +276,6 @@ return array(
                     ),
                 ),
             ),
-                
             'status' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
@@ -638,6 +639,18 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\ModuleRest',
+                    ),
+                ),
+            ),
+            'profile-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/profile-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\ProfileRest',
                     ),
                 ),
             ),
