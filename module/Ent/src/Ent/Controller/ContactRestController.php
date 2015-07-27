@@ -38,13 +38,24 @@ class ContactRestController  extends AbstractRestfulController{
         $response = $this->getResponse();
         $headers  = $response->getHeaders();
 
+        if ($this->params()->fromRoute('id', false)) {
+            // Allow viewing, partial updating, replacement, and deletion
+            // on individual items
+            $headers->addHeaderLine('Allow', implode(',', array(
+                'GET',
+                'PATCH',
+                'PUT',
+                'DELETE',
+            )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+            return $response;
+        }
+
+        // Allow only retrieval and creation on collections
         $headers->addHeaderLine('Allow', implode(',', array(
             'GET',
             'POST',
-            'PUT',
-            'DELETE',
-        )))
-        ->addHeaderLine('Content-Type','application/json; charset=utf-8');
+        )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+
         return $response;
     }
     
