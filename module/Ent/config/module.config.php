@@ -21,7 +21,9 @@ return array(
             'Ent\Controller\Service' => 'Ent\Factory\Controller\ServiceControllerFactory',
             'Ent\Controller\ServiceRest' => 'Ent\Factory\Controller\ServiceRestControllerFactory',
             'Ent\Controller\Contact' => 'Ent\Factory\Controller\ContactControllerFactory',
-            'Ent\Controller\ContactRest' => 'Ent\Factory\Controller\ContactRestControllerFactory'
+            'Ent\Controller\ContactRest' => 'Ent\Factory\Controller\ContactRestControllerFactory',
+            'Ent\Controller\Profile' => 'Ent\Factory\Controller\ProfileControllerFactory',
+
         ),
     ), 
     'form_elements' => array(
