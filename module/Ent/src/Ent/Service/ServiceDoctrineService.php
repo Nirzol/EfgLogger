@@ -53,13 +53,6 @@ class ServiceDoctrineService implements ServiceServiceInterface{
         return $repo->findAll();
     }
 
-    public function getAllRest()
-    {
-        $repo = $this->em->getRepository('Ent\Entity\EntService')->createQueryBuilder('Service');
-
-        return $repo->getQuery()->getArrayResult();
-    }
-
     public function getById($id, $form = null)
     {
         $repo = $this->em->getRepository('Ent\Entity\EntService');

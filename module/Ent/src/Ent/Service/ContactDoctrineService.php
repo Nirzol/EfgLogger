@@ -53,13 +53,6 @@ class ContactDoctrineService implements ContactServiceInterface{
         return $repo->findAll();
     }
 
-    public function getAllRest()
-    {
-        $repo = $this->em->getRepository('Ent\Entity\EntContact')->createQueryBuilder('Contact');
-
-        return $repo->getQuery()->getArrayResult();
-    }
-
     public function getById($id, $form = null)
     {
         $repo = $this->em->getRepository('Ent\Entity\EntContact');
