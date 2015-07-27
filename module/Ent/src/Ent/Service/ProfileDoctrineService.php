@@ -37,8 +37,18 @@ class ProfileDoctrineService implements GenericEntityServiceInterface {
         return $repository->findAll();
     }
 
-    public function getById($id) {
+    public function getById($id, $form = null) {
+        $repository = $this->em->getRepository('Ent\Entity\EntProfile');
         
+        $repoFind = $repository->find($id);
+        
+        if($form != null) {
+            $hydrator = new DoctrineObject($this->em);
+            $form->setHydrator($hydrator);
+            $form->bind($repoFind);
+        }
+        
+        return $repoFind;
     }
     
     public function insert(Form $form, $dataAssoc) {
@@ -63,11 +73,35 @@ class ProfileDoctrineService implements GenericEntityServiceInterface {
     }
 
     public function update($id, Form $form, $dataAssoc){
+        $profile = $this->em->find('Ent\Entity\EntProfile', $id);
+        
+        $hydrator = new DoctrineObject($this->em);
+        
+        $form->setHydrator($hydrator);        
+        $form->bind($profile);
+        $form->setInputFilter(new ProfileInputFilter());
+        $form->setData($dataAssoc);
+        
+        if (!$form->isValid()) {
+            error_log("ProfileDoctrineService.update: form is not valide !");
+            return null;
+        }
+        
+        $this->em->persist($profile);
+        $this->em->flush();
+        
+        return $profile;
         
     }
     
     public function delete($id){
         
+        $profile = $this->em->find('Ent\Entity\EntProfile', $id);
+        
+        $this->em->remove($profile);
+        $this->em->flush();
+        
+        return $profile;
     }
     
 }
