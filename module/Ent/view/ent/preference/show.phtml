@@ -1,0 +1,32 @@
+<?php
+$title = "Détails d'une préférence";
+?>
+<h2><?php echo $this->escapeHtml($title); ?></h2>
+<p>
+    <b>Attribut de la préférence :</b> <?php echo $this->escapeHtml($preference->getPrefAttribute())?>
+</p>
+<?php if($preference->getFkPrefUser() != null) :?>
+<p>
+    <b>User :</b> <?php echo $this->escapeHtml($preference->getFkPrefUser()->getUserLogin())?>
+</p>
+<?php endif; ?>
+<?php if($preference->getFkPrefService() != null) :?>
+<p>
+    <b>Service :</b> <?php echo $this->escapeHtml($preference->getFkPrefService()->getServiceName())?>
+</p>
+<?php endif; ?>
+<?php if($preference->getFkPrefStatus() != null) :?>
+<p>
+    <b>Status :</b> <?php echo $this->escapeHtml($preference->getFkPrefStatus()->getStatusName())?>
+</p>
+<?php endif; ?>
+<?php if($preference->getFkPrefProfile() != null) :?>
+<p>
+    <b>Profil :</b> <?php echo $this->escapeHtml($preference->getFkPrefProfile()->getProfileName())?>
+</p>
+<?php endif; ?>
+<?php if($preference->getPrefLastUpdate() != null) :?>
+<p>
+    <b>Date de modification :</b> <?php echo $preference->getPrefLastUpdate()->format('Y-m-d H:i:s');?>
+</p>
+<?php endif; ?>
