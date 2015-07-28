@@ -24,6 +24,7 @@ return array(
             'Ent\Controller\ContactRest' => 'Ent\Factory\Controller\ContactRestControllerFactory',
             'Ent\Controller\Profile' => 'Ent\Factory\Controller\ProfileControllerFactory',
             'Ent\Controller\ProfileRest' => 'Ent\Factory\Controller\ProfileRestControllerFactory',
+            'Ent\Controller\Log' => 'Ent\Factory\Controller\LogControllerFactory',
 
         ),
     ), 
@@ -558,6 +559,17 @@ return array(
                     ),
                 ),
             ),
+            'log' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/log',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\log',
+                        'action' => 'test',
+                    ),
+                ),
+                'may_terminate' => true,
+            ),
             'user-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
@@ -700,7 +712,9 @@ return array(
             'Ent\Service\StructureDoctrineORM' => 'Ent\Factory\Service\StructureDoctrineORMServiceFactory',
             'Ent\Service\Attribute' => 'Ent\Factory\Service\AttributeDoctrineORMServiceFactory',
             'Ent\Service\ServiceDoctrineORM' => 'Ent\Factory\Service\ServiceDoctrineORMServiceFactory',
-            'Ent\Service\ContactDoctrineORM' => 'Ent\Factory\Service\ContactDoctrineORMServiceFactory'
+            'Ent\Service\ContactDoctrineORM' => 'Ent\Factory\Service\ContactDoctrineORMServiceFactory',
+            'Ent\Service\Log' => 'Ent\Factory\Service\LogDoctrineORMServiceFactory',
+            
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
