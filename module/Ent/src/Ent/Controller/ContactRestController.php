@@ -4,6 +4,8 @@ namespace Ent\Controller;
 
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Ent\Entity\EntContact;
+use Ent\Entity\EntService;
+use Ent\Entity\EntUser;
 use Ent\Form\ContactForm;
 use Ent\Service\ContactDoctrineService;
 use Zend\Mvc\Controller\AbstractRestfulController;
@@ -73,8 +75,44 @@ class ContactRestController  extends AbstractRestfulController{
 
         $data = array();
         foreach ($results as $result) {
+            $services = null;
+            foreach ($result->getFkCsService() as $service) {
+                /* @var $service EntService */
+                $services[] = array(
+                    'serviceId' => $service->getServiceId(),
+                    'serviceName' => $service->getServiceName(),
+                    'serviceLibelle' => $service->getServiceLibelle(),
+                    'serviceDescription' => $service->getServiceDescription(),
+                    '$serviceLastUpdate' => $service->getServiceLastUpdate()
+                );
+            }
+            
+            $users = null;
+            foreach ($result->getFkUcUser() as $user) {
+                /* @var $user EntUser */
+                $users[] = array(
+                    'userId' => $user->getUserId(),
+                    'userLogin' => $user->getUserLogin(),
+                    'userLastConnection' => $user->getUserLastConnection(),
+                    'userLastUpdate' => $user->getUserLastUpdate(),
+                    'userStatus' => $user->getUserStatus()
+                );
+            }
+            
             /* @var $result EntContact */
-            $data[] = $result->toArray($this->hydrator);
+            $data[] = array(
+                'contactId' => $result->getContactId(),
+                'contactName' => $result->getContactName(),
+                'contactLibelle' => $result->getContactLibelle(),
+                'contactDescription' => $result->getContactDescription(),
+                'contactService' => $result->getContactService(),
+                'contactMailto' => $result->getContactMailto(),
+                'contactLastUpdate' => $result->getContactLastUpdate(),
+                'contactLastUpdate' => $result->getContactLastUpdate(),
+                'fkContactStructure' => $result->getFkContactStructure()->toArray($this->hydrator),
+                'fkCsService' => $services,
+                'fkUcUser' => $users
+            ); 
         }
 
         return new JsonModel(array(
@@ -86,15 +124,49 @@ class ContactRestController  extends AbstractRestfulController{
     {
         /* @var $result EntContact */
         $result = $this->contactService->getById($id);
+        
+        $services = null;
+        foreach ($result->getFkCsService() as $service) {
+            /* @var $service EntService */
+            $services[] = array(
+                'serviceId' => $service->getServiceId(),
+                'serviceName' => $service->getServiceName(),
+                'serviceLibelle' => $service->getServiceLibelle(),
+                'serviceDescription' => $service->getServiceDescription(),
+                '$serviceLastUpdate' => $service->getServiceLastUpdate()
+            );
+        }
 
-        $data[] = $result->toArray($this->hydrator);
+        $users = null;
+        foreach ($result->getFkUcUser() as $user) {
+            /* @var $user EntUser */
+            $users[] = array(
+                'userId' => $user->getUserId(),
+                'userLogin' => $user->getUserLogin(),
+                'userLastConnection' => $user->getUserLastConnection(),
+                'userLastUpdate' => $user->getUserLastUpdate(),
+                'userStatus' => $user->getUserStatus()
+            );
+        }
+
+        /* @var $result EntContact */
+        $data = array(
+            'contactId' => $result->getContactId(),
+            'contactName' => $result->getContactName(),
+            'contactLibelle' => $result->getContactLibelle(),
+            'contactDescription' => $result->getContactDescription(),
+            'contactService' => $result->getContactService(),
+            'contactMailto' => $result->getContactMailto(),
+            'contactLastUpdate' => $result->getContactLastUpdate(),
+            'contactLastUpdate' => $result->getContactLastUpdate(),
+            'fkContactStructure' => $result->getFkContactStructure()->toArray($this->hydrator),
+            'fkCsService' => $services,
+            'fkUcUser' => $users
+        );
 
         return new JsonModel(
-                $result->toArray($this->hydrator)
+                $data
         );
-//        return new JsonModel(array(
-//            'data' => $data)
-//        );
     }
 
     public function create($data)
