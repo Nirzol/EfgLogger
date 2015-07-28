@@ -120,7 +120,6 @@ class ServiceRestController extends AbstractRestfulController{
 
     public function get($id)
     {
-        /* @var $result EntService */
         $result = $this->serviceService->getById($id);
         
         $contacts = null;
@@ -149,6 +148,7 @@ class ServiceRestController extends AbstractRestfulController{
             );
         }
 
+        /* @var $result EntService */
         $data = array(
             'serviceId' => $result->getServiceId(),
             'serviceName' => $result->getServiceName(),
