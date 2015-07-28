@@ -1,0 +1,65 @@
+<?php
+$title = "Ajout d'une préférence";
+$this->headTitle($title);
+?>
+<h2><?php echo $this->escapeHtml($title); ?></h2>
+<?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
+<div class="form-group<?php if ($form->get('prefAttribute')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('prefAttribute')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?= $this->formTextarea($form->get('prefAttribute')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('prefAttribute')) ?>           
+    </div>
+</div>
+<div class="form-group<?php if ($form->get('fkPrefUser')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('fkPrefUser')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?php
+        echo $this->formSelect($form->get('fkPrefUser')->setLabelAttributes(['class' => '']))
+        ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('fkPrefUser')) ?>           
+    </div>
+</div>
+<div class="form-group<?php if ($form->get('fkPrefService')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('fkPrefService')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?php
+        echo $this->formSelect($form->get('fkPrefService')->setLabelAttributes(['class' => '']))
+        ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('fkPrefUser')) ?>           
+    </div>
+</div>
+<div class="form-group<?php if ($form->get('fkPrefStatus')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('fkPrefStatus')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?php
+        echo $this->formSelect($form->get('fkPrefStatus')->setLabelAttributes(['class' => '']))
+        ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('fkPrefUser')) ?>           
+    </div>
+</div>
+<div class="form-group<?php if ($form->get('fkPrefProfile')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('fkPrefProfile')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?php
+        echo $this->formSelect($form->get('fkPrefProfile')->setLabelAttributes(['class' => '']))
+        ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('fkPrefProfile')) ?>           
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+    </div>
+</div>
+<?php echo $this->form()->closeTag(); ?>

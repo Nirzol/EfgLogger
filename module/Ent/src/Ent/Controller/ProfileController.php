@@ -5,13 +5,14 @@ namespace Ent\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Ent\Form\ProfileForm;
+use GenericEntityServiceInterface;
 
 class ProfileController extends AbstractActionController
 {
 
     protected $service = null;
 
-    public function __construct(\Ent\Service\GenericEntityServiceInterface $iservice)
+    public function __construct(GenericEntityServiceInterface $iservice)
     {
         $this->service = $iservice;
     }
