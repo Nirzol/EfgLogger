@@ -75,7 +75,6 @@ class ServiceRestController extends AbstractRestfulController{
                 
         $data = array();
         foreach ($results as $result) {
-            /* @var $result EntService */
             $contacts = null;
             foreach ($result->getFkCsContact() as $contact) {
                 /* @var $contact EntContact */
@@ -102,6 +101,7 @@ class ServiceRestController extends AbstractRestfulController{
                 );
             }
             
+            /* @var $result EntService */
             $data[] = array(
                 'serviceId' => $result->getServiceId(),
                 'serviceName' => $result->getServiceName(),
