@@ -1,0 +1,24 @@
+<?php
+
+namespace EntTest\Controller;
+
+/**
+ * Description of ServiceControllerTest
+ *
+ * @author fandria
+ */
+class ServiceControllerTest extends AbstractControllerTestCase {
+    protected function setUp() {
+        $this->setApplicationConfig(require 'config/application.config.php');
+    }
+
+    public function testListActionIsAccessible() {
+        $this->dispatch('/service');
+
+        $this->assertResponseStatusCode(200);
+        $this->assertModuleName('ent');
+        $this->assertControllerName('ent\controller\service');
+        $this->assertActionName('list');
+        $this->assertMatchedRouteName('service');
+    }
+}
