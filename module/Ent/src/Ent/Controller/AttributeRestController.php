@@ -59,10 +59,10 @@ class AttributeRestController extends AbstractRestfulController
             /* @var $result EntAttribute */
             $data[] = array(
                 'attributeId' => $result->getAttributeId(),
-                'attributeName' => $result->getAttributeId(),
-                'attributeLibelle' => $result->getAttributeId(),
-                'attributeDescription' => $result->getAttributeId(),
-                'attributeLastUpdate' => $result->getAttributeId(),
+                'attributeName' => $result->getAttributeName(),
+                'attributeLibelle' => $result->getAttributeLibelle(),
+                'attributeDescription' => $result->getAttributeDescription(),
+                'attributeLastUpdate' => $result->getAttributeLastUpdate(),
                 'fkSaService' => $services,
             );
         }
@@ -94,10 +94,10 @@ class AttributeRestController extends AbstractRestfulController
             /* @var $result EntAttribute */
             $data[] = array(
                 'attributeId' => $result->getAttributeId(),
-                'attributeName' => $result->getAttributeId(),
-                'attributeLibelle' => $result->getAttributeId(),
-                'attributeDescription' => $result->getAttributeId(),
-                'attributeLastUpdate' => $result->getAttributeId(),
+                'attributeName' => $result->getAttributeName(),
+                'attributeLibelle' => $result->getAttributeLibelle(),
+                'attributeDescription' => $result->getAttributeDescription(),
+                'attributeLastUpdate' => $result->getAttributeLastUpdate(),
                 'fkSaService' => $services,
             );
         }
