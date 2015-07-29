@@ -2,17 +2,17 @@
 
 namespace Ent\Controller;
 
+use Ent\Form\ProfileForm;
+use Ent\Service\ProfileDoctrineService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Ent\Form\ProfileForm;
-use GenericEntityServiceInterface;
 
 class ProfileController extends AbstractActionController
 {
 
     protected $service = null;
 
-    public function __construct(GenericEntityServiceInterface $iservice)
+    public function __construct(ProfileDoctrineService $iservice)
     {
         $this->service = $iservice;
     }

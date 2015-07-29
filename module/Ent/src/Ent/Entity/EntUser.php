@@ -250,11 +250,14 @@ class EntUser extends Ent
      *
      * @return EntUser
      */
-    public function addFkUpProfile(\Ent\Entity\EntProfile $fkUpProfile)
+    public function addFkUpProfile(\Doctrine\Common\Collections\Collection $fkUpProfile)
     {
-        $this->fkUpProfile[] = $fkUpProfile;
-
-        return $this;
+        /* @var $profile \Ent\Entity\EntProfile */
+        foreach($fkUpProfile as $profile) {
+            if( ! $this->fkUpProfile->contains($profile)) {
+                $this->fkUpProfile->add($profile);
+            }
+        }
     }
 
     /**
@@ -262,9 +265,12 @@ class EntUser extends Ent
      *
      * @param \Ent\Entity\EntProfile $fkUpProfile
      */
-    public function removeFkUpProfile(\Ent\Entity\EntProfile $fkUpProfile)
+    public function removeFkUpProfile(\Doctrine\Common\Collections\Collection $fkUpProfile)
     {
-        $this->fkUpProfile->removeElement($fkUpProfile);
+        /* @var $profile \Ent\Entity\EntProfile */
+        foreach ($fkUpProfile as $profile) {
+            $this->fkUpProfile->removeElement($profile);
+        }
     }
 
     /**
