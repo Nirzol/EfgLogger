@@ -6,6 +6,7 @@ use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Ent\Entity\EntAttribute;
+use Ent\Entity\EntService;
 use Ent\Form\AttributeForm;
 use Ent\Service\AttributeDoctrineService;
 
@@ -42,8 +43,28 @@ class AttributeRestController extends AbstractRestfulController
         $data = array();
         
         foreach ($results as $result) {
+            $services = null;
+            
+            foreach ($result->getFkSaService() as $service) {
+                /* @var $service EntService */
+                $services[] = array(
+                    'serviceId' => $service->getServiceId(),
+                    'serviceName' => $service->getServiceName(),
+                    'serviceLibelle' => $service->getServiceLibelle(),
+                    'serviceDescription' => $service->getServiceDescription(),
+                    'serviceLastUpdate' => $service->getServiceLastUpdate()
+                );
+            }
+            
             /* @var $result EntAttribute */
-            $data[] = $result->toArray($this->hydrator);
+            $data[] = array(
+                'attributeId' => $result->getAttributeId(),
+                'attributeName' => $result->getAttributeName(),
+                'attributeLibelle' => $result->getAttributeLibelle(),
+                'attributeDescription' => $result->getAttributeDescription(),
+                'attributeLastUpdate' => $result->getAttributeLastUpdate(),
+                'fkSaService' => $services,
+            );
         }
         
         return new JsonModel(array(
@@ -57,8 +78,28 @@ class AttributeRestController extends AbstractRestfulController
         $data = array();
         
         if ($result) {
+            $services = null;
+            
+            foreach ($result->getFkSaService() as $service) {
+                /* @var $service EntService */
+                $services[] = array(
+                    'serviceId' => $service->getServiceId(),
+                    'serviceName' => $service->getServiceName(),
+                    'serviceLibelle' => $service->getServiceLibelle(),
+                    'serviceDescription' => $service->getServiceDescription(),
+                    'serviceLastUpdate' => $service->getServiceLastUpdate()
+                );
+            }
+            
             /* @var $result EntAttribute */
-            $data[] = $result->toArray($this->hydrator);
+            $data[] = array(
+                'attributeId' => $result->getAttributeId(),
+                'attributeName' => $result->getAttributeName(),
+                'attributeLibelle' => $result->getAttributeLibelle(),
+                'attributeDescription' => $result->getAttributeDescription(),
+                'attributeLastUpdate' => $result->getAttributeLastUpdate(),
+                'fkSaService' => $services,
+            );
         }
         
         return new JsonModel(array(
