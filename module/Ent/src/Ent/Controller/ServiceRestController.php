@@ -3,6 +3,8 @@
 namespace Ent\Controller;
 
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Ent\Entity\EntAttribute;
+use Ent\Entity\EntContact;
 use Ent\Entity\EntService;
 use Ent\Form\ServiceForm;
 use Ent\Service\ServiceDoctrineService;
@@ -70,31 +72,96 @@ class ServiceRestController extends AbstractRestfulController{
     public function getList()
     {
         $results = $this->serviceService->getAll();
-
+                
         $data = array();
         foreach ($results as $result) {
+            $contacts = null;
+            foreach ($result->getFkCsContact() as $contact) {
+                /* @var $contact EntContact */
+                $contacts[] = array(
+                    'contactId' => $contact->getContactId(),
+                    'contactName' => $contact->getContactName(),
+                    'contactLibelle' => $contact->getContactLibelle(),
+                    'contactDescription' => $contact->getContactDescription(),
+                    'contactService' => $contact->getContactService(),
+                    'contactMailto' => $contact->getContactMailto(),
+                    'contactLastUpdate' => $contact->getContactLastUpdate()
+                );
+            }
+            
+            $attributes = null;
+            foreach ($result->getFkSaAttribute() as $attribute) {
+                /* @var $attribute EntAttribute */
+                $attributes[] = array(
+                    'attributeId' => $attribute->getAttributeId(),
+                    'attributeName' => $attribute->getAttributeName(),
+                    'attributeLibelle' => $attribute->getAttributeLibelle(),
+                    'attributeDescription' => $attribute->getAttributeDescription(),
+                    'attributeLastUpdate' => $attribute->getAttributeLastUpdate()
+                );
+            }
+            
             /* @var $result EntService */
-            $data[] = $result->toArray($this->hydrator);
+            $data[] = array(
+                'serviceId' => $result->getServiceId(),
+                'serviceName' => $result->getServiceName(),
+                'serviceLibelle' => $result->getServiceLibelle(),
+                'serviceDescription' => $result->getServiceDescription(),
+                'serviceLastUpdate' => $result->getServiceLastUpdate(),
+                'fkCsContact' => $contacts,
+                'fkSaAttribute' => $attributes
+            );
         }
 
         return new JsonModel(array(
-            'data' => $data)
+            'services' => $data)
         );
     }
 
     public function get($id)
     {
-        /* @var $result EntService */
         $result = $this->serviceService->getById($id);
+        
+        $contacts = null;
+        foreach ($result->getFkCsContact() as $contact) {
+            /* @var $contact EntContact */
+            $contacts[] = array(
+                'contactId' => $contact->getContactId(),
+                'contactName' => $contact->getContactName(),
+                'contactLibelle' => $contact->getContactLibelle(),
+                'contactDescription' => $contact->getContactDescription(),
+                'contactService' => $contact->getContactService(),
+                'contactMailto' => $contact->getContactMailto(),
+                'contactLastUpdate' => $contact->getContactLastUpdate()
+            );
+        }
 
-        $data[] = $result->toArray($this->hydrator);
+        $attributes = null;
+        foreach ($result->getFkSaAttribute() as $attribute) {
+            /* @var $attribute EntAttribute */
+            $attributes[] = array(
+                'attributeId' => $attribute->getAttributeId(),
+                'attributeName' => $attribute->getAttributeName(),
+                'attributeLibelle' => $attribute->getAttributeLibelle(),
+                'attributeDescription' => $attribute->getAttributeDescription(),
+                'attributeLastUpdate' => $attribute->getAttributeLastUpdate()
+            );
+        }
+
+        /* @var $result EntService */
+        $data = array(
+            'serviceId' => $result->getServiceId(),
+            'serviceName' => $result->getServiceName(),
+            'serviceLibelle' => $result->getServiceLibelle(),
+            'serviceDescription' => $result->getServiceDescription(),
+            'serviceLastUpdate' => $result->getServiceLastUpdate(),
+            'fkCsContact' => $contacts,
+            'fkSaAttribute' => $attributes
+        );
 
         return new JsonModel(
-                $result->toArray($this->hydrator)
+                $data
         );
-//        return new JsonModel(array(
-//            'data' => $data)
-//        );
     }
 
     public function create($data)
