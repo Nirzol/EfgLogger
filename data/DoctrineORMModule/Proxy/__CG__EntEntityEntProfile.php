@@ -301,7 +301,7 @@ class EntProfile extends \Ent\Entity\EntProfile implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
-    public function addFkUpUser(\Ent\Entity\EntUser $fkUpUser)
+    public function addFkUpUser(\Doctrine\Common\Collections\Collection $fkUpUser)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addFkUpUser', array($fkUpUser));
@@ -312,7 +312,7 @@ class EntProfile extends \Ent\Entity\EntProfile implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
-    public function removeFkUpUser(\Ent\Entity\EntUser $fkUpUser)
+    public function removeFkUpUser(\Doctrine\Common\Collections\Collection $fkUpUser)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeFkUpUser', array($fkUpUser));

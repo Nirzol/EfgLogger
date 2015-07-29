@@ -2,12 +2,16 @@
 
 namespace Ent\Controller;
 
-use Zend\Mvc\Controller\AbstractRestfulController;
-use Zend\View\Model\JsonModel;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Ent\Entity\EntPreference;
+use Ent\Entity\EntProfile;
+use Ent\Entity\EntService;
+use Ent\Entity\EntStatus;
+use Ent\Entity\EntUser;
 use Ent\Form\PreferenceForm;
 use Ent\Service\PreferenceDoctrineService;
+use Zend\Mvc\Controller\AbstractRestfulController;
+use Zend\View\Model\JsonModel;
 
 class PreferenceRestController extends AbstractRestfulController {
 
@@ -28,6 +32,32 @@ class PreferenceRestController extends AbstractRestfulController {
      * @var DoctrineObject
      */
     protected $hydrator;
+    
+    public function options()
+    {
+        $response = $this->getResponse();
+        $headers  = $response->getHeaders();
+
+        if ($this->params()->fromRoute('id', false)) {
+            // Allow viewing, partial updating, replacement, and deletion
+            // on individual items
+            $headers->addHeaderLine('Allow', implode(',', array(
+                'GET',
+                'PATCH',
+                'PUT',
+                'DELETE',
+            )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+            return $response;
+        }
+
+        // Allow only retrieval and creation on collections
+        $headers->addHeaderLine('Allow', implode(',', array(
+            'GET',
+            'POST',
+        )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+
+        return $response;
+    }
 
     public function __construct(PreferenceDoctrineService $preferenceService, PreferenceForm $preferenceForm, DoctrineObject $hydrator) {
         $this->preferenceService = $preferenceService;
@@ -41,13 +71,148 @@ class PreferenceRestController extends AbstractRestfulController {
         $data = array();
 
         foreach ($results as $result) {
+            /* @var $user EntUser */
+            $users = null;
+            if (!is_null($result->getFkPrefUser())) {
+                $user = $result->getFkPrefUser();
+                $users = array(
+                    'userId' => $user->getUserId(),
+                    'userLogin' => $user->getUserLogin(),
+                    'userLastConnection' => $user->getUserLastConnection(),
+                    'userLastUpdate' => $user->getUserLastUpdate(),
+                    'userStatus' => $user->getUserStatus()
+                );
+            }
+            
+            /* @var $service EntService */
+            $services = null;
+            if (!is_null($result->getFkPrefService())) {
+                $service = $result->getFkPrefService();
+                $services = array(
+                    'serviceId' => $service->getServiceId(),
+                    'serviceName' => $service->getServiceName(),
+                    'serviceLibelle' => $service->getServiceLibelle(),
+                    'serviceDescription' => $service->getServiceDescription(),
+                    'serviceLastUpdate' => $service->getServiceLastUpdate()
+                );
+            }
+            
+            /* @var $status EntStatus */
+            $status = null;
+            if (!is_null($result->getFkPrefStatus())) {
+                $status = array(
+                    'statusId' => $result->getFkPrefStatus()->getStatusId(),
+                    'statusName' => $result->getFkPrefStatus()->getStatusName(),
+                    'statusLibelle' => $result->getFkPrefStatus()->getStatusLibelle(),
+                    'statusDescription' => $result->getFkPrefStatus()->getStatusDescription(),
+                    'statusLastUpdate' => $result->getFkPrefStatus()->getStatusLastUpdate()
+                );
+            }
+            
+            /* @var $profile EntProfile */
+            $profiles = null;
+            if (!is_null($result->getFkPrefProfile())) {
+                $profile = $result->getFkPrefProfile();
+                $profiles = array(
+                    'profileId' => $profile->getProfileId(),
+                    'profileLdap' => $profile->getProfileLdap(),
+                    'profileName' => $profile->getProfileName(),
+                    'profileLibelle' => $profile->getProfileLibelle(),
+                    'profileDescription' => $profile->getProfileDescription(),
+                    'profileLastUpdate' => $profile->getProfileLastUpdate()
+                );
+            }
+            
             /* @var $result EntPreference */
-            $data[] = $result->toArray($this->hydrator);
+            $data[] = array(
+                'prefId' => $result->getPrefId(),
+                'prefAttribute' => stream_get_contents($result->getPrefAttribute()),
+                'prefLastUpdate' => $result->getPrefLastUpdate(),
+                'fkPrefUser' => $users,
+                'fkPrefService' => $services,
+                'fkPrefStatus' => $status,
+                'fkPrefProfile' => $profiles
+            );
         }
 
         return new JsonModel(array(
             'data' => $data
         ));
+    }
+    
+    public function get($id) {
+        $result = $this->preferenceService->getById($id);
+
+        $data = array();
+
+        if ($result) {
+            /* @var $user EntUser */
+            $users = null;
+            if (!is_null($result->getFkPrefUser())) {
+                $user = $result->getFkPrefUser();
+                $users = array(
+                    'userId' => $user->getUserId(),
+                    'userLogin' => $user->getUserLogin(),
+                    'userLastConnection' => $user->getUserLastConnection(),
+                    'userLastUpdate' => $user->getUserLastUpdate(),
+                    'userStatus' => $user->getUserStatus()
+                );
+            }
+            
+            /* @var $service EntService */
+            $services = null;
+            if (!is_null($result->getFkPrefService())) {
+                $service = $result->getFkPrefService();
+                $services = array(
+                    'serviceId' => $service->getServiceId(),
+                    'serviceName' => $service->getServiceName(),
+                    'serviceLibelle' => $service->getServiceLibelle(),
+                    'serviceDescription' => $service->getServiceDescription(),
+                    'serviceLastUpdate' => $service->getServiceLastUpdate()
+                );
+            }
+            
+            /* @var $status EntStatus */
+            $status = null;
+            if (!is_null($result->getFkPrefStatus())) {
+                $status = array(
+                    'statusId' => $result->getFkPrefStatus()->getStatusId(),
+                    'statusName' => $result->getFkPrefStatus()->getStatusName(),
+                    'statusLibelle' => $result->getFkPrefStatus()->getStatusLibelle(),
+                    'statusDescription' => $result->getFkPrefStatus()->getStatusDescription(),
+                    'statusLastUpdate' => $result->getFkPrefStatus()->getStatusLastUpdate()
+                );
+            }
+            
+            /* @var $profile EntProfile */
+            $profiles = null;
+            if (!is_null($result->getFkPrefProfile())) {
+                $profile = $result->getFkPrefProfile();
+                $profiles = array(
+                    'profileId' => $profile->getProfileId(),
+                    'profileLdap' => $profile->getProfileLdap(),
+                    'profileName' => $profile->getProfileName(),
+                    'profileLibelle' => $profile->getProfileLibelle(),
+                    'profileDescription' => $profile->getProfileDescription(),
+                    'profileLastUpdate' => $profile->getProfileLastUpdate()
+                );
+            }
+            
+            /* @var $result EntPreference */
+            $data = array(
+                'prefId' => $result->getPrefId(),
+                'prefAttribute' => stream_get_contents($result->getPrefAttribute()),
+                'prefLastUpdate' => $result->getPrefLastUpdate(),
+                'fkPrefUser' => $users,
+                'fkPrefService' => $services,
+                'fkPrefStatus' => $status,
+                'fkPrefProfile' => $profiles
+            );
+        }
+
+        return new JsonModel(
+            $data
+        );
     }
 
     public function create($data) {
@@ -77,22 +242,7 @@ class PreferenceRestController extends AbstractRestfulController {
             ),
         ));
     }
-
-    public function get($id) {
-        $result = $this->preferenceService->getById($id);
-
-        $data = array();
-
-        if ($result) {
-            /* @var $result EntPreference */
-            $data[] = $result->toArray($this->hydrator);
-        }
-
-        return new JsonModel(array(
-            'data' => $data
-        ));
-    }
-
+    
     public function update($id, $data) {
         $form = $this->preferenceForm;
 

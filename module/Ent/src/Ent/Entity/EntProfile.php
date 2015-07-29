@@ -209,11 +209,15 @@ class EntProfile extends Ent
      *
      * @return EntProfile
      */
-    public function addFkUpUser(\Ent\Entity\EntUser $fkUpUser)
+    public function addFkUpUser(\Doctrine\Common\Collections\Collection $fkUpUser)
     {
-        $this->fkUpUser[] = $fkUpUser;
-
-        return $this;
+        /* @var $user \Ent\Entity\EntUser */
+        foreach($fkUpUser as $user) {
+            if( ! $this->fkUpUser->contains($user)) {
+                $this->fkUpUser->add($user);
+                $user->addFkUpProfile(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+            }
+        }
     }
 
     /**
@@ -221,9 +225,13 @@ class EntProfile extends Ent
      *
      * @param \Ent\Entity\EntUser $fkUpUser
      */
-    public function removeFkUpUser(\Ent\Entity\EntUser $fkUpUser)
+    public function removeFkUpUser(\Doctrine\Common\Collections\Collection $fkUpUser)
     {
-        $this->fkUpUser->removeElement($fkUpUser);
+        /* @var $user \Ent\Entity\EntUser */
+        foreach ($fkUpUser as $user) {
+            $this->fkUpUser->removeElement($user);
+            $user->removeFkUpProfile(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+        }
     }
 
     /**

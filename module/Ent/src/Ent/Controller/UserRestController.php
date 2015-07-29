@@ -3,6 +3,9 @@
 namespace Ent\Controller;
 
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Ent\Entity\EntContact;
+use Ent\Entity\EntProfile;
+use Ent\Entity\EntRole;
 use Ent\Entity\EntUser;
 use Ent\Form\UserForm;
 use Ent\Service\UserDoctrineService;
@@ -29,6 +32,32 @@ class UserRestController extends AbstractRestfulController
      * @var DoctrineObject
      */
     protected $hydrator;
+    
+    public function options()
+    {
+        $response = $this->getResponse();
+        $headers  = $response->getHeaders();
+
+        if ($this->params()->fromRoute('id', false)) {
+            // Allow viewing, partial updating, replacement, and deletion
+            // on individual items
+            $headers->addHeaderLine('Allow', implode(',', array(
+                'GET',
+                'PATCH',
+                'PUT',
+                'DELETE',
+            )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+            return $response;
+        }
+
+        // Allow only retrieval and creation on collections
+        $headers->addHeaderLine('Allow', implode(',', array(
+            'GET',
+            'POST',
+        )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+
+        return $response;
+    }
 
     public function __construct(UserDoctrineService $userService, UserForm $userForm, DoctrineObject $hydrator)
     {
@@ -43,7 +72,59 @@ class UserRestController extends AbstractRestfulController
 
         $data = array();
         foreach ($results as $result) {
-            /* @var $result EntUser */
+//            $contacts = null;
+//            foreach ($result->getFkUcContact() as $contact) {
+//                /* @var $contact EntContact */
+//                $contacts[] = array(
+//                    'contactId' => $contact->getContactId(),
+//                    'contactName' => $contact->getContactName(),
+//                    'contactLibelle' => $contact->getContactLibelle(),
+//                    'contactDescription' => $contact->getContactDescription(),
+//                    'contactService' => $contact->getContactService(),
+//                    'contactMailto' => $contact->getContactMailto(),
+//                    'contactLastUpdate' => $contact->getContactLastUpdate()
+//                );
+//            }
+//            
+//            $profiles = null;
+//            foreach ($result->getFkUpProfile() as $profile) {
+//                /* @var $profile EntProfile */
+//                $profiles[] = array(
+//                    'profileId' => $profile->getProfileId(),
+//                    'profileLdap' => $profile->getProfileLdap(),
+//                    'profileName' => $profile->getProfileName(),
+//                    'profileLibelle' => $profile->getProfileLibelle(),
+//                    'profileDescription' => $profile->getProfileDescription(),
+//                    'profileLastUpdate' => $profile->getProfileLastUpdate()
+//                );
+//            }
+//            
+//            $roles = null;
+//            foreach ($result->getFkUrRole() as $role) {
+//                /* @var $role EntRole */
+//                $roles[] = array(
+//                    'roleId' => $role->getRoleId(),
+//                    'roleName' => $role->getRoleName(),
+//                    'roleLibelle' => $role->getRoleLibelle(),
+//                    'roleDescription' => $role->getRoleDescription(),
+//                    'roleIsDefault' => $role->getRoleIsDefault(),
+//                    'roleParentId' => $role->getRoleParentId(),
+//                    'roleLastUpdate' => $role->getRoleLastUpdate()
+//                );
+//            }
+//            
+//            /* @var $result EntUser */
+//            $data[] = array(
+//                'userId' => $result->getUserId(),
+//                'userLogin' => $result->getUserLogin(),
+//                'userLastConnection' => $result->getUserLastConnection(),
+//                'userLastUpdate' => $result->getUserLastUpdate(),
+//                'userStatus' => $result->getUserStatus(),
+//                'fkUcContact' => $contacts,
+//                'fkUpProfile' => $profiles,
+//                'fkUrRole' => $roles
+//            );
+            
             $data[] = $result->toArray($this->hydrator);
         }
 
@@ -54,14 +135,66 @@ class UserRestController extends AbstractRestfulController
 
     public function get($id)
     {
-        /* @var $result EntUser */
         $result = $this->userService->getById($id);
-//        var_dump($result);
 
+//        $contacts = null;
+//        foreach ($result->getFkUcContact() as $contact) {
+//            /* @var $contact EntContact */
+//            $contacts[] = array(
+//                'contactId' => $contact->getContactId(),
+//                'contactName' => $contact->getContactName(),
+//                'contactLibelle' => $contact->getContactLibelle(),
+//                'contactDescription' => $contact->getContactDescription(),
+//                'contactService' => $contact->getContactService(),
+//                'contactMailto' => $contact->getContactMailto(),
+//                'contactLastUpdate' => $contact->getContactLastUpdate()
+//            );
+//        }
+//
+//        $profiles = null;
+//        foreach ($result->getFkUpProfile() as $profile) {
+//            /* @var $profile EntProfile */
+//            $profiles[] = array(
+//                'profileId' => $profile->getProfileId(),
+//                'profileLdap' => $profile->getProfileLdap(),
+//                'profileName' => $profile->getProfileName(),
+//                'profileLibelle' => $profile->getProfileLibelle(),
+//                'profileDescription' => $profile->getProfileDescription(),
+//                'profileLastUpdate' => $profile->getProfileLastUpdate()
+//            );
+//        }
+//
+//        $roles = null;
+//        foreach ($result->getFkUrRole() as $role) {
+//            /* @var $role EntRole */
+//            $roles[] = array(
+//                'roleId' => $role->getRoleId(),
+//                'roleName' => $role->getRoleName(),
+//                'roleLibelle' => $role->getRoleLibelle(),
+//                'roleDescription' => $role->getRoleDescription(),
+//                'roleIsDefault' => $role->getRoleIsDefault(),
+//                'roleParentId' => $role->getRoleParentId(),
+//                'roleLastUpdate' => $role->getRoleLastUpdate()
+//            );
+//        }
+//
+//        /* @var $result EntUser */
+//        $data = array(
+//            'userId' => $result->getUserId(),
+//            'userLogin' => $result->getUserLogin(),
+//            'userLastConnection' => $result->getUserLastConnection(),
+//            'userLastUpdate' => $result->getUserLastUpdate(),
+//            'userStatus' => $result->getUserStatus(),
+//            'fkUcContact' => $contacts,
+//            'fkUpProfile' => $profiles,
+//            'fkUrRole' => $roles
+//        );
+        
+        
         $data[] = $result->toArray($this->hydrator);
 
-        return new JsonModel(array(
-            'data' => $data)
+        return new JsonModel(
+            $data
         );
     }
 
