@@ -32,6 +32,32 @@ class PreferenceRestController extends AbstractRestfulController {
      * @var DoctrineObject
      */
     protected $hydrator;
+    
+    public function options()
+    {
+        $response = $this->getResponse();
+        $headers  = $response->getHeaders();
+
+        if ($this->params()->fromRoute('id', false)) {
+            // Allow viewing, partial updating, replacement, and deletion
+            // on individual items
+            $headers->addHeaderLine('Allow', implode(',', array(
+                'GET',
+                'PATCH',
+                'PUT',
+                'DELETE',
+            )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+            return $response;
+        }
+
+        // Allow only retrieval and creation on collections
+        $headers->addHeaderLine('Allow', implode(',', array(
+            'GET',
+            'POST',
+        )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+
+        return $response;
+    }
 
     public function __construct(PreferenceDoctrineService $preferenceService, PreferenceForm $preferenceForm, DoctrineObject $hydrator) {
         $this->preferenceService = $preferenceService;
