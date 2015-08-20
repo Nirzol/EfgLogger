@@ -3,10 +3,6 @@
 namespace Ent\Controller;
 
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
-use Ent\Entity\EntContact;
-use Ent\Entity\EntProfile;
-use Ent\Entity\EntRole;
-use Ent\Entity\EntUser;
 use Ent\Form\UserForm;
 use Ent\Service\UserDoctrineService;
 use Zend\Mvc\Controller\AbstractRestfulController;
@@ -32,11 +28,11 @@ class UserRestController extends AbstractRestfulController
      * @var DoctrineObject
      */
     protected $hydrator;
-    
+
     public function options()
     {
         $response = $this->getResponse();
-        $headers  = $response->getHeaders();
+        $headers = $response->getHeaders();
 
         if ($this->params()->fromRoute('id', false)) {
             // Allow viewing, partial updating, replacement, and deletion
@@ -46,7 +42,7 @@ class UserRestController extends AbstractRestfulController
                 'PATCH',
                 'PUT',
                 'DELETE',
-            )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+            )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
             return $response;
         }
 
@@ -54,7 +50,7 @@ class UserRestController extends AbstractRestfulController
         $headers->addHeaderLine('Allow', implode(',', array(
             'GET',
             'POST',
-        )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+        )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
 
         return $response;
     }
@@ -71,7 +67,10 @@ class UserRestController extends AbstractRestfulController
         $results = $this->userService->getAll();
 
         $data = array();
-        foreach ($results as $result) {
+        $successMessage = '';
+        $errorMessage = '';
+        if ($result) {
+            foreach ($results as $result) {
 //            $contacts = null;
 //            foreach ($result->getFkUcContact() as $contact) {
 //                /* @var $contact EntContact */
@@ -124,13 +123,28 @@ class UserRestController extends AbstractRestfulController
 //                'fkUpProfile' => $profiles,
 //                'fkUrRole' => $roles
 //            );
-            
-            $data[] = $result->toArray($this->hydrator);
+
+                $data[] = $result->toArray($this->hydrator);
+                $success = false;
+                $successMessage = 'Les users ont bien été trouvé.';
+            }
+        } else {
+            $success = false;
+            $errorMessage = 'Aucun user existe dans la base.';
         }
 
+//        return new JsonModel(array(
+//            'data' => $data)
+//        );
+
         return new JsonModel(array(
-            'data' => $data)
-        );
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
     }
 
     public function get($id)
@@ -189,13 +203,28 @@ class UserRestController extends AbstractRestfulController
 //            'fkUpProfile' => $profiles,
 //            'fkUrRole' => $roles
 //        );
-        
-        
-        $data[] = $result->toArray($this->hydrator);
-
-        return new JsonModel(
-            $data
-        );
+        $data = array();
+        $successMessage = '';
+        $errorMessage = '';
+        if ($result) {
+            $data[] = $result->toArray($this->hydrator);
+            $success = false;
+            $successMessage = 'L\'user a bien été trouver.';
+        } else {
+            $success = false;
+            $errorMessage = 'L\'user n\'existe pas dans la base.';
+        }
+//        return new JsonModel(
+//            $data
+//        );
+        return new JsonModel(array(
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
     }
 
     public function create($data)
@@ -203,14 +232,14 @@ class UserRestController extends AbstractRestfulController
         $form = $this->userForm;
 
         if ($data) {
-            
+
 //            object(Zend\Stdlib\Parameters)[140]
 //  private 'storage' (ArrayObject) => 
 //    array (size=3)
 //      'userLogin' => string 'ffff' (length=4)
 //      'userStatus' => string '1' (length=1)
 //      'fkUrRole' => string '1' (length=1)
-                    
+
             $user = $this->userService->insert($form, $data);
 
             if ($user) {

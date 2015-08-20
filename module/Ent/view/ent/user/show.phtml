@@ -33,6 +33,8 @@
     foreach ($user->getFkUrRole() as $role) {
         if ($role->getRoleLibelle()) :
             echo $this->escapeHtml($role->getRoleLibelle());
+        
+            echo $this->escapeHtml($role->getRoleDescription());
         endif;
     }
     ?>
