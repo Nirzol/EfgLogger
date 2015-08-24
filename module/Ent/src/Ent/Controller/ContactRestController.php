@@ -74,50 +74,70 @@ class ContactRestController  extends AbstractRestfulController{
         $results = $this->contactService->getAll();
 
         $data = array();
-        foreach ($results as $result) {
-            $services = null;
-            foreach ($result->getFkCsService() as $service) {
-                /* @var $service EntService */
-                $services[] = array(
-                    'serviceId' => $service->getServiceId(),
-                    'serviceName' => $service->getServiceName(),
-                    'serviceLibelle' => $service->getServiceLibelle(),
-                    'serviceDescription' => $service->getServiceDescription(),
-                    '$serviceLastUpdate' => $service->getServiceLastUpdate()
-                );
+        $successMessage = '';
+        $errorMessage = '';
+        
+        if ($results) {
+            foreach ($results as $result) {
+//                $services = null;
+//                foreach ($result->getFkCsService() as $service) {
+//                    /* @var $service EntService */
+//                    $services[] = array(
+//                        'serviceId' => $service->getServiceId(),
+//                        'serviceName' => $service->getServiceName(),
+//                        'serviceLibelle' => $service->getServiceLibelle(),
+//                        'serviceDescription' => $service->getServiceDescription(),
+//                        '$serviceLastUpdate' => $service->getServiceLastUpdate()
+//                    );
+//                }
+//
+//                $users = null;
+//                foreach ($result->getFkUcUser() as $user) {
+//                    /* @var $user EntUser */
+//                    $users[] = array(
+//                        'userId' => $user->getUserId(),
+//                        'userLogin' => $user->getUserLogin(),
+//                        'userLastConnection' => $user->getUserLastConnection(),
+//                        'userLastUpdate' => $user->getUserLastUpdate(),
+//                        'userStatus' => $user->getUserStatus()
+//                    );
+//                }
+//
+//                /* @var $result EntContact */
+//                $data[] = array(
+//                    'contactId' => $result->getContactId(),
+//                    'contactName' => $result->getContactName(),
+//                    'contactLibelle' => $result->getContactLibelle(),
+//                    'contactDescription' => $result->getContactDescription(),
+//                    'contactService' => $result->getContactService(),
+//                    'contactMailto' => $result->getContactMailto(),
+//                    'contactLastUpdate' => $result->getContactLastUpdate(),
+//                    'contactLastUpdate' => $result->getContactLastUpdate(),
+//                    'fkContactStructure' => $result->getFkContactStructure()->toArray($this->hydrator),
+//                    'fkCsService' => $services,
+//                    'fkUcUser' => $users
+//                ); 
+                $data[] = $result->toArray($this->hydrator);
+                $success = false;
+                $successMessage = 'Les contacts ont bien été trouvés.';
             }
-            
-            $users = null;
-            foreach ($result->getFkUcUser() as $user) {
-                /* @var $user EntUser */
-                $users[] = array(
-                    'userId' => $user->getUserId(),
-                    'userLogin' => $user->getUserLogin(),
-                    'userLastConnection' => $user->getUserLastConnection(),
-                    'userLastUpdate' => $user->getUserLastUpdate(),
-                    'userStatus' => $user->getUserStatus()
-                );
-            }
-            
-            /* @var $result EntContact */
-            $data[] = array(
-                'contactId' => $result->getContactId(),
-                'contactName' => $result->getContactName(),
-                'contactLibelle' => $result->getContactLibelle(),
-                'contactDescription' => $result->getContactDescription(),
-                'contactService' => $result->getContactService(),
-                'contactMailto' => $result->getContactMailto(),
-                'contactLastUpdate' => $result->getContactLastUpdate(),
-                'contactLastUpdate' => $result->getContactLastUpdate(),
-                'fkContactStructure' => $result->getFkContactStructure()->toArray($this->hydrator),
-                'fkCsService' => $services,
-                'fkUcUser' => $users
-            ); 
+        } else {
+            $success = false;
+            $errorMessage = 'Aucun contact existe dans la base.';
         }
 
         return new JsonModel(array(
-            'data' => $data)
-        );
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
+
+//        return new JsonModel(array(
+//            'data' => $data)
+//        );
     }
 
     public function get($id)
@@ -125,48 +145,69 @@ class ContactRestController  extends AbstractRestfulController{
         /* @var $result EntContact */
         $result = $this->contactService->getById($id);
         
-        $services = null;
-        foreach ($result->getFkCsService() as $service) {
-            /* @var $service EntService */
-            $services[] = array(
-                'serviceId' => $service->getServiceId(),
-                'serviceName' => $service->getServiceName(),
-                'serviceLibelle' => $service->getServiceLibelle(),
-                'serviceDescription' => $service->getServiceDescription(),
-                '$serviceLastUpdate' => $service->getServiceLastUpdate()
-            );
+//        $services = null;
+//        foreach ($result->getFkCsService() as $service) {
+//            /* @var $service EntService */
+//            $services[] = array(
+//                'serviceId' => $service->getServiceId(),
+//                'serviceName' => $service->getServiceName(),
+//                'serviceLibelle' => $service->getServiceLibelle(),
+//                'serviceDescription' => $service->getServiceDescription(),
+//                '$serviceLastUpdate' => $service->getServiceLastUpdate()
+//            );
+//        }
+//
+//        $users = null;
+//        foreach ($result->getFkUcUser() as $user) {
+//            /* @var $user EntUser */
+//            $users[] = array(
+//                'userId' => $user->getUserId(),
+//                'userLogin' => $user->getUserLogin(),
+//                'userLastConnection' => $user->getUserLastConnection(),
+//                'userLastUpdate' => $user->getUserLastUpdate(),
+//                'userStatus' => $user->getUserStatus()
+//            );
+//        }
+//
+//        /* @var $result EntContact */
+//        $data = array(
+//            'contactId' => $result->getContactId(),
+//            'contactName' => $result->getContactName(),
+//            'contactLibelle' => $result->getContactLibelle(),
+//            'contactDescription' => $result->getContactDescription(),
+//            'contactService' => $result->getContactService(),
+//            'contactMailto' => $result->getContactMailto(),
+//            'contactLastUpdate' => $result->getContactLastUpdate(),
+//            'contactLastUpdate' => $result->getContactLastUpdate(),
+//            'fkContactStructure' => $result->getFkContactStructure()->toArray($this->hydrator),
+//            'fkCsService' => $services,
+//            'fkUcUser' => $users
+//        );
+//
+//        return new JsonModel(
+//                $data
+//        );
+        
+        $data = array();
+        $successMessage = '';
+        $errorMessage = '';
+        if ($result) {
+            $data[] = $result->toArray($this->hydrator);
+            $success = false;
+            $successMessage = 'Le contact a bien été trouvé.';
+        } else {
+            $success = false;
+            $errorMessage = 'Le contact n\'existe pas dans la base.';
         }
 
-        $users = null;
-        foreach ($result->getFkUcUser() as $user) {
-            /* @var $user EntUser */
-            $users[] = array(
-                'userId' => $user->getUserId(),
-                'userLogin' => $user->getUserLogin(),
-                'userLastConnection' => $user->getUserLastConnection(),
-                'userLastUpdate' => $user->getUserLastUpdate(),
-                'userStatus' => $user->getUserStatus()
-            );
-        }
-
-        /* @var $result EntContact */
-        $data = array(
-            'contactId' => $result->getContactId(),
-            'contactName' => $result->getContactName(),
-            'contactLibelle' => $result->getContactLibelle(),
-            'contactDescription' => $result->getContactDescription(),
-            'contactService' => $result->getContactService(),
-            'contactMailto' => $result->getContactMailto(),
-            'contactLastUpdate' => $result->getContactLastUpdate(),
-            'contactLastUpdate' => $result->getContactLastUpdate(),
-            'fkContactStructure' => $result->getFkContactStructure()->toArray($this->hydrator),
-            'fkCsService' => $services,
-            'fkUcUser' => $users
-        );
-
-        return new JsonModel(
-                $data
-        );
+        return new JsonModel(array(
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
     }
 
     public function create($data)
