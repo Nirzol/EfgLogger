@@ -60,16 +60,28 @@ class ProfileRestController extends AbstractRestfulController
         $results = $this->service->getAll();
         
         $data = array();
+        $successMessage = '';
+        $errorMessage = '';
         
-        foreach ($results as $result) {
-            /* @var $result EntProfile */
-            $data[] = $result->toArray($this->hydrator);
+        if ($results) {
+            foreach ($results as $result) {
+                $data[] = $result->toArray($this->hydrator);
+                $success = false;
+                $successMessage = 'Les profils ont bien été trouvés.';
+            }
+        } else {
+            $success = false;
+            $errorMessage = 'Aucun profil existe dans la base.';
         }
-        
+
         return new JsonModel(array(
-            'data' => $data
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
         ));
-        
     }
     
     public function get($id) {
@@ -77,13 +89,24 @@ class ProfileRestController extends AbstractRestfulController
         $result = $this->service->getById($id);
         
         $data = array();
-        
-        if($result) {
-            /* @var $result EntProfile */
+        $successMessage = '';
+        $errorMessage = '';
+        if ($result) {
             $data[] = $result->toArray($this->hydrator);
+            $success = false;
+            $successMessage = 'Le profil a bien été trouvé.';
+        } else {
+            $success = false;
+            $errorMessage = 'Le profil n\'existe pas dans la base.';
         }
+
         return new JsonModel(array(
-            'data' => $data
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
         ));
     }
     
