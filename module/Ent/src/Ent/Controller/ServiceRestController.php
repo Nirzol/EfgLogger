@@ -190,7 +190,7 @@ class ServiceRestController extends AbstractRestfulController{
         if ($result) {
             $data[] = $result->toArray($this->hydrator);
             $success = false;
-            $successMessage = 'Le service a bien été trouver.';
+            $successMessage = 'Le service a bien été trouvé.';
         } else {
             $success = false;
             $errorMessage = 'Le service n\'existe pas dans la base.';
