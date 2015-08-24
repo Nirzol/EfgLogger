@@ -190,10 +190,10 @@ class ServiceRestController extends AbstractRestfulController{
         if ($result) {
             $data[] = $result->toArray($this->hydrator);
             $success = false;
-            $successMessage = 'L\'user a bien été trouver.';
+            $successMessage = 'Le service a bien été trouver.';
         } else {
             $success = false;
-            $errorMessage = 'L\'user n\'existe pas dans la base.';
+            $errorMessage = 'Le service n\'existe pas dans la base.';
         }
 
         return new JsonModel(array(
