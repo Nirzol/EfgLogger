@@ -19,7 +19,7 @@ class UserForm extends Form
         $this->add(array(
             'name' => 'userLogin',
             'options' => array(
-                'label' => 'Login : ',
+                'label' => _('Login :'),
             ),
             'attributes' => array(
                 'type' => 'text'

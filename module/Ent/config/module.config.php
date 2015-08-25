@@ -776,6 +776,7 @@ return array(
 //            'AddressBook\Service\ContactFake' => AddressBook\Service\Contact\ContactFakeService::class
         ),
         'factories' => array( 
+            'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
 //            'AddressBook\Service\ContactZendDb' => 'AddressBook\Factory\Service\ContactZendDbServiceFactory',
             'Ent\Service\UserDoctrineORM' => 'Ent\Factory\Service\UserDoctrineORMServiceFactory',
             'Ent\Service\Module' => 'Ent\Factory\Service\ModuleDoctrineORMServiceFactory',
@@ -787,7 +788,7 @@ return array(
             'Ent\Service\ServiceDoctrineORM' => 'Ent\Factory\Service\ServiceDoctrineORMServiceFactory',
             'Ent\Service\ContactDoctrineORM' => 'Ent\Factory\Service\ContactDoctrineORMServiceFactory',
             'Ent\Service\Log' => 'Ent\Factory\Service\LogDoctrineORMServiceFactory',
-            'Ent\Service\Preference' => 'Ent\Factory\Service\PreferenceDoctrineORMServiceFactory'
+            'Ent\Service\Preference' => 'Ent\Factory\Service\PreferenceDoctrineORMServiceFactory',
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
@@ -827,9 +828,27 @@ return array(
         'translation_file_patterns' => array(
             array(
                 'type'     => 'gettext',
-                'base_dir' => __DIR__ . '/../languages',
+                'base_dir' => __DIR__ . '/../language',
                 'pattern'  => '%s.mo',
+//                'text_domain' => 'ent'
+            ),
+            array(
+                'type' => 'phpArray',
+                'base_dir' => 'vendor/zendframework/zend-i18n-resources/languages/',
+                'pattern'  => 'fr/Zend_Validate.php',
             ),
         ),
     ),
 );
+//$translator = new Zend\Mvc\I18n\Translator();
+//$translator->addTranslationFile(
+//    'phpArray',
+//    'resources/languages/en/Zend_Validate.php', //or Zend_Captcha
+//    'default',
+//    'en_US'
+//);
+//Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
+//        $type,
+//        $filename,
+//        $textDomain = 'default',
+//        $locale = null

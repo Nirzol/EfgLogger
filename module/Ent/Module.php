@@ -30,7 +30,22 @@ class Module implements ConfigProviderInterface, BootstrapListenerInterface //Au
     {
         $sm = $e->getApplication()->getServiceManager();
         $translator = $sm->get('MvcTranslator');
-        AbstractValidator::setDefaultTranslator($translator);
+        AbstractValidator::setDefaultTranslator(new \Zend\Mvc\I18n\Translator($translator));
+        
+//        $translator->addTranslationFile(
+//            'phpArray',
+//            'resources/languages/en/Zend_Validate.php', //or Zend_Captcha
+//            'default',
+//            'fr_FR'
+//        );
+        
+        // Set default lang en fonction du navigateur
+//        $translator = $e->getApplication()->getServiceManager()->get('translator');
+//        $translator->setLocale(\Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+//                   ->setFallbackLocale('fr_FR');
+//        $translator = $e->getApplication()->getServiceManager()->get('translator');
+//        $translator->setLocale( ( isset( $_COOKIE['locale'] ) ? $_COOKIE['locale'] : 'en_US' ) )
+//            ->setFallbackLocale( 'en_US' );
     }
 
 }
