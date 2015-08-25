@@ -5,24 +5,22 @@ namespace EfgCasAuth\Controller;
 use phpCAS;
 use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Session\Container;
 
 class AuthController extends AbstractActionController
 {
+
     /**
      *
      * @var AuthenticationServiceInterface
      */
     protected $authService;
-    
-    protected $config;
-    
-    protected $user;
-   
-    public function __construct(AuthenticationServiceInterface $authService, $config, $user = null)
+    protected $configCas;
+
+    public function __construct(AuthenticationServiceInterface $authService, $configCas)
     {
         $this->authService = $authService;
-        $this->config = $config;
-        $this->user = $user;
+        $this->configCas = $configCas;
     }
 
     public function loginAction()
@@ -34,19 +32,19 @@ class AuthController extends AbstractActionController
         return $this->authenticate();
     }
 
-    public function authenticate()
+    private function authenticate()
     {
         if ($this->authService->hasIdentity()) {
             // if already login, redirect to index page 
             return $this->redirect()->toRoute('home');
         }
 
-        $config = $this->config;
+        $configCas = $this->configCas;
         // Enable debugging      
         phpCAS::setDebug();
 
         // Initialize phpCAS
-        phpCAS::client($config['cas']['cas_version'], $config['cas']['server_hostname'], $config['cas']['server_port'], $config['cas']['server_path'], false);
+        phpCAS::client($configCas['cas_version'], $configCas['server_hostname'], $configCas['server_port'], $configCas['server_path'], false);
 
 
         // For production use set the CA certificate that is the issuer of the cert
@@ -59,18 +57,20 @@ class AuthController extends AbstractActionController
         //\phpCAS::setCacheTimesForAuthRecheck(1);
         phpCAS::setNoCasServerValidation();
 
+        // set the language to french
+//        phpCAS::setLang(PHPCAS_LANG_FRENCH);
         //  \phpCAS::setNoClearTicketsFromUrl();
         //  \phpCAS::setExtraCurlOption(CURLOPT_SSLVERSION,3); 
         // \phpCAS::setExtraCurlOption(CURLOPT_VERBOSE, TRUE);
 
         if (phpCAS::isAuthenticated()) {
             $adapter = $this->authService->getAdapter();
-            
+
             // setCredential doit recevoir le MDP 
             // mais vu qu'on utilise CAS le mdp est VIDE !!!!
             $adapter->setIdentityValue(phpCAS::getUser());
             $adapter->setCredentialValue('');
-            
+
             //test si la personne est bien dans la BD
             $authResult = $this->authService->authenticate();
 
@@ -93,11 +93,10 @@ class AuthController extends AbstractActionController
                 $identity = $authResult->getIdentity();
                 $this->authService->getStorage()->write($identity);
             } else {
-                // TODO
-                // the CAS user _does_not_have_ an account
-                // vous devez avoir une fonction create user pour créer l'utilisateur si celui-ci n'existe pas.
-//                $this->user->create('cas');
-                $loginMsg = $authResult->getMessages();
+                $container = new Container('noAuth');
+                $container->login = $authResult->getIdentity();
+                $container->loginMessage = $authResult->getMessages();
+                return $this->redirect()->toRoute($configCas['no_account_route']);
             }
             // Retour vers l'index
             return $this->redirect()->toRoute('home');
@@ -111,31 +110,25 @@ class AuthController extends AbstractActionController
 
     public function logoutAction()
     {
-//        $authService = $this->serviceLocator->get('auth_service');
-        // if not login, redirect to index page 
-//        if (!$authService->hasIdentity()) {
+        // if not login, redirect to home page 
         if (!$this->authService->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
 
         $this->authService->clearIdentity();
 
-        $config = $this->getServiceLocator()->get('Config');
+        $configCas = $this->configCas;
 
         // Enable debugging       
         phpCAS::setDebug();
 
         // Initialize phpCAS
-        phpCAS::client($config['cas']['cas_version'], $config['cas']['server_hostname'], $config['cas']['server_port'], $config['cas']['server_path'], false);
+        phpCAS::client($configCas['cas_version'], $configCas['server_hostname'], $configCas['server_port'], $configCas['server_path'], false);
         phpCAS::setNoCasServerValidation();
 
-        //$service = $this->url()->fromRoute('application',array(),array('force_canonical' => true));
         $url = $this->url()->fromRoute('home', array(), array('force_canonical' => true));
 
-        //\phpCAS::logoutWithRedirectService($service);
-        phpCAS::logoutWithUrl($url);
-        //\phpCAS::logoutWithRedirectServiceAndUrl($service, $url);
-        //\phpCAS::logout();
+        phpCAS::logout(array('url' => $url, 'service' => $url));
 
         return $this->redirect()->toRoute('home');
     }

@@ -16,7 +16,8 @@ class ObjectRepository extends BaseObjectRepository
             ->getObjectRepository()
             ->findOneBy(array(
                 $options->getIdentityProperty() => $this->identity,
-                'userStatus' => 1
+                'userStatus' => 1,
+                'userPassword' => '',
             ));
         if (!$identity) {
             $this->authenticationResultInfo['code'] = Result::FAILURE_IDENTITY_NOT_FOUND;

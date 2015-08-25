@@ -1,19 +1,30 @@
 <?php
+
 return array(
     'controllers' => array(
         'factories' => array(
-            'EfgCasAuth\Controller\Auth'    => 'EfgCasAuth\Factory\Controller\AuthControllerFactory',
+            'EfgCasAuth\Controller\Auth' => 'EfgCasAuth\Factory\Controller\AuthControllerFactory',
         ),
     ),
     'router' => array(
         'routes' => array(
-            'auth' => array(
-                'type'    => 'Literal',
+            'login' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route'    => '/login',
+                    'route' => '/login',
                     'defaults' => array(
-                        'controller'    => 'EfgCasAuth\Controller\Auth',
-                        'action'        => 'login',
+                        'controller' => 'EfgCasAuth\Controller\Auth',
+                        'action' => 'login',
+                    ),
+                ),
+            ),
+            'logout' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/logout',
+                    'defaults' => array(
+                        'controller' => 'EfgCasAuth\Controller\Auth',
+                        'action' => 'logout',
                     ),
                 ),
             ),
@@ -22,9 +33,9 @@ return array(
     'service_manager' => array(
         'factories' => array(
             'Zend\Authentication\AuthenticationService' => 'EfgCasAuth\Factory\Service\AuthDoctrineORMServiceFactory',
-        )  
+        )
     ),
     'doctrine_factories' => array(
         'authenticationadapter' => 'EfgCasAuth\Factory\Authentication\AdapterFactory',
     ),
-); 
+);

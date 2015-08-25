@@ -2,6 +2,9 @@
 
 namespace Ent\Controller;
 
+use Ent\Form\UserForm;
+use Ent\Service\UserDoctrineService;
+use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -23,7 +26,7 @@ class UserController extends AbstractActionController
      */
     protected $userForm = null;
 
-    public function __construct(\Ent\Service\UserDoctrineService $userService, \Ent\Form\UserForm $userForm)
+    public function __construct(UserDoctrineService $userService, UserForm $userForm)
     {
         $this->userService = $userService;
         $this->userForm = $userForm;
@@ -31,6 +34,12 @@ class UserController extends AbstractActionController
 
     public function listAction()
     {
+        $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
+        if ($authService->hasIdentity()) {
+            var_dump($authService->getIdentity()->getUserLogin());
+        } else {
+            echo "nonono";
+        }
         $users = $this->userService->getAll();
 
         return new ViewModel(array(
@@ -38,12 +47,32 @@ class UserController extends AbstractActionController
         ));
     }
 
+    /*
+     * @todo add a user 
+     */
+
     public function addAction()
     {
+        //TODO: une idée de début en commentaire...
+//        $container = new \Zend\Session\Container('noAuth');
+//        echo 'Avant le clear : ' . $container->login . $container->loginMessage;
+//        if ($container->login) {
+//            $data = $data = array('userLogin' => 'bibi', 'userStatus' => '1',
+//                'fkUrRole' => array('1'));
+//            $container->getManager()->getStorage()->clear('noAuth');
+//            
+//            //TODO : direct insert puis redirect vers /login
+//            
+//        }
+//        echo '<br />Après le clear : ' . $container->login;
+
         $form = $this->userForm;
 
         if ($this->request->isPost()) {
-            $user = $this->userService->insert($form, $this->request->getPost());
+//            if (!isset($data)) {
+            $data = $this->request->getPost();
+//            }
+            $user = $this->userService->insert($form, $data);
 //            $user = $this->userService->save($form, $this->request->getPost(), null);
 
             if ($user) {
@@ -83,7 +112,7 @@ class UserController extends AbstractActionController
             $user = $this->userService->save($form, $this->request->getPost(), $user);
 
             if ($user) {
-                $this->flashMessenger()->addSuccessMessage('L\'user a bien été updaté.'); 
+                $this->flashMessenger()->addSuccessMessage('L\'user a bien été updaté.');
 
                 return $this->redirect()->toRoute('user');
             }
@@ -105,6 +134,4 @@ class UserController extends AbstractActionController
         return $this->redirect()->toRoute('user');
     }
 
-
 }
-

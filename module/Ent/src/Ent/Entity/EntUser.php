@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EntUser extends Ent
 {
+
     /**
      * @var integer
      *
@@ -27,6 +28,13 @@ class EntUser extends Ent
      * @ORM\Column(name="user_login", type="string", length=80, nullable=false)
      */
     private $userLogin;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_password", type="string", length=64, nullable=false)
+     */
+    private $userPassword;
 
     /**
      * @var \DateTime
@@ -96,7 +104,6 @@ class EntUser extends Ent
         $this->fkUrRole = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
     /**
      * Get userId
      *
@@ -129,6 +136,28 @@ class EntUser extends Ent
     public function getUserLogin()
     {
         return $this->userLogin;
+    }
+
+    /**
+     * Get userPassword
+     *
+     * @return string
+     */
+    function getUserPassword()
+    {
+        return $this->userPassword;
+    }
+
+    /**
+     * Set userPassword
+     *
+     * @param string $userPassword
+     *
+     * @return EntUser
+     */
+    function setUserPassword($userPassword)
+    {
+        $this->userPassword = $userPassword;
     }
 
     /**
@@ -213,8 +242,8 @@ class EntUser extends Ent
     public function addFkUcContact(\Doctrine\Common\Collections\Collection $fkUcContact)
     {
         /* @var $contact \Ent\Entity\EntContact */
-        foreach($fkUcContact as $contact) {
-            if( ! $this->fkUcContact->contains($contact)) {
+        foreach ($fkUcContact as $contact) {
+            if (!$this->fkUcContact->contains($contact)) {
                 $this->fkUcContact->add($contact);
             }
         }
@@ -253,8 +282,8 @@ class EntUser extends Ent
     public function addFkUpProfile(\Doctrine\Common\Collections\Collection $fkUpProfile)
     {
         /* @var $profile \Ent\Entity\EntProfile */
-        foreach($fkUpProfile as $profile) {
-            if( ! $this->fkUpProfile->contains($profile)) {
+        foreach ($fkUpProfile as $profile) {
+            if (!$this->fkUpProfile->contains($profile)) {
                 $this->fkUpProfile->add($profile);
             }
         }
@@ -293,8 +322,8 @@ class EntUser extends Ent
     public function addFkUrRole(\Doctrine\Common\Collections\Collection $fkUrRole)
     {
         /* @var $role \Ent\Entity\EntRole */
-        foreach($fkUrRole as $role) {
-            if( ! $this->fkUrRole->contains($role)) {
+        foreach ($fkUrRole as $role) {
+            if (!$this->fkUrRole->contains($role)) {
                 $this->fkUrRole->add($role);
                 $role->addFkUrUser(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
             }
@@ -324,4 +353,5 @@ class EntUser extends Ent
     {
         return $this->fkUrRole;
     }
+
 }
