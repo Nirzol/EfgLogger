@@ -74,94 +74,136 @@ class ServiceRestController extends AbstractRestfulController{
         $results = $this->serviceService->getAll();
                 
         $data = array();
-        foreach ($results as $result) {
-            $contacts = null;
-            foreach ($result->getFkCsContact() as $contact) {
-                /* @var $contact EntContact */
-                $contacts[] = array(
-                    'contactId' => $contact->getContactId(),
-                    'contactName' => $contact->getContactName(),
-                    'contactLibelle' => $contact->getContactLibelle(),
-                    'contactDescription' => $contact->getContactDescription(),
-                    'contactService' => $contact->getContactService(),
-                    'contactMailto' => $contact->getContactMailto(),
-                    'contactLastUpdate' => $contact->getContactLastUpdate()
-                );
-            }
+        $successMessage = '';
+        $errorMessage = '';
+        
+        if ($results) {
+            foreach ($results as $result) {
+//                $contacts = null;
+//                foreach ($result->getFkCsContact() as $contact) {
+//                    /* @var $contact EntContact */
+//                    $contacts[] = array(
+//                        'contactId' => $contact->getContactId(),
+//                        'contactName' => $contact->getContactName(),
+//                        'contactLibelle' => $contact->getContactLibelle(),
+//                        'contactDescription' => $contact->getContactDescription(),
+//                        'contactService' => $contact->getContactService(),
+//                        'contactMailto' => $contact->getContactMailto(),
+//                        'contactLastUpdate' => $contact->getContactLastUpdate()
+//                    );
+//                }
+//
+//                $attributes = null;
+//                foreach ($result->getFkSaAttribute() as $attribute) {
+//                    /* @var $attribute EntAttribute */
+//                    $attributes[] = array(
+//                        'attributeId' => $attribute->getAttributeId(),
+//                        'attributeName' => $attribute->getAttributeName(),
+//                        'attributeLibelle' => $attribute->getAttributeLibelle(),
+//                        'attributeDescription' => $attribute->getAttributeDescription(),
+//                        'attributeLastUpdate' => $attribute->getAttributeLastUpdate()
+//                    );
+//                }
+//
+//                /* @var $result EntService */
+//                $data[] = array(
+//                    'serviceId' => $result->getServiceId(),
+//                    'serviceName' => $result->getServiceName(),
+//                    'serviceLibelle' => $result->getServiceLibelle(),
+//                    'serviceDescription' => $result->getServiceDescription(),
+//                    'serviceLastUpdate' => $result->getServiceLastUpdate(),
+//                    'fkCsContact' => $contacts,
+//                    'fkSaAttribute' => $attributes
+//                );
             
-            $attributes = null;
-            foreach ($result->getFkSaAttribute() as $attribute) {
-                /* @var $attribute EntAttribute */
-                $attributes[] = array(
-                    'attributeId' => $attribute->getAttributeId(),
-                    'attributeName' => $attribute->getAttributeName(),
-                    'attributeLibelle' => $attribute->getAttributeLibelle(),
-                    'attributeDescription' => $attribute->getAttributeDescription(),
-                    'attributeLastUpdate' => $attribute->getAttributeLastUpdate()
-                );
+                $data[] = $result->toArray($this->hydrator);
+                $success = false;
+                $successMessage = 'Les services ont bien été trouvés.';
             }
-            
-            /* @var $result EntService */
-            $data[] = array(
-                'serviceId' => $result->getServiceId(),
-                'serviceName' => $result->getServiceName(),
-                'serviceLibelle' => $result->getServiceLibelle(),
-                'serviceDescription' => $result->getServiceDescription(),
-                'serviceLastUpdate' => $result->getServiceLastUpdate(),
-                'fkCsContact' => $contacts,
-                'fkSaAttribute' => $attributes
-            );
+        } else {
+            $success = false;
+            $errorMessage = 'Aucun service existe dans la base.';
         }
 
         return new JsonModel(array(
-            'services' => $data)
-        );
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
+        
+//        return new JsonModel(array(
+//            'services' => $data)
+//        );
     }
 
     public function get($id)
     {
         $result = $this->serviceService->getById($id);
         
-        $contacts = null;
-        foreach ($result->getFkCsContact() as $contact) {
-            /* @var $contact EntContact */
-            $contacts[] = array(
-                'contactId' => $contact->getContactId(),
-                'contactName' => $contact->getContactName(),
-                'contactLibelle' => $contact->getContactLibelle(),
-                'contactDescription' => $contact->getContactDescription(),
-                'contactService' => $contact->getContactService(),
-                'contactMailto' => $contact->getContactMailto(),
-                'contactLastUpdate' => $contact->getContactLastUpdate()
-            );
+//        $contacts = null;
+//        foreach ($result->getFkCsContact() as $contact) {
+//            /* @var $contact EntContact */
+//            $contacts[] = array(
+//                'contactId' => $contact->getContactId(),
+//                'contactName' => $contact->getContactName(),
+//                'contactLibelle' => $contact->getContactLibelle(),
+//                'contactDescription' => $contact->getContactDescription(),
+//                'contactService' => $contact->getContactService(),
+//                'contactMailto' => $contact->getContactMailto(),
+//                'contactLastUpdate' => $contact->getContactLastUpdate()
+//            );
+//        }
+//
+//        $attributes = null;
+//        foreach ($result->getFkSaAttribute() as $attribute) {
+//            /* @var $attribute EntAttribute */
+//            $attributes[] = array(
+//                'attributeId' => $attribute->getAttributeId(),
+//                'attributeName' => $attribute->getAttributeName(),
+//                'attributeLibelle' => $attribute->getAttributeLibelle(),
+//                'attributeDescription' => $attribute->getAttributeDescription(),
+//                'attributeLastUpdate' => $attribute->getAttributeLastUpdate()
+//            );
+//        }
+//
+//        /* @var $result EntService */
+//        $data = array(
+//            'serviceId' => $result->getServiceId(),
+//            'serviceName' => $result->getServiceName(),
+//            'serviceLibelle' => $result->getServiceLibelle(),
+//            'serviceDescription' => $result->getServiceDescription(),
+//            'serviceLastUpdate' => $result->getServiceLastUpdate(),
+//            'fkCsContact' => $contacts,
+//            'fkSaAttribute' => $attributes
+//        );
+//
+//        return new JsonModel(
+//                $data
+//        );
+        
+        $data = array();
+        $successMessage = '';
+        $errorMessage = '';
+        if ($result) {
+            $data[] = $result->toArray($this->hydrator);
+            $success = false;
+            $successMessage = 'Le service a bien été trouvé.';
+        } else {
+            $success = false;
+            $errorMessage = 'Le service n\'existe pas dans la base.';
         }
 
-        $attributes = null;
-        foreach ($result->getFkSaAttribute() as $attribute) {
-            /* @var $attribute EntAttribute */
-            $attributes[] = array(
-                'attributeId' => $attribute->getAttributeId(),
-                'attributeName' => $attribute->getAttributeName(),
-                'attributeLibelle' => $attribute->getAttributeLibelle(),
-                'attributeDescription' => $attribute->getAttributeDescription(),
-                'attributeLastUpdate' => $attribute->getAttributeLastUpdate()
-            );
-        }
-
-        /* @var $result EntService */
-        $data = array(
-            'serviceId' => $result->getServiceId(),
-            'serviceName' => $result->getServiceName(),
-            'serviceLibelle' => $result->getServiceLibelle(),
-            'serviceDescription' => $result->getServiceDescription(),
-            'serviceLastUpdate' => $result->getServiceLastUpdate(),
-            'fkCsContact' => $contacts,
-            'fkSaAttribute' => $attributes
-        );
-
-        return new JsonModel(
-                $data
-        );
+        return new JsonModel(array(
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
     }
 
     public function create($data)
