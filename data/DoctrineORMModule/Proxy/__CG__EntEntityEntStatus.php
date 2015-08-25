@@ -279,12 +279,12 @@ class EntStatus extends \Ent\Entity\EntStatus implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function toArray($hydrator)
+    public function toArray($hydrator, $owner = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'toArray', array($hydrator));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'toArray', array($hydrator, $owner));
 
-        return parent::toArray($hydrator);
+        return parent::toArray($hydrator, $owner);
     }
 
 }

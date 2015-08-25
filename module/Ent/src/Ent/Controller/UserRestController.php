@@ -69,7 +69,7 @@ class UserRestController extends AbstractRestfulController
         $data = array();
         $successMessage = '';
         $errorMessage = '';
-        if ($result) {
+        if ($results) {
             foreach ($results as $result) {
 //            $contacts = null;
 //            foreach ($result->getFkUcContact() as $contact) {

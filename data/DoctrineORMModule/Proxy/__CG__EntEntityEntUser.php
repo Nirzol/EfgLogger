@@ -64,10 +64,10 @@ class EntUser extends \Ent\Entity\EntUser implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userId', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLogin', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLastConnection', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLastUpdate', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userStatus', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUcContact', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUpProfile', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUrRole');
+            return array('__isInitialized__', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userId', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLogin', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userPassword', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLastConnection', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLastUpdate', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userStatus', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUcContact', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUpProfile', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUrRole');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userId', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLogin', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLastConnection', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLastUpdate', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userStatus', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUcContact', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUpProfile', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUrRole');
+        return array('__isInitialized__', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userId', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLogin', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userPassword', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLastConnection', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userLastUpdate', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'userStatus', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUcContact', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUpProfile', '' . "\0" . 'Ent\\Entity\\EntUser' . "\0" . 'fkUrRole');
     }
 
     /**
@@ -208,6 +208,28 @@ class EntUser extends \Ent\Entity\EntUser implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUserLogin', array());
 
         return parent::getUserLogin();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUserPassword()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUserPassword', array());
+
+        return parent::getUserPassword();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUserPassword($userPassword)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUserPassword', array($userPassword));
+
+        return parent::setUserPassword($userPassword);
     }
 
     /**
@@ -378,12 +400,12 @@ class EntUser extends \Ent\Entity\EntUser implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function toArray($hydrator)
+    public function toArray($hydrator, $owner = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'toArray', array($hydrator));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'toArray', array($hydrator, $owner));
 
-        return parent::toArray($hydrator);
+        return parent::toArray($hydrator, $owner);
     }
 
 }
