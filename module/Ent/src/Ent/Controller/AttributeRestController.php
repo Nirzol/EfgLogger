@@ -67,70 +67,106 @@ class AttributeRestController extends AbstractRestfulController
         $results = $this->attributeService->getAll();
         
         $data = array();
-        
-        foreach ($results as $result) {
-            $services = null;
-            
-            foreach ($result->getFkSaService() as $service) {
-                /* @var $service EntService */
-                $services[] = array(
-                    'serviceId' => $service->getServiceId(),
-                    'serviceName' => $service->getServiceName(),
-                    'serviceLibelle' => $service->getServiceLibelle(),
-                    'serviceDescription' => $service->getServiceDescription(),
-                    'serviceLastUpdate' => $service->getServiceLastUpdate()
-                );
+        $successMessage = '';
+        $errorMessage = '';
+        if ($results) {
+            foreach ($results as $result) {
+//                $services = null;
+//
+//                foreach ($result->getFkSaService() as $service) {
+//                    /* @var $service EntService */
+//                    $services[] = array(
+//                        'serviceId' => $service->getServiceId(),
+//                        'serviceName' => $service->getServiceName(),
+//                        'serviceLibelle' => $service->getServiceLibelle(),
+//                        'serviceDescription' => $service->getServiceDescription(),
+//                        'serviceLastUpdate' => $service->getServiceLastUpdate()
+//                    );
+//                }
+//
+//                /* @var $result EntAttribute */
+//                $data[] = array(
+//                    'attributeId' => $result->getAttributeId(),
+//                    'attributeName' => $result->getAttributeName(),
+//                    'attributeLibelle' => $result->getAttributeLibelle(),
+//                    'attributeDescription' => $result->getAttributeDescription(),
+//                    'attributeLastUpdate' => $result->getAttributeLastUpdate(),
+//                    'fkSaService' => $services,
+//                );
+                $data[] = $result->toArray($this->hydrator);
+                $success = false;
+                $successMessage = 'Les attributs ont bien été trouvés.';
             }
-            
-            /* @var $result EntAttribute */
-            $data[] = array(
-                'attributeId' => $result->getAttributeId(),
-                'attributeName' => $result->getAttributeName(),
-                'attributeLibelle' => $result->getAttributeLibelle(),
-                'attributeDescription' => $result->getAttributeDescription(),
-                'attributeLastUpdate' => $result->getAttributeLastUpdate(),
-                'fkSaService' => $services,
-            );
+        } else {
+            $success = false;
+            $errorMessage = 'Aucun attribut existe dans la base.';
         }
         
+//        return new JsonModel(array(
+//            'data' => $data
+//        ));
         return new JsonModel(array(
-            'data' => $data
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
         ));
     }
     
     public function get($id) {
         $result = $this->attributeService->getById($id);
         
+//        $data = array();
+//        
+//        if ($result) {
+//            $services = null;
+//            
+//            foreach ($result->getFkSaService() as $service) {
+//                /* @var $service EntService */
+//                $services[] = array(
+//                    'serviceId' => $service->getServiceId(),
+//                    'serviceName' => $service->getServiceName(),
+//                    'serviceLibelle' => $service->getServiceLibelle(),
+//                    'serviceDescription' => $service->getServiceDescription(),
+//                    'serviceLastUpdate' => $service->getServiceLastUpdate()
+//                );
+//            }
+//            
+//            /* @var $result EntAttribute */
+//            $data[] = array(
+//                'attributeId' => $result->getAttributeId(),
+//                'attributeName' => $result->getAttributeName(),
+//                'attributeLibelle' => $result->getAttributeLibelle(),
+//                'attributeDescription' => $result->getAttributeDescription(),
+//                'attributeLastUpdate' => $result->getAttributeLastUpdate(),
+//                'fkSaService' => $services,
+//            );
+//        }
+//        
+//        return new JsonModel(array(
+//            'data' => $data
+//        ));        
         $data = array();
-        
+        $successMessage = '';
+        $errorMessage = '';
         if ($result) {
-            $services = null;
-            
-            foreach ($result->getFkSaService() as $service) {
-                /* @var $service EntService */
-                $services[] = array(
-                    'serviceId' => $service->getServiceId(),
-                    'serviceName' => $service->getServiceName(),
-                    'serviceLibelle' => $service->getServiceLibelle(),
-                    'serviceDescription' => $service->getServiceDescription(),
-                    'serviceLastUpdate' => $service->getServiceLastUpdate()
-                );
-            }
-            
-            /* @var $result EntAttribute */
-            $data[] = array(
-                'attributeId' => $result->getAttributeId(),
-                'attributeName' => $result->getAttributeName(),
-                'attributeLibelle' => $result->getAttributeLibelle(),
-                'attributeDescription' => $result->getAttributeDescription(),
-                'attributeLastUpdate' => $result->getAttributeLastUpdate(),
-                'fkSaService' => $services,
-            );
+            $data[] = $result->toArray($this->hydrator);
+            $success = false;
+            $successMessage = 'L\'attribut a bien été trouvé.';
+        } else {
+            $success = false;
+            $errorMessage = 'L\'attribut n\'existe pas dans la base.';
         }
-        
         return new JsonModel(array(
-            'data' => $data
-        ));        
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
     }
     
     public function create($data) {
