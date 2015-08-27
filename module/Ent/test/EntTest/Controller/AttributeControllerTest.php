@@ -11,11 +11,14 @@ use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
  */
 class AttributeControllerTest extends AbstractControllerTestCase
 {
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->setApplicationConfig(require 'config/application.config.php');
     }
 
-    public function testListActionIsAccessible() {
+    public function testListActionIsAccessible()
+    {
         $this->dispatch('/attribute');
 
         $this->assertResponseStatusCode(200);
@@ -24,8 +27,9 @@ class AttributeControllerTest extends AbstractControllerTestCase
         $this->assertActionName('list');
         $this->assertMatchedRouteName('attribute');
     }
-    
-    public function testGetListIsAccessible() {
+
+    public function testGetListIsAccessible()
+    {
         $this->dispatch('/attribute-rest');
 
         $this->assertResponseStatusCode(200);
@@ -34,8 +38,9 @@ class AttributeControllerTest extends AbstractControllerTestCase
         $this->assertActionName('getList');
         $this->assertMatchedRouteName('attribute-rest');
     }
-    
-    public function testGetIsAccessible() {
+
+    public function testGetIsAccessible()
+    {
         $this->dispatch('/attribute-rest/2', 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -43,7 +48,7 @@ class AttributeControllerTest extends AbstractControllerTestCase
         $this->assertControllerName('ent\controller\attributerest');
         $this->assertActionName('get');
     }
-    
+
 //    public function testUpdateIsAccessible() {
 //        $this->dispatch('/attribute-rest/20', 'PUT', array(
 //            'attributeName' => 'test test'
@@ -54,7 +59,6 @@ class AttributeControllerTest extends AbstractControllerTestCase
 //        $this->assertControllerName('ent\controller\attributerest');
 //        $this->assertActionName('update');
 //    }
-    
 //    public function testDeleteIsAccessible() {
 //        $this->dispatch('/attribute-rest/20', 'DELETE');
 //
@@ -63,5 +67,4 @@ class AttributeControllerTest extends AbstractControllerTestCase
 //        $this->assertControllerName('ent\controller\attributerest');
 //        $this->assertActionName('delete');
 //    }
-    
 }

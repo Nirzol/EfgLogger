@@ -105,6 +105,20 @@ class EntUser extends Ent
     }
 
     /**
+     * Set userId
+     *
+     * @param int $userId
+     *
+     * @return EntUser
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
      * Get userId
      *
      * @return integer

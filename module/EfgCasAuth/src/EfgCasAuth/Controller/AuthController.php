@@ -49,13 +49,15 @@ class AuthController extends AbstractActionController
 
         // For production use set the CA certificate that is the issuer of the cert
         // on the CAS server and uncomment the line below
-        // phpCAS::setCasServerCACert($cas_server_ca_cert_path);
+//        var_dump($configCas['cas_server_ca_cert_path']);
+        phpCAS::setCasServerCACert($configCas['cas_server_ca_cert_path']);
+        // 
         // For quick testing you can disable SSL validation of the CAS server.
         // THIS SETTING IS NOT RECOMMENDED FOR PRODUCTION.
         // VALIDATING THE CAS SERVER IS CRUCIAL TO THE SECURITY OF THE CAS PROTOCOL!
         //\phpCAS::setFixedServiceURL(trim("http://" . 'servauth.univ-paris5.fr', "/"));
         //\phpCAS::setCacheTimesForAuthRecheck(1);
-        phpCAS::setNoCasServerValidation();
+//        phpCAS::setNoCasServerValidation();
 
         // set the language to french
 //        phpCAS::setLang(PHPCAS_LANG_FRENCH);
@@ -90,8 +92,8 @@ class AuthController extends AbstractActionController
 //                    'username' => $username,
 //                    'role' => $roleUser[0],
 //                ));
-                $identity = $authResult->getIdentity();
-                $this->authService->getStorage()->write($identity);
+//                $identity = $authResult->getIdentity();
+                $this->authService->getStorage()->write($authResult->getIdentity());
             } else {
                 $container = new Container('noAuth');
                 $container->login = $authResult->getIdentity();
@@ -124,7 +126,8 @@ class AuthController extends AbstractActionController
 
         // Initialize phpCAS
         phpCAS::client($configCas['cas_version'], $configCas['server_hostname'], $configCas['server_port'], $configCas['server_path'], false);
-        phpCAS::setNoCasServerValidation();
+        phpCAS::setCasServerCACert($configCas['cas_server_ca_cert_path']);
+//        phpCAS::setNoCasServerValidation();
 
         $url = $this->url()->fromRoute('home', array(), array('force_canonical' => true));
 
