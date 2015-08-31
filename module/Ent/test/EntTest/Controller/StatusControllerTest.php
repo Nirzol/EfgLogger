@@ -34,4 +34,25 @@ class StatusControllerTest extends AbstractControllerTestCase
         $this->assertActionName('getList');
         $this->assertMatchedRouteName('status-rest');
     }
+    
+    public function testUpdateIsAccessible() {
+        
+        $this->dispatch('/status-rest/1', 'PUT', array('statusName' => 'testStatusRestUpdate', 'statusLibelle' => 'libelle update', 'statusDescription' => 'description update'));
+        
+        $this->assertResponseStatusCode(200);
+        $this->assertModuleName('ent');
+        $this->assertControllerName('ent\controller\statusrest');
+        $this->assertActionName('update');
+        $this->assertContains('true', $this->getResponse()->getContent());
+    }
+    
+//    public function testDeleteIsAccessible() {
+//        $this->dispatch('/status-rest/1', 'DELETE');
+//
+//        $this->assertResponseStatusCode(200);
+//        $this->assertModuleName('ent');
+//        $this->assertControllerName('ent\controller\statusrest');
+//        $this->assertActionName('delete');
+//    }
+    
 }
