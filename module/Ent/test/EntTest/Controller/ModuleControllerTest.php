@@ -45,4 +45,34 @@ class ModuleControllerTest extends AbstractControllerTestCase
         $this->assertContains('testModuleLibelle', $this->getResponse()->getContent());
         $this->assertContains('testModuleDescription', $this->getResponse()->getContent());
     }
+    
+    public function testGetListIsAccessible() {
+        $this->dispatch('/module-rest');
+        
+        $this->assertResponseStatusCode(200);
+        $this->assertModuleName('ent');
+        $this->assertControllerName('ent\controller\modulerest');
+        $this->assertActionName('getList');
+        $this->assertMatchedRouteName('module-rest');
+    }
+    
+    public function testUpdateIsAccessible() {
+        
+        $this->dispatch('/module-rest/6', 'PUT', array('moduleName' => 'testModuleRestUpdate', 'moduleLibelle' => 'module libelle update', 'moduleDescription' => 'module description update'));
+        
+        $this->assertResponseStatusCode(200);
+        $this->assertModuleName('ent');
+        $this->assertControllerName('ent\controller\modulerest');
+        $this->assertActionName('update');
+        $this->assertContains('true', $this->getResponse()->getContent());
+    }
+    
+//    public function testDeleteIsAccessible() {
+//        $this->dispatch('/module-rest/2', 'DELETE');
+//
+//        $this->assertResponseStatusCode(200);
+//        $this->assertModuleName('ent');
+//        $this->assertControllerName('ent\controller\modulerest');
+//        $this->assertActionName('delete');
+//    }
 }
