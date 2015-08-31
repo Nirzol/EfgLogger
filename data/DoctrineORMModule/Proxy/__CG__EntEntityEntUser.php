@@ -176,6 +176,17 @@ class EntUser extends \Ent\Entity\EntUser implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function setUserId($userId)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUserId', array($userId));
+
+        return parent::setUserId($userId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getUserId()
     {
         if ($this->__isInitialized__ === false) {
