@@ -246,7 +246,7 @@ class UserRestController extends AbstractRestfulController
                 $this->flashMessenger()->addSuccessMessage('L\'user a bien été insérer.');
 
                 return new JsonModel(array(
-                    'data' => $user->getId(),
+                    'data' => $user->getUserId(),
                     'success' => true,
                     'flashMessages' => array(
                         'success' => 'L\'user  a bien été insérer.',
@@ -273,10 +273,10 @@ class UserRestController extends AbstractRestfulController
                 $this->flashMessenger()->addSuccessMessage('L\'user a bien été updater.');
 
                 return new JsonModel(array(
-                    'data' => $user->getId(),
+                    'data' => $user->getUserId(),
                     'success' => true,
                     'flashMessages' => array(
-                        'success' => 'L\'user a bien été updater.',
+                        'success' => 'L\'user '.$id.' a bien été updater.',
                     ),
                 ));
             }
@@ -286,7 +286,7 @@ class UserRestController extends AbstractRestfulController
             'data' => $user,
             'success' => false,
             'flashMessages' => array(
-                'error' => 'L\'user n\'a pas été updater.',
+                'error' => 'L\'user '.$id.' n\'a pas été updater.',
             ),
         ));
     }

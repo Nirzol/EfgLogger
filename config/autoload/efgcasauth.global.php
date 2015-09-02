@@ -8,6 +8,7 @@ return array(
         'server_port' => 443,
         'server_path' => '/cas',
         'no_account_route' => 'user/add',
+        'cas_server_ca_cert_path' => dirname(dirname(__DIR__)) . '/data/certificat_P5_cas.pem',
     ),
     'get_form' => array(
         'user_form' => 'Ent\Form\UserForm',
