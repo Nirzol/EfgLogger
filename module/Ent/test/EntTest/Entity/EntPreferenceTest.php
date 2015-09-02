@@ -10,7 +10,7 @@ use PHPUnit_Framework_TestCase;
  *
  * @author mdjimbi
  */
-class EntPreferenceTest extends \PHPUnit_Framework_TestCase
+class EntPreferenceTest extends PHPUnit_Framework_TestCase
 {
     protected $preference;
     
