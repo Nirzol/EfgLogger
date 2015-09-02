@@ -103,6 +103,9 @@ class AttributeRestController extends AbstractRestfulController {
             $errorMessage = 'Aucun attribut dans la base de données.';
         }
         
+//        return new JsonModel(array(
+//            'data' => $data
+//        ));
         return new JsonModel(array(
             'data' => $data,
             'success' => $success,
