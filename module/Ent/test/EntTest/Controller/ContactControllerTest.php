@@ -21,4 +21,25 @@ class ContactControllerTest extends AbstractControllerTestCase{
         $this->assertActionName('list');
         $this->assertMatchedRouteName('contact');
     }
+    
+    public function testGetListIsAccessible()
+    {
+        $this->dispatch('/contact-rest');
+
+        $this->assertResponseStatusCode(200);
+        $this->assertModuleName('ent');
+        $this->assertControllerName('ent\controller\contactrest');
+        $this->assertActionName('getList');
+        $this->assertMatchedRouteName('contact-rest');
+    }
+
+    public function testGetIsAccessible()
+    {
+        $this->dispatch('/contact-rest/1', 'GET');
+
+        $this->assertResponseStatusCode(200);
+        $this->assertModuleName('ent');
+        $this->assertControllerName('ent\controller\contactrest');
+        $this->assertActionName('get');
+    }
 }
