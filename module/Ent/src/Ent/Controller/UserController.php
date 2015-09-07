@@ -125,6 +125,9 @@ class UserController extends AbstractActionController
 
     public function deleteAction()
     {
+//        if (!$this->isGranted('delete')) {
+//            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+//        }
         $id = $this->params('id');
 
         $this->userService->delete($id);

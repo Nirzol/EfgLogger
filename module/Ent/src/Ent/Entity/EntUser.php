@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ent_user", uniqueConstraints={@ORM\UniqueConstraint(name="login", columns={"user_login"})})
  * @ORM\Entity
  */
-class EntUser extends Ent
+class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
 {
 
     /**
@@ -90,7 +90,7 @@ class EntUser extends Ent
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntRole", mappedBy="fkUrUser")
+     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntHierarchicalRole", mappedBy="fkUrUser")
      */
     private $fkUrRole;
 
@@ -335,7 +335,7 @@ class EntUser extends Ent
      */
     public function addFkUrRole(\Doctrine\Common\Collections\Collection $fkUrRole)
     {
-        /* @var $role \Ent\Entity\EntRole */
+        /* @var $role \Ent\Entity\EntHierarchicalRole */
         foreach ($fkUrRole as $role) {
             if (!$this->fkUrRole->contains($role)) {
                 $this->fkUrRole->add($role);
@@ -351,7 +351,7 @@ class EntUser extends Ent
      */
     public function removeFkUrRole(\Doctrine\Common\Collections\Collection $fkUrRole)
     {
-        /* @var $role \Ent\Entity\EntRole */
+        /* @var $role \Ent\Entity\EntHierarchicalRole */
         foreach ($fkUrRole as $role) {
             $this->fkUrRole->removeElement($fkUrRole);
             $role->removeFkUrUser(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
@@ -366,6 +366,14 @@ class EntUser extends Ent
     public function getFkUrRole()
     {
         return $this->fkUrRole;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getRoles()
+    {
+        return $this->getFkUrRole()->toArray();
     }
 
 }

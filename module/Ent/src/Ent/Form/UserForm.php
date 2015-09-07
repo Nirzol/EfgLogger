@@ -48,8 +48,8 @@ class UserForm extends Form
             'options' => array(
                 'label' => 'Rôle : ',
                 'object_manager' => $this->entityManager,
-                'target_class' => 'Ent\Entity\EntRole',
-                'property' => 'roleLibelle',
+                'target_class' => 'Ent\Entity\EntHierarchicalRole',
+                'property' => 'name',
                 'is_method' => true,
 //                'find_method' => array(
 //                    'name' => 'getRoleLibelle',
