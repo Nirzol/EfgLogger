@@ -19,8 +19,10 @@ class UserDoctrineORMServiceFactory implements FactoryInterface
         $hydrator = new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($om);
 
         $userInputFilter = new \Ent\InputFilter\UserInputFilter();
+        
+        $authorizationService = $serviceLocator->get('\ZfcRbac\Service\AuthorizationService');
 
-        $service = new UserDoctrineService($om, $user, $hydrator, $userInputFilter);
+        $service = new UserDoctrineService($om, $user, $hydrator, $userInputFilter, $authorizationService);
 
         return $service;
     }
