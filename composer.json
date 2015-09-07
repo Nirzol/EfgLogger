@@ -56,7 +56,8 @@
         "zendframework/zend-ldap": "~2.5.0",
         "bjyoungblood/bjy-profiler": "dev-master",
         "doctrine/doctrine-orm-module" : "0.*",
-        "jasig/phpcas" : "1.3.*"
+        "jasig/phpcas" : "1.3.*",
+        "zf-commons/zfc-rbac" : "~2.4"
     },
     "require-dev":{
         "zendframework/zftool": "dev-master",
