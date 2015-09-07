@@ -34,16 +34,27 @@ class UserDoctrineService implements UserServiceInterface
      */
     protected $userInputFilter;
 
-    public function __construct(EntityManager $em, EntUser $user, DoctrineObject $hydrator, UserInputFilter $userInputFilter)
+    /**
+     *
+     * @var \ZfcRbac\Service\AuthorizationService
+     */
+    protected $authorizationService;
+
+    public function __construct(EntityManager $em, EntUser $user, DoctrineObject $hydrator, UserInputFilter $userInputFilter, \ZfcRbac\Service\AuthorizationService $authorizationService)
     {
         $this->em = $em;
         $this->user = $user;
         $this->hydrator = $hydrator;
         $this->userInputFilter = $userInputFilter;
+        $this->authorizationService = $authorizationService;
     }
 
     public function getAll()
     {
+        // First check permission
+        if (!$this->authorizationService->isGranted('read')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
         $repo = $this->em->getRepository('Ent\Entity\EntUser');
 
         return $repo->findAll();
@@ -113,7 +124,13 @@ class UserDoctrineService implements UserServiceInterface
 
     public function delete($id)
     {
-        $this->em->remove($this->getById($id));
+        $user = $this->getById($id);
+        
+        // First check permission
+        if (!$this->authorizationService->isGranted('delete')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        $this->em->remove($user);
         $this->em->flush();
     }
 }
