@@ -180,7 +180,7 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
      *
      * @param \DateTime $lastUpdate
      *
-     * @return EntRole
+     * @return EntHierarchicalRole
      */
     public function setlastUpdate($lastUpdate)
     {
@@ -204,7 +204,7 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
      *
      * @param \Doctrine\Common\Collections\Collection $fkUrUser 
      *
-     * @return EntRole
+     * @return EntHierarchicalRole
      */
     public function addFkUrUser(\Doctrine\Common\Collections\Collection $fkUrUser)
     {
