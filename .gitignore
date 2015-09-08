@@ -11,3 +11,4 @@ data
 application.config.old
 /composer.lock
 *.local.php
+/public/app/
