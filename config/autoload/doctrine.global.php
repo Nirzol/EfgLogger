@@ -6,9 +6,8 @@ return array(
             'orm_default' => array(
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
                 'params' => array(
-                    'host'     => '',
-                    'port'     => '',
-                    'dbname'   => '',
+                    'host'     => 'ultrafixe.dsi.univ-paris5.fr',
+                    'port'     => '3306',                   
                     'charset' => 'utf8',
                 )
             )
