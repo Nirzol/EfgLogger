@@ -165,7 +165,7 @@ return array(
             'module' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/module',
+                    'route' => '/api/module',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Module',
                         'action' => 'list',
@@ -223,7 +223,7 @@ return array(
             'profile' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/profile',
+                    'route' => '/api/profile',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Profile',
                         'action' => 'list',
@@ -281,7 +281,7 @@ return array(
             'status' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/status',
+                    'route' => '/api/status',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Status',
                         'action' => 'list',
@@ -339,7 +339,7 @@ return array(
             'action' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/action',
+                    'route' => '/api/action',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Action',
                         'action' => 'list',
@@ -397,7 +397,7 @@ return array(
             'attribute' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/attribute',
+                    'route' => '/api/attribute',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Attribute',
                         'action' => 'list',
@@ -455,7 +455,7 @@ return array(
             'service' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/service',
+                    'route' => '/api/service',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Service',
                         'action' => 'list',
@@ -510,7 +510,7 @@ return array(
             'contact' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/contact',
+                    'route' => '/api/contact',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Contact',
                         'action' => 'list',
@@ -565,7 +565,7 @@ return array(
             'log' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/log',
+                    'route' => '/api/log',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\log',
                         'action' => 'test',
@@ -576,7 +576,7 @@ return array(
             'preference' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/preference',
+                    'route' => '/api/preference',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Preference',
                         'action' => 'list',
@@ -646,7 +646,7 @@ return array(
             'module-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/module-rest[/:id]',
+                    'route'    => '/api/module-rest[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),
@@ -658,7 +658,7 @@ return array(
             'profile-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/profile-rest[/:id]',
+                    'route'    => '/api/profile-rest[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),
@@ -670,7 +670,7 @@ return array(
             'status-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/status-rest[/:id]',
+                    'route'    => '/api/status-rest[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),
@@ -682,7 +682,7 @@ return array(
             'action-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/action-rest[/:id]',
+                    'route'    => '/api/action-rest[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),
@@ -694,7 +694,7 @@ return array(
             'structure-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/structure-rest[/:id]',
+                    'route'    => '/api/structure-rest[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),
@@ -706,7 +706,7 @@ return array(
             'attribute-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/attribute-rest[/:id]',
+                    'route'    => '/api/attribute-rest[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),
@@ -718,7 +718,7 @@ return array(
             'service-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/service-rest[/:id]',
+                    'route'    => '/api/service-rest[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),
@@ -730,7 +730,7 @@ return array(
             'contact-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/contact-rest[/:id]',
+                    'route'    => '/api/contact-rest[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),
@@ -742,7 +742,7 @@ return array(
             'preference-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/preference-rest[/:id]',
+                    'route'    => '/api/preference-rest[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),
