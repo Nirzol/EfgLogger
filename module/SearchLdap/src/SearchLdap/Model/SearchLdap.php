@@ -6,18 +6,24 @@ use Zend\Ldap\Ldap;
 
 class SearchLdap {
     
-    protected $options = array(
-        'host'                  => 'ldap.parisdescartes.fr',
-        'port'                  => '389',
-        'username'              => 'cn=LectDev,ou=applications,dc=univ-paris5,dc=fr',
-        'password'              => 'CyGuMiYo',
-        'bindRequiresDn'        => true,
-        'accountDomainName'     => 'parisdescartes.fr',
-        'baseDn'                => 'ou=People,dc=univ-paris5,dc=fr',
-    );
+//    protected $options = array(
+//        'host'                  => 'ldap.parisdescartes.fr',
+//        'port'                  => '389',
+//        'username'              => 'cn=LectDev,ou=applications,dc=univ-paris5,dc=fr',
+//        'password'              => 'CyGuMiYo',
+//        'bindRequiresDn'        => true,
+//        'accountDomainName'     => 'parisdescartes.fr',
+//        'baseDn'                => 'ou=People,dc=univ-paris5,dc=fr',
+//    );
     
-    public function ldapConnect() {
-        $options = $this->options;
+    protected $searchLdapConfig;
+    
+    public function __construct($searchLdapConfig) {
+        $this->searchLdapConfig = $searchLdapConfig;
+    }
+    
+    private function ldapConnect() {
+        $options = $this->searchLdapConfig;
         
         $ldap = new Ldap($options);
         
