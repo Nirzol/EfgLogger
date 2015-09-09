@@ -1,8 +1,11 @@
 <?php
 return array(
     'controllers' => array(
-        'invokables' => array(
-            'SearchLdap\Controller\SearchLdap' => 'SearchLdap\Controller\SearchLdapController',
+//        'invokables' => array(
+//            'SearchLdap\Controller\SearchLdap' => 'SearchLdap\Controller\SearchLdapController',
+//        ),
+        'factories' => array(
+            'SearchLdap\Controller\SearchLdapController' => SearchLdap\Factory\Controller\SearchLdapFactory::class,
         ),
     ),
     'router' => array(
@@ -15,7 +18,7 @@ return array(
                         'slug' => '.*',
                     ),
                     'defaults' => array(
-                        'controller' => 'SearchLdap\Controller\SearchLdap',
+                        'controller' => 'SearchLdap\Controller\SearchLdapController',
                     ),
                 ),
             ),
@@ -24,6 +27,11 @@ return array(
     'view_manager' => array(
         'strategies' => array(
             'ViewJsonStrategy'
+        ),
+    ),
+    'service_manager' => array(
+        'factories' => array( 
+            'SearchLdap\Model\SearchLdap' => SearchLdap\Factory\Model\SearchLdapModelFactory::class,
         ),
     ),
 );
