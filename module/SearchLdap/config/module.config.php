@@ -10,7 +10,7 @@ return array(
             'search-ldap' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/search-ldap[/:slug]',
+                    'route' => '/api/search-ldap[/:slug]',
                     'constraints' => array(
                         'slug' => '.*',
                     ),
