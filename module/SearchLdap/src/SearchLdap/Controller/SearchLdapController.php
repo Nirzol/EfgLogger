@@ -14,6 +14,13 @@ class SearchLdapController extends AbstractRestfulController {
     
     // methode unitaire, ex : "/search/mdjimbi"
     protected $ressourceMethod = array('GET', 'POST', 'PUT', 'DELETE');
+    
+    /* @var $searchLdapModel SearchLdap */
+    protected $searchLdapModel;
+
+    public function __construct(SearchLdap $searchLdapModel) {
+        $this->searchLdapModel = $searchLdapModel;
+    }
 
     public function setEventManager(EventManagerInterface $events) {
         parent::setEventManager($events);
@@ -54,9 +61,7 @@ class SearchLdapController extends AbstractRestfulController {
     }
     
     public function get($slug) {
-        $ldap = new SearchLdap();
-        
-        $ldap->ldapConnect();
+        $ldap = $this->searchLdapModel;
         
         $search = $ldap->searchUser($slug);
         
