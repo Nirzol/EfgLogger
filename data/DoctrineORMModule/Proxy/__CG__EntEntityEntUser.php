@@ -411,6 +411,17 @@ class EntUser extends \Ent\Entity\EntUser implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getRoles()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRoles', array());
+
+        return parent::getRoles();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function toArray($hydrator, $owner = NULL)
     {
 
