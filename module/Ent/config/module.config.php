@@ -45,7 +45,7 @@ return array(
             'home' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/api',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Index',
                         'action'     => 'index',
@@ -55,7 +55,7 @@ return array(
             'index' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/index',
+                    'route' => '/api/index',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Index',
                         'action' => 'index',
@@ -110,7 +110,7 @@ return array(
             'user' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/user',
+                    'route' => '/api/user',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\User',
                         'action' => 'list',
@@ -634,7 +634,7 @@ return array(
             'user-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/user-rest[/:id]',
+                    'route'    => '/api/user-rest[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),

@@ -52,9 +52,9 @@ class UserDoctrineService implements UserServiceInterface
     public function getAll()
     {
         // First check permission
-        if (!$this->authorizationService->isGranted('read')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
-        }
+//        if (!$this->authorizationService->isGranted('read')) {
+//            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+//        }
         $repo = $this->em->getRepository('Ent\Entity\EntUser');
 
         return $repo->findAll();

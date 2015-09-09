@@ -12,3 +12,12 @@ application.config.old
 /composer.lock
 *.local.php
 /public/app/
+/public/module/
+/public/favicon.ico
+/public/robots.txt
+/public/404.html
+/public/lib/
+/public/styles/
+/public/index.html
+/public/images/
+/public/scripts/
