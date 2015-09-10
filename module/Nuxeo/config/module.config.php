@@ -6,7 +6,7 @@ return array(
             'nuxeo' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/nuxeo[/:id]',
+                    'route'    => '/api/nuxeo[/:id]',
                     'constraints' => array(
                         'id'     => '[0-9]+',
                     ),
