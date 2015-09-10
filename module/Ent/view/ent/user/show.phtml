@@ -31,10 +31,10 @@
     <?= $this->translate('Rôle :') ?> 
     <?php
     foreach ($user->getFkUrRole() as $role) {
-        if ($role->getRoleLibelle()) :
-            echo $this->escapeHtml($role->getRoleLibelle());
-        
-            echo $this->escapeHtml($role->getRoleDescription());
+        if ($role->getName()) :
+            echo $this->escapeHtml($role->getName());
+            echo ' - ';
+            echo $this->escapeHtml($role->getName());
         endif;
     }
     ?>
