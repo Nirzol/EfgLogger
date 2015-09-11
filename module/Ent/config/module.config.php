@@ -4,7 +4,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Ent\Controller\Index' => Ent\Controller\IndexController::class,
-//            'Ent\Controller\Profile' => Ent\Controller\ProfileController::class
+            'Ent\Controller\IndexRest' => Ent\Controller\indexRestController::class
         ),
         'factories' => array(
             'Ent\Controller\User'    => 'Ent\Factory\Controller\UserControllerFactory',
@@ -628,6 +628,18 @@ return array(
                                 'id' => '[1-9][0-9]*'
                             ),
                         ),
+                    ),
+                ),
+            ),
+            'index-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/api/index-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\IndexRest',
                     ),
                 ),
             ),
