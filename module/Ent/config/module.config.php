@@ -4,7 +4,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Ent\Controller\Index' => Ent\Controller\IndexController::class,
-            'Ent\Controller\IndexRest' => Ent\Controller\indexRestController::class
+            'Ent\Controller\IndexRest' => Ent\Controller\IndexRestController::class
         ),
         'factories' => array(
             'Ent\Controller\User'    => 'Ent\Factory\Controller\UserControllerFactory',
