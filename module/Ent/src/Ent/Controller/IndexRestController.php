@@ -10,7 +10,7 @@ use Zend\View\Model\JsonModel;
  *
  * @author fandria
  */
-class indexRestController extends AbstractRestfulController {
+class IndexRestController extends AbstractRestfulController {
 
     public function getList()
     {
