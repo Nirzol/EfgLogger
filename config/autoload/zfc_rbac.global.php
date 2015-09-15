@@ -58,11 +58,11 @@ return [
 //            ],
 //        ],
         'guards' => [
-            'ZfcRbac\Guard\RouteGuard' => [
-                'login'     => ['guest'],
-                'logout'    => ['user'], // required if registration is enabled
-//                'zfcuser*'         => ['user'] // includes logout, changepassword and changeemail
-            ]
+//            'ZfcRbac\Guard\RouteGuard' => [
+//                'login'     => ['guest'],
+//                'logout'    => ['user'], // required if registration is enabled
+////                'zfcuser*'         => ['user'] // includes logout, changepassword and changeemail
+//            ]
         ],
 
         /**
