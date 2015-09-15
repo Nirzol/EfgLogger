@@ -7,7 +7,7 @@ return array(
         'server_hostname' => 'servauth.univ-paris5.fr',
         'server_port' => 443,
         'server_path' => '/cas',
-        'no_account_route' => 'user/add',
+        'no_account_route' => 'user/add-auto',
         'cas_server_ca_cert_path' => dirname(dirname(__DIR__)) . '/data/certificat_P5_cas.pem',
     ),
     'get_form' => array(
