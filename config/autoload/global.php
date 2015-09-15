@@ -12,5 +12,8 @@
  */
 
 return array(
-    // ...
+    'user-add-base' => array(
+        'role-base-id' => 3,
+        'status-base-id' => 1
+    )
 );
