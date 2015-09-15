@@ -4,10 +4,6 @@ namespace Ent\Controller;
 
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Ent\Entity\EntPreference;
-use Ent\Entity\EntProfile;
-use Ent\Entity\EntService;
-use Ent\Entity\EntStatus;
-use Ent\Entity\EntUser;
 use Ent\Form\PreferenceForm;
 use Ent\Service\PreferenceDoctrineService;
 use Zend\Mvc\Controller\AbstractRestfulController;
@@ -69,150 +65,188 @@ class PreferenceRestController extends AbstractRestfulController {
         $results = $this->preferenceService->getAll();
 
         $data = array();
-
-        foreach ($results as $result) {
-            /* @var $user EntUser */
-            $users = null;
-            if (!is_null($result->getFkPrefUser())) {
-                $user = $result->getFkPrefUser();
-                $users = array(
-                    'userId' => $user->getUserId(),
-                    'userLogin' => $user->getUserLogin(),
-                    'userLastConnection' => $user->getUserLastConnection(),
-                    'userLastUpdate' => $user->getUserLastUpdate(),
-                    'userStatus' => $user->getUserStatus()
-                );
-            }
+        $successMessage = '';
+        $errorMessage = '';
+        if ($results) {
+            foreach ($results as $result) {
+//                /* @var $user EntUser */
+//                $users = null;
+//                if (!is_null($result->getFkPrefUser())) {
+//                    $user = $result->getFkPrefUser();
+//                    $users = array(
+//                        'userId' => $user->getUserId(),
+//                        'userLogin' => $user->getUserLogin(),
+//                        'userLastConnection' => $user->getUserLastConnection(),
+//                        'userLastUpdate' => $user->getUserLastUpdate(),
+//                        'userStatus' => $user->getUserStatus()
+//                    );
+//                }
+//
+//                /* @var $service EntService */
+//                $services = null;
+//                if (!is_null($result->getFkPrefService())) {
+//                    $service = $result->getFkPrefService();
+//                    $services = array(
+//                        'serviceId' => $service->getServiceId(),
+//                        'serviceName' => $service->getServiceName(),
+//                        'serviceLibelle' => $service->getServiceLibelle(),
+//                        'serviceDescription' => $service->getServiceDescription(),
+//                        'serviceLastUpdate' => $service->getServiceLastUpdate()
+//                    );
+//                }
+//
+//                /* @var $status EntStatus */
+//                $status = null;
+//                if (!is_null($result->getFkPrefStatus())) {
+//                    $status = array(
+//                        'statusId' => $result->getFkPrefStatus()->getStatusId(),
+//                        'statusName' => $result->getFkPrefStatus()->getStatusName(),
+//                        'statusLibelle' => $result->getFkPrefStatus()->getStatusLibelle(),
+//                        'statusDescription' => $result->getFkPrefStatus()->getStatusDescription(),
+//                        'statusLastUpdate' => $result->getFkPrefStatus()->getStatusLastUpdate()
+//                    );
+//                }
+//
+//                /* @var $profile EntProfile */
+//                $profiles = null;
+//                if (!is_null($result->getFkPrefProfile())) {
+//                    $profile = $result->getFkPrefProfile();
+//                    $profiles = array(
+//                        'profileId' => $profile->getProfileId(),
+//                        'profileLdap' => $profile->getProfileLdap(),
+//                        'profileName' => $profile->getProfileName(),
+//                        'profileLibelle' => $profile->getProfileLibelle(),
+//                        'profileDescription' => $profile->getProfileDescription(),
+//                        'profileLastUpdate' => $profile->getProfileLastUpdate()
+//                    );
+//                }
+//
+//                /* @var $result EntPreference */
+//                $data[] = array(
+//                    'prefId' => $result->getPrefId(),
+//                    'prefAttribute' => $result->getPrefAttribute(),
+//    //                'prefAttribute' => stream_get_contents($result->getPrefAttribute()),
+//                    'prefLastUpdate' => $result->getPrefLastUpdate(),
+//                    'fkPrefUser' => $users,
+//                    'fkPrefService' => $services,
+//                    'fkPrefStatus' => $status,
+//                    'fkPrefProfile' => $profiles
+//                );
             
-            /* @var $service EntService */
-            $services = null;
-            if (!is_null($result->getFkPrefService())) {
-                $service = $result->getFkPrefService();
-                $services = array(
-                    'serviceId' => $service->getServiceId(),
-                    'serviceName' => $service->getServiceName(),
-                    'serviceLibelle' => $service->getServiceLibelle(),
-                    'serviceDescription' => $service->getServiceDescription(),
-                    'serviceLastUpdate' => $service->getServiceLastUpdate()
-                );
+                $data[] = $result->toArray($this->hydrator);
+                $success = false;
+                $successMessage = 'Les préférences ont bien été trouvées.';
             }
-            
-            /* @var $status EntStatus */
-            $status = null;
-            if (!is_null($result->getFkPrefStatus())) {
-                $status = array(
-                    'statusId' => $result->getFkPrefStatus()->getStatusId(),
-                    'statusName' => $result->getFkPrefStatus()->getStatusName(),
-                    'statusLibelle' => $result->getFkPrefStatus()->getStatusLibelle(),
-                    'statusDescription' => $result->getFkPrefStatus()->getStatusDescription(),
-                    'statusLastUpdate' => $result->getFkPrefStatus()->getStatusLastUpdate()
-                );
-            }
-            
-            /* @var $profile EntProfile */
-            $profiles = null;
-            if (!is_null($result->getFkPrefProfile())) {
-                $profile = $result->getFkPrefProfile();
-                $profiles = array(
-                    'profileId' => $profile->getProfileId(),
-                    'profileLdap' => $profile->getProfileLdap(),
-                    'profileName' => $profile->getProfileName(),
-                    'profileLibelle' => $profile->getProfileLibelle(),
-                    'profileDescription' => $profile->getProfileDescription(),
-                    'profileLastUpdate' => $profile->getProfileLastUpdate()
-                );
-            }
-            
-            /* @var $result EntPreference */
-            $data[] = array(
-                'prefId' => $result->getPrefId(),
-                'prefAttribute' => stream_get_contents($result->getPrefAttribute()),
-                'prefLastUpdate' => $result->getPrefLastUpdate(),
-                'fkPrefUser' => $users,
-                'fkPrefService' => $services,
-                'fkPrefStatus' => $status,
-                'fkPrefProfile' => $profiles
-            );
+        } else {
+            $success = false;
+            $errorMessage = 'Aucune préférence existe dans la base.';
         }
 
+//        return new JsonModel(array(
+//            'data' => $data
+//        ));
         return new JsonModel(array(
-            'data' => $data
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
         ));
     }
     
     public function get($id) {
         $result = $this->preferenceService->getById($id);
 
+//        $data = array();
+//
+//        if ($result) {
+//            /* @var $user EntUser */
+//            $users = null;
+//            if (!is_null($result->getFkPrefUser())) {
+//                $user = $result->getFkPrefUser();
+//                $users = array(
+//                    'userId' => $user->getUserId(),
+//                    'userLogin' => $user->getUserLogin(),
+//                    'userLastConnection' => $user->getUserLastConnection(),
+//                    'userLastUpdate' => $user->getUserLastUpdate(),
+//                    'userStatus' => $user->getUserStatus()
+//                );
+//            }
+//            
+//            /* @var $service EntService */
+//            $services = null;
+//            if (!is_null($result->getFkPrefService())) {
+//                $service = $result->getFkPrefService();
+//                $services = array(
+//                    'serviceId' => $service->getServiceId(),
+//                    'serviceName' => $service->getServiceName(),
+//                    'serviceLibelle' => $service->getServiceLibelle(),
+//                    'serviceDescription' => $service->getServiceDescription(),
+//                    'serviceLastUpdate' => $service->getServiceLastUpdate()
+//                );
+//            }
+//            
+//            /* @var $status EntStatus */
+//            $status = null;
+//            if (!is_null($result->getFkPrefStatus())) {
+//                $status = array(
+//                    'statusId' => $result->getFkPrefStatus()->getStatusId(),
+//                    'statusName' => $result->getFkPrefStatus()->getStatusName(),
+//                    'statusLibelle' => $result->getFkPrefStatus()->getStatusLibelle(),
+//                    'statusDescription' => $result->getFkPrefStatus()->getStatusDescription(),
+//                    'statusLastUpdate' => $result->getFkPrefStatus()->getStatusLastUpdate()
+//                );
+//            }
+//            
+//            /* @var $profile EntProfile */
+//            $profiles = null;
+//            if (!is_null($result->getFkPrefProfile())) {
+//                $profile = $result->getFkPrefProfile();
+//                $profiles = array(
+//                    'profileId' => $profile->getProfileId(),
+//                    'profileLdap' => $profile->getProfileLdap(),
+//                    'profileName' => $profile->getProfileName(),
+//                    'profileLibelle' => $profile->getProfileLibelle(),
+//                    'profileDescription' => $profile->getProfileDescription(),
+//                    'profileLastUpdate' => $profile->getProfileLastUpdate()
+//                );
+//            }
+//            
+//            /* @var $result EntPreference */
+//            $data = array(
+//                'prefId' => $result->getPrefId(),
+//                'prefAttribute' => $result->getPrefAttribute(),
+//                'prefLastUpdate' => $result->getPrefLastUpdate(),
+//                'fkPrefUser' => $users,
+//                'fkPrefService' => $services,
+//                'fkPrefStatus' => $status,
+//                'fkPrefProfile' => $profiles
+//            );
+//        }
+
         $data = array();
-
+        $successMessage = '';
+        $errorMessage = '';
         if ($result) {
-            /* @var $user EntUser */
-            $users = null;
-            if (!is_null($result->getFkPrefUser())) {
-                $user = $result->getFkPrefUser();
-                $users = array(
-                    'userId' => $user->getUserId(),
-                    'userLogin' => $user->getUserLogin(),
-                    'userLastConnection' => $user->getUserLastConnection(),
-                    'userLastUpdate' => $user->getUserLastUpdate(),
-                    'userStatus' => $user->getUserStatus()
-                );
-            }
-            
-            /* @var $service EntService */
-            $services = null;
-            if (!is_null($result->getFkPrefService())) {
-                $service = $result->getFkPrefService();
-                $services = array(
-                    'serviceId' => $service->getServiceId(),
-                    'serviceName' => $service->getServiceName(),
-                    'serviceLibelle' => $service->getServiceLibelle(),
-                    'serviceDescription' => $service->getServiceDescription(),
-                    'serviceLastUpdate' => $service->getServiceLastUpdate()
-                );
-            }
-            
-            /* @var $status EntStatus */
-            $status = null;
-            if (!is_null($result->getFkPrefStatus())) {
-                $status = array(
-                    'statusId' => $result->getFkPrefStatus()->getStatusId(),
-                    'statusName' => $result->getFkPrefStatus()->getStatusName(),
-                    'statusLibelle' => $result->getFkPrefStatus()->getStatusLibelle(),
-                    'statusDescription' => $result->getFkPrefStatus()->getStatusDescription(),
-                    'statusLastUpdate' => $result->getFkPrefStatus()->getStatusLastUpdate()
-                );
-            }
-            
-            /* @var $profile EntProfile */
-            $profiles = null;
-            if (!is_null($result->getFkPrefProfile())) {
-                $profile = $result->getFkPrefProfile();
-                $profiles = array(
-                    'profileId' => $profile->getProfileId(),
-                    'profileLdap' => $profile->getProfileLdap(),
-                    'profileName' => $profile->getProfileName(),
-                    'profileLibelle' => $profile->getProfileLibelle(),
-                    'profileDescription' => $profile->getProfileDescription(),
-                    'profileLastUpdate' => $profile->getProfileLastUpdate()
-                );
-            }
-            
-            /* @var $result EntPreference */
-            $data = array(
-                'prefId' => $result->getPrefId(),
-                'prefAttribute' => stream_get_contents($result->getPrefAttribute()),
-                'prefLastUpdate' => $result->getPrefLastUpdate(),
-                'fkPrefUser' => $users,
-                'fkPrefService' => $services,
-                'fkPrefStatus' => $status,
-                'fkPrefProfile' => $profiles
-            );
+            $data[] = $result->toArray($this->hydrator);
+            $success = false;
+            $successMessage = 'La préférence a bien été trouvée.';
+        } else {
+            $success = false;
+            $errorMessage = 'La préférence n\'existe pas dans la base.';
         }
-
-        return new JsonModel(
-            $data
-        );
+//        return new JsonModel(
+//            $data
+//        );
+        return new JsonModel(array(
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
     }
 
     public function create($data) {
