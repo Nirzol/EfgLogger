@@ -27,7 +27,7 @@ return array(
             'Ent\Controller\Profile' => 'Ent\Factory\Controller\ProfileControllerFactory',
             'Ent\Controller\ProfileRest' => 'Ent\Factory\Controller\ProfileRestControllerFactory',
             'Ent\Controller\Log' => 'Ent\Factory\Controller\LogControllerFactory',
-
+            'Ent\Controller\Version' => 'Ent\Factory\Controller\VersionControllerFactory',
         ),
     ), 
     'form_elements' => array(
@@ -636,6 +636,17 @@ return array(
                     ),
                 ),
             ),
+            'version' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/api/version',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\Version',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+            ),
             'index-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
@@ -806,6 +817,7 @@ return array(
             'Ent\Service\ContactDoctrineORM' => 'Ent\Factory\Service\ContactDoctrineORMServiceFactory',
             'Ent\Service\Log' => 'Ent\Factory\Service\LogDoctrineORMServiceFactory',
             'Ent\Service\Preference' => 'Ent\Factory\Service\PreferenceDoctrineORMServiceFactory',
+            'Ent\Service\Version' => 'Ent\Factory\Service\VersionDoctrineORMServiceFactory',
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
