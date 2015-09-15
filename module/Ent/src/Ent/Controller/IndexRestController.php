@@ -19,7 +19,6 @@ class IndexRestController extends AbstractRestfulController {
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
             $is_logged = true;
-            var_dump($authService->getIdentity()->getUserLogin());
         } else {
             $is_logged = false;
         }
