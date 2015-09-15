@@ -35,14 +35,14 @@ class SearchLdap {
         $filter = "";
         $nomPrenom = "";
         $count = "";
-        
+        $searchValues = [];
         // Recherche avec un filtre LDAP
         if((strpos($searchValue, "(") !== false) && (strpos($searchValue, "(") == 0 )) {
             $filter = $searchValue;
         } elseif((strpos($searchValue, "@parisdescartes.fr") || strpos($searchValue, "@etu.parisdescartes.fr")) !== false){
             // Recherche avec une adresse email
             $filter = "(mail=". $searchValue.")";
-        } elseif(strpos($searchValue, " ")){
+        } elseif(strpos($searchValue, " ") !== false){
             // Recherche avec un nom prénom ou prénom nom
             $nomPrenom = explode(" ", $searchValue);
             $count = count($nomPrenom);
@@ -64,6 +64,16 @@ class SearchLdap {
             }
             
             $filter = "(|($filterCn)($filterDn))";
+        } else if(strpos($searchValue, "&") !== false) {
+            // Recherche avec filtre Personnel ou Etudiant
+            $searchValues = preg_split("/&/", $searchValue);
+            
+            if ($searchValues[1] === 'Personnel') {
+                // Pour le filtre Personnel, on recherche les personnes dont l'edupersonprimaryaffiliation est égale à staff ou faculty 
+                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."*))(|(edupersonprimaryaffiliation=staff)(edupersonprimaryaffiliation=faculty)))";
+            } else if ($searchValues[1] === 'Etudiant') {
+                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."*))(edupersonprimaryaffiliation=student))";
+            }
         } else {
             // Recherche avec un uid ou un nom
             $filter = "(|(sn=" . $searchValue . "*)(uid=" . $searchValue . "*))";
