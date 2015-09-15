@@ -32,9 +32,9 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="user_password", type="string", length=64, nullable=false)
+     * @ORM\Column(name="user_password", type="string", length=64, nullable=true)
      */
-    private $userPassword;
+    private $userPassword = '';
 
     /**
      * @var \DateTime
