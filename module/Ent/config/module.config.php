@@ -45,11 +45,7 @@ return array(
             'home' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/api',
-                    'defaults' => array(
-                        'controller' => 'Ent\Controller\Index',
-                        'action'     => 'index',
-                    ),
+                    'route'    => '/',
                 ),
             ),
             'index' => array(
@@ -124,6 +120,15 @@ return array(
                             'route' => '/add',
                             'defaults' => array(
                                 'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'add-auto' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add-auto',
+                            'defaults' => array(
+                                'action' => 'addAuto',
                             ),
                         ),
                     ),
