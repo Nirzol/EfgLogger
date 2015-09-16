@@ -23,30 +23,47 @@ class VersionDoctrineService implements GenericEntityServiceInterface {
     /**
      * @var EntityManager
      */
-    protected $em;
+    protected $entityManager;
    
     public function __construct(EntityManager $em) {
-        $this->em = $em;
+        $this->entityManager = $em;
     }
     
     public function getAll() {
-        $repository = $this->em->getRepository('Ent\Entity\EntVersion');
+        $repository = $this->entityManager->getRepository('Ent\Entity\EntVersion');
         
         return $repository->findAll();
     }
 
     public function getById($id, $form = null) {
-        $repository = $this->em->getRepository('Ent\Entity\EntVersion');
+        $repository = $this->entityManager->getRepository('Ent\Entity\EntVersion');
         
         $repoFind = $repository->find($id);
         
         if($form != null) {
-            $hydrator = new DoctrineObject($this->em);
+            $hydrator = new DoctrineObject($this->entityManager);
             $form->setHydrator($hydrator);
             $form->bind($repoFind);
         }
         
         return $repoFind;
+    }
+    
+    /**
+     * Returns the last inserted enterprise object
+     *  
+     * @return type Ent\Entity\EntVersion
+     */
+    public function getLastInserted() {
+        
+        $repository = $this->entityManager->getRepository('Ent\Entity\EntVersion');
+        $tempArray = $repository->findBy( array(), array('id' => 'ASC'));
+        
+        if ( isset($tempArray) && is_array($tempArray) &&  (count($tempArray) > 0) ) {
+            return end($tempArray);
+        }
+        
+        return null;
     }
     
     public function insert(Form $form, $dataAssoc) {
