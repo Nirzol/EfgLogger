@@ -73,13 +73,13 @@ class EntVersion  extends Ent {
     }
 
     /**
-     * Set setVesrion
+     * Set version
      *
      * @param string $version
      *
-     * @return EntVesrion
+     * @return EntVersion
      */
-    public function setVesrion($version)
+    public function setVersion($version)
     {
         $this->version = $version;
 
@@ -144,5 +144,27 @@ class EntVersion  extends Ent {
         return $this->versionDate;
     }
 
-    
+    /**
+     * Set versionLastUpdate
+     *
+     * @param \DateTime $versionLastUpdate
+     *
+     * @return EntVersion
+     */
+    public function setVersionLastUpdate($versionLastUpdate)
+    {
+        $this->versionLastUpdate = $versionLastUpdate;
+
+        return $this;
+    }
+
+    /**
+     * Get versionLastUpdate
+     *
+     * @return \DateTime
+     */
+    public function getVersionLastUpdate()
+    {
+        return $this->versionLastUpdate;
+    }
 }
