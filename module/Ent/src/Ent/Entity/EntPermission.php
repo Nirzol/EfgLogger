@@ -68,4 +68,28 @@ class EntPermission extends Ent implements PermissionInterface
     {
         return $this->name;
     }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return EntPermission
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 }
