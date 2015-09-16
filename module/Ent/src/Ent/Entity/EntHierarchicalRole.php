@@ -240,4 +240,34 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
         return $this->fkUrUser;
     }
 
+
+    /**
+     * Remove child
+     *
+     * @param \Ent\Entity\EntHierarchicalRole $child
+     */
+    public function removeChild(\Ent\Entity\EntHierarchicalRole $child)
+    {
+        $this->children->removeElement($child);
+    }
+
+    /**
+     * Remove permission
+     *
+     * @param \Ent\Entity\EntPermission $permission
+     */
+    public function removePermission(\Ent\Entity\EntPermission $permission)
+    {
+        $this->permissions->removeElement($permission);
+    }
+
+    /**
+     * Get permissions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
 }
