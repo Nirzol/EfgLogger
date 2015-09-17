@@ -28,6 +28,7 @@ return array(
             'Ent\Controller\ProfileRest' => 'Ent\Factory\Controller\ProfileRestControllerFactory',
             'Ent\Controller\Log' => 'Ent\Factory\Controller\LogControllerFactory',
             'Ent\Controller\Version' => 'Ent\Factory\Controller\VersionControllerFactory',
+            'Ent\Controller\VersionRest' => 'Ent\Factory\Controller\VersionRestControllerFactory',
         ),
     ), 
     'form_elements' => array(
@@ -645,7 +646,54 @@ return array(
                         'action' => 'index',
                     ),
                 ),
-                'may_terminate' => true,
+                'may_terminate' => true,                
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),                    
+                    'show' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/show/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'update' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/update/:id',
+                            'defaults' => array(
+                                'action' => 'update',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'delete' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/delete/:id',
+                            'defaults' => array(
+                                'action' => 'delete',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'index-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
@@ -776,6 +824,18 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\PreferenceRest',
+                    ),
+                ),
+            ),
+            'version-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/api/version-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\VersionRest',
                     ),
                 ),
             ),

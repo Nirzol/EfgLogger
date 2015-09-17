@@ -52,9 +52,12 @@ class EntVersion  extends Ent {
     /**
      * Constructor
      */
-    public function __construct($version)
+    public function __construct($version=null)
     {
-        $this->version  = (string)$version;
+        if( $version != null) {
+            $this->version  = (string)$version;
+        }
+        $this->versionDate = new \DateTime();
     }
 
     /**
@@ -73,13 +76,13 @@ class EntVersion  extends Ent {
     }
 
     /**
-     * Set setVesrion
+     * Set setVersion
      *
      * @param string $version
      *
      * @return EntVesrion
      */
-    public function setVesrion($version)
+    public function setVersion($version)
     {
         $this->version = $version;
 
@@ -143,6 +146,19 @@ class EntVersion  extends Ent {
     {
         return $this->versionDate;
     }
+    
+    /**
+     * Get versionLastUpdate
+     *
+     * @return \DateTime
+     */
+    public function getVersionLastUpdate()
+    {
+        return $this->versionLastUpdate;
+    }
 
     
+    public function toString() {
+        return $this->getVersion() . " de " . $this->getVersionDate()->format('Y-m-d H:i:s');
+    }
 }

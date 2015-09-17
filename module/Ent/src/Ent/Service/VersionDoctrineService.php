@@ -13,6 +13,7 @@ use Zend\Form\Form;
 use Doctrine\ORM\EntityManager;
 use Ent\Entity\EntVersion;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Ent\InputFilter\VersionInputFilter;
 
 /**
  * Description of VersionDoctrineService
@@ -66,16 +67,60 @@ class VersionDoctrineService implements GenericEntityServiceInterface {
         return null;
     }
     
+    public function delete($id){
+        
+        /* @var $version EntVersion */
+        $version = $this->entityManager->find('Ent\Entity\EntVersion', $id);
+        
+        $this->entityManager->remove($version);
+        $this->entityManager->flush();
+        
+        return $version;
+    }
+    
     public function insert(Form $form, $dataAssoc) {
+        $version = new EntVersion();
+        
+        $hydrator = new DoctrineObject($this->entityManager);
+        $form->setHydrator($hydrator);
+        
+        $form->bind($version);
+        $form->setInputFilter(new \Ent\InputFilter\VersionInputFilter());
+        $form->setData($dataAssoc);
+        
+        if (!$form->isValid()) {
+            error_log("====== Erreur: Probleme d'enrigistrement de la version dans la base :");
+            error_log("====== Erreur: Version = " . $version->toString());
+            return null;
+        }
+        
+        $this->entityManager->persist($version);
+        $this->entityManager->flush();
+        
+        return $version;
+    }
+    
+    public function update($id, Form $form, $dataAssoc){
+        $version = $this->entityManager->find('Ent\Entity\EntVersion', $id);
+        
+        $hydrator = new DoctrineObject($this->entityManager);
+        
+        $form->setHydrator($hydrator);        
+        $form->bind($version);
+        $form->setInputFilter(new VersionInputFilter());
+        $form->setData($dataAssoc);
+        
+        if (!$form->isValid()) {
+            error_log("==== Erreur: VersionDoctrineService.update: form is not valide !");
+        } else {
+            // Enregistrement dans la base
+            $this->entityManager->persist($version);
+            $this->entityManager->flush();
+        }
+        
+        return $version;
         
     }
     
-    public function update($id, Form $form, $dataAssoc) {
-        
-    }
-    
-    public function delete($id) {
-        
-    }
     
 }
