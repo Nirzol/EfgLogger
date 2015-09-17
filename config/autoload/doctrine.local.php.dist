@@ -5,9 +5,10 @@ return array(
             // default connection name
             'orm_default' => array(
                 'params' => array(
-                    'user'     => '',
-                    'password' => '',
-                    'dbname'   => ''
+                    'host'     => 'ahost',
+                    'user'     => 'auser',
+                    'password' => 'apassword',
+                    'dbname'   => 'adbname'
                 )
             )
         )

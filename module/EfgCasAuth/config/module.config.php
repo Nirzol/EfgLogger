@@ -11,7 +11,7 @@ return array(
             'login' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/login',
+                    'route' => '/api/login',
                     'defaults' => array(
                         'controller' => 'EfgCasAuth\Controller\Auth',
                         'action' => 'login',
@@ -21,7 +21,7 @@ return array(
             'logout' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/logout',
+                    'route' => '/api/logout',
                     'defaults' => array(
                         'controller' => 'EfgCasAuth\Controller\Auth',
                         'action' => 'logout',

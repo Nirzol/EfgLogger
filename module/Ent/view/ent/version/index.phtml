@@ -1,0 +1,8 @@
+Action "index", controller "Version", module "Ent".
+
+                <br /> Liste de versions 
+                <br />
+    <?php foreach ($listVersions as $version) : ?>
+                <?= $this->escapeHtml($version->getVersion()) ?>
+                <br />
+    <?php endforeach; ?>

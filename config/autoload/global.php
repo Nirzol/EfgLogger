@@ -12,5 +12,19 @@
  */
 
 return array(
-    // ...
+    
+    // Version de l'ENT
+    'versions' => array(
+        'version' => '0.0.1-alpha1',
+        // Dependances de versions : base de donnees et application Angular
+        'dependencies' => array (
+            'data-base-version' =>'0.0.1-dev',
+            'app-angular-version' => '0.0.1-alpha1', 
+        ),
+    ),
+    
+    'user-add-base' => array(
+        'role-base-id' => 3,
+        'status-base-id' => 1
+    )
 );

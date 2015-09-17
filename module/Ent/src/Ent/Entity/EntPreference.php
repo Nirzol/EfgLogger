@@ -24,7 +24,7 @@ class EntPreference extends Ent
     /**
      * @var string
      *
-     * @ORM\Column(name="pref_attribute", type="blob", nullable=false)
+     * @ORM\Column(name="pref_attribute", type="text", nullable=false)
      */
     private $prefAttribute;
 

@@ -4,7 +4,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Ent\Controller\Index' => Ent\Controller\IndexController::class,
-//            'Ent\Controller\Profile' => Ent\Controller\ProfileController::class
+            'Ent\Controller\IndexRest' => Ent\Controller\IndexRestController::class
         ),
         'factories' => array(
             'Ent\Controller\User'    => 'Ent\Factory\Controller\UserControllerFactory',
@@ -27,6 +27,7 @@ return array(
             'Ent\Controller\Profile' => 'Ent\Factory\Controller\ProfileControllerFactory',
             'Ent\Controller\ProfileRest' => 'Ent\Factory\Controller\ProfileRestControllerFactory',
             'Ent\Controller\Log' => 'Ent\Factory\Controller\LogControllerFactory',
+            'Ent\Controller\Version' => 'Ent\Factory\Controller\VersionControllerFactory',
             'Ent\Controller\Role' => 'Ent\Factory\Controller\RoleControllerFactory',
 
         ),
@@ -47,11 +48,7 @@ return array(
             'home' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/api',
-                    'defaults' => array(
-                        'controller' => 'Ent\Controller\Index',
-                        'action'     => 'index',
-                    ),
+                    'route'    => '/',
                 ),
             ),
             'index' => array(
@@ -126,6 +123,15 @@ return array(
                             'route' => '/add',
                             'defaults' => array(
                                 'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'add-auto' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add-auto',
+                            'defaults' => array(
+                                'action' => 'addAuto',
                             ),
                         ),
                     ),
@@ -846,7 +852,7 @@ return array(
             'Ent\Service\ContactDoctrineORM' => 'Ent\Factory\Service\ContactDoctrineORMServiceFactory',
             'Ent\Service\Log' => 'Ent\Factory\Service\LogDoctrineORMServiceFactory',
             'Ent\Service\Preference' => 'Ent\Factory\Service\PreferenceDoctrineORMServiceFactory',
-            'Ent\Service\RoleDoctrineORM' => 'Ent\Factory\Service\RoleDoctrineORMServiceFactory',
+            'Ent\Service\RoleRoleDoctrineORM' => 'Ent\Factory\Service\RoleDoctrineORMServiceFactory',
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'

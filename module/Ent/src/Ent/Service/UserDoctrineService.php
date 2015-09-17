@@ -127,9 +127,9 @@ class UserDoctrineService implements UserServiceInterface
         $user = $this->getById($id);
         
         // First check permission
-        if (!$this->authorizationService->isGranted('delete')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
-        }
+//        if (!$this->authorizationService->isGranted('delete')) {
+//            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+//        }
         $this->em->remove($user);
         $this->em->flush();
     }

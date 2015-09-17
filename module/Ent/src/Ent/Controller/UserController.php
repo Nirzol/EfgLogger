@@ -2,9 +2,6 @@
 
 namespace Ent\Controller;
 
-use Ent\Form\UserForm;
-use Ent\Service\UserDoctrineService;
-use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -26,10 +23,13 @@ class UserController extends AbstractActionController
      */
     protected $userForm = null;
 
-    public function __construct(UserDoctrineService $userService, UserForm $userForm)
+    protected $config = null;
+
+    public function __construct(\Ent\Service\UserDoctrineService $userService, \Ent\Form\UserForm $userForm, $config)
     {
         $this->userService = $userService;
         $this->userForm = $userForm;
+        $this->config = $config;
     }
 
     public function listAction()
@@ -47,33 +47,29 @@ class UserController extends AbstractActionController
         ));
     }
 
-    /*
-     * @todo add a user 
-     */
-
     public function addAction()
     {
         //TODO: une idée de début en commentaire...
-//        $container = new \Zend\Session\Container('noAuth');
-//        echo 'Avant le clear : ' . $container->login . $container->loginMessage;
-//        if ($container->login) {
-//            $data = $data = array('userLogin' => 'bibi', 'userStatus' => '1',
-//                'fkUrRole' => array('1'));
-//            $container->getManager()->getStorage()->clear('noAuth');
-//            
-//            //TODO : direct insert puis redirect vers /login
-//            
-//        }
-//        echo '<br />Après le clear : ' . $container->login;
+        //        $container = new \Zend\Session\Container('noAuth');
+        //        echo 'Avant le clear : ' . $container->login . $container->loginMessage;
+        //        if ($container->login) {
+        //            $data = $data = array('userLogin' => 'bibi', 'userStatus' => '1',
+        //                'fkUrRole' => array('1'));
+        //            $container->getManager()->getStorage()->clear('noAuth');
+        //            
+        //            //TODO : direct insert puis redirect vers /login
+        //            
+        //        }
+        //        echo '<br />Après le clear : ' . $container->login;
 
         $form = $this->userForm;
 
         if ($this->request->isPost()) {
-//            if (!isset($data)) {
+        //            if (!isset($data)) {
             $data = $this->request->getPost();
-//            }
+        //            }
             $user = $this->userService->insert($form, $data);
-//            $user = $this->userService->save($form, $this->request->getPost(), null);
+        //            $user = $this->userService->save($form, $this->request->getPost(), null);
 
             if ($user) {
                 $this->flashMessenger()->addSuccessMessage('L\'user a bien été insérer.');
@@ -85,6 +81,41 @@ class UserController extends AbstractActionController
         return new ViewModel(array(
             'form' => $form->prepare(),
         ));
+    }
+
+    public function addAutoAction()
+    {
+        $container = new \Zend\Session\Container('noAuth');
+
+        $config = $this->config;
+        
+        if ($container->login) {
+            $data = $data = array('userLogin' => $container->login, 'userStatus' => $config['status-base-id'],
+                'fkUrRole' => array($config['role-base-id']));
+            
+            $users = $this->userService->getAll();
+            
+            $exist = false;
+            
+            foreach ($users as $u) {
+                if (strcmp($u->getUserLogin(), $container->login) === 0) {
+                    $exist = true;
+                }
+            }
+            
+            if (!$exist) {
+                $form = $this->userForm;
+            
+                $user = $this->userService->insert($form, $data);
+                if (!$user) {
+                    //TODO handle exception
+                }
+            }
+
+            $container->getManager()->getStorage()->clear('noAuth');
+            
+            return $this->redirect()->toRoute('login');
+        }
     }
 
     public function showAction()
@@ -125,16 +156,16 @@ class UserController extends AbstractActionController
 
     public function deleteAction()
     {
-//        if (!$this->isGranted('delete')) {
-//            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
-//        }
-        $id = $this->params('id');
+        //        if (!$this->isGranted('delete')) {
+        //            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        //        }
+                $id = $this->params('id');
 
-        $this->userService->delete($id);
+                $this->userService->delete($id);
 
-        $this->flashMessenger()->addSuccessMessage('L\'user a bien été supprimé.');
+                $this->flashMessenger()->addSuccessMessage('L\'user a bien été supprimé.');
 
-        return $this->redirect()->toRoute('user');
+                return $this->redirect()->toRoute('user');
     }
-
+    
 }
