@@ -1,0 +1,26 @@
+<?php $this->headTitle($this->translate('Liste des rôles')); ?>
+
+<h1><?=$this->translate('Liste des rôles')?></h1>
+
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
+    <?=$this->translate($m)?>  
+<?php endforeach; ?>
+
+<table class="table table-striped">
+    <?php foreach ($roles as $role) : ?>
+        <tr>
+            <td>
+                <?=$this->escapeHtml($role->getName())?>
+            </td>
+            <td>
+                <a href="<?=$this->url('role/show', ['id'=>$this->escapeUrl($role->getId())])?>" class="btn btn-primary btn-xs"><?=$this->translate('Détails')?></a>
+            </td>
+            <td>
+                <a href="<?=$this->url('role/show/modify', ['id'=>$this->escapeUrl($role->getId())])?>" class="btn btn-warning btn-xs"><?=$this->translate('Modifier')?></a>
+            </td>
+            <td>
+                <a href="<?=$this->url('role/show/delete', ['id'=>$this->escapeUrl($role->getId())])?>" class="btn btn-danger btn-xs"><?=$this->translate('Supprimer')?></a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

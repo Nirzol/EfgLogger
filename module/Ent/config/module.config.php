@@ -27,6 +27,7 @@ return array(
             'Ent\Controller\Profile' => 'Ent\Factory\Controller\ProfileControllerFactory',
             'Ent\Controller\ProfileRest' => 'Ent\Factory\Controller\ProfileRestControllerFactory',
             'Ent\Controller\Log' => 'Ent\Factory\Controller\LogControllerFactory',
+            'Ent\Controller\Role' => 'Ent\Factory\Controller\RoleControllerFactory',
 
         ),
     ), 
@@ -37,7 +38,8 @@ return array(
             'Ent\Form\AttributeForm' => 'Ent\Factory\Form\AttributeFormFactory',
             'Ent\Form\ServiceForm' => 'Ent\Factory\Form\ServiceFormFactory',
             'Ent\Form\ContactForm' => 'Ent\Factory\Form\ContactFormFactory',
-            'Ent\Form\PreferenceForm' => 'Ent\Factory\Form\PreferenceFormFactory'
+            'Ent\Form\PreferenceForm' => 'Ent\Factory\Form\PreferenceFormFactory',
+            'Ent\Form\RoleForm' => 'Ent\Factory\Form\RoleFormFactory',
         ),
     ),
     'router' => array(
@@ -631,6 +633,61 @@ return array(
                     ),
                 ),
             ),
+            'role' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/api/role',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\Role',
+                        'action' => 'list',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'show' => array(
+                        'type' => \Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'delete' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/delete',
+                                    'defaults' => array(
+                                        'action' => 'delete',
+                                    ),
+                                ),
+                            ),
+                            'modify' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/modify',
+                                    'defaults' => array(
+                                        'action' => 'modify',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'user-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
@@ -789,6 +846,7 @@ return array(
             'Ent\Service\ContactDoctrineORM' => 'Ent\Factory\Service\ContactDoctrineORMServiceFactory',
             'Ent\Service\Log' => 'Ent\Factory\Service\LogDoctrineORMServiceFactory',
             'Ent\Service\Preference' => 'Ent\Factory\Service\PreferenceDoctrineORMServiceFactory',
+            'Ent\Service\RoleDoctrineORM' => 'Ent\Factory\Service\RoleDoctrineORMServiceFactory',
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
