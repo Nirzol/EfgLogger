@@ -76,11 +76,11 @@ class EntVersion  extends Ent {
     }
 
     /**
-     * Set setVersion
+     * Set version
      *
      * @param string $version
      *
-     * @return EntVesrion
+     * @return EntVersion
      */
     public function setVersion($version)
     {
@@ -157,8 +157,27 @@ class EntVersion  extends Ent {
         return $this->versionLastUpdate;
     }
 
-    
-    public function toString() {
-        return $this->getVersion() . " de " . $this->getVersionDate()->format('Y-m-d H:i:s');
+    /**
+     * Set versionLastUpdate
+     *
+     * @param \DateTime $versionLastUpdate
+     *
+     * @return EntVersion
+     */
+    public function setVersionLastUpdate($versionLastUpdate)
+    {
+        $this->versionLastUpdate = $versionLastUpdate;
+
+        return $this;
+    }
+
+    /**
+     * Get versionLastUpdate
+     *
+     * @return \DateTime
+     */
+    public function getVersionLastUpdate()
+    {
+        return $this->versionLastUpdate;
     }
 }
