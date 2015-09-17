@@ -853,6 +853,7 @@ return array(
             'Ent\Service\Log' => 'Ent\Factory\Service\LogDoctrineORMServiceFactory',
             'Ent\Service\Preference' => 'Ent\Factory\Service\PreferenceDoctrineORMServiceFactory',
             'Ent\Service\RoleRoleDoctrineORM' => 'Ent\Factory\Service\RoleDoctrineORMServiceFactory',
+            'Ent\Service\Version' => 'Ent\Factory\Service\VersionDoctrineORMServiceFactory',
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
