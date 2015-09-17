@@ -28,6 +28,7 @@ return array(
             'Ent\Controller\ProfileRest' => 'Ent\Factory\Controller\ProfileRestControllerFactory',
             'Ent\Controller\Log' => 'Ent\Factory\Controller\LogControllerFactory',
             'Ent\Controller\Version' => 'Ent\Factory\Controller\VersionControllerFactory',
+            'Ent\Controller\VersionRest' => 'Ent\Factory\Controller\VersionRestControllerFactory',
             'Ent\Controller\Role' => 'Ent\Factory\Controller\RoleControllerFactory',
         ),
     ),

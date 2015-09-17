@@ -171,13 +171,7 @@ class EntVersion  extends Ent {
         return $this;
     }
 
-    /**
-     * Get versionLastUpdate
-     *
-     * @return \DateTime
-     */
-    public function getVersionLastUpdate()
-    {
-        return $this->versionLastUpdate;
+    public function toString() {
+        return $this->getVersion() . " de " . $this->getVersionDate()->format('Y-m-d H:i:s');
     }
 }

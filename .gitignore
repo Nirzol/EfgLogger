@@ -21,3 +21,4 @@ application.config.old
 /public/index.html
 /public/images/
 /public/scripts/
+/public/phpinfo.php
