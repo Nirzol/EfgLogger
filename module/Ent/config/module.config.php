@@ -874,7 +874,7 @@ return array(
             'Ent\Service\ContactDoctrineORM' => 'Ent\Factory\Service\ContactDoctrineORMServiceFactory',
             'Ent\Service\Log' => 'Ent\Factory\Service\LogDoctrineORMServiceFactory',
             'Ent\Service\Preference' => 'Ent\Factory\Service\PreferenceDoctrineORMServiceFactory',
-            'Ent\Service\RoleRoleDoctrineORM' => 'Ent\Factory\Service\RoleDoctrineORMServiceFactory',
+            'Ent\Service\RoleDoctrineORM' => 'Ent\Factory\Service\RoleDoctrineORMServiceFactory',
             'Ent\Service\Version' => 'Ent\Factory\Service\VersionDoctrineORMServiceFactory',
         ),
         'aliases' => array(
