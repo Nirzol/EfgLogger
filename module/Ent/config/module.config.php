@@ -7,8 +7,8 @@ return array(
             'Ent\Controller\IndexRest' => Ent\Controller\IndexRestController::class
         ),
         'factories' => array(
-            'Ent\Controller\User'    => 'Ent\Factory\Controller\UserControllerFactory',
-            'Ent\Controller\UserRest'    => 'Ent\Factory\Controller\UserRestControllerFactory',
+            'Ent\Controller\User' => 'Ent\Factory\Controller\UserControllerFactory',
+            'Ent\Controller\UserRest' => 'Ent\Factory\Controller\UserRestControllerFactory',
             'Ent\Controller\Module' => 'Ent\Factory\Controller\ModuleControllerFactory',
             'Ent\Controller\ModuleRest' => 'Ent\Factory\Controller\ModuleRestControllerFactory',
             'Ent\Controller\Status' => 'Ent\Factory\Controller\StatusControllerFactory',
@@ -29,12 +29,11 @@ return array(
             'Ent\Controller\Log' => 'Ent\Factory\Controller\LogControllerFactory',
             'Ent\Controller\Version' => 'Ent\Factory\Controller\VersionControllerFactory',
             'Ent\Controller\Role' => 'Ent\Factory\Controller\RoleControllerFactory',
-
         ),
-    ), 
+    ),
     'form_elements' => array(
         'factories' => array(
-            'Ent\Form\UserForm' => 'Ent\Factory\Form\UserFormFactory',  
+            'Ent\Form\UserForm' => 'Ent\Factory\Form\UserFormFactory',
             'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',
             'Ent\Form\AttributeForm' => 'Ent\Factory\Form\AttributeFormFactory',
             'Ent\Form\ServiceForm' => 'Ent\Factory\Form\ServiceFormFactory',
@@ -48,7 +47,7 @@ return array(
             'home' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/',
+                    'route' => '/',
                 ),
             ),
             'index' => array(
@@ -247,7 +246,7 @@ return array(
                                 'action' => 'add',
                             ),
                         ),
-                    ),                    
+                    ),
                     'show' => array(
                         'type' => Zend\Mvc\Router\Http\Segment::class,
                         'options' => array(
@@ -694,12 +693,35 @@ return array(
                     ),
                 ),
             ),
-            'user-rest' => array(
-                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+            'version' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route'    => '/api/user-rest[/:id]',
+                    'route' => '/api/version',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\Version',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+            ),
+            'index-rest' => array(
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route' => '/api/index-rest[/:id]',
                     'constraints' => array(
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\IndexRest',
+                    ),
+                ),
+            ),
+            'user-rest' => array(
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route' => '/api/user-rest[/:id]',
+                    'constraints' => array(
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\UserRest',
@@ -707,11 +729,11 @@ return array(
                 ),
             ),
             'module-rest' => array(
-                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/api/module-rest[/:id]',
+                    'route' => '/api/module-rest[/:id]',
                     'constraints' => array(
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\ModuleRest',
@@ -719,11 +741,11 @@ return array(
                 ),
             ),
             'profile-rest' => array(
-                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/api/profile-rest[/:id]',
+                    'route' => '/api/profile-rest[/:id]',
                     'constraints' => array(
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\ProfileRest',
@@ -731,11 +753,11 @@ return array(
                 ),
             ),
             'status-rest' => array(
-                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/api/status-rest[/:id]',
+                    'route' => '/api/status-rest[/:id]',
                     'constraints' => array(
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\StatusRest',
@@ -743,11 +765,11 @@ return array(
                 ),
             ),
             'action-rest' => array(
-                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/api/action-rest[/:id]',
+                    'route' => '/api/action-rest[/:id]',
                     'constraints' => array(
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\ActionRest',
@@ -755,11 +777,11 @@ return array(
                 ),
             ),
             'structure-rest' => array(
-                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/api/structure-rest[/:id]',
+                    'route' => '/api/structure-rest[/:id]',
                     'constraints' => array(
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\StructureRest',
@@ -767,11 +789,11 @@ return array(
                 ),
             ),
             'attribute-rest' => array(
-                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/api/attribute-rest[/:id]',
+                    'route' => '/api/attribute-rest[/:id]',
                     'constraints' => array(
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\AttributeRest',
@@ -779,23 +801,23 @@ return array(
                 ),
             ),
             'service-rest' => array(
-                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/api/service-rest[/:id]',
+                    'route' => '/api/service-rest[/:id]',
                     'constraints' => array(
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\ServiceRest',
                     ),
                 ),
-            ),  
+            ),
             'contact-rest' => array(
-                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/api/contact-rest[/:id]',
+                    'route' => '/api/contact-rest[/:id]',
                     'constraints' => array(
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\ContactRest',
@@ -803,11 +825,11 @@ return array(
                 ),
             ),
             'preference-rest' => array(
-                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
-                    'route'    => '/api/preference-rest[/:id]',
+                    'route' => '/api/preference-rest[/:id]',
                     'constraints' => array(
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\PreferenceRest',
@@ -819,9 +841,9 @@ return array(
     'view_manager' => array(
 //        'display_not_found_reason' => true,
 //        'display_exceptions'       => true,
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
+        'doctype' => 'HTML5',
+        'not_found_template' => 'error/404',
+        'exception_template' => 'error/index',
 //        'template_map' => array(
 //            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
 //            'error/404'               => __DIR__ . '/../view/error/404.phtml',
@@ -838,7 +860,7 @@ return array(
         'invokables' => array(
 //            'AddressBook\Service\ContactFake' => AddressBook\Service\Contact\ContactFakeService::class
         ),
-        'factories' => array( 
+        'factories' => array(
             'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
 //            'AddressBook\Service\ContactZendDb' => 'AddressBook\Factory\Service\ContactZendDbServiceFactory',
             'Ent\Service\UserDoctrineORM' => 'Ent\Factory\Service\UserDoctrineORMServiceFactory',
@@ -869,7 +891,6 @@ return array(
                     __DIR__ . '/../src/Ent/Entity'
                 ),
             ),
-
             // default metadata driver, aggregates all other drivers into a single one.
             // Override `orm_default` only if you know what you're doing
             'orm_default' => array(
@@ -887,20 +908,20 @@ return array(
 //                'credential_property' => 'password',
 //            ),
 //        ),
-    ),              
+    ),
     'translator' => array(
         'locale' => 'fr_FR',
         'translation_file_patterns' => array(
             array(
-                'type'     => 'gettext',
+                'type' => 'gettext',
                 'base_dir' => __DIR__ . '/../language',
-                'pattern'  => '%s.mo',
+                'pattern' => '%s.mo',
 //                'text_domain' => 'ent'
             ),
             array(
                 'type' => 'phpArray',
                 'base_dir' => 'vendor/zendframework/zend-i18n-resources/languages/',
-                'pattern'  => 'fr/Zend_Validate.php',
+                'pattern' => 'fr/Zend_Validate.php',
             ),
         ),
     ),
