@@ -89,8 +89,8 @@ class VersionDoctrineService implements GenericEntityServiceInterface {
         $form->setData($dataAssoc);
         
         if (!$form->isValid()) {
-            error_log("====== Erreur: Probleme d'enrigistrement de la version dans la base :");
-            error_log("====== Erreur: Version = " . $version->toString());
+//            error_log("====== Erreur: Probleme d'enrigistrement de la version dans la base :");
+//            error_log("====== Erreur: Version = " . $version->toString());
             return null;
         }
         

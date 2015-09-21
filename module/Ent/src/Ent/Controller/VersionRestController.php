@@ -97,5 +97,69 @@ class VersionRestController extends AbstractRestfulController
         ));
     }
     
+    public function update($id, $data) {
+        $form = new VersionForm();
+        
+        $versionFound = $this->service->getById($id, $form);
+        
+        if ($data) {
+            $version = $this->service->update($id, $form, $data);
+            
+            if ($version) {
+                $message = 'La version a bien été modifiée.';
+                $this->flashMessenger()->addSuccessMessage($message);
+                
+                return new JsonModel(array(
+                    'data' => $version->getId(),
+                    'success' => true,
+                    'flashMessages' => array(
+                        'success' => $message
+                    ),
+                ));
+                
+            }
+        }
+        
+        $message = 'VersionRestController.create: La version n\'a pas été modifiée. Version: ' . $versionFound.toString();
+        error_log("===== Erreur: " . $message);
+        return new JsonModel(array(
+            'success' => false,
+            'flashMessages' => array(
+                'error' => $message
+            ),
+        ));
+    }
+    
+    public function create($data) {
+        $form = new VersionForm();
+        
+        if ($data) {
+            $version = $this->service->insert($form, $data);
+            
+            if ($version) {
+                $message = 'La version a bien été ajoutée dans la base.';
+                $this->flashMessenger()->addSuccessMessage($message);
+                
+                return new JsonModel(array(
+                    'data' => $version->getId(),
+                    'success' => true,
+                    'flashMessages' => array(
+                        'success' => $message
+                    ),
+                ));
+                
+            }
+        }
+        
+        $message = 'VersionRestController.create: La version n\'a pas été ajoutée.';
+        error_log("===== Erreur: " . $message);
+        return new JsonModel(array(
+            'success' => false,
+            'flashMessages' => array(
+                'error' => $message
+            ),
+        ));
+    }
+    
 }
 
