@@ -26,7 +26,7 @@ class EntServiceAttribute extends Ent
      *
      * @ORM\ManyToOne(targetEntity="Ent\Entity\EntService")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fk_sa_service_id", referencedColumnName="service_Id")
+     *   @ORM\JoinColumn(name="fk_sa_service_id", referencedColumnName="service_id")
      * })
      */
     private $fkSaService;
