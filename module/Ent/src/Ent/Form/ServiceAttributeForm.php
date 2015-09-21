@@ -29,26 +29,6 @@ class ServiceAttributeForm extends Form{
             ),
         ));
         
-        $this->add(array(
-            'name' => 'serviceLibelle',
-            'options' => array(
-                'label' => 'Libelle : ',
-            ),
-            'attributes' => array(
-                'type' => 'text'
-            ),
-        ));
-        
-        $this->add(array(
-            'name' => 'serviceDescription',
-            'options' => array(
-                'label' => 'Description : ',
-            ),
-            'attributes' => array(
-                'type' => 'text'
-            ),
-        ));
-        
 //        $this->add(array(
 //            'type' => '\DoctrineModule\Form\Element\ObjectRadio', 
 //            'name' => 'fkContactStructure',
