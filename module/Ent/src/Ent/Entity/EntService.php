@@ -56,29 +56,29 @@ class EntService extends Ent
      */
     private $fkCsContact;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntAttribute", inversedBy="fkSaService")
-     * @ORM\JoinTable(name="ent_service_attribute",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="fk_sa_service_id", referencedColumnName="service_id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="fk_sa_attribute_id", referencedColumnName="attribute_id")
-     *   }
-     * )
-     */
-    private $fkSaAttribute;
+//    /**
+//     * @var \Doctrine\Common\Collections\Collection
+//     *
+//     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntAttribute", inversedBy="fkSaService")
+//     * @ORM\JoinTable(name="ent_service_attribute",
+//     *   joinColumns={
+//     *     @ORM\JoinColumn(name="fk_sa_service_id", referencedColumnName="service_id")
+//     *   },
+//     *   inverseJoinColumns={
+//     *     @ORM\JoinColumn(name="fk_sa_attribute_id", referencedColumnName="attribute_id")
+//     *   }
+//     * )
+//     */
+//    private $fkSaAttribute;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->fkCsContact = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->fkSaAttribute = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+//    /**
+//     * Constructor
+//     */
+//    public function __construct()
+//    {
+//        $this->fkCsContact = new \Doctrine\Common\Collections\ArrayCollection();
+//        $this->fkSaAttribute = new \Doctrine\Common\Collections\ArrayCollection();
+//    }
 
 
     /**
@@ -230,42 +230,42 @@ class EntService extends Ent
         return $this->fkCsContact;
     }
 
-    /**
-     * Add fkSaAttribute
-     *
-     * @param \Doctrine\Common\Collections\Collection $fkSaAttribute
-     *
-     * @return EntService
-     */
-    public function addFkSaAttribute(\Doctrine\Common\Collections\Collection $fkSaAttribute)
-    {
-        /* @var $attribute \Ent\Entity\EntAttribute */
-        foreach ($fkSaAttribute as $attribute) {
-            if (!$this->fkSaAttribute->contains($attribute)) {
-                $this->fkSaAttribute->add($attribute);
-            }
-        }
-    }
-
-    /**
-     * Remove fkSaAttribute
-     *
-     * @param \Doctrine\Common\Collections\Collection $fkSaAttribute
-     */
-    public function removeFkSaAttribute(\Doctrine\Common\Collections\Collection $fkSaAttribute)
-    {
-        foreach ($fkSaAttribute as $attribute) {
-            $this->fkSaAttribute->removeElement($attribute);
-        }
-    }
-
-    /**
-     * Get fkSaAttribute
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getFkSaAttribute()
-    {
-        return $this->fkSaAttribute;
-    }
+//    /**
+//     * Add fkSaAttribute
+//     *
+//     * @param \Doctrine\Common\Collections\Collection $fkSaAttribute
+//     *
+//     * @return EntService
+//     */
+//    public function addFkSaAttribute(\Doctrine\Common\Collections\Collection $fkSaAttribute)
+//    {
+//        /* @var $attribute \Ent\Entity\EntAttribute */
+//        foreach ($fkSaAttribute as $attribute) {
+//            if (!$this->fkSaAttribute->contains($attribute)) {
+//                $this->fkSaAttribute->add($attribute);
+//            }
+//        }
+//    }
+//
+//    /**
+//     * Remove fkSaAttribute
+//     *
+//     * @param \Doctrine\Common\Collections\Collection $fkSaAttribute
+//     */
+//    public function removeFkSaAttribute(\Doctrine\Common\Collections\Collection $fkSaAttribute)
+//    {
+//        foreach ($fkSaAttribute as $attribute) {
+//            $this->fkSaAttribute->removeElement($attribute);
+//        }
+//    }
+//
+//    /**
+//     * Get fkSaAttribute
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getFkSaAttribute()
+//    {
+//        return $this->fkSaAttribute;
+//    }
 }
