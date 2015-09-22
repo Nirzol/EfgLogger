@@ -33,14 +33,3 @@
     ?>
 </p>
 
-<p>
-    <?= $this->translate('Attributs :') ?> 
-    <?php
-    foreach ($service->getFkSaAttribute() as $attribute) {
-        if ($attribute->getAttributeLibelle()) :
-            echo $this->escapeHtml($attribute->getAttributeLibelle());
-        endif;
-    }
-    ?>
-</p>
-
