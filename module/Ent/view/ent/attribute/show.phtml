@@ -16,15 +16,3 @@ $title = "Détails d'un attribut";
     <b>Date de modification :</b> <?php echo $attribute->getAttributeLastUpdate()->format('Y-m-d H:i:s');?>
 </p>
 <?php endif; ?>
-<p>
-    <b>Service : </b>
-<ul>
-    <?php
-    foreach ($attribute->getFkSaService() as $service) {
-        if ($service->getServiceLibelle()) :
-            echo "<li>".$this->escapeHtml($service->getServiceLibelle())."</li>";
-        endif;
-    }
-    ?>
-</ul>  
-</p>
