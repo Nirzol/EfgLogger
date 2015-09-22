@@ -10,6 +10,13 @@ class IndexController extends AbstractActionController
 
     public function indexAction()
     {   
+//        $sm = $this->getServiceLocator();
+//        $config = $sm->get('Config');
+//        
+//        $testCas = new \EfgCasAuth\Controller\AuthController($sm->get('Zend\Authentication\AuthenticationService'), $config['cas']);
+//        
+//        $testCas->getPublicTicket();
+        
         $this->checkVersion();
         return new ViewModel();
     }
