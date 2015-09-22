@@ -21,3 +21,7 @@ application.config.old
 /public/fonts/
 /public/img/
 /public/js/
+/public/images
+/public/lib
+/public/scripts
+/public/styles
