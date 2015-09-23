@@ -10,8 +10,9 @@ use Zend\View\Model\JsonModel;
  *
  * @author fandria
  */
-class IndexRestController extends AbstractRestfulController {
 
+class IndexRestController extends AbstractRestfulController {
+       
     public function getList()
     {
         $is_logged = false;
