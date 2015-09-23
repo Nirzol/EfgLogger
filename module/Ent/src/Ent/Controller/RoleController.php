@@ -10,6 +10,7 @@ use Ent\Service\RoleDoctrineService;
 
 class RoleController extends AbstractActionController
 {
+
     /**
      * @var RoleForm
      */
@@ -25,7 +26,7 @@ class RoleController extends AbstractActionController
         $this->service = $roleService;
         $this->roleForm = $roleForm;
     }
-    
+
     public function listAction()
     {
         $roles = $this->service->getAll();
