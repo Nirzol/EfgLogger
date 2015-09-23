@@ -33,7 +33,8 @@ class VersionDoctrineService implements GenericEntityServiceInterface {
     public function getAll() {
         $repository = $this->entityManager->getRepository('Ent\Entity\EntVersion');
         
-        return $repository->findAll();
+//        return $repository->findAll();
+        return $repository->findBy( array(), array('id' => 'ASC'));
     }
 
     public function getById($id, $form = null) {
