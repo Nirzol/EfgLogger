@@ -4,7 +4,7 @@ namespace Ent\Factory\Controller;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
-use Ent\Controller\ServiceRestController;
+use Ent\Controller\ServiceAttributeRestController;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
