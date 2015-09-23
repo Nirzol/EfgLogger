@@ -1,8 +1,41 @@
-Action "index", controller "Version", module "Ent".
+<?php
+    $title = 'Liste des versions ENT';
+    $this->headTitle($title);
+?>
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
+    <div class="alert alert-success" role="alert">
+        <?= $this->translate($m) ?>
+    </div>  
+<?php endforeach; ?> 
+<h2><?php echo $this->escapeHtml($title); ?></h2>
 
-                <br /> Liste de versions 
-                <br />
+<p>
+    <a href="<?php echo $this->url('version/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter une nouvelle version</a>
+</p>
+<table class="table table-striped">  
+    <tr>
+        <th>Version</th>
+        <th>Date</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>        
+    </tr>
     <?php foreach ($listVersions as $version) : ?>
+        <tr>
+            <td>
                 <?= $this->escapeHtml($version->getVersion()) ?>
-                <br />
+            </td>
+            <td>
+                <?= $this->escapeHtml($version->getVersionDate()->format('Y-m-d H:i:s')) ?>
+            </td>
+            <td>
+                <a href="<?= $this->url('version/show', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
+            </td>
+            <td>
+                <a href="<?= $this->url('version/update', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
+            </td>
+            <td>
+                <a href="<?= $this->url('version/delete', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
+            </td>
+        </tr>
     <?php endforeach; ?>
+</table>

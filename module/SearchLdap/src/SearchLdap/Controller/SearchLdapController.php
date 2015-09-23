@@ -69,4 +69,12 @@ class SearchLdapController extends AbstractRestfulController {
             'data' => $search
         ));
     }
+    
+    public function getUser($slug) {
+        $ldap = $this->searchLdapModel;
+        
+        $search = $ldap->searchUser($slug);
+        
+        return $search;
+    }
 }

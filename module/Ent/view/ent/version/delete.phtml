@@ -1,0 +1,19 @@
+<?php
+$title = 'Supprimer une version';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<p>Êtes-vous sur de supprimer la version
+    '<?php echo $this->escapeHtml($this->version->getVersion()); ?>'?
+</p>
+<?php
+    $url = $this->url('version/delete', array('id' => $this->id));
+?>
+<form action="<?php echo $url; ?>" method="post">
+    <div>
+        <input type="hidden" name="id" value="<?php echo (int) $this->version->getId(); ?>" />
+        <input class="btn btn-primary" type="submit" name="del" value="Oui" />
+        <input class="btn btn-primary" type="submit" name="del" value="Non" />
+    </div>
+</form>

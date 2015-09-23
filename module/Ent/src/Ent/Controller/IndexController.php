@@ -10,7 +10,8 @@ class IndexController extends AbstractActionController
 
     public function indexAction()
     {   
-        $this->checkVersion();
+        // Test de la version : fait par le test unitaire CheckVersionTest
+//        $this->checkVersion();
         return new ViewModel();
     }
 
