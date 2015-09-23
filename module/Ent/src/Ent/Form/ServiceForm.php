@@ -64,19 +64,19 @@ class ServiceForm extends Form{
             ),
         ));
         
-        $this->add(array(
-            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox', 
-            'name' => 'fkSaAttribute',
-            'attributes' => array(
-                'id' => 'selectServiceAttribute'
-            ),
-            'options' => array(
-                'label' => 'Attributs : ',
-                'object_manager' => $this->entityManager,
-                'target_class' => 'Ent\Entity\EntAttribute',
-                'property' => 'attributeName',
-                'is_method' => true
-            ),
-        ));
+//        $this->add(array(
+//            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox', 
+//            'name' => 'fkSaAttribute',
+//            'attributes' => array(
+//                'id' => 'selectServiceAttribute'
+//            ),
+//            'options' => array(
+//                'label' => 'Attributs : ',
+//                'object_manager' => $this->entityManager,
+//                'target_class' => 'Ent\Entity\EntAttribute',
+//                'property' => 'attributeName',
+//                'is_method' => true
+//            ),
+//        ));
     }
 }

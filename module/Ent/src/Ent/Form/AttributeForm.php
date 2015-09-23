@@ -27,20 +27,20 @@ class AttributeForm extends Form
         $element->setLabel('Description de l\'attribut :');
         $this->add($element);
         
-        $this->add(array(
-            'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
-            'name' => 'fkSaService',
-            'attributes' => array(
-                'id' => 'selectAttributeService'
-            ),
-            'options' => array(
-                'label' => 'Service : ',
-                'object_manager' => $this->entityManager,
-                'target_class' => 'Ent\Entity\EntService',
-                'property' => 'serviceLibelle',
-                'is_method' => true,
-            ),
-        ));
+//        $this->add(array(
+//            'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
+//            'name' => 'fkSaService',
+//            'attributes' => array(
+//                'id' => 'selectAttributeService'
+//            ),
+//            'options' => array(
+//                'label' => 'Service : ',
+//                'object_manager' => $this->entityManager,
+//                'target_class' => 'Ent\Entity\EntService',
+//                'property' => 'serviceLibelle',
+//                'is_method' => true,
+//            ),
+//        ));
         
     }
 }

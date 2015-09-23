@@ -20,6 +20,8 @@ return array(
             'Ent\Controller\AttributeRest' => 'Ent\Factory\Controller\AttributeRestControllerFactory',
             'Ent\Controller\Service' => 'Ent\Factory\Controller\ServiceControllerFactory',
             'Ent\Controller\ServiceRest' => 'Ent\Factory\Controller\ServiceRestControllerFactory',
+            'Ent\Controller\ServiceAttribute' => 'Ent\Factory\Controller\ServiceAttributeControllerFactory',
+            'Ent\Controller\ServiceAttributeRest' => 'Ent\Factory\Controller\ServiceAttributeRestControllerFactory',
             'Ent\Controller\Contact' => 'Ent\Factory\Controller\ContactControllerFactory',
             'Ent\Controller\ContactRest' => 'Ent\Factory\Controller\ContactRestControllerFactory',
             'Ent\Controller\Preference' => 'Ent\Factory\Controller\PreferenceControllerFactory',
@@ -39,6 +41,7 @@ return array(
             'Ent\Form\StructureForm' => 'Ent\Factory\Form\StructureFormFactory',
             'Ent\Form\AttributeForm' => 'Ent\Factory\Form\AttributeFormFactory',
             'Ent\Form\ServiceForm' => 'Ent\Factory\Form\ServiceFormFactory',
+            'Ent\Form\ServiceAttributeForm' => 'Ent\Factory\Form\ServiceAttributeFormFactory',
             'Ent\Form\ContactForm' => 'Ent\Factory\Form\ContactFormFactory',
             'Ent\Form\PreferenceForm' => 'Ent\Factory\Form\PreferenceFormFactory',
             'Ent\Form\RoleForm' => 'Ent\Factory\Form\RoleFormFactory',
@@ -516,6 +519,61 @@ return array(
                     ),
                 ),
             ),
+            'service-attribute' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/api/service-attribute',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\ServiceAttribute',
+                        'action' => 'list',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'show' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/show/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'delete' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/delete',
+                                    'defaults' => array(
+                                        'action' => 'delete',
+                                    ),
+                                ),
+                            ),
+                            'modify' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/modify',
+                                    'defaults' => array(
+                                        'action' => 'modify',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'contact' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
@@ -863,7 +921,19 @@ return array(
                         'controller' => 'Ent\Controller\ServiceRest',
                     ),
                 ),
-            ),
+            ),  
+            'service-attribute-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/api/service-attribute-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\ServiceAttributeRest',
+                    ),
+                ),
+            ),  
             'contact-rest' => array(
                 'type' => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
@@ -947,6 +1017,7 @@ return array(
             'Ent\Service\StructureDoctrineORM' => 'Ent\Factory\Service\StructureDoctrineORMServiceFactory',
             'Ent\Service\Attribute' => 'Ent\Factory\Service\AttributeDoctrineORMServiceFactory',
             'Ent\Service\ServiceDoctrineORM' => 'Ent\Factory\Service\ServiceDoctrineORMServiceFactory',
+            'Ent\Service\ServiceAttributeDoctrineORM' => 'Ent\Factory\Service\ServiceAttributeDoctrineORMServiceFactory',
             'Ent\Service\ContactDoctrineORM' => 'Ent\Factory\Service\ContactDoctrineORMServiceFactory',
             'Ent\Service\Log' => 'Ent\Factory\Service\LogDoctrineORMServiceFactory',
             'Ent\Service\Preference' => 'Ent\Factory\Service\PreferenceDoctrineORMServiceFactory',
