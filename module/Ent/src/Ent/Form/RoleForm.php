@@ -10,12 +10,20 @@ class RoleForm extends Form
 
     protected $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(/*EntityManager $entityManager*/)
     {
         parent::__construct('role');
 
-        $this->entityManager = $entityManager;
+//        $this->entityManager = $entityManager; 
 
+        $this->add(array(
+            'name' => 'roleName',
+            'attributes' => array(
+                'type' => 'text'
+            ),
+        ));
+        
+        
 //        $this->add(array(
 //            'name' => 'userLogin',
 //            'options' => array(

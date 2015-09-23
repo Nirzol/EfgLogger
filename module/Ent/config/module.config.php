@@ -670,25 +670,28 @@ return array(
                                 'id' => '[1-9][0-9]*',
                             ),
                         ),
-                        'may_terminate' => true,
-                        'child_routes' => array(
-                            'delete' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                                'options' => array(
-                                    'route' => '/delete',
-                                    'defaults' => array(
-                                        'action' => 'delete',
-                                    ),
-                                ),
+                    ),
+                    'update' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/update/:id',
+                            'defaults' => array(
+                                'action' => 'update',
                             ),
-                            'modify' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                                'options' => array(
-                                    'route' => '/modify',
-                                    'defaults' => array(
-                                        'action' => 'modify',
-                                    ),
-                                ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'delete' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/delete/:id',
+                            'defaults' => array(
+                                'action' => 'delete',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
                             ),
                         ),
                     ),
