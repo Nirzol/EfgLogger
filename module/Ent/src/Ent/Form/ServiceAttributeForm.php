@@ -29,34 +29,36 @@ class ServiceAttributeForm extends Form{
             ),
         ));
         
-//        $this->add(array(
-//            'type' => '\DoctrineModule\Form\Element\ObjectRadio', 
-//            'name' => 'fkContactStructure',
-//            'attributes' => array(
-//                'id' => 'selectContactStructure'
-//            ),
-//            'options' => array(
-//                'label' => 'Structure : ',
-//                'object_manager' => $this->entityManager,
-//                'target_class' => 'Ent\Entity\EntStructure',
-//                'property' => 'structureLibelle',
-//                'is_method' => true
-//            ),
-//        ));
-//        
-//        $this->add(array(
-//            'type' => '\DoctrineModule\Form\Element\ObjectRadio', 
-//            'name' => 'fkContactStructure',
-//            'attributes' => array(
-//                'id' => 'selectContactStructure'
-//            ),
-//            'options' => array(
-//                'label' => 'Structure : ',
-//                'object_manager' => $this->entityManager,
-//                'target_class' => 'Ent\Entity\EntStructure',
-//                'property' => 'structureLibelle',
-//                'is_method' => true
-//            ),
-//        ));
+        $this->add(array(
+            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+            'name' => 'fkSaService',
+            'attributes' => array(
+                'id' => 'selectService'
+            ),
+            'options' => array(
+                'label' => 'Service : ',
+                'object_manager' => $this->entityManager,
+                'target_class' => 'Ent\Entity\EntService',
+                'empty_option' => '---Select Service---',
+                'property' => 'serviceName',
+                'is_method' => true,
+            ),
+        ));
+        
+        $this->add(array(
+            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+            'name' => 'fkSaAttribute',
+            'attributes' => array(
+                'id' => 'selectAttribute'
+            ),
+            'options' => array(
+                'label' => 'Attribute : ',
+                'object_manager' => $this->entityManager,
+                'target_class' => 'Ent\Entity\EntAttribute',
+                'empty_option' => '---Select Attribute---',
+                'property' => 'attributeName',
+                'is_method' => true,
+            ),
+        ));
     }
 }
