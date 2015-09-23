@@ -85,55 +85,51 @@ class RoleController extends AbstractActionController
         ));
     }
  
+    public function showAction()
+    {
+        $id = $this->params('id');
 
-/*
+        $role = $this->service->getById($id);        
+        
+        if (!$role) {
+            return $this->notFoundAction();
+        }
 
+        return new ViewModel(array(
+            'role' => $role
+        ));
+    }
+    
     public function updateAction()
     {
         $id = (int) $this->params('id');
-        $form = new VersionForm();
+        $form = new RoleForm();
         
         if (!$id) {
-            return $this->redirect()->toRoute('version');
+            return $this->redirect()->toRoute('role');
         }
         
         // Alimente le formulaire a prtir de l'id eo
-        $versionFound = $this->service->getById($id, $form);
+        $role = $this->service->getById($id, $form);
         
         if ($this->request->isPost()) {
-            $version = $this->service->update($id, $form, $this->request->getPost());
+            $role = $this->service->update($id, $form, $this->request->getPost());
             
-            if ($version) {
-                $this->flashMessenger()->addSuccessMessage('La version a bien été modifiée dans la base.');
+            if ($role) {
+                $this->flashMessenger()->addSuccessMessage('Le role a bien été modifié dans la base.');
                 
-                return $this->redirect()->toRoute('version');
+                return $this->redirect()->toRoute('role');
             } else {
-                $this->flashMessenger()->addErrorMessage('Un problème est survenu lors de la mise a jour de la version: ' . $versionFound->toString());
+                $this->flashMessenger()->addErrorMessage('Un problème est survenu lors de la mise a jour du role: ' . $role->getName());
             }
         }
         
         return new ViewModel(array(
             'form' => $form,
-            'version' => $versionFound
+            'role' => $role
         ));
         
     }
 
-    public function showAction()
-    {
-        $id = $this->params('id');
-
-        $version = $this->service->getById($id);        
-        
-        if (!$version) {
-            return $this->notFoundAction();
-        }
-
-        return new ViewModel(array(
-            'version' => $version
-        ));
-    }
-
-    */
 }
 

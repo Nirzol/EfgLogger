@@ -67,7 +67,7 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
      *
      * @ORM\Column(name="role_last_update", type="datetime", nullable=false)
      */
-    private $lastUpdate = 'CURRENT_TIMESTAMP';
+    private $lastUpdate;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -196,6 +196,9 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
      */
     public function getlastUpdate()
     {
+        if (!isset($this->lastUpdate) || ($this->lastUpdate == NULL)) {
+            $this->setlastUpdate(new \DateTime());
+        }
         return $this->lastUpdate;
     }
 
