@@ -196,9 +196,6 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
      */
     public function getlastUpdate()
     {
-        if (!isset($this->lastUpdate) || ($this->lastUpdate == NULL)) {
-            $this->setlastUpdate(new \DateTime());
-        }
         return $this->lastUpdate;
     }
 

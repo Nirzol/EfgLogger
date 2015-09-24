@@ -32,6 +32,7 @@ return array(
             'Ent\Controller\Version' => 'Ent\Factory\Controller\VersionControllerFactory',
             'Ent\Controller\VersionRest' => 'Ent\Factory\Controller\VersionRestControllerFactory',
             'Ent\Controller\Role' => 'Ent\Factory\Controller\RoleControllerFactory',
+            'Ent\Controller\RoleRest' => 'Ent\Factory\Controller\RoleRestControllerFactory',
             'Ent\Controller\InfoRest' => 'Ent\Factory\Controller\InfoRestControllerFactory'
         ),
     ),
@@ -982,8 +983,21 @@ return array(
                     ),
                 ),
             ),
+            'role-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/api/role-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\RoleRest',
+                    ),
+                ),
+            ),
         ),
     ),
+    
     'view_manager' => array(
 //        'display_not_found_reason' => true,
 //        'display_exceptions'       => true,
