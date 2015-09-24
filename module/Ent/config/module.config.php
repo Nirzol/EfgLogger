@@ -35,6 +35,8 @@ return array(
             'Ent\Controller\InfoRest' => 'Ent\Factory\Controller\InfoRestControllerFactory',
             'Ent\Controller\Permission' => 'Ent\Factory\Controller\PermissionControllerFactory',
             'Ent\Controller\UserRest' => 'Ent\Factory\Controller\UserRestControllerFactory',
+            'Ent\Controller\RoleRest' => 'Ent\Factory\Controller\RoleRestControllerFactory',
+            'Ent\Controller\InfoRest' => 'Ent\Factory\Controller\InfoRestControllerFactory'
         ),
     ),
     'form_elements' => array(
@@ -732,25 +734,28 @@ return array(
                                 'id' => '[1-9][0-9]*',
                             ),
                         ),
-                        'may_terminate' => true,
-                        'child_routes' => array(
-                            'delete' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                                'options' => array(
-                                    'route' => '/delete',
-                                    'defaults' => array(
-                                        'action' => 'delete',
-                                    ),
-                                ),
+                    ),
+                    'update' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/update/:id',
+                            'defaults' => array(
+                                'action' => 'update',
                             ),
-                            'modify' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                                'options' => array(
-                                    'route' => '/modify',
-                                    'defaults' => array(
-                                        'action' => 'modify',
-                                    ),
-                                ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                    'delete' => array(
+                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/delete/:id',
+                            'defaults' => array(
+                                'action' => 'delete',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*'
                             ),
                         ),
                     ),
@@ -1049,8 +1054,21 @@ return array(
                     ),
                 ),
             ),
+            'role-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/api/role-rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\RoleRest',
+                    ),
+                ),
+            ),
         ),
     ),
+    
     'view_manager' => array(
 //        'display_not_found_reason' => true,
 //        'display_exceptions'       => true,

@@ -14,7 +14,7 @@ class RoleDoctrineService implements RoleServiceInterface
      *
      * @var EntityManager
      */
-    protected $em;
+    protected $entityManager;
 
     /**
      *
@@ -42,7 +42,7 @@ class RoleDoctrineService implements RoleServiceInterface
 
     public function __construct(EntityManager $em, \Ent\Entity\EntHierarchicalRole $role, DoctrineObject $hydrator, RoleInputFilter $roleInputFilter, \ZfcRbac\Service\AuthorizationService $authorizationService)
     {
-        $this->em = $em;
+        $this->entityManager = $em;
         $this->role = $role;
         $this->hydrator = $hydrator;
         $this->roleInputFilter = $roleInputFilter;
@@ -51,21 +51,21 @@ class RoleDoctrineService implements RoleServiceInterface
 
     public function getAll()
     {
-        $repo = $this->em->getRepository('Ent\Entity\EntHierarchicalRole');
+        $repo = $this->entityManager->getRepository('Ent\Entity\EntHierarchicalRole');
 
         return $repo->findAll();
     }
 
     public function getAllRest()
     {
-        $repo = $this->em->getRepository('Ent\Entity\EntHierarchicalRole')->createQueryBuilder('Role');
+        $repo = $this->entityManager->getRepository('Ent\Entity\EntHierarchicalRole')->createQueryBuilder('Role');
 
         return $repo->getQuery()->getArrayResult();
     }
 
     public function getById($id, $form = null)
     {
-        $repo = $this->em->getRepository('Ent\Entity\EntHierarchicalRole');
+        $repo = $this->entityManager->getRepository('Ent\Entity\EntHierarchicalRole');
 
         $repoFind = $repo->find($id);
 
@@ -86,12 +86,12 @@ class RoleDoctrineService implements RoleServiceInterface
         $form->bind($role);
         $form->setInputFilter($this->roleInputFilter);
         $form->setData($dataAssoc);
-
+        
         if (!$form->isValid()) {
             return null;
         }
-        $this->em->persist($role);
-        $this->em->flush();
+        $this->entityManager->persist($role);
+        $this->entityManager->flush();
 
         return $role;
     }
@@ -112,8 +112,8 @@ class RoleDoctrineService implements RoleServiceInterface
             return null;
         }
 
-        $this->em->persist($role);
-        $this->em->flush();
+        $this->entityManager->persist($role);
+        $this->entityManager->flush();
 
         return $role;
     }
@@ -123,10 +123,33 @@ class RoleDoctrineService implements RoleServiceInterface
         $role = $this->getById($id);
         
         // First check permission
-        if (!$this->authorizationService->isGranted('delete')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
-        }
-        $this->em->remove($role);
-        $this->em->flush();
+//        if (!$this->authorizationService->isGranted('delete')) {
+//            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+//        }
+        $this->entityManager->remove($role);
+        $this->entityManager->flush();
     }
+    
+    public function update($id, Form $form, $dataAssoc){
+        $role = $this->entityManager->find('Ent\Entity\EntHierarchicalRole', $id);
+        
+        $hydrator = new DoctrineObject($this->entityManager);
+        
+        $form->setHydrator($hydrator);        
+        $form->bind($role);
+        $form->setInputFilter(new RoleInputFilter());
+        $form->setData($dataAssoc);
+        
+        if (!$form->isValid()) {
+            error_log("==== Erreur: RoleDoctrineService.update: form is not valide !");
+        } else {
+            // Enregistrement dans la base
+            $this->entityManager->persist($role);
+            $this->entityManager->flush();
+        }
+        
+        return $role;
+        
+    }
+    
 }
