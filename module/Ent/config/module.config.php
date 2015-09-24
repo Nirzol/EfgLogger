@@ -34,9 +34,7 @@ return array(
             'Ent\Controller\Role' => 'Ent\Factory\Controller\RoleControllerFactory',
             'Ent\Controller\InfoRest' => 'Ent\Factory\Controller\InfoRestControllerFactory',
             'Ent\Controller\Permission' => 'Ent\Factory\Controller\PermissionControllerFactory',
-            'Ent\Controller\UserRest' => 'Ent\Factory\Controller\UserRestControllerFactory',
             'Ent\Controller\RoleRest' => 'Ent\Factory\Controller\RoleRestControllerFactory',
-            'Ent\Controller\InfoRest' => 'Ent\Factory\Controller\InfoRestControllerFactory'
         ),
     ),
     'form_elements' => array(
