@@ -64,10 +64,10 @@ class EntService extends \Ent\Entity\EntService implements \Doctrine\ORM\Proxy\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceId', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceName', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceLibelle', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceDescription', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceLastUpdate', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'fkCsContact', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'fkSaService');
+            return array('__isInitialized__', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceId', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceName', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceLibelle', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceDescription', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceLastUpdate', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'fkCsContact', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'fkSaServiceSA');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceId', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceName', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceLibelle', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceDescription', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceLastUpdate', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'fkCsContact', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'fkSaService');
+        return array('__isInitialized__', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceId', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceName', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceLibelle', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceDescription', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'serviceLastUpdate', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'fkCsContact', '' . "\0" . 'Ent\\Entity\\EntService' . "\0" . 'fkSaServiceSA');
     }
 
     /**
@@ -312,23 +312,23 @@ class EntService extends \Ent\Entity\EntService implements \Doctrine\ORM\Proxy\P
     /**
      * {@inheritDoc}
      */
-    public function addFkSaService(\Doctrine\Common\Collections\Collection $fkSaService)
+    public function addFkSaServiceSA(\Doctrine\Common\Collections\Collection $fkSaServiceSA)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addFkSaService', array($fkSaService));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addFkSaServiceSA', array($fkSaServiceSA));
 
-        return parent::addFkSaService($fkSaService);
+        return parent::addFkSaServiceSA($fkSaServiceSA);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function removeFkSaService(\Doctrine\Common\Collections\Collection $fkSaService)
+    public function removeFkSaService(\Doctrine\Common\Collections\Collection $fkSaServiceSA)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeFkSaService', array($fkSaService));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeFkSaService', array($fkSaServiceSA));
 
-        return parent::removeFkSaService($fkSaService);
+        return parent::removeFkSaService($fkSaServiceSA);
     }
 
     /**
