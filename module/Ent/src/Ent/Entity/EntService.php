@@ -55,30 +55,23 @@ class EntService extends Ent
      * @ORM\ManyToMany(targetEntity="Ent\Entity\EntContact", mappedBy="fkCsService")
      */
     private $fkCsContact;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Ent\Entity\EntServiceAttribute", mappedBy="fkSaService")
+     */
+    private $fkSaServiceSA;
 
-//    /**
-//     * @var \Doctrine\Common\Collections\Collection
-//     *
-//     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntAttribute", inversedBy="fkSaService")
-//     * @ORM\JoinTable(name="ent_service_attribute",
-//     *   joinColumns={
-//     *     @ORM\JoinColumn(name="fk_sa_service_id", referencedColumnName="service_id")
-//     *   },
-//     *   inverseJoinColumns={
-//     *     @ORM\JoinColumn(name="fk_sa_attribute_id", referencedColumnName="attribute_id")
-//     *   }
-//     * )
-//     */
-//    private $fkSaAttribute;
 
-//    /**
-//     * Constructor
-//     */
-//    public function __construct()
-//    {
-//        $this->fkCsContact = new \Doctrine\Common\Collections\ArrayCollection();
-//        $this->fkSaAttribute = new \Doctrine\Common\Collections\ArrayCollection();
-//    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->fkCsContact = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fkSaServiceSA = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -268,4 +261,44 @@ class EntService extends Ent
 //    {
 //        return $this->fkSaAttribute;
 //    }
+    
+    /**
+     * Add FkSaServiceSA
+     *
+     * @param \Doctrine\Common\Collections\Collection fkSaServiceSA
+     *
+     * @return EntService
+     */
+    public function addFkSaServiceSA(\Doctrine\Common\Collections\Collection $fkSaServiceSA)
+    {
+        /* @var $role \Ent\Entity\EntServiceAttribute */
+        foreach ($fkSaServiceSA as $sa) {
+            if (!$this->fkSaServiceSA->contains($sa)) {
+                $this->fkSaServiceSA->add($sa);
+            }
+        }
+    }
+
+    /**
+     * Remove FkSaServiceSA
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkSaServiceSA
+     */
+    public function removeFkSaService(\Doctrine\Common\Collections\Collection $fkSaServiceSA)
+    {
+        /* @var $role \Ent\Entity\EntServiceAttribute */
+        foreach ($fkSaServiceSA as $sa) {
+            $this->fkSaServiceSA->removeElement($sa);
+        }
+    }
+    
+    /**
+     * Get FkSaServiceSA
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    function getFkSaService() {
+        return $this->fkSaServiceSA;
+//        return $this->fkSaService->toArray();
+    }
 }
