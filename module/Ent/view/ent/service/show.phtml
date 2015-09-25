@@ -33,3 +33,23 @@
     ?>
 </p>
 
+<p>
+    <?= $this->translate('Attribut :') ?> 
+    <br>
+    <?php
+    foreach ($service->getFkSaService() as $sa) {
+        if ($sa->getFkSaAttribute()->getAttributeName()) :
+            echo $this->escapeHtml($sa->getFkSaAttribute()->getAttributeName()).' : ';
+        endif;
+        if ($sa->getServiceAttributeValue()) {
+            echo $this->escapeHtml($sa->getServiceAttributeValue());
+        } else {
+            echo 'ø';
+        }
+        ?>
+    <br>
+        <?php
+    }
+    ?>
+</p>
+
