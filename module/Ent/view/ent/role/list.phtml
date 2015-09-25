@@ -5,6 +5,9 @@
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
     <?=$this->translate($m)?>  
 <?php endforeach; ?>
+<p>
+    <a href="<?php echo $this->url('role/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter une nouveau role</a>
+</p>
 
 <table class="table table-striped">
     <?php foreach ($roles as $role) : ?>
@@ -16,10 +19,10 @@
                 <a href="<?=$this->url('role/show', ['id'=>$this->escapeUrl($role->getId())])?>" class="btn btn-primary btn-xs"><?=$this->translate('Détails')?></a>
             </td>
             <td>
-                <a href="<?=$this->url('role/show/modify', ['id'=>$this->escapeUrl($role->getId())])?>" class="btn btn-warning btn-xs"><?=$this->translate('Modifier')?></a>
+                <a href="<?=$this->url('role/update', ['id'=>$this->escapeUrl($role->getId())])?>" class="btn btn-warning btn-xs"><?=$this->translate('Modifier')?></a>
             </td>
             <td>
-                <a href="<?=$this->url('role/show/delete', ['id'=>$this->escapeUrl($role->getId())])?>" class="btn btn-danger btn-xs"><?=$this->translate('Supprimer')?></a>
+                <a href="<?=$this->url('role/delete', ['id'=>$this->escapeUrl($role->getId())])?>" class="btn btn-danger btn-xs"><?=$this->translate('Supprimer')?></a>
             </td>
         </tr>
     <?php endforeach; ?>

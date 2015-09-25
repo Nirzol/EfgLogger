@@ -4,18 +4,32 @@ namespace Ent\Form;
 
 use Doctrine\ORM\EntityManager;
 use Zend\Form\Form;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 class RoleForm extends Form
 {
 
     protected $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(/*EntityManager $entityManager*/)
     {
         parent::__construct('role');
 
-        $this->entityManager = $entityManager;
+//        $this->entityManager = $entityManager; 
 
+        // Gestion de l'arrayCopy
+        $this->setHydrator(new ClassMethods());
+         
+        $this->add(array(
+            'name' => 'name',
+            'options' => array(
+                'label' => 'Nom du role : ',
+            ),
+            'attributes' => array(
+                'type' => 'text'
+            ),
+        ));
+        
 //        $this->add(array(
 //            'name' => 'userLogin',
 //            'options' => array(
