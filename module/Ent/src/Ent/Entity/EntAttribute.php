@@ -48,6 +48,13 @@ class EntAttribute extends Ent
      * @ORM\Column(name="attribute_last_update", type="datetime", nullable=true)
      */
     private $attributeLastUpdate;
+        
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Ent\Entity\EntServiceAttribute", mappedBy="fkSaAttribute")
+     */
+    private $fkSaAttributeSA;
 
 //    /**
 //     * @var \Doctrine\Common\Collections\Collection
@@ -56,14 +63,14 @@ class EntAttribute extends Ent
 //     */
 //    private $fkSaService;
 
-//    /**
-//     * Constructor
-//     */
-//    public function __construct()
-//    {
-//        $this->fkSaService = new \Doctrine\Common\Collections\ArrayCollection();
-//    }
-
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->fkSaAttributeSA = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
 
     /**
      * Get attributeId
@@ -212,4 +219,45 @@ class EntAttribute extends Ent
 //    {
 //        return $this->fkSaService;
 //    }
+
+    /**
+     * Add FkSaAttributeSA
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkSaAttributeSA
+     *
+     * @return EntAttribute
+     */
+    public function addFkSaAttributeSA(\Doctrine\Common\Collections\Collection $fkSaAttributeSA)
+    {
+        /* @var $role \Ent\Entity\EntServiceAttribute */
+        foreach ($fkSaAttributeSA as $sa) {
+            if (!$this->fkSaAttributeSA->contains($sa)) {
+                $this->fkSaAttributeSA->add($sa);
+            }
+        }
+    }
+
+    /**
+     * Remove FkSaAttributeSA
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkSaAttributeSA
+     */
+    public function removeFkSaAttributeSA(\Doctrine\Common\Collections\Collection $fkSaAttributeSA)
+    {
+        /* @var $role \Ent\Entity\EntServiceAttribute */
+        foreach ($fkSaAttributeSA as $sa) {
+            $this->fkSaAttributeSA->removeElement($sa);
+        }
+    }
+    
+    /**
+     * Get FkSaAttributeSA
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    function getFkSaAttributeSA() {
+        return $this->fkSaAttributeSA;
+//        return $this->fkSaService->toArray();
+    }
+    
 }

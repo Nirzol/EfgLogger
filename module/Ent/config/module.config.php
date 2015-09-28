@@ -33,8 +33,9 @@ return array(
             'Ent\Controller\Version' => 'Ent\Factory\Controller\VersionControllerFactory',
             'Ent\Controller\VersionRest' => 'Ent\Factory\Controller\VersionRestControllerFactory',
             'Ent\Controller\Role' => 'Ent\Factory\Controller\RoleControllerFactory',
+            'Ent\Controller\InfoRest' => 'Ent\Factory\Controller\InfoRestControllerFactory',
+            'Ent\Controller\Permission' => 'Ent\Factory\Controller\PermissionControllerFactory',
             'Ent\Controller\RoleRest' => 'Ent\Factory\Controller\RoleRestControllerFactory',
-            'Ent\Controller\InfoRest' => 'Ent\Factory\Controller\InfoRestControllerFactory'
         ),
     ),
     'form_elements' => array(
@@ -47,6 +48,7 @@ return array(
             'Ent\Form\ContactForm' => 'Ent\Factory\Form\ContactFormFactory',
             'Ent\Form\PreferenceForm' => 'Ent\Factory\Form\PreferenceFormFactory',
             'Ent\Form\RoleForm' => 'Ent\Factory\Form\RoleFormFactory',
+            'Ent\Form\PermissionForm' => 'Ent\Factory\Form\PermissionFormFactory',
         ),
     ),
     'router' => array(
@@ -769,6 +771,61 @@ return array(
                     ),
                 ),
             ),
+            'permission' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/api/permission',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\Permission',
+                        'action' => 'list',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'action' => 'add',
+                            ),
+                        ),
+                    ),
+                    'show' => array(
+                        'type' => \Zend\Mvc\Router\Http\Segment::class,
+                        'options' => array(
+                            'route' => '/:id',
+                            'defaults' => array(
+                                'action' => 'show',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9][0-9]*',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'delete' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/delete',
+                                    'defaults' => array(
+                                        'action' => 'delete',
+                                    ),
+                                ),
+                            ),
+                            'modify' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/modify',
+                                    'defaults' => array(
+                                        'action' => 'modify',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'version' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
@@ -983,6 +1040,18 @@ return array(
                     ),
                 ),
             ),
+            'permission-rest' => array(
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route' => '/api/permission-rest[/:id]',
+                    'constraints' => array(
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\PermissionRest',
+                    ),
+                ),
+            ),
             'version-rest' => array(
                 'type'    => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
@@ -1061,6 +1130,7 @@ return array(
             'Ent\Service\Preference' => 'Ent\Factory\Service\PreferenceDoctrineORMServiceFactory',
             'Ent\Service\RoleDoctrineORM' => 'Ent\Factory\Service\RoleDoctrineORMServiceFactory',
             'Ent\Service\Version' => 'Ent\Factory\Service\VersionDoctrineORMServiceFactory',
+            'Ent\Service\PermissionDoctrineORM' => 'Ent\Factory\Service\PermissionDoctrineORMServiceFactory',
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
