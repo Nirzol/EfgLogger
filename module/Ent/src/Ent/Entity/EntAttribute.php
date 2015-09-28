@@ -178,48 +178,6 @@ class EntAttribute extends Ent
         return $this->attributeLastUpdate;
     }
 
-//    /**
-//     * Add fkSaService
-//     *
-//     * @param \Doctrine\Common\Collections\Collection $fkSaService
-//     *
-//     * @return EntAttribute
-//     */
-//    public function addFkSaService(\Doctrine\Common\Collections\Collection $fkSaService)
-//    {
-//        /* @var $service \Ent\Entity\EntService */
-//        foreach ($fkSaService as $service) {
-//            if (!$this->fkSaService->contains($service)) {
-//                $this->fkSaService->add($service);
-//                $service->addFkSaAttribute(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Remove fkSaService
-//     *
-//     * @param \Doctrine\Common\Collections\Collection $fkSaService
-//     */
-//    public function removeFkSaService(\Doctrine\Common\Collections\Collection $fkSaService)
-//    {
-//        /* @var $service \Ent\Entity\EntService */
-//        foreach ($fkSaService as $service) {
-//            $this->fkSaService->removeElement($service);
-//            $service->removeFkSaAttribute(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
-//        }
-//    }
-//
-//    /**
-//     * Get fkSaService
-//     *
-//     * @return \Doctrine\Common\Collections\Collection
-//     */
-//    public function getFkSaService()
-//    {
-//        return $this->fkSaService;
-//    }
-
     /**
      * Add FkSaAttributeSA
      *
@@ -233,8 +191,10 @@ class EntAttribute extends Ent
         foreach ($fkSaAttributeSA as $sa) {
             if (!$this->fkSaAttributeSA->contains($sa)) {
                 $this->fkSaAttributeSA->add($sa);
+                $sa->setFkSaAttribute($this);
             }
         }
+        return $this;
     }
 
     /**
@@ -247,7 +207,9 @@ class EntAttribute extends Ent
         /* @var $role \Ent\Entity\EntServiceAttribute */
         foreach ($fkSaAttributeSA as $sa) {
             $this->fkSaAttributeSA->removeElement($sa);
+            $sa->setFkSaAttribute(null);
         }
+        return $this;
     }
     
     /**
@@ -256,8 +218,7 @@ class EntAttribute extends Ent
      * @return \Doctrine\Common\Collections\Collection
      */
     function getFkSaAttributeSA() {
-        return $this->fkSaAttributeSA;
-//        return $this->fkSaService->toArray();
+        return $this->fkSaService->toArray();
     }
     
 }
