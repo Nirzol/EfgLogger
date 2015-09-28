@@ -7,6 +7,7 @@ use Ent\Service\RoleDoctrineService;
 use Zend\View\Model\JsonModel;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Ent\Entity\EntHierarchicalRole;
+use Ent\Form\RoleForm;
 
 class RoleRestController extends AbstractRestfulController
 {
@@ -120,7 +121,7 @@ class RoleRestController extends AbstractRestfulController
             }
         }
         
-        $message = 'RoleRestController.update: Le role n\'a pas été modifié. Role: ' . $role.getName();
+        $message = 'RoleRestController.update: Le role n\'a pas été modifié. Role: ' . $roleFound.getName();
         error_log("===== Erreur: " . $message);
         return new JsonModel(array(
             'success' => false,
@@ -131,7 +132,7 @@ class RoleRestController extends AbstractRestfulController
     }
     
     public function create($data) {
-        $form = new VersionForm();
+        $form = new RoleForm();
         
         if ($data) {
             $role = $this->service->insert($form, $data);

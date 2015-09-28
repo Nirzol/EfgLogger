@@ -12,7 +12,7 @@ class ModuleControllerTest extends AbstractControllerTestCase
     }
 
     public function testListActionIsAccessible() {
-        $this->dispatch('/module');
+        $this->dispatch('/api/module');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
@@ -39,7 +39,7 @@ class ModuleControllerTest extends AbstractControllerTestCase
                 ->setAllowOverride(true)
                 ->setService('Ent\Service\ModuleDoctrineService', $mockService);
         
-        $this->dispatch('/module/show/2');
+        $this->dispatch('/api/module/show/2');
         
         $this->assertContains('testModule', $this->getResponse()->getContent());
         $this->assertContains('testModuleLibelle', $this->getResponse()->getContent());
@@ -47,7 +47,7 @@ class ModuleControllerTest extends AbstractControllerTestCase
     }
     
     public function testGetListIsAccessible() {
-        $this->dispatch('/module-rest');
+        $this->dispatch('/api/module-rest');
         
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
@@ -58,7 +58,7 @@ class ModuleControllerTest extends AbstractControllerTestCase
     
     public function testUpdateIsAccessible() {
         
-        $this->dispatch('/module-rest/6', 'PUT', array('moduleName' => 'testModuleRestUpdate', 'moduleLibelle' => 'module libelle update', 'moduleDescription' => 'module description update'));
+        $this->dispatch('/api/module-rest/6', 'PUT', array('moduleName' => 'testModuleRestUpdate', 'moduleLibelle' => 'module libelle update', 'moduleDescription' => 'module description update'));
         
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
@@ -68,7 +68,7 @@ class ModuleControllerTest extends AbstractControllerTestCase
     }
     
 //    public function testDeleteIsAccessible() {
-//        $this->dispatch('/module-rest/2', 'DELETE');
+//        $this->dispatch('/api/module-rest/2', 'DELETE');
 //
 //        $this->assertResponseStatusCode(200);
 //        $this->assertModuleName('ent');

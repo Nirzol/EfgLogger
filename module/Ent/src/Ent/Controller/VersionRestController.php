@@ -7,6 +7,7 @@ use Ent\Service\VersionDoctrineService;
 use Zend\View\Model\JsonModel;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Ent\Entity\EntVersion;
+use Ent\Form\VersionForm;
 
 class VersionRestController extends AbstractRestfulController
 {
