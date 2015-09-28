@@ -1,0 +1,27 @@
+<?php
+    $title = 'Liste de logs ENT';
+    $this->headTitle($title);
+?>
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
+    <div class="alert alert-success" role="alert">
+        <?= $this->translate($m) ?>
+    </div>  
+<?php endforeach; ?> 
+<h2><?php echo $this->escapeHtml($title); ?></h2>
+
+<p>
+    <a href="<?php echo $this->url('log/testadd', array('action' => 'testadd')); ?>" class="btn btn-primary btn-xs">Test ajout d'une entrée log</a>
+</p>
+
+<table class="table table-striped">  
+    <tr>
+        <th>Log</th>
+    </tr>
+    <?php foreach ($logs as $item) : ?>
+        <tr>
+            <td>
+                <?= $this->escapeHtml($item->toString()) ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

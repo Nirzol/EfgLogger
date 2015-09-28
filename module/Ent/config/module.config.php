@@ -29,6 +29,7 @@ return array(
             'Ent\Controller\Profile' => 'Ent\Factory\Controller\ProfileControllerFactory',
             'Ent\Controller\ProfileRest' => 'Ent\Factory\Controller\ProfileRestControllerFactory',
             'Ent\Controller\Log' => 'Ent\Factory\Controller\LogControllerFactory',
+            'Ent\Controller\LogRest' => 'Ent\Factory\Controller\LogRestControllerFactory',
             'Ent\Controller\Version' => 'Ent\Factory\Controller\VersionControllerFactory',
             'Ent\Controller\VersionRest' => 'Ent\Factory\Controller\VersionRestControllerFactory',
             'Ent\Controller\Role' => 'Ent\Factory\Controller\RoleControllerFactory',
@@ -638,10 +639,21 @@ return array(
                     'route' => '/api/log',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\log',
-                        'action' => 'test',
+                        'action' => 'index',
                     ),
                 ),
                 'may_terminate' => true,
+                'child_routes' => array(
+                    'testadd' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/testadd',
+                            'defaults' => array(
+                                'action' => 'testadd',
+                            ),
+                        ),
+                    ),
+                )
             ),
             'preference' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
@@ -837,7 +849,7 @@ return array(
                     'show' => array(
                         'type' => Zend\Mvc\Router\Http\Segment::class,
                         'options' => array(
-                            'route' => '/show/:id',
+                            'route' => '/:id',
                             'defaults' => array(
                                 'action' => 'show',
                             ),
@@ -917,6 +929,18 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\ProfileRest',
+                    ),
+                ),
+            ),
+            'log-rest' => array(
+                'type' => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route' => '/api/log-rest[/:id]',
+                    'constraints' => array(
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\LogRest',
                     ),
                 ),
             ),
