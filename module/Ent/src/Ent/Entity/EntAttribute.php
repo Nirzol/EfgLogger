@@ -52,16 +52,9 @@ class EntAttribute extends Ent
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="Ent\Entity\EntServiceAttribute", mappedBy="fkSaAttribute")
+     * @ORM\OneToMany(targetEntity="Ent\Entity\EntServiceAttribute", mappedBy="fkSaAttribute", cascade={"persist", "remove"}, orphanRemoval=TRUE)
      */
     private $fkSaAttributeSA;
-
-//    /**
-//     * @var \Doctrine\Common\Collections\Collection
-//     *
-//     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntService", mappedBy="fkSaAttribute")
-//     */
-//    private $fkSaService;
 
     /**
      * Constructor
@@ -185,32 +178,48 @@ class EntAttribute extends Ent
      *
      * @return EntAttribute
      */
-    public function addFkSaAttributeSA(\Doctrine\Common\Collections\Collection $fkSaAttributeSA)
+    public function addFkSaAttributeSA(\Ent\Entity\EntServiceAttribute $fkSaAttributeSA)
     {
-        /* @var $role \Ent\Entity\EntServiceAttribute */
-        foreach ($fkSaAttributeSA as $sa) {
-            if (!$this->fkSaAttributeSA->contains($sa)) {
-                $this->fkSaAttributeSA->add($sa);
-                $sa->setFkSaAttribute($this);
-            }
+        if (!$this->fkSaAttributeSA->contains($fkSaAttributeSA)) {
+            $this->fkSaAttributeSA->add($fkSaAttributeSA);
+            $fkSaAttributeSA->setFkSaAttribute($this);
         }
         return $this;
     }
+//    public function addFkSaAttributeSA(\Doctrine\Common\Collections\Collection $fkSaAttributeSA)
+//    {
+//        /* @var $role \Ent\Entity\EntServiceAttribute */
+//        foreach ($fkSaAttributeSA as $sa) {
+//            if (!$this->fkSaAttributeSA->contains($sa)) {
+//                $this->fkSaAttributeSA->add($sa);
+//                $sa->setFkSaAttribute($this);
+//            }
+//        }
+//        return $this;
+//    }
 
     /**
      * Remove FkSaAttributeSA
      *
      * @param \Doctrine\Common\Collections\Collection $fkSaAttributeSA
      */
-    public function removeFkSaAttributeSA(\Doctrine\Common\Collections\Collection $fkSaAttributeSA)
+    public function removeFkSaAttributeSA(\Ent\Entity\EntServiceAttribute $fkSaAttributeSA)
     {
-        /* @var $role \Ent\Entity\EntServiceAttribute */
-        foreach ($fkSaAttributeSA as $sa) {
-            $this->fkSaAttributeSA->removeElement($sa);
-            $sa->setFkSaAttribute(null);
+        if ($this->fkSaAttributeSA->contains($fkSaAttributeSA)) {
+            $this->fkSaAttributeSA->removeElement($fkSaAttributeSA);
+            $fkSaAttributeSA->setFkSaAttribute(null);
         }
         return $this;
     }
+//    public function removeFkSaAttributeSA(\Doctrine\Common\Collections\Collection $fkSaAttributeSA)
+//    {
+//        /* @var $role \Ent\Entity\EntServiceAttribute */
+//        foreach ($fkSaAttributeSA as $sa) {
+//            $this->fkSaAttributeSA->removeElement($sa);
+//            $sa->setFkSaAttribute(null);
+//        }
+//        return $this;
+//    }
     
     /**
      * Get FkSaAttributeSA
@@ -218,7 +227,7 @@ class EntAttribute extends Ent
      * @return \Doctrine\Common\Collections\Collection
      */
     function getFkSaAttributeSA() {
-        return $this->fkSaService->toArray();
+        return $this->fkSaAttributeSA->toArray();
     }
     
 }
