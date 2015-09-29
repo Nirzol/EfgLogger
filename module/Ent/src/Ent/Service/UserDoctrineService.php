@@ -80,6 +80,14 @@ class UserDoctrineService implements UserServiceInterface
 
         return $repoFind;
     }
+    
+    public function findBy($options) {
+        $repo = $this->em->getRepository('Ent\Entity\EntUser');
+        
+        $repoFindOneBy = $repo->findBy($options);
+        
+        return $repoFindOneBy;
+    }
 
     public function insert(Form $form, $dataAssoc)
     {

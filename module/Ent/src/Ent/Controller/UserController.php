@@ -33,7 +33,9 @@ class UserController extends AbstractActionController
     }
 
     public function listAction()
-    {
+    {        
+//        $user = $this->userService->findBy(array('userLogin' => 'ss'));
+//        var_dump(!$user);
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
             var_dump($authService->getIdentity()->getUserLogin());
@@ -93,22 +95,24 @@ class UserController extends AbstractActionController
             $data = $data = array('userLogin' => $container->login, 'userStatus' => $config['status-base-id'],
                 'fkUrRole' => array($config['role-base-id']));
             
-            $users = $this->userService->getAll();
-            
-            $exist = false;
-            
-            foreach ($users as $u) {
-                if (strcmp($u->getUserLogin(), $container->login) === 0) {
-                    $exist = true;
-                }
-            }
-            
-            if (!$exist) {
+//            $users = $this->userService->getAll();
+//            
+//            $exist = false;
+//            
+//            foreach ($users as $u) {
+//                if (strcmp($u->getUserLogin(), $container->login) === 0) {
+//                    $exist = true;
+//                }
+//            }
+            $user = $this->userService->findBy(array('userLogin' => $container->login));
+         
+            if (!$user) {
                 $form = $this->userForm;
             
                 $user = $this->userService->insert($form, $data);
                 if (!$user) {
                     //TODO handle exception
+//                    return $this->notFoundAction();  A tester ???? ou autre....
                 }
             }
 
