@@ -41,25 +41,27 @@ class LogDoctrineService implements GenericEntityServiceInterface {
         
         return $repoFind;
     }
-    
-    public function insertArray(Array $dataAarray=array()) {
-        $eo = null;
+
+    /**
+     * 
+     * @param type $login
+     * @return type EntUser
+     */
+    public function getUserByLogin($login) {
         
-        if( isset($dataAarray)) {
-            $eo = new EntLog();
-
-            $hydrator = new ClassMethods();
-
-            // cree l'objet 
-            $eo = $hydrator->hydrate($dataAarray, $eo);
-
-            $this->em->persist($eo);
-            $this->em->flush();
-            return $eo;
+        $eoUser = NULL;
+        
+        try {
+            $repository = $this->em->getRepository('Ent\Entity\EntUser');
+            $users = $repository->findBy(array('userLogin' => $login));
+            $eoUser = $users[0];
+        } catch (Exception $exc) {
+            $eoUser = NULL;
+            error_log($exc->getTraceAsString());
+            return NULL;
         }
-        
-        return null;
-        
+
+        return $eoUser;
     }
     
     public function insertEnterpriseObject($eo) {
@@ -89,7 +91,24 @@ class LogDoctrineService implements GenericEntityServiceInterface {
 
         return null;
     }
-    
+
+    public function insertArray($dataArray) {
+        
+        if( isset($dataArray) && (count($dataArray) > 0)) {
+            $anEntLog = new EntLog();
+
+            $hydrator = new DoctrineObject($this->em);
+
+            $hydrator->hydrate($dataArray, $anEntLog);
+            
+            $this->insertEnterpriseObject($anEntLog);
+
+            return $anEntLog;
+        }
+        
+        return NULL;
+    }
+
     public function insert(Form $form, $dataAssoc) {
         $eo = new EntLog();
         
@@ -110,7 +129,22 @@ class LogDoctrineService implements GenericEntityServiceInterface {
         return $eo;
         
     }
-
+    
+    public function updateArray($id, $dataArray){
+        
+        $anEntLog = $this->em->find('Ent\Entity\EntLog', $id);
+        
+        $hydrator = new DoctrineObject($this->em);
+        $hydrator->hydrate($dataArray, $anEntLog);
+        $this->insertEnterpriseObject($anEntLog);
+        
+        $this->em->persist($anEntLog);
+        $this->em->flush();
+        
+        return $anEntLog;
+        
+    }
+    
     public function update($id, Form $form, $dataAssoc){
         $eo = $this->em->find('Ent\Entity\EntLog', $id);
         
@@ -142,6 +176,5 @@ class LogDoctrineService implements GenericEntityServiceInterface {
         
         return $eo;
     }
-    
     
 }

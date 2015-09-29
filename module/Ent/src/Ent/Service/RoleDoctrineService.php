@@ -40,7 +40,7 @@ class RoleDoctrineService implements RoleServiceInterface
      */
     protected $authorizationService;
 
-    public function __construct(EntityManager $em, \Ent\Entity\EntHierarchicalRole $role, DoctrineObject $hydrator, RoleInputFilter $roleInputFilter, \ZfcRbac\Service\AuthorizationService $authorizationService)
+    public function __construct(EntityManager $em, EntHierarchicalRole $role, DoctrineObject $hydrator, RoleInputFilter $roleInputFilter, \ZfcRbac\Service\AuthorizationService $authorizationService)
     {
         $this->entityManager = $em;
         $this->role = $role;

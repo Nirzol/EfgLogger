@@ -6,10 +6,15 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Ent\Service\GenericEntityServiceInterface;
 use Ent\Entity\EntLog;
+use Ent\Service\LogDoctrineService;
 
 class LogController extends AbstractActionController
 {
 
+    /**
+     *
+     * @var LogDoctrineService
+     */
     protected $service = null;
 
     public function __construct(GenericEntityServiceInterface $iservice)
@@ -17,12 +22,24 @@ class LogController extends AbstractActionController
         $this->service = $iservice;
     }
 
-    public function testAction()
+    
+    public function indexAction()
     {
+        var_dump($this->getUser());
         
-        // UserDoctrineService => $eoUser
-        $serviceEo = $this->getServiceLocator()->get('Ent\Service\UserDoctrineORM');
-        $eoUser = $serviceEo->getById(1);
+        $result = $this->service->getAll();
+
+        return new ViewModel(array(
+            'logs' => $result
+        ));
+    }
+    
+    public function testAddAction()
+    {
+        /**
+          * @var LogDoctrineService
+          */
+        $eoUser = $this->getUser();
         
         // Ent\Service\Module => $eoModule
         $serviceEo = $this->getServiceLocator()->get('Ent\Service\Module');
@@ -45,10 +62,32 @@ class LogController extends AbstractActionController
         
         $this->service->insertEnterpriseObject($anEntLog);
         
-        return new ViewModel(array(
-            'log' => $anEntLog
-        ));
-    }
+        return $this->redirect()->toRoute('log');
+    }      
+    
+    /**
+     * 
+     * @return type EntUser
+     */
+    public function getUser()
+    {
+               
+        $eoUser = NULL;
+        
+        $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
+        if ($authService->hasIdentity()) {
+            $userLogin = $authService->getIdentity()->getUserLogin();
+            
+            /**
+             * @var LogDoctrineService
+             */
+//            $serviceEo = $this->getServiceLocator()->get('Ent\Service\UserDoctrineORM');
+//            $eoUser = $serviceEo->getByLogin($userLogin);
 
+            $eoUser = $this->service->getUserByLogin($userLogin);
+        }
+        
+        return $eoUser;
+    }
 }
 

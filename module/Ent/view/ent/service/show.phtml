@@ -33,3 +33,25 @@
     ?>
 </p>
 
+<p>
+    <?= $this->translate('Attribut :') ?> 
+    <br>
+    <?php
+    foreach ($service->getAttributes() as $attribute) {
+        if ($attribute) {
+            if ($attribute['attribute']->getAttributeName()) {
+                echo $this->escapeHtml($attribute['attribute']->getAttributeName()).' : ';
+            }
+            if ($attribute['value']) {
+                echo $this->escapeHtml($attribute['value']);
+            } else {
+                echo 'ø';
+            }
+        }
+        ?>
+    <br>
+        <?php
+    }
+    ?>
+</p>
+

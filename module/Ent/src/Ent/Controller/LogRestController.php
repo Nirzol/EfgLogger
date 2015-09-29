@@ -3,17 +3,16 @@
 namespace Ent\Controller;
 
 use Zend\Mvc\Controller\AbstractRestfulController;
-use Ent\Service\VersionDoctrineService;
 use Zend\View\Model\JsonModel;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
-use Ent\Entity\EntVersion;
-use Ent\Form\VersionForm;
+use Ent\Entity\EntLog;
+use Ent\Service\LogDoctrineService;
 
-class VersionRestController extends AbstractRestfulController
+class LogRestController extends AbstractRestfulController
 {
     /**
      *
-     * @var VersionDoctrineService
+     * @var LogDoctrineService
      */
     protected $service;
     
@@ -23,7 +22,7 @@ class VersionRestController extends AbstractRestfulController
      */
     protected $hydrator;
 
-    public function __construct(VersionDoctrineService $aService, DoctrineObject $hydrator) {
+    public function __construct(LogDoctrineService $aService, DoctrineObject $hydrator) {
         $this->service = $aService;
         $this->hydrator = $hydrator;
     }
@@ -60,7 +59,7 @@ class VersionRestController extends AbstractRestfulController
         $data = array();
         
         foreach ($results as $result) {
-            /* @var $result EntVersion */
+            /* @var $result EntLog */
             $data[] = $result->toArray($this->hydrator);
         }
         
@@ -76,7 +75,7 @@ class VersionRestController extends AbstractRestfulController
         $data = array();
         
         if($result) {
-            /* @var $result EntVersion */
+            /* @var $result EntLog */
             $data[] = $result->toArray($this->hydrator);
         }
         return new JsonModel(array(
@@ -87,31 +86,30 @@ class VersionRestController extends AbstractRestfulController
     public function delete($id) {
         $this->service->delete($id);
         
-        $this->flashMessenger()->addSuccessMessage('Le profile a bien été supprimé.');
+        $this->flashMessenger()->addSuccessMessage('L\'entrée Log a bien été supprimée.');
         
         return new JsonModel(array(
             'data' => 'deleted',
             'success' => true,
             'flashMessages' => array(
-                'success' => 'La Version a bien été supprimée.',
+                'success' => 'L\'entrée Log a bien été supprimée.',
             ),
         ));
     }
     
-    public function update($id, $data) {
-        $form = new VersionForm();
-        
-        $versionFound = $this->service->getById($id, $form);
+/*    
+    public function create($data) {
+        $form = new LogForm();
         
         if ($data) {
-            $version = $this->service->update($id, $form, $data);
+            $log = $this->service->insert($form, $data);
             
-            if ($version) {
-                $message = 'La version a bien été modifiée.';
+            if ($log) {
+                $message = 'Le log a bien été ajouté dans la base.';
                 $this->flashMessenger()->addSuccessMessage($message);
                 
                 return new JsonModel(array(
-                    'data' => $version->getId(),
+                    'data' => $log->getId(),
                     'success' => true,
                     'flashMessages' => array(
                         'success' => $message
@@ -121,7 +119,39 @@ class VersionRestController extends AbstractRestfulController
             }
         }
         
-        $message = 'VersionRestController.create: La version n\'a pas été modifiée. Version: ' . $versionFound.toString();
+        $message = 'LogRestController.create: Le log n\'a pas été ajouté.';
+        error_log("===== Erreur: " . $message);
+        return new JsonModel(array(
+            'success' => false,
+            'flashMessages' => array(
+                'error' => $message
+            ),
+        ));
+    }
+*/    
+    
+    public function create($data) {
+        
+        if ($data) {
+
+            $eo = $this->service->insertArray($data);
+            
+            if ($eo) {
+                $message = 'L\'entrée log a bien été ajoutée dans la base.';
+                $this->flashMessenger()->addSuccessMessage($message);
+                
+                return new JsonModel(array(
+                    'data' => $eo->getId(),
+                    'success' => true,
+                    'flashMessages' => array(
+                        'success' => $message
+                    ),
+                ));
+                
+            }
+        }
+        
+        $message = 'LogRestController.create: l\'entrée log n\'a pas été ajoutée dans la base.';
         error_log("===== Erreur: " . $message);
         return new JsonModel(array(
             'success' => false,
@@ -131,18 +161,19 @@ class VersionRestController extends AbstractRestfulController
         ));
     }
     
-    public function create($data) {
-        $form = new VersionForm();
+    public function update($id, $data) {
         
-        if ($data) {
-            $version = $this->service->insert($form, $data);
+        
+        if ($data && ($id != NULL)) {
+            $logFound = $this->service->getById($id);
+            $log = $this->service->update($id, $form, $data);
             
-            if ($version) {
-                $message = 'La version a bien été ajoutée dans la base.';
+            if ($log) {
+                $message = 'Le log a bien été modifiée.';
                 $this->flashMessenger()->addSuccessMessage($message);
                 
                 return new JsonModel(array(
-                    'data' => $version->getId(),
+                    'data' => $log->getId(),
                     'success' => true,
                     'flashMessages' => array(
                         'success' => $message
@@ -152,7 +183,7 @@ class VersionRestController extends AbstractRestfulController
             }
         }
         
-        $message = 'VersionRestController.create: La version n\'a pas été ajoutée.';
+        $message = 'LogRestController.update: Le Log n\'a pas été modifié.';
         error_log("===== Erreur: " . $message);
         return new JsonModel(array(
             'success' => false,
