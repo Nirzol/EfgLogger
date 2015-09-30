@@ -7,7 +7,7 @@ nbproject
 .project
 .settings
 vendor
-data
+data/cache
 application.config.old
 /composer.lock
 *.local.php
