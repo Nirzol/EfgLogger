@@ -26,3 +26,4 @@ application.config.old
 /public/scripts
 /public/styles
 /module/Ent/src/Ent/Log/
+/data/DoctrineORMModule/
