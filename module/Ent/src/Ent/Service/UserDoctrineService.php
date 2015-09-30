@@ -92,23 +92,6 @@ class UserDoctrineService implements UserServiceInterface
         return $repoFindOneBy;
     }
 
-    public function getByLogin($login)
-    {
-        $eoUser = NULL;
-
-        try {
-            $repo = $this->em->getRepository('Ent\Entity\EntUser');
-            $users = $repo->findBy(array('userLogin' => $login));
-            $eoUser = $users[0];
-        } catch (Exception $exc) {
-            $eoUser = NULL;
-            error_log($exc->getTraceAsString());
-            return NULL;
-        }
-
-        return $eoUser;
-    }
-
     public function insert(Form $form, $dataAssoc)
     {
         $user = $this->user;
