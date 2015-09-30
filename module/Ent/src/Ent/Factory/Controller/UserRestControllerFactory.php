@@ -11,20 +11,22 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class UserRestControllerFactory implements FactoryInterface
 {
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator ControllerManager */
-        $sm   = $serviceLocator->getServiceLocator();
+        $sm = $serviceLocator->getServiceLocator();
         $userService = $sm->get('Ent\Service\UserDoctrineORM');
 
-        $userForm    = $sm->get('FormElementManager')->get('Ent\Form\UserForm');
+        $userForm = $sm->get('FormElementManager')->get('Ent\Form\UserForm');
 
         /* @var $serviceLocator ObjectManager */
-        $om   = $sm->get('Doctrine\ORM\EntityManager');
+        $om = $sm->get('Doctrine\ORM\EntityManager');
         $hydrator = new DoctrineObject($om);
 
         $controller = new UserRestController($userService, $userForm, $hydrator);
 
         return $controller;
     }
+
 }

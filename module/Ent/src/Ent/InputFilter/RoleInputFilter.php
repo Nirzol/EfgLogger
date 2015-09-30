@@ -9,24 +9,25 @@ class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterf
 
     public function __construct()
     {
-          
-        // champ name
-        $input = new \Zend\InputFilter\Input('name');
-        $input->setRequired(true);
-        $filter = new \Zend\Filter\StringTrim();
-        $input->getFilterChain()->attach($filter);
-        $filter = new \Zend\Filter\StripTags();
-        $input->getFilterChain()->attach($filter);
-        $validator = new \Zend\Validator\StringLength();
-        $validator->setMax(48);
-        $input->getValidatorChain()->attach($validator);
-        $validator = new \Zend\Validator\NotEmpty();
-        $input->getValidatorChain()->attach($validator);
-        $this->add($input);
-        
- /*        
         $this->add(array(
-            'name' => 'roleName',
+            'name' => 'children',
+            'required' => false,
+            'filters' => array(
+                array('name' => 'StripTags'),
+                array('name' => 'StringTrim'),
+            ),
+        ));
+        $this->add(array(
+            'name' => 'permissions',
+            'required' => false,
+            'filters' => array(
+                array('name' => 'StripTags'),
+                array('name' => 'StringTrim'),
+            ),
+        ));
+        
+        $this->add(array(
+            'name' => 'name',
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
@@ -46,8 +47,7 @@ class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterf
                 ),
             ),
         ));
-*/        
-                        
+
 //        $this->add(array(
 //            'name' => 'userLogin',
 //            'required' => true,
@@ -84,5 +84,4 @@ class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterf
 //    {
 //        
 //    }
-
 }
