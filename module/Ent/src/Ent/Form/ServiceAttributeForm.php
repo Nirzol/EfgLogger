@@ -15,7 +15,7 @@ class ServiceAttributeForm extends Form{
 
     public function __construct(EntityManager $entityManager)
     {
-        parent::__construct('service');
+        parent::__construct('serviceattribute');
 
         $this->entityManager = $entityManager;
 
@@ -31,7 +31,7 @@ class ServiceAttributeForm extends Form{
         
         $this->add(array(
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
-            'name' => 'fkSaService',
+            'name' => 'fkSaServiceSA',
             'attributes' => array(
                 'id' => 'selectService'
             ),
@@ -47,7 +47,7 @@ class ServiceAttributeForm extends Form{
         
         $this->add(array(
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
-            'name' => 'fkSaAttribute',
+            'name' => 'fkSaAttributeSA',
             'attributes' => array(
                 'id' => 'selectAttribute'
             ),
