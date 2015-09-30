@@ -2,13 +2,19 @@
 
 namespace Ent\InputFilter;
 
+use Doctrine\ORM\EntityManager;
+use DoctrineModule\Validator\NoObjectExists;
 use Zend\InputFilter\InputFilter;
 
 class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterface
 {
 
-    public function __construct()
+    protected $entityManager;
+
+    public function __construct(EntityManager $entityManager)
     {
+        $this->entityManager = $entityManager;
+
         $this->add(array(
             'name' => 'children',
             'required' => false,
@@ -25,7 +31,7 @@ class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterf
                 array('name' => 'StringTrim'),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'name',
             'required' => true,
@@ -80,8 +86,48 @@ class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterf
 //        ));
     }
 
-//    public function filter($value)
-//    {
-//        
-//    }
+    public function appendEditValidator($id)
+    {
+        $this->add(
+                array(
+                    'name' => 'name',
+                    'validators' => array(
+                        array(
+                            'name' => 'Ent\Validator\NoOtherEntityExists',
+                            'options' => array(
+                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntHierarchicalRole'),
+                                'fields' => 'name',
+                                'id' => $id, //
+                                'id_getter' => 'getId', //getter for ID
+                                'messages' => array(
+                                    'objectFound' => 'This role already exists in database.',
+                                ),
+                            ),
+                        ),
+                    )
+                )
+        );
+        return $this;
+    }
+
+    public function appendAddValidator()
+    {
+        $this->add(
+                array(
+                    'name' => 'name', //unique field name
+                    'validators' => array(
+                        array(
+                            'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
+                            'options' => array(
+                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntHierarchicalRole'),
+                                'fields' => 'name',
+                                'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This role already exists in database.'),
+                            ),
+                        ),
+                    )
+                )
+        );
+        return $this;
+    }
+
 }

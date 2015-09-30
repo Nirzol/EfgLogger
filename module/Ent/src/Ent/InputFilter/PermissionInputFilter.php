@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilter;
 class PermissionInputFilter extends InputFilter
 {
 
-//    protected $entityManager;
+    protected $entityManager;
 
     public function __construct(EntityManager $entityManager)
     {

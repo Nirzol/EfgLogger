@@ -7,7 +7,7 @@ nbproject
 .project
 .settings
 vendor
-data
+data/cache
 application.config.old
 /composer.lock
 *.local.php
@@ -26,3 +26,4 @@ application.config.old
 /public/scripts
 /public/styles
 /module/Ent/src/Ent/Log/
+/data/DoctrineORMModule/

@@ -31,14 +31,13 @@ class Module implements ConfigProviderInterface, BootstrapListenerInterface //Au
         $sm = $e->getApplication()->getServiceManager();
         $translator = $sm->get('MvcTranslator');
         AbstractValidator::setDefaultTranslator(new \Zend\Mvc\I18n\Translator($translator));
-        
+
 //        $translator->addTranslationFile(
 //            'phpArray',
 //            'resources/languages/en/Zend_Validate.php', //or Zend_Captcha
 //            'default',
 //            'fr_FR'
 //        );
-        
         // Set default lang en fonction du navigateur
 //        $translator = $e->getApplication()->getServiceManager()->get('translator');
 //        $translator->setLocale(\Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']))
@@ -46,6 +45,18 @@ class Module implements ConfigProviderInterface, BootstrapListenerInterface //Au
 //        $translator = $e->getApplication()->getServiceManager()->get('translator');
 //        $translator->setLocale( ( isset( $_COOKIE['locale'] ) ? $_COOKIE['locale'] : 'en_US' ) )
 //            ->setFallbackLocale( 'en_US' );
+
+        $t = $e->getTarget();
+        
+        //This strategy is used to redirect the user to another route when a user is unauthorized.
+        $t->getEventManager()->attach(
+                $t->getServiceManager()->get('ZfcRbac\View\Strategy\RedirectStrategy')
+        );
+        
+        //This strategy is used to render a template whenever a user is unauthorized.
+//        $t->getEventManager()->attach(
+//                $t->getServiceManager()->get('ZfcRbac\View\Strategy\UnauthorizedStrategy')
+//        );
     }
 
 }
