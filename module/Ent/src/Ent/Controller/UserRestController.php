@@ -125,7 +125,7 @@ class UserRestController extends AbstractRestfulController
 //            );
 
                 $data[] = $result->toArray($this->hydrator);
-                $success = false;
+                $success = true;
                 $successMessage = 'Les users ont bien été trouvé.';
             }
         } else {
@@ -208,7 +208,7 @@ class UserRestController extends AbstractRestfulController
         $errorMessage = '';
         if ($result) {
             $data[] = $result->toArray($this->hydrator);
-            $success = false;
+            $success = true;
             $successMessage = 'L\'user a bien été trouver.';
         } else {
             $success = false;
@@ -240,16 +240,17 @@ class UserRestController extends AbstractRestfulController
 //      'userStatus' => string '1' (length=1)
 //      'fkUrRole' => string '1' (length=1)
 
+            /* @var $user \Ent\Entity\EntUser */
             $user = $this->userService->insert($form, $data);
 
             if ($user) {
-                $this->flashMessenger()->addSuccessMessage('L\'user a bien été insérer.');
+//                $this->flashMessenger()->addSuccessMessage('L\'user a bien été insérer.');
 
                 return new JsonModel(array(
                     'data' => $user->getUserId(),
                     'success' => true,
                     'flashMessages' => array(
-                        'success' => 'L\'user  a bien été insérer.',
+                        'success' => 'L\'user a bien été insérer.',
                     ),
                 ));
             }
@@ -270,13 +271,13 @@ class UserRestController extends AbstractRestfulController
             $user = $this->userService->save($this->userForm, $data, $user);
 
             if ($user) {
-                $this->flashMessenger()->addSuccessMessage('L\'user a bien été updater.');
+//                $this->flashMessenger()->addSuccessMessage('L\'user a bien été updater.');
 
                 return new JsonModel(array(
                     'data' => $user->getUserId(),
                     'success' => true,
                     'flashMessages' => array(
-                        'success' => 'L\'user '.$id.' a bien été updater.',
+                        'success' => 'L\'user ' . $id . ' a bien été updater.',
                     ),
                 ));
             }
@@ -286,7 +287,7 @@ class UserRestController extends AbstractRestfulController
             'data' => $user,
             'success' => false,
             'flashMessages' => array(
-                'error' => 'L\'user '.$id.' n\'a pas été updater.',
+                'error' => 'L\'user ' . $id . ' n\'a pas été updater.',
             ),
         ));
     }
@@ -295,7 +296,7 @@ class UserRestController extends AbstractRestfulController
     {
         $this->userService->delete($id);
 
-        $this->flashMessenger()->addSuccessMessage('L\'user a bien été supprimé.');
+//        $this->flashMessenger()->addSuccessMessage('L\'user a bien été supprimé.');
 
         return new JsonModel(array(
             'data' => 'deleted',

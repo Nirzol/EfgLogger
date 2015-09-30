@@ -1,10 +1,36 @@
-<?php
-    $title = "Détails du role";
-?>
-<h2><?php echo $this->escapeHtml($title); ?></h2>
+<h2><?= $this->translate('Détails d\'un role') ?></h2>
+
 <p>
-    <b>Role :</b> <?php echo $this->escapeHtml($role->getName())?>
+    <?= $this->translate('Role :') ?> <?= $this->escapeHtml($role->getName()) ?>
 </p>
+
 <p>
-        <b>Date de modification :</b> <?php echo $role->getLastUpdate()->format('Y-m-d H:i:s');?>
+    <?= $this->translate('Dernière mise à jour :') ?> 
+    <?php 
+    if ($role->getlastUpdate() != null) {
+        echo $role->getlastUpdate()->format('d-m-Y H:i:s');
+    }
+    ?>
+</p>
+
+<p>
+    <?= $this->translate('Rôles enfant :') ?> 
+    <?php
+    foreach ($role->getChildren() as $child) {
+        if ($child->getName()) :
+            echo $this->escapeHtml($child->getName());
+        endif;
+    }
+    ?>
+</p>
+
+<p>
+    <?= $this->translate('Permissions :') ?> 
+    <?php
+    foreach ($role->getPermissions() as $permission) {
+        if ($permission->getName()) :
+            echo $this->escapeHtml($permission->getName());
+        endif;
+    }
+    ?>
 </p>

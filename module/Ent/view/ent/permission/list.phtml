@@ -5,7 +5,9 @@
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
     <?=$this->translate($m)?>  
 <?php endforeach; ?>
-
+<p>
+    <a href="<?php echo $this->url('permission/add'); ?>" class="btn btn-primary btn-xs">Ajouter une permission</a>
+</p>
 <table class="table table-striped">
     <?php foreach ($permissions as $permission) : ?>
         <tr>

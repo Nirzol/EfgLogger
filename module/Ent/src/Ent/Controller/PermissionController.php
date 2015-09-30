@@ -9,7 +9,7 @@ class PermissionController extends AbstractActionController
 {
 
     /**
-     * @var Request
+     * @var \Zend\Http\Request
      */
     protected $request = null;
 
