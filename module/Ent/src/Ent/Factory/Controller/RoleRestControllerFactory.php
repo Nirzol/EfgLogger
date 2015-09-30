@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Ent\Factory\Controller;
 
 use Ent\Controller\RoleRestController;
@@ -22,21 +16,24 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class RoleRestControllerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
-        
-        $service = $sm->get('Ent\Service\RoleDoctrineORM');
-        
+
+        $roleService = $sm->get('Ent\Service\RoleDoctrineORM');
+
+        $roleForm = $sm->get('FormElementManager')->get('Ent\Form\RoleForm');
+
         /* @var $serviceLocator ObjectManager */
         $om = $sm->get('Doctrine\ORM\EntityManager');
-        
+
         $hydrator = new DoctrineObject($om);
-        
-        $controller = new RoleRestController($service, $hydrator);
-        
+
+        $controller = new RoleRestController($roleService, $roleForm, $hydrator);
+
         return ($controller);
     }
 
 }
-

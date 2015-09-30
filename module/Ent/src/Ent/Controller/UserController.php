@@ -2,7 +2,11 @@
 
 namespace Ent\Controller;
 
+use Ent\Form\UserForm;
+use Ent\Service\UserDoctrineService;
+use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
 class UserController extends AbstractActionController
@@ -14,7 +18,7 @@ class UserController extends AbstractActionController
     protected $request = null;
 
     /**
-     * @return UserDoctrineService
+     * @var UserDoctrineService
      */
     protected $userService = null;
 
@@ -22,10 +26,9 @@ class UserController extends AbstractActionController
      * @var UserForm
      */
     protected $userForm = null;
-
     protected $config = null;
 
-    public function __construct(\Ent\Service\UserDoctrineService $userService, \Ent\Form\UserForm $userForm, $config)
+    public function __construct(UserDoctrineService $userService, UserForm $userForm, $config)
     {
         $this->userService = $userService;
         $this->userForm = $userForm;
@@ -34,6 +37,8 @@ class UserController extends AbstractActionController
 
     public function listAction()
     {
+//        $user = $this->userService->findBy(array('userLogin' => 'ss'));
+//        var_dump(!$user);
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
             var_dump($authService->getIdentity()->getUserLogin());
@@ -65,11 +70,11 @@ class UserController extends AbstractActionController
         $form = $this->userForm;
 
         if ($this->request->isPost()) {
-        //            if (!isset($data)) {
+            //            if (!isset($data)) {
             $data = $this->request->getPost();
-        //            }
+            //            }
             $user = $this->userService->insert($form, $data);
-        //            $user = $this->userService->save($form, $this->request->getPost(), null);
+            //            $user = $this->userService->save($form, $this->request->getPost(), null);
 
             if ($user) {
                 $this->flashMessenger()->addSuccessMessage('L\'user a bien été insérer.');
@@ -85,35 +90,37 @@ class UserController extends AbstractActionController
 
     public function addAutoAction()
     {
-        $container = new \Zend\Session\Container('noAuth');
+        $container = new Container('noAuth');
 
         $config = $this->config;
-        
+
         if ($container->login) {
             $data = $data = array('userLogin' => $container->login, 'userStatus' => $config['status-base-id'],
                 'fkUrRole' => array($config['role-base-id']));
-            
-            $users = $this->userService->getAll();
-            
-            $exist = false;
-            
-            foreach ($users as $u) {
-                if (strcmp($u->getUserLogin(), $container->login) === 0) {
-                    $exist = true;
-                }
-            }
-            
-            if (!$exist) {
+
+//            $users = $this->userService->getAll();
+//            
+//            $exist = false;
+//            
+//            foreach ($users as $u) {
+//                if (strcmp($u->getUserLogin(), $container->login) === 0) {
+//                    $exist = true;
+//                }
+//            }
+            $user = $this->userService->findBy(array('userLogin' => $container->login));
+
+            if (!$user) {
                 $form = $this->userForm;
-            
+
                 $user = $this->userService->insert($form, $data);
                 if (!$user) {
                     //TODO handle exception
+//                    return $this->notFoundAction();  A tester ???? ou autre....
                 }
             }
 
             $container->getManager()->getStorage()->clear('noAuth');
-            
+
             return $this->redirect()->toRoute('login');
         }
     }
@@ -159,13 +166,13 @@ class UserController extends AbstractActionController
         //        if (!$this->isGranted('delete')) {
         //            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         //        }
-                $id = $this->params('id');
+        $id = $this->params('id');
 
-                $this->userService->delete($id);
+        $this->userService->delete($id);
 
-                $this->flashMessenger()->addSuccessMessage('L\'user a bien été supprimé.');
+        $this->flashMessenger()->addSuccessMessage('L\'user a bien été supprimé.');
 
-                return $this->redirect()->toRoute('user');
+        return $this->redirect()->toRoute('user');
     }
-    
+
 }

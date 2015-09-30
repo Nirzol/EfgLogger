@@ -28,6 +28,7 @@ use Doctrine\Common\Collections\Criteria;
 /**
  * @ORM\Entity
  * @ORM\Table(name="ent_role")
+ * @ORM\Entity(repositoryClass="Ent\Repository\RoleRepository")
  */
 class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
 {
@@ -131,6 +132,20 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
     {
         $this->children[] = $child;
     }
+    
+    /**
+     * Add children
+     *
+     * @param \Doctrine\Common\Collections\Collection $children
+     *
+     * @return EntHierarchicalRole
+     */
+    public function addChildren(ArrayCollection $children)
+    {
+        foreach ($children as $child) {
+            $this->addChild($child);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -142,6 +157,20 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
         }
 
         $this->permissions[(string) $permission] = $permission;
+    }
+    
+    /**
+     * Add permissions
+     *
+     * @param \Doctrine\Common\Collections\Collection $permissions
+     *
+     * @return EntPermission
+     */
+    public function addPermissions(ArrayCollection $permissions)
+    {
+        foreach ($permissions as $permission) {
+            $this->addPermission($permission);
+        }
     }
 
     /**
@@ -240,7 +269,6 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
         return $this->fkUrUser;
     }
 
-
     /**
      * Remove child
      *
@@ -249,6 +277,18 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
     public function removeChild(\Ent\Entity\EntHierarchicalRole $child)
     {
         $this->children->removeElement($child);
+    }
+    
+    /**
+     * Remove children
+     *
+     * @param \Doctrine\Common\Collections\Collection $children
+     */
+    public function removeChildren(ArrayCollection $children)
+    {
+        foreach ($children as $child) {
+            $this->removeChild($child);
+        }
     }
 
     /**
@@ -259,6 +299,18 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
     public function removePermission(\Ent\Entity\EntPermission $permission)
     {
         $this->permissions->removeElement($permission);
+    }
+    
+    /**
+     * Remove permissions
+     *
+     * @param \Doctrine\Common\Collections\Collection $permissions
+     */
+    public function removePermissions(ArrayCollection $permissions)
+    {
+        foreach ($permissions as $permission) {
+            $this->removePermission($permission);
+        }
     }
 
     /**

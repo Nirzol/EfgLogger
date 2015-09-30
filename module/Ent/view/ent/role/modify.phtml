@@ -1,16 +1,11 @@
-<h2><?=$this->translate('Ajouter un rôle')?></h2>
-
-<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
-    <?=$this->translate($m)?>  
-<?php endforeach; ?>
-
-<?=$this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
+<h2><?= $this->translate('Modifier un role') ?></h2>
+<?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
 <div class="form-group<?php if ($form->get('name')->getMessages()) echo ' has-error'; ?>">
     <?= $this->formLabel($form->get('name')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
         <?= $this->formText($form->get('name')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
         <?= $this->formElementErrors($form->get('name')) ?>           
     </div>
 </div>
@@ -47,7 +42,7 @@
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary"><?=$this->translate('Ajouter')?></button>
+        <button type="submit" class="btn btn-primary"><?= $this->translate('Modifier') ?></button>
     </div>
 </div>
 <?=$this->form()->closeTag()?>

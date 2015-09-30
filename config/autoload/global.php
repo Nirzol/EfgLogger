@@ -26,5 +26,19 @@ return array(
     'user-add-base' => array(
         'role-base-id' => 3,
         'status-base-id' => 1
-    )
+    ),
+    
+//    'service_manager' => array(
+//        'factories' => array(
+//            'my_sql_logger' => function($sm) {
+//                $log = new \Zend\Log\Logger();
+//                $writer = new \Zend\Log\Writer\Stream('./data/logs/sql.log');
+//                $log->addWriter($writer);
+//
+//                $sqllog = new \Ent\Log\SqlLogger($log);
+//                return $sqllog;
+//            },
+//        )
+//    ),
+    
 );

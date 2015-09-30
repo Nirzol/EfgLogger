@@ -2,31 +2,38 @@
 
 namespace Ent\InputFilter;
 
+use Doctrine\ORM\EntityManager;
+use DoctrineModule\Validator\NoObjectExists;
 use Zend\InputFilter\InputFilter;
 
 class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterface
 {
 
-    public function __construct()
+    protected $entityManager;
+
+    public function __construct(EntityManager $entityManager)
     {
-          
-        // champ name
-        $input = new \Zend\InputFilter\Input('name');
-        $input->setRequired(true);
-        $filter = new \Zend\Filter\StringTrim();
-        $input->getFilterChain()->attach($filter);
-        $filter = new \Zend\Filter\StripTags();
-        $input->getFilterChain()->attach($filter);
-        $validator = new \Zend\Validator\StringLength();
-        $validator->setMax(48);
-        $input->getValidatorChain()->attach($validator);
-        $validator = new \Zend\Validator\NotEmpty();
-        $input->getValidatorChain()->attach($validator);
-        $this->add($input);
-        
- /*        
+        $this->entityManager = $entityManager;
+
         $this->add(array(
-            'name' => 'roleName',
+            'name' => 'children',
+            'required' => false,
+            'filters' => array(
+                array('name' => 'StripTags'),
+                array('name' => 'StringTrim'),
+            ),
+        ));
+        $this->add(array(
+            'name' => 'permissions',
+            'required' => false,
+            'filters' => array(
+                array('name' => 'StripTags'),
+                array('name' => 'StringTrim'),
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'name',
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
@@ -46,8 +53,7 @@ class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterf
                 ),
             ),
         ));
-*/        
-                        
+
 //        $this->add(array(
 //            'name' => 'userLogin',
 //            'required' => true,
@@ -80,9 +86,48 @@ class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterf
 //        ));
     }
 
-//    public function filter($value)
-//    {
-//        
-//    }
+    public function appendEditValidator($id)
+    {
+        $this->add(
+                array(
+                    'name' => 'name',
+                    'validators' => array(
+                        array(
+                            'name' => 'Ent\Validator\NoOtherEntityExists',
+                            'options' => array(
+                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntHierarchicalRole'),
+                                'fields' => 'name',
+                                'id' => $id, //
+                                'id_getter' => 'getId', //getter for ID
+                                'messages' => array(
+                                    'objectFound' => 'This role already exists in database.',
+                                ),
+                            ),
+                        ),
+                    )
+                )
+        );
+        return $this;
+    }
+
+    public function appendAddValidator()
+    {
+        $this->add(
+                array(
+                    'name' => 'name', //unique field name
+                    'validators' => array(
+                        array(
+                            'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
+                            'options' => array(
+                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntHierarchicalRole'),
+                                'fields' => 'name',
+                                'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This role already exists in database.'),
+                            ),
+                        ),
+                    )
+                )
+        );
+        return $this;
+    }
 
 }

@@ -2,14 +2,16 @@
 
 namespace Ent\Service;
 
-use Ent\Entity\EntUser;
-use Ent\InputFilter\UserInputFilter;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Ent\Entity\EntUser;
+use Ent\InputFilter\UserInputFilter;
 use Zend\Form\Form;
+use ZfcRbac\Service\AuthorizationService;
 
 class UserDoctrineService implements UserServiceInterface
 {
+
     /**
      *
      * @var EntityManager
@@ -36,11 +38,11 @@ class UserDoctrineService implements UserServiceInterface
 
     /**
      *
-     * @var \ZfcRbac\Service\AuthorizationService
+     * @var AuthorizationService
      */
     protected $authorizationService;
 
-    public function __construct(EntityManager $em, EntUser $user, DoctrineObject $hydrator, UserInputFilter $userInputFilter, \ZfcRbac\Service\AuthorizationService $authorizationService)
+    public function __construct(EntityManager $em, EntUser $user, DoctrineObject $hydrator, UserInputFilter $userInputFilter, AuthorizationService $authorizationService)
     {
         $this->em = $em;
         $this->user = $user;
@@ -81,11 +83,19 @@ class UserDoctrineService implements UserServiceInterface
         return $repoFind;
     }
 
-    
+    public function findBy($options)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntUser');
+
+        $repoFindOneBy = $repo->findBy($options);
+
+        return $repoFindOneBy;
+    }
+
     public function getByLogin($login)
     {
         $eoUser = NULL;
-        
+
         try {
             $repo = $this->em->getRepository('Ent\Entity\EntUser');
             $users = $repo->findBy(array('userLogin' => $login));
@@ -143,7 +153,7 @@ class UserDoctrineService implements UserServiceInterface
     public function delete($id)
     {
         $user = $this->getById($id);
-        
+
         // First check permission
 //        if (!$this->authorizationService->isGranted('delete')) {
 //            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
@@ -151,4 +161,5 @@ class UserDoctrineService implements UserServiceInterface
         $this->em->remove($user);
         $this->em->flush();
     }
+
 }

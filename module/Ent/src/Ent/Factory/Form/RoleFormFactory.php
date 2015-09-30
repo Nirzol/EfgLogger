@@ -8,13 +8,15 @@ use Ent\Form\RoleForm;
 
 class RoleFormFactory implements FactoryInterface
 {
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $services         = $serviceLocator->getServiceLocator();
-        $entityManager    = $services->get('Doctrine\ORM\EntityManager');
+        $services = $serviceLocator->getServiceLocator();
+        $entityManager = $services->get('Doctrine\ORM\EntityManager');
 
         $form = new RoleForm($entityManager);
 
         return $form;
     }
+
 }
