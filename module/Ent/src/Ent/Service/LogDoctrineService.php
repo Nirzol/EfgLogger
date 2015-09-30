@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Ent\Entity\EntLog;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Zend\Stdlib\Hydrator\ClassMethods;
+use Ent\Entity\EntUser;
 
 
 class LogDoctrineService implements GenericEntityServiceInterface {
@@ -177,4 +178,32 @@ class LogDoctrineService implements GenericEntityServiceInterface {
         return $eo;
     }
     
+    public function logEvent($event) {
+        
+        if ( isset($event) && (strcmp($event, "") != 0) ) {
+            
+            /**
+             * @var EntUser
+             */
+            $eoUser = $this->getUserByLogin("sebbar");
+            if ( $eoUser) {
+                // IP, Session, Action : a determiner
+                $anEntLog = new EntLog();
+                $anEntLog->setFkLogUser($eoUser)
+                        ->setLogDatetime(new \DateTime())
+                        ->setLogIp("192.88.99.00")
+                        ->setLogLogin($eoUser->getLogin())
+                        ->setLogSession("sesion_4578000987")
+                        ->setLogUseragent("Agent Firefox");
+
+                if(strcmp($event, "login") == 0) {
+                    $anEntLog->setFkLogAction("Action_Login");
+                } else if(strcmp($event, "logout") == 0) {
+                    $anEntLog->setFkLogAction("Action_Logout");
+                }
+                $this->insertEnterpriseObject($eoUser);
+            }
+
+        }
+    }
 }

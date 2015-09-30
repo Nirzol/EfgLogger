@@ -25,8 +25,6 @@ class LogController extends AbstractActionController
     
     public function indexAction()
     {
-        var_dump($this->getUser());
-        
         $result = $this->service->getAll();
 
         return new ViewModel(array(
