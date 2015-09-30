@@ -66,6 +66,21 @@ class ServiceAttributeDoctrineService implements ServiceAttributeServiceInterfac
 
         return $repoFind;
     }
+    
+    public function getByServiceId($id, $form = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntServiceAttribute');
+        
+        $repoFind = $repo->findBy(array('fkSaService' => $id));
+        
+        if ($form != null) {
+            $form->setHydrator($this->hydrator);
+            $form->bind($repoFind);
+        }
+
+        return $repoFind;
+        
+    }
 
     public function insert(Form $form, $dataAssoc)
     {
