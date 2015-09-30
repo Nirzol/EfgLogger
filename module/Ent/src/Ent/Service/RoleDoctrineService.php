@@ -85,7 +85,8 @@ class RoleDoctrineService implements RoleServiceInterface
         $form->setHydrator($this->hydrator);
 
         $form->bind($role);
-        $form->setInputFilter($this->roleInputFilter);
+        $filter = $this->roleInputFilter;
+        $form->setInputFilter($filter->appendAddValidator());
         $form->setData($dataAssoc);
         
         if (!$form->isValid()) {
@@ -106,7 +107,8 @@ class RoleDoctrineService implements RoleServiceInterface
         $form->setHydrator($this->hydrator);
 
         $form->bind($role);
-        $form->setInputFilter($this->roleInputFilter);
+        $filter = $this->roleInputFilter;
+        $form->setInputFilter($filter->appendEditValidator($role->getId()));
         $form->setData($dataAssoc);
 
         if (!$form->isValid()) {

@@ -20,7 +20,7 @@ class RoleDoctrineORMServiceFactory implements FactoryInterface
 
         $hydrator = new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($om);
 
-        $roleInputFilter = new \Ent\InputFilter\RoleInputFilter();
+        $roleInputFilter = new \Ent\InputFilter\RoleInputFilter($om);
 //        $roleInputFilter = $serviceLocator->get('FilterManager')->get('Ent\InputFilter\RoleInputFilter');   
         
         $authorizationService = $serviceLocator->get('\ZfcRbac\Service\AuthorizationService');
