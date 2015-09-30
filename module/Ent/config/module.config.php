@@ -36,6 +36,7 @@ return array(
             'Ent\Controller\InfoRest' => 'Ent\Factory\Controller\InfoRestControllerFactory',
             'Ent\Controller\Permission' => 'Ent\Factory\Controller\PermissionControllerFactory',
             'Ent\Controller\RoleRest' => 'Ent\Factory\Controller\RoleRestControllerFactory',
+            'Ent\Controller\HelpRequest' => 'Ent\Factory\Controller\HelpRequestControllerFactory',
         ),
     ),
     'form_elements' => array(
@@ -49,6 +50,7 @@ return array(
             'Ent\Form\PreferenceForm' => 'Ent\Factory\Form\PreferenceFormFactory',
             'Ent\Form\RoleForm' => 'Ent\Factory\Form\RoleFormFactory',
             'Ent\Form\PermissionForm' => 'Ent\Factory\Form\PermissionFormFactory',
+            'Ent\Form\HelpRequestForm' => 'Ent\Factory\Form\HelpRequestFormFactory',
         ),
     ),
     'router' => array(
@@ -876,6 +878,28 @@ return array(
                             ),
                             'constraints' => array(
                                 'id' => '[1-9][0-9]*'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'help-request' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/api/help-request',
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\HelpRequest',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'send' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/send',
+                            'defaults' => array(
+                                'action' => 'send',
                             ),
                         ),
                     ),
