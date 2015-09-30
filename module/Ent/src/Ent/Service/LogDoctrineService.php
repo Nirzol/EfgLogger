@@ -48,22 +48,22 @@ class LogDoctrineService implements GenericEntityServiceInterface {
      * @param type $login
      * @return type EntUser
      */
-    public function getUserByLogin($login) {
-        
-        $eoUser = NULL;
-        
-        try {
-            $repository = $this->em->getRepository('Ent\Entity\EntUser');
-            $users = $repository->findBy(array('userLogin' => $login));
-            $eoUser = $users[0];
-        } catch (Exception $exc) {
-            $eoUser = NULL;
-            error_log($exc->getTraceAsString());
-            return NULL;
-        }
-
-        return $eoUser;
-    }
+//    public function getUserByLogin($login) {
+//        
+//        $eoUser = NULL;
+//        
+//        try {
+//            $repository = $this->em->getRepository('Ent\Entity\EntUser');
+//            $users = $repository->findBy(array('userLogin' => $login));
+//            $eoUser = $users[0];
+//        } catch (Exception $exc) {
+//            $eoUser = NULL;
+//            error_log($exc->getTraceAsString());
+//            return NULL;
+//        }
+//
+//        return $eoUser;
+//    }
     
     public function insertEnterpriseObject($eo) {
         
@@ -95,19 +95,27 @@ class LogDoctrineService implements GenericEntityServiceInterface {
 
     public function insertArray($dataArray) {
         
+        $anEntLog = NULL;
+        
         if( isset($dataArray) && (count($dataArray) > 0)) {
-            $anEntLog = new EntLog();
-
-            $hydrator = new DoctrineObject($this->em);
-
-            $hydrator->hydrate($dataArray, $anEntLog);
             
-            $this->insertEnterpriseObject($anEntLog);
+            try {
+                $anEntLog = new EntLog();
 
-            return $anEntLog;
+                $hydrator = new DoctrineObject($this->em);
+
+                $hydrator->hydrate($dataArray, $anEntLog);
+
+                $this->insertEnterpriseObject($anEntLog);
+
+            } catch (Exception $exc) {
+                // echo $exc->getTraceAsString();
+                $anEntLog = NULL;
+            }
         }
         
-        return NULL;
+        return $anEntLog;
+        
     }
 
     public function insert(Form $form, $dataAssoc) {

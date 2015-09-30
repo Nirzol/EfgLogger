@@ -644,12 +644,12 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'testadd' => array(
+                    'add' => array(
                         'type' => \Zend\Mvc\Router\Http\Literal::class,
                         'options' => array(
-                            'route' => '/testadd',
+                            'route' => '/add',
                             'defaults' => array(
-                                'action' => 'testadd',
+                                'action' => 'add',
                             ),
                         ),
                     ),
