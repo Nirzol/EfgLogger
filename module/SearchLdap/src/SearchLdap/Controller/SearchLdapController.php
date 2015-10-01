@@ -77,4 +77,12 @@ class SearchLdapController extends AbstractRestfulController {
         
         return $search;
     }
+    
+    public function getPrimaryAffiliationByUid($slug) {
+        $ldap = $this->searchLdapModel;
+        
+        $search = $ldap->getPrimaryAffiliationByUid($slug);
+        
+        return $search;
+    }
 }
