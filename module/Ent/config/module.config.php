@@ -201,7 +201,7 @@ return array(
                     'show' => array(
                         'type' => Zend\Mvc\Router\Http\Segment::class,
                         'options' => array(
-                            'route' => '/show/:id',
+                            'route' => '/:id',
                             'defaults' => array(
                                 'action' => 'show',
                             ),
@@ -209,30 +209,27 @@ return array(
                                 'id' => '[1-9][0-9]*'
                             ),
                         ),
-                    ),
-                    'update' => array(
-                        'type' => Zend\Mvc\Router\Http\Segment::class,
-                        'options' => array(
-                            'route' => '/update/:id',
-                            'defaults' => array(
-                                'action' => 'update',
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'update' => array(
+                                'type' => Zend\Mvc\Router\Http\Segment::class,
+                                'options' => array(
+                                    'route' => '/update',
+                                    'defaults' => array(
+                                        'action' => 'update',
+                                    ),
+                                ),
                             ),
-                            'constraints' => array(
-                                'id' => '[1-9][0-9]*'
+                            'delete' => array(
+                                'type' => Zend\Mvc\Router\Http\Segment::class,
+                                'options' => array(
+                                    'route' => '/delete',
+                                    'defaults' => array(
+                                        'action' => 'delete',
+                                    ),
+                                ),
                             ),
-                        ),
-                    ),
-                    'delete' => array(
-                        'type' => Zend\Mvc\Router\Http\Segment::class,
-                        'options' => array(
-                            'route' => '/delete/:id',
-                            'defaults' => array(
-                                'action' => 'delete',
-                            ),
-                            'constraints' => array(
-                                'id' => '[1-9][0-9]*'
-                            ),
-                        ),
+                        )
                     ),
                 ),
             ),
@@ -854,30 +851,27 @@ return array(
                                 'id' => '[1-9][0-9]*'
                             ),
                         ),
-                    ),
-                    'update' => array(
-                        'type' => Zend\Mvc\Router\Http\Segment::class,
-                        'options' => array(
-                            'route' => '/update/:id',
-                            'defaults' => array(
-                                'action' => 'update',
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'update' => array(
+                                'type' => Zend\Mvc\Router\Http\Segment::class,
+                                'options' => array(
+                                    'route' => '/update',
+                                    'defaults' => array(
+                                        'action' => 'update',
+                                    ),
+                                ),
                             ),
-                            'constraints' => array(
-                                'id' => '[1-9][0-9]*'
+                            'delete' => array(
+                                'type' => Zend\Mvc\Router\Http\Segment::class,
+                                'options' => array(
+                                    'route' => '/delete',
+                                    'defaults' => array(
+                                        'action' => 'delete',
+                                    ),
+                                ),
                             ),
-                        ),
-                    ),
-                    'delete' => array(
-                        'type' => Zend\Mvc\Router\Http\Segment::class,
-                        'options' => array(
-                            'route' => '/delete/:id',
-                            'defaults' => array(
-                                'action' => 'delete',
-                            ),
-                            'constraints' => array(
-                                'id' => '[1-9][0-9]*'
-                            ),
-                        ),
+                        )
                     ),
                 ),
             ),

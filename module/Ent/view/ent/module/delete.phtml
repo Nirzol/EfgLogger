@@ -8,7 +8,7 @@ $this->headTitle($title);
     '<?php echo $this->escapeHtml($module->getModuleName()); ?>'?
 </p>
 <?php
-$url = $this->url('module/delete', array(
+$url = $this->url('module/show/delete', array(
     'id' => $this->id,
     ));
 ?>

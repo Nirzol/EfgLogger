@@ -31,10 +31,10 @@
                 <a href="<?= $this->url('version/show', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
             </td>
             <td>
-                <a href="<?= $this->url('version/update', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
+                <a href="<?= $this->url('version/show/update', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
             </td>
             <td>
-                <a href="<?= $this->url('version/delete', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
+                <a href="<?= $this->url('version/show/delete', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
             </td>
         </tr>
     <?php endforeach; ?>
