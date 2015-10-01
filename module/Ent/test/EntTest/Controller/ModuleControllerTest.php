@@ -39,7 +39,7 @@ class ModuleControllerTest extends AbstractControllerTestCase
                 ->setAllowOverride(true)
                 ->setService('Ent\Service\ModuleDoctrineService', $mockService);
         
-        $this->dispatch('/api/module/show/2');
+        $this->dispatch('/api/module/2');
         
         $this->assertContains('testModule', $this->getResponse()->getContent());
         $this->assertContains('testModuleLibelle', $this->getResponse()->getContent());

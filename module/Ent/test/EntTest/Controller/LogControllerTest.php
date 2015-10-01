@@ -34,7 +34,7 @@ class LogControllerTest extends AbstractControllerTestCase
         $data['logOffline'] = new \DateTime;
         $data['logDatetime'] = new \DateTime;
         
-        $this->dispatch('/api/log-rest/9', 'PUT', $data);
+        $this->dispatch('/api/log-rest/72', 'PUT', $data);
         
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');

@@ -7,10 +7,12 @@ use Zend\View\Model\ViewModel;
 use Ent\Service\GenericEntityServiceInterface;
 use Ent\Entity\EntLog;
 use Ent\Service\LogDoctrineService;
+use Ent\Entity\EntUser;
+use Ent\Service\UserDoctrineService;
+
 
 class LogController extends AbstractActionController
 {
-
     /**
      *
      * @var LogDoctrineService
@@ -25,8 +27,6 @@ class LogController extends AbstractActionController
     
     public function indexAction()
     {
-        var_dump($this->getUser());
-        
         $result = $this->service->getAll();
 
         return new ViewModel(array(
@@ -34,10 +34,38 @@ class LogController extends AbstractActionController
         ));
     }
     
-    public function testAddAction()
+    public function addAction() {
+        
+        try {
+            
+            /**
+              * @var EntUser
+              */
+            $eoUser = $this->getUser();
+
+            $anEntLog = new EntLog();
+            $anEntLog->setFkLogUser($eoUser)
+                    ->setLogDatetime(new \DateTime())
+                    ->setLogOnline(new \DateTime())
+                    ->setLogIp($this->getUserIp())
+                    ->setLogLogin($eoUser->getUserLogin())
+                    ->setLogSession($this->getSession())
+                    ->setLogUseragent($this->getHttpUserAgent());
+
+            $this->service->insertEnterpriseObject($anEntLog);
+
+
+        } catch (Exception $exc) {
+//            echo $exc->getTraceAsString();
+        }
+        
+        return $this->redirect()->toRoute('log');
+    }
+    
+    public function testAddEo()
     {
         /**
-          * @var LogDoctrineService
+          * @var EntUser
           */
         $eoUser = $this->getUser();
         
@@ -66,12 +94,14 @@ class LogController extends AbstractActionController
     }      
     
     /**
-     * 
+     *  Return current user
      * @return type EntUser
      */
     public function getUser()
     {
-               
+        /**
+         * @var EntUser
+         */
         $eoUser = NULL;
         
         $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
@@ -79,15 +109,37 @@ class LogController extends AbstractActionController
             $userLogin = $authService->getIdentity()->getUserLogin();
             
             /**
-             * @var LogDoctrineService
+             * @var UserDoctrineService
              */
-//            $serviceEo = $this->getServiceLocator()->get('Ent\Service\UserDoctrineORM');
-//            $eoUser = $serviceEo->getByLogin($userLogin);
-
-            $eoUser = $this->service->getUserByLogin($userLogin);
+            $userService = $this->getServiceLocator()->get('Ent\Service\UserDoctrineORM');
+            $eoUser = $userService->findBy(array('userLogin' => $userLogin));
+            if ( $eoUser && is_array($eoUser)) {
+                $eoUser = $eoUser[0];
+            } else {
+                $eoUser = NULL;
+            }
         }
         
         return $eoUser;
+    }
+    
+    public function getSession() {
+        
+        $idSession = session_id();
+        if( !(isset($idSession) && ($idSession != '')) ) {
+            session_start();
+            $idSession = session_id();
+        }
+        
+       return $idSession;
+    }
+    
+    public function getHttpUserAgent() {
+        return $_SERVER["HTTP_USER_AGENT"];
+    }
+    
+    public function getUserIp() {
+        return $_SERVER["REMOTE_ADDR"];
     }
 }
 

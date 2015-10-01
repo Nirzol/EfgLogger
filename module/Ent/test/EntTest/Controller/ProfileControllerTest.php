@@ -16,7 +16,7 @@ class ProfileControllerTest extends AbstractControllerTestCase {
     }
 
     public function testListActionIsAccessible() {
-        $this->dispatch('/profile');
+        $this->dispatch('/api/profile');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
@@ -26,7 +26,7 @@ class ProfileControllerTest extends AbstractControllerTestCase {
     }
 
     public function testGetListIsAccessible() {
-        $this->dispatch('/profile-rest');
+        $this->dispatch('/api/profile-rest');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
@@ -36,7 +36,7 @@ class ProfileControllerTest extends AbstractControllerTestCase {
     }
 
     public function testGetIsAccessible() {
-        $this->dispatch('/profile-rest/2', 'GET');
+        $this->dispatch('/api/profile-rest/2', 'GET');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
@@ -46,7 +46,7 @@ class ProfileControllerTest extends AbstractControllerTestCase {
 
     public function testUpdateIsAccessible() {
 
-        $this->dispatch('/profile-rest/2', 'PUT', array('profileLdap' => 'testProfileRestUpdate', 'profileName' => 'profilename update', 'profileLibelle' => 'profilelibelle update', 'profileDescription' => 'module description update'));
+        $this->dispatch('/api/profile-rest/2', 'PUT', array('profileLdap' => 'testProfileRestUpdate2', 'profileName' => 'profilename update', 'profileLibelle' => 'profilelibelle update', 'profileDescription' => 'module description update'));
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
