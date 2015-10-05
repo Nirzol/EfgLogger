@@ -5,7 +5,7 @@ $this->headTitle($title);
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 
 <p>Êtes-vous sur de supprimer la préférence
-    '<?php echo stream_get_contents($this->escapeHtml($preference->getPrefAttribute())); ?>'?
+    '<?php echo $this->escapeHtml($preference->getPrefAttribute()); ?>'?
 </p>
 <?php
 $url = $this->url('preference/delete', array(
