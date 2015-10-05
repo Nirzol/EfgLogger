@@ -81,7 +81,7 @@ class ContactController extends AbstractActionController
         $contact = $this->contactService->getById($id, $form);
 
         if ($this->request->isPost()) {
-            $contact = $this->serviceService->save($form, $this->request->getPost(), $contact);
+            $contact = $this->contactService->save($form, $this->request->getPost(), $contact);
 
             if ($contact) {
                 $this->flashMessenger()->addSuccessMessage('Le contact a bien été updaté.'); 
