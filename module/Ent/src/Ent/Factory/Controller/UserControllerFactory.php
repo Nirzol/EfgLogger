@@ -19,8 +19,12 @@ class UserControllerFactory implements FactoryInterface
         $config = $sm->get('config');
 
         $userForm = $sm->get('FormElementManager')->get('Ent\Form\UserForm');
+        
+        $searchLdapModel = new \SearchLdap\Model\SearchLdap($config['searchldap_config']);
 
-        $controller = new UserController($userService, $userForm, $config['user-add-base']);
+        $searchLdapController = new \SearchLdap\Controller\SearchLdapController($searchLdapModel);
+
+        $controller = new UserController($userService, $userForm, $config['user-add-base'], $searchLdapController);
 
         return $controller;
     }

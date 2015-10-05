@@ -25,7 +25,8 @@ return array(
     
     'user-add-base' => array(
         'role-base-id' => 3,
-        'status-base-id' => 1
+        'status-base-id' => 1,
+        'profile-base-id' => 3
     ),
     
 //    'service_manager' => array(

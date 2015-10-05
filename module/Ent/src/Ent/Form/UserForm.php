@@ -56,6 +56,21 @@ class UserForm extends Form
 //                ),
             ),
         ));
+        
+        $this->add(array(
+            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox', 
+            'name' => 'fkUpProfile',
+            'attributes' => array(
+                'id' => 'selectUserProfile'
+            ),
+            'options' => array(
+                'label' => 'Profil : ',
+                'object_manager' => $this->entityManager,
+                'target_class' => 'Ent\Entity\EntProfile',
+                'property' => 'profileName',
+                'is_method' => true,
+            ),
+        ));
     }
 
 }

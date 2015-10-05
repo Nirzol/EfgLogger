@@ -83,4 +83,18 @@ class SearchLdap {
         
         return (count($searchResult) > 0 ? $searchResult : 0);
     }
+    
+    public function getPrimaryAffiliationByUid($uid) {
+        $ldap = $this->ldapConnect();
+        
+        $filter = "(uid=" . $uid . "*)";
+        
+        $searchResult = $ldap->searchEntries($filter);
+        if (!empty($searchResult)) {
+            return ($searchResult[0]['edupersonprimaryaffiliation']) ? $searchResult[0]['edupersonprimaryaffiliation'][0] : null;
+        }
+        
+        return null;
+        
+    }
 }

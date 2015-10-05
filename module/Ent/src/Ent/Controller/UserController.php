@@ -4,6 +4,7 @@ namespace Ent\Controller;
 
 use Ent\Form\UserForm;
 use Ent\Service\UserDoctrineService;
+use SearchLdap\Controller\SearchLdapController;
 use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
@@ -27,12 +28,18 @@ class UserController extends AbstractActionController
      */
     protected $userForm = null;
     protected $config = null;
+    
+    /**
+     * @var SearchLdapController
+     */
+    protected $searchLdapController = null;
 
-    public function __construct(UserDoctrineService $userService, UserForm $userForm, $config)
+    public function __construct(UserDoctrineService $userService, UserForm $userForm, $config, SearchLdapController $searchLdapController)
     {
         $this->userService = $userService;
         $this->userForm = $userForm;
         $this->config = $config;
+        $this->searchLdapController = $searchLdapController;
     }
 
     public function listAction()
@@ -95,18 +102,16 @@ class UserController extends AbstractActionController
         $config = $this->config;
 
         if ($container->login) {
+            // check primary affiliation
+            $affiliation = $this->searchLdapController->getPrimaryAffiliationByUid($container->login);
+            //if student
+            if (strcmp($affiliation, 'student') === 0 ) {
+                return $this->redirect()->toUrl('http://ent-ng.parisdescartes.fr');
+            }
+            
             $data = $data = array('userLogin' => $container->login, 'userStatus' => $config['status-base-id'],
-                'fkUrRole' => array($config['role-base-id']));
+                'fkUrRole' => array($config['role-base-id']), 'fkUpProfile' => array($config['profile-base-id']));
 
-//            $users = $this->userService->getAll();
-//            
-//            $exist = false;
-//            
-//            foreach ($users as $u) {
-//                if (strcmp($u->getUserLogin(), $container->login) === 0) {
-//                    $exist = true;
-//                }
-//            }
             $user = $this->userService->findBy(array('userLogin' => $container->login));
 
             if (!$user) {
