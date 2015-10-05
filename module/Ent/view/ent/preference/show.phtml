@@ -3,7 +3,7 @@ $title = "Détails d'une préférence";
 ?>
 <h2><?php echo $this->escapeHtml($title); ?></h2>
 <p>
-    <b>Attribut de la préférence :</b> <?php echo $this->escapeHtml(stream_get_contents($preference->getPrefAttribute()))?>
+    <b>Attribut de la préférence :</b> <?php echo $this->escapeHtml($preference->getPrefAttribute())?>
 </p>
 <?php if($preference->getFkPrefUser() != null) :?>
 <p>
