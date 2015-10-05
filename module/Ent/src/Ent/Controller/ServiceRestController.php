@@ -82,7 +82,7 @@ class ServiceRestController extends AbstractRestfulController{
                 $data[] = $this->extractDataService($result);
             
 //                $data[] = $result->toArray($this->hydrator);
-                $success = false;
+                $success = true;
                 $successMessage = 'Les services ont bien été trouvés.';
             }
         } else {
@@ -111,7 +111,7 @@ class ServiceRestController extends AbstractRestfulController{
         $errorMessage = '';
         if ($result) {
             $data[] = $result->toArray($this->hydrator);
-            $success = false;
+            $success = true;
             $successMessage = 'Le service a bien été trouvé.';
         } else {
             $success = false;
