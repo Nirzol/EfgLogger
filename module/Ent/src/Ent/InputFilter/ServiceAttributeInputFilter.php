@@ -27,7 +27,7 @@ class ServiceAttributeInputFilter extends InputFilter {
         ));
         
         $this->add(array(
-            'name' => 'fkSaServiceSA',
+            'name' => 'fkSaService',
             'required' => true,
             'filters' => array(
             ),
@@ -36,7 +36,7 @@ class ServiceAttributeInputFilter extends InputFilter {
         ));
         
         $this->add(array(
-            'name' => 'fkSaAttributeSA',
+            'name' => 'fkSaAttribute',
             'required' => true,
             'filters' => array(
             ),
