@@ -28,6 +28,7 @@ class IndexRestController extends AbstractRestfulController {
             if ( !$this->isUserLoggedIn()) {
                 $userLogin = $authService->getIdentity()->getUserLogin();            
                 $this->logInUser($userLogin);
+                $_SESSION["is_logged"] = true;
             }
             
         } else {
@@ -69,10 +70,8 @@ class IndexRestController extends AbstractRestfulController {
                 $serviceEo = $this->getServiceLocator()->get('Ent\Service\Log');
                 $serviceEo->insertEnterpriseObject($anEntLog);
                 
-                $_SESSION["is_logged"] = true;
-
             } catch (Exception $exc) {
-                echo $exc->getTraceAsString();
+//                echo $exc->getTraceAsString();
             }
         
     }
@@ -107,10 +106,8 @@ class IndexRestController extends AbstractRestfulController {
                 $serviceEo = $this->getServiceLocator()->get('Ent\Service\Log');
                 $serviceEo->insertEnterpriseObject($anEntLog);
                 
-                $_SESSION["is_logged"] = true;
-
             } catch (Exception $exc) {
-                echo $exc->getTraceAsString();
+//                echo $exc->getTraceAsString();
             }
         
     }
