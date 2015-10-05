@@ -62,6 +62,13 @@ class EntProfile extends Ent
      * @ORM\ManyToMany(targetEntity="Ent\Entity\EntUser", mappedBy="fkUpProfile")
      */
     private $fkUpUser;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Ent\Entity\EntPreference", mappedBy="fkPrefProfile", cascade={"persist", "remove"}, orphanRemoval=TRUE)
+     */
+    private $fkPref;
 
     /**
      * Constructor
@@ -242,5 +249,44 @@ class EntProfile extends Ent
     public function getFkUpUser()
     {
         return $this->fkUpUser;
+    }
+    
+    /**
+     * Add FkPref
+     *
+     * @param \Ent\Entity\EntPreference $fkPref
+     *
+     * @return EntService
+     */
+    public function addFkPref(\Ent\Entity\EntPreference $fkPref)
+    {
+        if (!$this->fkPref->contains($fkPref)) {
+            $this->fkPref->add($fkPref);
+            $fkPref->setFkPrefProfile($this);
+        }
+        return $this;
+    }
+    
+    /**
+     * Remove FkPref
+     *
+     * @param \Ent\Entity\EntPreference $fkPref
+     */
+    public function removeFkPref(\Ent\Entity\EntPreference $fkPref)
+    {
+        if ($this->fkPref->contains($fkPref)) {
+            $this->fkPref->removeElement($fkPref);
+            $fkPref->setFkPrefProfile(null);
+        }
+        return $this;
+    }
+    
+    /**
+     * Get FkPref
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFkPref() {
+        return $this->fkPref->toArray();
     }
 }
