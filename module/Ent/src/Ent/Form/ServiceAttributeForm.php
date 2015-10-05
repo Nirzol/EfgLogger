@@ -11,11 +11,22 @@ use Zend\Form\Form;
  * @author fandria
  */
 class ServiceAttributeForm extends Form{
+    
     protected $entityManager;
 
     public function __construct(EntityManager $entityManager)
     {
-        parent::__construct('serviceattribute');
+        parent::__construct('service_attribute_form');
+        
+        $this->entityManager = $entityManager;
+        
+//        $this->add(array(
+//             'type' => 'Ent\Form\ServiceAttributeFieldset',
+//             'options' => array(
+//                 'use_as_base_fieldset' => true,
+//                 'target_class' => 'Ent\Form\ServiceAttributeFieldset',
+//             ),
+//         ));
 
         $this->entityManager = $entityManager;
 
@@ -31,7 +42,7 @@ class ServiceAttributeForm extends Form{
         
         $this->add(array(
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
-            'name' => 'fkSaServiceSA',
+            'name' => 'fkSaService',
             'attributes' => array(
                 'id' => 'selectService'
             ),
@@ -47,7 +58,7 @@ class ServiceAttributeForm extends Form{
         
         $this->add(array(
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
-            'name' => 'fkSaAttributeSA',
+            'name' => 'fkSaAttribute',
             'attributes' => array(
                 'id' => 'selectAttribute'
             ),
