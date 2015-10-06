@@ -1159,6 +1159,7 @@ return array(
             'Ent\Service\RoleDoctrineORM' => 'Ent\Factory\Service\RoleDoctrineORMServiceFactory',
             'Ent\Service\Version' => 'Ent\Factory\Service\VersionDoctrineORMServiceFactory',
             'Ent\Service\PermissionDoctrineORM' => 'Ent\Factory\Service\PermissionDoctrineORMServiceFactory',
+            'Ent\Service\HelpRequest' => 'Ent\Factory\Service\HelpRequestDoctrineORMServiceFactory',
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
