@@ -6,6 +6,10 @@
     <?=$this->translate($m)?>  
 <?php endforeach; ?>
 
+<p>
+    <a href="<?php echo $this->url('service/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouveau service</a>
+</p>
+
 <table class="table table-striped">
     <?php foreach ($services as $service) : ?>
         <tr>
