@@ -85,4 +85,12 @@ class SearchLdapController extends AbstractRestfulController {
         
         return $search;
     }
+    
+    public function getMailHostByUid($slug) {
+        $ldap = $this->searchLdapModel;
+        
+        $search = $ldap->getMailHostByUid($slug);
+        
+        return $search;
+    }
 }
