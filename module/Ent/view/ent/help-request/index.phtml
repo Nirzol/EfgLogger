@@ -1,0 +1,11 @@
+<?php
+$title = 'Accueil Demande d\'Aide';
+$this->headTitle($title);
+?>
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
+    <?=$this->translate($m)?>  
+<?php endforeach; ?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+    <a href="<?php echo $this->url('help-request/send', array('action' => 'send')); ?>" class="btn btn-primary btn-xs">Demandez de l'aide</a>
+</p>
