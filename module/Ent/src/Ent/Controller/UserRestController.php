@@ -3,8 +3,15 @@
 namespace Ent\Controller;
 
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Ent\Entity\EntAttribute;
+use Ent\Entity\EntContact;
+use Ent\Entity\EntHierarchicalRole;
+use Ent\Entity\EntPreference;
+use Ent\Entity\EntProfile;
+use Ent\Entity\EntUser;
 use Ent\Form\UserForm;
 use Ent\Service\UserDoctrineService;
+use SearchLdap\Controller\SearchLdapController;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -28,6 +35,11 @@ class UserRestController extends AbstractRestfulController
      * @var DoctrineObject
      */
     protected $hydrator;
+    
+    /**
+     * @var SearchLdapController
+     */
+    protected $searchLdapController = null;
 
     public function options()
     {
@@ -55,88 +67,44 @@ class UserRestController extends AbstractRestfulController
         return $response;
     }
 
-    public function __construct(UserDoctrineService $userService, UserForm $userForm, DoctrineObject $hydrator)
+    public function __construct(UserDoctrineService $userService, UserForm $userForm, DoctrineObject $hydrator, SearchLdapController $searchLdapController)
     {
         $this->userService = $userService;
         $this->userForm = $userForm;
         $this->hydrator = $hydrator;
+        $this->searchLdapController = $searchLdapController;
     }
 
     public function getList()
     {
-        $results = $this->userService->getAll();
-
+        $login = null;
+        $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
+        if ($authService->hasIdentity()) {
+            $login = $authService->getIdentity()->getUserLogin();
+        }
+        $results = null;
+        if (!is_null($login)) {
+            $results = $this->userService->findBy(array('userLogin' => $login));
+    //        $results = $this->userService->getAll();
+        }
         $data = array();
         $successMessage = '';
         $errorMessage = '';
-        if ($results) {
+        if (!is_null($results)) {
             foreach ($results as $result) {
-//            $contacts = null;
-//            foreach ($result->getFkUcContact() as $contact) {
-//                /* @var $contact EntContact */
-//                $contacts[] = array(
-//                    'contactId' => $contact->getContactId(),
-//                    'contactName' => $contact->getContactName(),
-//                    'contactLibelle' => $contact->getContactLibelle(),
-//                    'contactDescription' => $contact->getContactDescription(),
-//                    'contactService' => $contact->getContactService(),
-//                    'contactMailto' => $contact->getContactMailto(),
-//                    'contactLastUpdate' => $contact->getContactLastUpdate()
-//                );
-//            }
-//            
-//            $profiles = null;
-//            foreach ($result->getFkUpProfile() as $profile) {
-//                /* @var $profile EntProfile */
-//                $profiles[] = array(
-//                    'profileId' => $profile->getProfileId(),
-//                    'profileLdap' => $profile->getProfileLdap(),
-//                    'profileName' => $profile->getProfileName(),
-//                    'profileLibelle' => $profile->getProfileLibelle(),
-//                    'profileDescription' => $profile->getProfileDescription(),
-//                    'profileLastUpdate' => $profile->getProfileLastUpdate()
-//                );
-//            }
-//            
-//            $roles = null;
-//            foreach ($result->getFkUrRole() as $role) {
-//                /* @var $role EntRole */
-//                $roles[] = array(
-//                    'roleId' => $role->getRoleId(),
-//                    'roleName' => $role->getRoleName(),
-//                    'roleLibelle' => $role->getRoleLibelle(),
-//                    'roleDescription' => $role->getRoleDescription(),
-//                    'roleIsDefault' => $role->getRoleIsDefault(),
-//                    'roleParentId' => $role->getRoleParentId(),
-//                    'roleLastUpdate' => $role->getRoleLastUpdate()
-//                );
-//            }
-//            
-//            /* @var $result EntUser */
-//            $data[] = array(
-//                'userId' => $result->getUserId(),
-//                'userLogin' => $result->getUserLogin(),
-//                'userLastConnection' => $result->getUserLastConnection(),
-//                'userLastUpdate' => $result->getUserLastUpdate(),
-//                'userStatus' => $result->getUserStatus(),
-//                'fkUcContact' => $contacts,
-//                'fkUpProfile' => $profiles,
-//                'fkUrRole' => $roles
-//            );
 
-                $data[] = $result->toArray($this->hydrator);
+                $data[] = $this->extractDataService($result, $login);
+//                $data[] = $result->toArray($this->hydrator);
                 $success = true;
-                $successMessage = 'Les users ont bien été trouvé.';
+                $successMessage = 'L\'user a bien été trouvé.';
+//                $successMessage = 'Les users ont bien été trouvé.';
             }
         } else {
             $success = false;
-            $errorMessage = 'Aucun user existe dans la base.';
+            $errorMessage = 'L\'user n\'existe pas dans la base.';
+//            $errorMessage = 'Aucun user existe dans la base.';
         }
-
-//        return new JsonModel(array(
-//            'data' => $data)
-//        );
-
+        
         return new JsonModel(array(
             'data' => $data,
             'success' => $success,
@@ -151,63 +119,12 @@ class UserRestController extends AbstractRestfulController
     {
         $result = $this->userService->getById($id);
 
-//        $contacts = null;
-//        foreach ($result->getFkUcContact() as $contact) {
-//            /* @var $contact EntContact */
-//            $contacts[] = array(
-//                'contactId' => $contact->getContactId(),
-//                'contactName' => $contact->getContactName(),
-//                'contactLibelle' => $contact->getContactLibelle(),
-//                'contactDescription' => $contact->getContactDescription(),
-//                'contactService' => $contact->getContactService(),
-//                'contactMailto' => $contact->getContactMailto(),
-//                'contactLastUpdate' => $contact->getContactLastUpdate()
-//            );
-//        }
-//
-//        $profiles = null;
-//        foreach ($result->getFkUpProfile() as $profile) {
-//            /* @var $profile EntProfile */
-//            $profiles[] = array(
-//                'profileId' => $profile->getProfileId(),
-//                'profileLdap' => $profile->getProfileLdap(),
-//                'profileName' => $profile->getProfileName(),
-//                'profileLibelle' => $profile->getProfileLibelle(),
-//                'profileDescription' => $profile->getProfileDescription(),
-//                'profileLastUpdate' => $profile->getProfileLastUpdate()
-//            );
-//        }
-//
-//        $roles = null;
-//        foreach ($result->getFkUrRole() as $role) {
-//            /* @var $role EntRole */
-//            $roles[] = array(
-//                'roleId' => $role->getRoleId(),
-//                'roleName' => $role->getRoleName(),
-//                'roleLibelle' => $role->getRoleLibelle(),
-//                'roleDescription' => $role->getRoleDescription(),
-//                'roleIsDefault' => $role->getRoleIsDefault(),
-//                'roleParentId' => $role->getRoleParentId(),
-//                'roleLastUpdate' => $role->getRoleLastUpdate()
-//            );
-//        }
-//
-//        /* @var $result EntUser */
-//        $data = array(
-//            'userId' => $result->getUserId(),
-//            'userLogin' => $result->getUserLogin(),
-//            'userLastConnection' => $result->getUserLastConnection(),
-//            'userLastUpdate' => $result->getUserLastUpdate(),
-//            'userStatus' => $result->getUserStatus(),
-//            'fkUcContact' => $contacts,
-//            'fkUpProfile' => $profiles,
-//            'fkUrRole' => $roles
-//        );
         $data = array();
         $successMessage = '';
         $errorMessage = '';
         if ($result) {
-            $data[] = $result->toArray($this->hydrator);
+            $data[] = $this->extractDataService($result, null);
+//            $data[] = $result->toArray($this->hydrator);
             $success = true;
             $successMessage = 'L\'user a bien été trouver.';
         } else {
@@ -240,7 +157,7 @@ class UserRestController extends AbstractRestfulController
 //      'userStatus' => string '1' (length=1)
 //      'fkUrRole' => string '1' (length=1)
 
-            /* @var $user \Ent\Entity\EntUser */
+            /* @var $user EntUser */
             $user = $this->userService->insert($form, $data);
 
             if ($user) {
@@ -307,4 +224,147 @@ class UserRestController extends AbstractRestfulController
         ));
     }
 
+    private function extractDataService($result, $login) {
+        $contacts = null;
+        foreach ($result->getFkUcContact() as $contact) {
+            /* @var $contact EntContact */
+            $contacts[] = array(
+                'contactId' => $contact->getContactId(),
+                'contactName' => $contact->getContactName(),
+                'contactLibelle' => $contact->getContactLibelle(),
+                'contactDescription' => $contact->getContactDescription(),
+                'contactService' => $contact->getContactService(),
+                'contactMailto' => $contact->getContactMailto(),
+                'contactLastUpdate' => $contact->getContactLastUpdate()
+            );
+        }
+
+        $profiles = null;
+        foreach ($result->getFkUpProfile() as $profile) {
+            
+            $prefsProfile = null;
+            foreach ($profile->getFkPref() as $pref) {                
+                $service = null;
+                if ($pref->getFkPrefService()) {
+                    $data = $pref->getFkPrefService();
+                    $attributes = $this->extractAttributes($data, $login);
+                 
+                    $service = array(
+                        'serviceId' => $pref->getFkPrefService()->getServiceId(),
+                        'serviceName' => $pref->getFkPrefService()->getServiceName(),
+                        'serviceLibelle' => $pref->getFkPrefService()->getServiceLibelle(),
+                        'serviceDescription' => $pref->getFkPrefService()->getServiceDescription(),
+                        'serviceAttributes' => $attributes
+                    );
+                }
+                                
+                /* @var $pref EntPreference */
+                $prefsProfile[] = array(
+                    'prefId' => $pref->getPrefId(),
+                    'prefAttribute' => $pref->getPrefAttribute(),
+                    'prefLastUpdate' => $pref->getPrefLastUpdate(),
+                    'prefLastUpdate' => $pref->getPrefLastUpdate(),
+                    'fkPrefService' => $service
+                );
+            }
+            
+            /* @var $profile EntProfile */
+            $profiles[] = array(
+                'profileId' => $profile->getProfileId(),
+                'profileLdap' => $profile->getProfileId(),
+                'profileName' => $profile->getProfileName(),
+                'profileLibelle' => $profile->getProfileLibelle(),
+                'profileDescription' => $profile->getProfileDescription(),
+                'profileLastUpdate' => $profile->getProfileLastUpdate(),
+                'profilePref' => $prefsProfile
+            );
+        }
+        
+        $roles = null;
+        foreach ($result->getFkUrRole() as $role) {
+            /* @var $role EntHierarchicalRole */
+            $roles[] = array(
+                'roleId' => $role->getId(),
+                'roleName' => $role->getName(),
+                'roleChildren' => $role->getChildren(),
+                'rolePermissions' => $role->getPermissions(),
+                'roleLastUpdate' => $role->getlastUpdate()
+            );
+        }
+
+        /* @var $result EntUser */
+        $data = array(
+            'userId' => $result->getUserId(),
+            'userLogin' => $result->getUserLogin(),
+            'userLastConnection' => $result->getUserLastConnection(),
+            'userStatus' => $result->getUserStatus(),
+            'fkUcContact' => $contacts,
+            'fkUpProfile' => $profiles,
+            'fkUrRole' => $roles
+        );
+        
+        return $data;
+    }
+    
+    private function extractAttributes($data, $login = null) {
+        $attributes = null;
+        $mailHost = null;
+        
+         if (!is_null($login)) {
+            $mailHost = $this->searchLdapController->getMailHostByUid($login);
+         }
+        foreach ($data->getAttributes() as $attribute) {
+            /* @var $attribute EntAttribute */
+            /* match mailhost of mail service with mailhost of user */
+            switch ($attribute['attribute']->getAttributeName()) {
+                case 'o365.parisdescartes.fr':
+                    if (strcmp($attribute['attribute']->getAttributeName(), $mailHost) === 0) {
+                        $attributes[] = array(
+                            'attributeId' => $attribute['attribute']->getAttributeId(),
+                            'attributeName' => $attribute['attribute']->getAttributeName(),
+                            'attributeLibelle' => $attribute['attribute']->getAttributeLibelle(),
+                            'attributeDescription' => $attribute['attribute']->getAttributeDescription(),
+                            'attributeLastUpdate' => $attribute['attribute']->getAttributeLastUpdate(),
+                            'value' => $attribute['value']
+                        );
+                    }
+                    break;
+                case 'mataram.parisdescartes.fr':
+                    if (strcmp($attribute['attribute']->getAttributeName(), $mailHost) === 0) {
+                        $attributes[] = array(
+                            'attributeId' => $attribute['attribute']->getAttributeId(),
+                            'attributeName' => $attribute['attribute']->getAttributeName(),
+                            'attributeLibelle' => $attribute['attribute']->getAttributeLibelle(),
+                            'attributeDescription' => $attribute['attribute']->getAttributeDescription(),
+                            'attributeLastUpdate' => $attribute['attribute']->getAttributeLastUpdate(),
+                            'value' => $attribute['value']
+                        );
+                    }
+                    break;
+                case 'owa.parisdescartes.fr':
+                    if (strcmp($attribute['attribute']->getAttributeName(), $mailHost) === 0) {
+                        $attributes[] = array(
+                            'attributeId' => $attribute['attribute']->getAttributeId(),
+                            'attributeName' => $attribute['attribute']->getAttributeName(),
+                            'attributeLibelle' => $attribute['attribute']->getAttributeLibelle(),
+                            'attributeDescription' => $attribute['attribute']->getAttributeDescription(),
+                            'attributeLastUpdate' => $attribute['attribute']->getAttributeLastUpdate(),
+                            'value' => $attribute['value']
+                        );
+                    }
+                    break;
+                default:
+                    $attributes[] = array(
+                        'attributeId' => $attribute['attribute']->getAttributeId(),
+                        'attributeName' => $attribute['attribute']->getAttributeName(),
+                        'attributeLibelle' => $attribute['attribute']->getAttributeLibelle(),
+                        'attributeDescription' => $attribute['attribute']->getAttributeDescription(),
+                        'attributeLastUpdate' => $attribute['attribute']->getAttributeLastUpdate(),
+                        'value' => $attribute['value']
+                    );
+                    break;
+            }            
+        }                    
+        return $attributes;
+    }
 }
