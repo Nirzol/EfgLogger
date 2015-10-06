@@ -11,8 +11,8 @@ use SearchLdap\Controller\SearchLdapController;
 use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Zend\Mail;
-use Zend\Mime;
+//use Zend\Mail;
+//use Zend\Mime;
 
 class HelpRequestController extends AbstractActionController {
 
