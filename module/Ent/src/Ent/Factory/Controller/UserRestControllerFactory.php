@@ -17,14 +17,20 @@ class UserRestControllerFactory implements FactoryInterface
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
         $userService = $sm->get('Ent\Service\UserDoctrineORM');
+        
+        $config = $sm->get('config');
 
         $userForm = $sm->get('FormElementManager')->get('Ent\Form\UserForm');
+        
+        $searchLdapModel = new \SearchLdap\Model\SearchLdap($config['searchldap_config']);
+
+        $searchLdapController = new \SearchLdap\Controller\SearchLdapController($searchLdapModel);
 
         /* @var $serviceLocator ObjectManager */
         $om = $sm->get('Doctrine\ORM\EntityManager');
         $hydrator = new DoctrineObject($om);
 
-        $controller = new UserRestController($userService, $userForm, $hydrator);
+        $controller = new UserRestController($userService, $userForm, $hydrator, $searchLdapController);
 
         return $controller;
     }
