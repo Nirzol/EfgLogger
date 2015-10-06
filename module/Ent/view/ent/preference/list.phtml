@@ -16,10 +16,14 @@ $this->headTitle($title);
         <th>Attribut de la préférence</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
+        <th>&nbsp;</th>
         <th>&nbsp;</th>        
     </tr>
     <?php foreach ($preferences as $preference) : ?>
         <tr>
+            <td>
+                <?= $this->escapeHtml($preference->getPrefId()) ?>
+            </td>
             <td>
                 <?= $this->escapeHtml($preference->getPrefAttribute()) ?>
             </td>
