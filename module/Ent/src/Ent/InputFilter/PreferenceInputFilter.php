@@ -8,7 +8,7 @@ class PreferenceInputFilter extends InputFilter
 {
     public function __construct() {
         $input = new \Zend\InputFilter\Input('prefAttribute');
-        $input->setRequired(true);
+        $input->setRequired(false);
         
         $filter = new \Zend\Filter\StringTrim();
         $input->getFilterChain()->attach($filter);

@@ -97,4 +97,18 @@ class SearchLdap {
         return null;
         
     }
+    
+    public function getMailHostByUid($uid) {
+        $ldap = $this->ldapConnect();
+        
+        $filter = "(uid=" . $uid . "*)";
+        
+        $searchResult = $ldap->searchEntries($filter);
+        if (!empty($searchResult)) {
+            return ($searchResult[0]['mailhost']) ? $searchResult[0]['mailhost'][0] : null;
+        }
+        
+        return null;
+        
+    }
 }

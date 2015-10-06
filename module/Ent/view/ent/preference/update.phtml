@@ -1,7 +1,7 @@
 <?php
 $title = "Modifier une préférence";
 $this->headTitle($title);
-$prefAttribute = stream_get_contents($form->get('prefAttribute')->getValue());
+$prefAttribute = $form->get('prefAttribute')->getValue();
 ?>
 <h2><?php echo $this->escapeHtml($title); ?></h2>
 <?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
