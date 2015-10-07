@@ -234,8 +234,7 @@ class UserRestController extends AbstractRestfulController
                 'contactLibelle' => $contact->getContactLibelle(),
                 'contactDescription' => $contact->getContactDescription(),
                 'contactService' => $contact->getContactService(),
-                'contactMailto' => $contact->getContactMailto(),
-                'contactLastUpdate' => $contact->getContactLastUpdate()
+                'contactMailto' => $contact->getContactMailto()
             );
         }
 
@@ -262,8 +261,6 @@ class UserRestController extends AbstractRestfulController
                 $prefsProfile[] = array(
                     'prefId' => $pref->getPrefId(),
                     'prefAttribute' => $pref->getPrefAttribute(),
-                    'prefLastUpdate' => $pref->getPrefLastUpdate(),
-                    'prefLastUpdate' => $pref->getPrefLastUpdate(),
                     'fkPrefService' => $service
                 );
             }
@@ -275,7 +272,6 @@ class UserRestController extends AbstractRestfulController
                 'profileName' => $profile->getProfileName(),
                 'profileLibelle' => $profile->getProfileLibelle(),
                 'profileDescription' => $profile->getProfileDescription(),
-                'profileLastUpdate' => $profile->getProfileLastUpdate(),
                 'profilePref' => $prefsProfile
             );
         }
@@ -287,8 +283,7 @@ class UserRestController extends AbstractRestfulController
                 'roleId' => $role->getId(),
                 'roleName' => $role->getName(),
                 'roleChildren' => $role->getChildren(),
-                'rolePermissions' => $role->getPermissions(),
-                'roleLastUpdate' => $role->getlastUpdate()
+                'rolePermissions' => $role->getPermissions()
             );
         }
 
@@ -324,7 +319,6 @@ class UserRestController extends AbstractRestfulController
                             'attributeName' => $attribute['attribute']->getAttributeName(),
                             'attributeLibelle' => $attribute['attribute']->getAttributeLibelle(),
                             'attributeDescription' => $attribute['attribute']->getAttributeDescription(),
-                            'attributeLastUpdate' => $attribute['attribute']->getAttributeLastUpdate(),
                             'value' => $attribute['value']
                         );
                     }
@@ -336,7 +330,6 @@ class UserRestController extends AbstractRestfulController
                             'attributeName' => $attribute['attribute']->getAttributeName(),
                             'attributeLibelle' => $attribute['attribute']->getAttributeLibelle(),
                             'attributeDescription' => $attribute['attribute']->getAttributeDescription(),
-                            'attributeLastUpdate' => $attribute['attribute']->getAttributeLastUpdate(),
                             'value' => $attribute['value']
                         );
                     }
@@ -348,7 +341,6 @@ class UserRestController extends AbstractRestfulController
                             'attributeName' => $attribute['attribute']->getAttributeName(),
                             'attributeLibelle' => $attribute['attribute']->getAttributeLibelle(),
                             'attributeDescription' => $attribute['attribute']->getAttributeDescription(),
-                            'attributeLastUpdate' => $attribute['attribute']->getAttributeLastUpdate(),
                             'value' => $attribute['value']
                         );
                     }
@@ -359,7 +351,6 @@ class UserRestController extends AbstractRestfulController
                         'attributeName' => $attribute['attribute']->getAttributeName(),
                         'attributeLibelle' => $attribute['attribute']->getAttributeLibelle(),
                         'attributeDescription' => $attribute['attribute']->getAttributeDescription(),
-                        'attributeLastUpdate' => $attribute['attribute']->getAttributeLastUpdate(),
                         'value' => $attribute['value']
                     );
                     break;
