@@ -76,7 +76,7 @@ class UserServicesRestController extends AbstractRestfulController
     /* get the authenticated user (waiting for an other controller ?) */
     public function getList()
     {
-        $login = 'fandria';
+        $login = null;
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
             $login = $authService->getIdentity()->getUserLogin();
