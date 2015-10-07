@@ -8,7 +8,6 @@ use Zend\Form\Form;
 use Doctrine\ORM\EntityManager;
 use Ent\Entity\EntLog;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
-use Zend\Stdlib\Hydrator\ClassMethods;
 use Ent\Entity\EntUser;
 
 

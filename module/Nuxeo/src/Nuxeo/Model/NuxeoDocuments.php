@@ -1,6 +1,9 @@
 <?php
 
 namespace Nuxeo\Model;
+
+use Zend\Stdlib\Hydrator\ClassMethods;
+
 /**
  * Documents class
  *
@@ -63,23 +66,24 @@ class NuxeoDocuments {
         return $this->documentsList;
     }
     
-    public function objectsArrayToArrayOfArray () {
+    public function objectsToArray () {
         
         $objetcsArray = $this->documentsList;
         $resultArray = array();
-/*
-        foreach ($objetcsArray as $row) {
-            $resultArray[] = array_values((array)$row);
-        }
-*/
+        
         $value = sizeof($objetcsArray);
         for ($test = 0; $test < $value; $test++) {
-            $tmpArray = array( "uid" => current($objetcsArray)->getUid(),
-                            "path" => current($objetcsArray)->getPath(),
-                            "type" => current($objetcsArray)->getType(),
-                            "state" => current($objetcsArray)->getState(),
-                            "title" => current($objetcsArray)->getTitle() );
-
+            
+            /**
+             * @var NuxeoDocument 
+             */
+            $nuxeoDocument = current($objetcsArray);
+            $tmpArray = array();
+            
+            $hydrator = new ClassMethods(); 
+            
+            $tmpArray = $hydrator->extract($nuxeoDocument);
+            
             $resultArray[] = $tmpArray;
             next($objetcsArray);
         }

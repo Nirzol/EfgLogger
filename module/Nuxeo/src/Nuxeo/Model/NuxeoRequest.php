@@ -236,7 +236,7 @@ class NuxeoRequest {
             $documents = NULL;
         
             if (!isset($answer) OR $answer == false) {
-                echo 'Error Server:' . $this->finalRequest;
+                echo 'NuxeoRequest.sendRequest() - Empty result:' . $this->finalRequest;
             } else {
                 if (null == json_decode($answer, true)) {
                     $documents = $answer;

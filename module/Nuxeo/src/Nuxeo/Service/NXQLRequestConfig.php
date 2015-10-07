@@ -34,6 +34,7 @@ class NXQLRequestConfig {
     public function getRequest($paramArray) {
         
         $nxqlQuery = NULL;
+//        var_dump($paramArray);
         
         if ( !is_null($paramArray) && (count($paramArray) > 0)) {
             
@@ -51,8 +52,9 @@ class NXQLRequestConfig {
                     case "author":
                     case "path":
                     case "ancestor":
+                    case "contributor":
                     case "tag":
-                        $nxqlQuery = $nxqlQuery . str_replace("?", "'" . $value . "'", $this->nxqlClause[key]);
+                        $nxqlQuery = $nxqlQuery . str_replace("?", "'" . $value . "'", $this->nxqlClause[$key]);
                         break;
                     
                     default:
@@ -61,7 +63,8 @@ class NXQLRequestConfig {
             }
             // Order by date modified
             $nxqlQuery = $nxqlQuery . $this->nxqlOrder["modified"];
-
+//            var_dump($nxqlQuery);
+            return $nxqlQuery;
         }
     }
     

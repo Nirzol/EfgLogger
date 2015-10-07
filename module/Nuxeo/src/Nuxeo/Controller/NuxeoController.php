@@ -6,6 +6,7 @@ use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 use Nuxeo\Model\NuxeoSession;
 use Nuxeo\Service\NXQLRequestConfig;
+use Nuxeo\Model\NuxeoDocuments;
 
 /**
  * Les requetes doivent avoir ce format :
@@ -94,14 +95,24 @@ class NuxeoController extends AbstractRestfulController
         $session = new NuxeoSession($this->nuxeoAutomationUrl, 
                 $this->nuxeoAdminUsername, $this->nuxeoAdminPassword,"Content-Type: application/json+nxrequest");
 
+        /**
+         * @var NuxeoRequest
+         */
         $nuxeoRequest = $session->newRequest("Document.Query");
 
+        /**
+         * @var NuxeoRequest
+         */
         $answer = $nuxeoRequest->set('params', 'query', $nxqlQuery);
 
-        $answer = $answer->sendRequest();
+        /**
+         * @var NuxeoDocuments 
+         */
+        $nuxeoDocuments = $answer->sendRequest();
 //            var_dump($answer);
         // $documentsArray = $answer->getDocumentList();
-        $documentsArray = $answer->objectsArrayToArrayOfArray();
+        
+        $documentsArray = $nuxeoDocuments->objectsToArray();
 
         return $documentsArray;
     }
