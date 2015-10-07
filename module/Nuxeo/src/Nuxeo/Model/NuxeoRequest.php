@@ -41,6 +41,7 @@ class NuxeoRequest {
 
     public function __construct($url, $requestId, $headers = "Content-Type:application/json+nxrequest") {
         $this->url = $url . "/" . $requestId;
+        error_log("NuxeoRequest() : url = " . $this->url);
         $this->headers = $headers;
         $this->finalRequest = '{}';
         $this->method = 'POST';

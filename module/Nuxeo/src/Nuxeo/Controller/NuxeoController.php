@@ -17,11 +17,15 @@ use Nuxeo\Model\NuxeoDocuments;
 class NuxeoController extends AbstractRestfulController
 {
 
-    private $nuxeoAutomationUrl = "http://localhost:8080/nuxeo/site/automation";
+//    private $nuxeoAutomationUrl = "http://localhost:8080/nuxeo/site/automation";
+//    private $nuxeoAutomationUrl = "http://nuxeodev.dsi.univ-paris5.fr:8080/nuxeo/site/automation";
+    private $nuxeoAutomationUrl = "http://ged.parisdescartes.fr/nuxeo/site/automation";
     private $nuxeoAdminUsername = "Administrator";
-    private $nuxeoAdminPassword = "Administrator";
+    private $nuxeoAdminPassword = "plusfortdetous";
+//    private $nuxeoAdminPassword = "Administrator";
 
-    private $username = "Administrator";  // Current ENT user
+    private $username = "sduhamel";  // Current ENT user
+//    private $username = "Administrator";  // Current ENT user
     
     /**
      *  Action GET requests without resource Id : on lance toutes les requetes du tableau de bord
