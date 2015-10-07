@@ -11,8 +11,6 @@ use SearchLdap\Controller\SearchLdapController;
 use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-//use Zend\Mail;
-//use Zend\Mime;
 
 class HelpRequestController extends AbstractActionController {
 
@@ -64,7 +62,7 @@ class HelpRequestController extends AbstractActionController {
         $request = $this->request;
         
         if ($request->isPost()) {
-
+            
             $form = $this->helpRequestForm;
             $form->setInputFilter(new HelpRequestInputFilter());
 
