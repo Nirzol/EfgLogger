@@ -15,7 +15,7 @@ use SearchLdap\Controller\SearchLdapController;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
-class UserRestController extends AbstractRestfulController
+class UserServicesRestController extends AbstractRestfulController
 {
 
     /**
@@ -75,6 +75,7 @@ class UserRestController extends AbstractRestfulController
         $this->searchLdapController = $searchLdapController;
     }
 
+    /* get the authenticated user (waiting for an other controller ?) */
     public function getList()
     {
         $login = null;
@@ -131,9 +132,7 @@ class UserRestController extends AbstractRestfulController
             $success = false;
             $errorMessage = 'L\'user n\'existe pas dans la base.';
         }
-//        return new JsonModel(
-//            $data
-//        );
+        
         return new JsonModel(array(
             'data' => $data,
             'success' => $success,

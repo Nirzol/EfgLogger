@@ -2,16 +2,19 @@
 
 namespace Ent\Factory\Controller;
 
-use Ent\Controller\UserRestController;
+use Ent\Controller\UserServicesRestController;
 use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class UserRestControllerFactory implements FactoryInterface
-{
-
+/**
+ * Description of UserServiceRestControllerFactory
+ *
+ * @author fandria
+ */
+class UserServicesRestControllerFactory implements FactoryInterface{
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator ControllerManager */
@@ -30,9 +33,8 @@ class UserRestControllerFactory implements FactoryInterface
         $om = $sm->get('Doctrine\ORM\EntityManager');
         $hydrator = new DoctrineObject($om);
 
-        $controller = new UserRestController($userService, $userForm, $hydrator, $searchLdapController);
+        $controller = new UserServicesRestController($userService, $userForm, $hydrator, $searchLdapController);
 
         return $controller;
     }
-
 }

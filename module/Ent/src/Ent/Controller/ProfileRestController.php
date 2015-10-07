@@ -65,7 +65,8 @@ class ProfileRestController extends AbstractRestfulController
         
         if ($results) {
             foreach ($results as $result) {
-                $data[] = $result->toArray($this->hydrator);
+                $data[] = $this->extractDataService($result);
+//                $data[] = $result->toArray($this->hydrator);
                 $success = false;
                 $successMessage = 'Les profils ont bien été trouvés.';
             }
@@ -92,7 +93,8 @@ class ProfileRestController extends AbstractRestfulController
         $successMessage = '';
         $errorMessage = '';
         if ($result) {
-            $data[] = $result->toArray($this->hydrator);
+            $data[] = $this->extractDataService($result);
+//            $data[] = $result->toArray($this->hydrator);
             $success = false;
             $successMessage = 'Le profil a bien été trouvé.';
         } else {
@@ -182,5 +184,55 @@ class ProfileRestController extends AbstractRestfulController
         ));
     }
     
+    private function extractDataService($result) {
+
+        $prefsProfile = null;
+        foreach ($result->getFkPref() as $pref) {                
+            $service = null;
+            if ($pref->getFkPrefService()) {
+                $attributes = null;
+                foreach ($pref->getFkPrefService()->getAttributes() as $attribute) {
+                    /* @var $attribute EntAttribute */
+                    $attributes[] = array(
+                        'attributeId' => $attribute['attribute']->getAttributeId(),
+                        'attributeName' => $attribute['attribute']->getAttributeName(),
+                        'attributeLibelle' => $attribute['attribute']->getAttributeLibelle(),
+                        'attributeDescription' => $attribute['attribute']->getAttributeDescription(),
+                        'attributeLastUpdate' => $attribute['attribute']->getAttributeLastUpdate(),
+                        'value' => $attribute['value']
+                    );
+                }                    
+                $service = array(
+                    'serviceId' => $pref->getFkPrefService()->getServiceId(),
+                    'serviceName' => $pref->getFkPrefService()->getServiceName(),
+                    'serviceLibelle' => $pref->getFkPrefService()->getServiceLibelle(),
+                    'serviceDescription' => $pref->getFkPrefService()->getServiceDescription(),
+                    'serviceAttributes' => $attributes
+                );
+            }
+
+            /* @var $pref EntPreference */
+            $prefsProfile[] = array(
+                'prefId' => $pref->getPrefId(),
+                'prefAttribute' => $pref->getPrefAttribute(),
+                'prefLastUpdate' => $pref->getPrefLastUpdate(),
+                'prefLastUpdate' => $pref->getPrefLastUpdate(),
+                'fkPrefService' => $service
+            );
+        }
+
+        /* @var $result EntProfile */
+        $data = array(
+            'profileId' => $result->getProfileId(),
+            'profileLdap' => $result->getProfileLdap(),
+            'profileName' => $result->getProfileName(),
+            'profileLibelle' => $result->getProfileLibelle(),
+            'profileDescription' => $result->getProfileDescription(),
+            'profileLastUpdate' => $result->getProfileLastUpdate(),
+            'fkPref' => $prefsProfile
+        );
+        
+        return $data;
+    }
 }
 
