@@ -89,52 +89,12 @@ class HelpRequestController extends AbstractActionController {
                 
                 $subject = $contact->getContactDescription();
                 
-                $transport = $this->helpRequestService->send($message, $filePath, $fileName, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
-                // first create the parts
-//                $message = $this->request->getPost('message');
-//                
-//                $text = new Mime\Part($message);
-//                $text->type = Mime\Mime::TYPE_TEXT;
-//                $text->charset = 'utf-8';
-//                
-//                $filePath = $_FILES['image-file']['tmp_name'];
-//                $fileContent = fopen($filePath, 'r');
-//                
-//                $attachment = new Mime\Part($fileContent);
-//                $attachment->type = 'image/jpg';
-//                $attachment->disposition = Mime\Mime::DISPOSITION_ATTACHMENT;
-//                $attachment->filename = $_FILES['image-file']['name'];
-//                
-//                // Setting the encoding is recommended for binary data
-//                $attachment->encoding = Mime\Mime::ENCODING_BASE64;
-//
-//                // then add them to a MIME message
-//                $mimeMessage = new Mime\Message();
-//                $mimeMessage->setParts(array($text, $attachment));
-//
-//                // and finally we create the actual email
-//                $mail = new Mail\Message();
-//                $mail->setBody($mimeMessage);
-//                
-//                $id = (int) $request->getPost('contactDescription');
-//                
-//                /* @var $contact EntContact */
-//                $contact = $this->contactService->getById($id);
-//                
-//                $senderMail = $infoUser[0]['mail'][0];
-//                $senderName = $infoUser[0]['displayname'][0];
-//                $mail->setFrom($senderMail, $senderName);
-//                
-//                $recipientMail = $contact->getContactMailto();
-//                $recipientName = $contact->getContactName();
-//                $subject = $contact->getContactDescription();
-//                //$mail->addTo($infoUser[0]['mail'][0], $infoUser[0]['displayname'][0]);
-//                $mail->addTo($recipientMail, $recipientName);
-//                $mail->setSubject($subject);
-//
-//                $transport = new Mail\Transport\Sendmail();
-//                $transport->send($mail);
-
+                if (empty($filePath) && empty($fileName)) {
+                    $transport = $this->helpRequestService->sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName);
+                } else {
+                    $transport = $this->helpRequestService->sendWithImage($message, $filePath, $fileName, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
+                }
+                
                 if ($transport) {
                     $this->flashMessenger()->addSuccessMessage('Le mail de demande d\'aide a bien été envoyé');
                 }
