@@ -23,7 +23,7 @@ class HelpRequestDoctrineService implements HelpRequestServiceInterface {
         $this->em = $em;
     }
 
-    public function send($message, $filePath, $fileName, $senderMail, $senderName, $recipientMail, $recipientName, $subject) {
+    public function sendWithImage($message, $filePath, $fileName, $senderMail, $senderName, $recipientMail, $recipientName, $subject) {
         $text = new Mime\Part($message);
         $text->type = Mime\Mime::TYPE_TEXT;
         $text->charset = 'utf-8';
@@ -46,6 +46,19 @@ class HelpRequestDoctrineService implements HelpRequestServiceInterface {
         $mail = new Mail\Message();
         $mail->setBody($mimeMessage);
 
+        $mail->setFrom($senderMail, $senderName);
+        $mail->addTo($recipientMail, $recipientName);
+        $mail->setSubject($subject);
+
+        $transport = new Mail\Transport\Sendmail();
+        $transport->send($mail);
+
+        return $transport;
+    }
+
+    public function sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName) {
+        $mail = new Mail\Message();
+        $mail->setBody($message);
         $mail->setFrom($senderMail, $senderName);
         $mail->addTo($recipientMail, $recipientName);
         $mail->setSubject($subject);

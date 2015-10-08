@@ -38,6 +38,7 @@ return array(
             'Ent\Controller\Permission' => 'Ent\Factory\Controller\PermissionControllerFactory',
             'Ent\Controller\RoleRest' => 'Ent\Factory\Controller\RoleRestControllerFactory',
             'Ent\Controller\HelpRequest' => 'Ent\Factory\Controller\HelpRequestControllerFactory',
+            'Ent\Controller\HelpRequestRest' => 'Ent\Factory\Controller\HelpRequestRestControllerFactory',
         ),
     ),
     'form_elements' => array(
@@ -1113,6 +1114,18 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Ent\Controller\RoleRest',
+                    ),
+                ),
+            ),
+            'help-request-rest' => array(
+                'type'    => \Zend\Mvc\Router\Http\Segment::class,
+                'options' => array(
+                    'route'    => '/api/help-request-rest[/:slug]',
+                    'constraints' => array(
+                        'slug'     => '.*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Ent\Controller\HelpRequestRest',
                     ),
                 ),
             ),
