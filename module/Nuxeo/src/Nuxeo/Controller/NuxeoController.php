@@ -17,15 +17,15 @@ use Nuxeo\Model\NuxeoDocuments;
 class NuxeoController extends AbstractRestfulController
 {
 
-//    private $nuxeoAutomationUrl = "http://localhost:8080/nuxeo/site/automation";
+    private $nuxeoAutomationUrl = "http://localhost:8080/nuxeo/site/automation";
 //    private $nuxeoAutomationUrl = "http://nuxeodev.dsi.univ-paris5.fr:8080/nuxeo/site/automation";
-    private $nuxeoAutomationUrl = "http://ged.parisdescartes.fr/nuxeo/site/automation";
+//    private $nuxeoAutomationUrl = "http://ged.parisdescartes.fr/nuxeo/site/automation";
     private $nuxeoAdminUsername = "Administrator";
-    private $nuxeoAdminPassword = "plusfortdetous";
-//    private $nuxeoAdminPassword = "Administrator";
+//    private $nuxeoAdminPassword = "plusfortdetous";
+    private $nuxeoAdminPassword = "Administrator";
 
-    private $username = "sduhamel";  // Current ENT user
-//    private $username = "Administrator";  // Current ENT user
+//    private $username = "sduhamel";  // Current ENT user
+    private $username = "Administrator";  // Current ENT user
     
     /**
      *  Action GET requests without resource Id : on lance toutes les requetes du tableau de bord
@@ -116,8 +116,11 @@ class NuxeoController extends AbstractRestfulController
 //            var_dump($answer);
         // $documentsArray = $answer->getDocumentList();
         
-        $documentsArray = $nuxeoDocuments->objectsToArray();
-
+        $documentsArray = null;
+        if ( isset($nuxeoDocuments) && ($nuxeoDocuments != null) && ($nuxeoDocuments instanceof NuxeoDocuments)) {
+            $documentsArray = $nuxeoDocuments->objectsToArray();
+        }
+        
         return $documentsArray;
     }
 }
