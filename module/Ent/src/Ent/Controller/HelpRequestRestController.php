@@ -118,7 +118,7 @@ class HelpRequestRestController extends AbstractRestfulController
         return new JsonModel(array(
             'success' => false,
             'flashMessages' => array(
-                'error' => 'Le mail de demande d\'aide n\'a pas étéété envoyé.',
+                'error' => 'Le mail de demande d\'aide n\'a pas été envoyé.',
             ),
         ));
         
