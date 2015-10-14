@@ -73,7 +73,7 @@ class HelpRequestController extends AbstractActionController {
             if ($form->isValid()) {
                 $form->getData();                
                 
-                $message = $request->getPost('message');
+                $body = $request->getPost('message');
                 $filePath = $_FILES['image-file']['tmp_name'];
                 $fileName = $_FILES['image-file']['name'];
                 
@@ -88,6 +88,10 @@ class HelpRequestController extends AbstractActionController {
                 $recipientName = $contact->getContactName();
                 
                 $subject = $contact->getContactDescription();
+                
+                $mailAlt = $request->getPost('email');
+                
+                $message = $body.' Mail alternatif : '.$mailAlt;
                 
                 if (empty($filePath) && empty($fileName)) {
                     $transport = $this->helpRequestService->sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName);
