@@ -34,6 +34,8 @@ $this->headTitle($title);
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-primary">Ajouter</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="<?php echo $this->url('action', array('action' => 'list')); ?>" class="btn btn-primary">Annuler</a>
     </div>
 </div>
 <?php echo $this->form()->closeTag(); ?>
