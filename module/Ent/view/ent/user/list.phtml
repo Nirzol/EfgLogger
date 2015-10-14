@@ -5,7 +5,9 @@
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
     <?=$this->translate($m)?>  
 <?php endforeach; ?>
-
+<p>
+    <a href="<?php echo $this->url('user/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouvel utilisateur</a>
+</p>
 <table class="table table-striped">
     <?php foreach ($users as $user) : ?>
         <tr>
