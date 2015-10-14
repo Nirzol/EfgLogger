@@ -40,6 +40,21 @@ class HelpRequestInputFilter extends InputFilter {
         $fileInput->getValidatorChain()
                 ->attachByName('file-size', array('max' => 2000000))
                 ->attachByName('filemimetype',  array('mimeType' => 'image/png,image/jpg'));
+        
+        $this->add($fileInput);
+        
+        $input = new \Zend\InputFilter\Input('email');
+        
+        $filter = new \Zend\Filter\StringTrim();
+        $input->getFilterChain()->attach($filter);
+
+        $filter = new \Zend\Filter\StripTags();
+        $input->getFilterChain()->attach($filter);
+        
+        $validator = new \Zend\Validator\EmailAddress();
+        $input->getValidatorChain()->attach($validator);
+        
+        $this->add($input);
     }
 
 }
