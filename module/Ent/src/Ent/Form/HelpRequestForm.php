@@ -42,5 +42,9 @@ class HelpRequestForm extends Form
         $file->setAttribute('id', 'image-file');
         $this->add($file);
         
+        $element = new \Zend\Form\Element\Email('email');
+        $element->setLabel('Adresse e-mail alternative');
+        $this->add($element);
+        
     }
 }
