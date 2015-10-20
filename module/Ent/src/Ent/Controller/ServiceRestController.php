@@ -128,6 +128,42 @@ class ServiceRestController extends AbstractRestfulController{
         ));
     }
 
+    public function getByParams($params) {
+        
+        $result = null;
+        
+        if(is_array($params) && (count($params) > 0) ) {
+            $result = $this->serviceService->findBy($params);
+        }
+        
+        $data = array();
+        $successMessage = '';
+        $errorMessage = '';
+        
+        if ($results && ($results !== null)) {
+            foreach ($results as $result) {
+                $data[] = $this->extractDataService($result);
+            
+//                $data[] = $result->toArray($this->hydrator);
+                $success = true;
+                $successMessage = 'Les services ont bien été trouvés.';
+            }
+        } else {
+            $success = false;
+            $errorMessage = 'Aucun service existe dans la base.';
+        }
+
+        return new JsonModel(array(
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
+        
+    }
+    
     public function create($data)
     {
         $form = $this->serviceForm;
