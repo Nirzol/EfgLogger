@@ -91,10 +91,10 @@ class HelpRequestController extends AbstractActionController {
                 
                 $mailAlt = $request->getPost('email');
                 
-                if (empty($mailAlt)) {
-                    $message = $body;
-                } else {
+                if (!empty($mailAlt)) {
                     $message = $body.' Mail alternatif : '.$mailAlt;
+                } else {
+                    $message = $body;
                 }
                                
                 if (empty($filePath) && empty($fileName)) {
