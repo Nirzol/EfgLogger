@@ -44,6 +44,7 @@ class HelpRequestInputFilter extends InputFilter {
         $this->add($fileInput);
         
         $input = new \Zend\InputFilter\Input('email');
+        $input->setRequired(false);
         
         $filter = new \Zend\Filter\StringTrim();
         $input->getFilterChain()->attach($filter);
