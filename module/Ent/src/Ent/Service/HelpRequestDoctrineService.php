@@ -59,7 +59,7 @@ class HelpRequestDoctrineService implements HelpRequestServiceInterface {
 
     public function sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName) {
         $mail = new Mail\Message();
-        $mail->setEncoding('UTF-8');
+        $mail->setEncoding("UTF-8");
         $mail->setBody($message);
         $mail->setFrom($senderMail, $senderName);
         $mail->addTo($recipientMail, $recipientName);

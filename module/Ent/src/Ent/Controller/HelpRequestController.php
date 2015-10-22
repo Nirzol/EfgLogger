@@ -91,8 +91,12 @@ class HelpRequestController extends AbstractActionController {
                 
                 $mailAlt = $request->getPost('email');
                 
-                $message = $body.' Mail alternatif : '.$mailAlt;
-                
+                if (!empty($mailAlt)) {
+                    $message = $body.' Mail alternatif : '.$mailAlt;
+                } else {
+                    $message = $body;
+                }
+                               
                 if (empty($filePath) && empty($fileName)) {
                     $transport = $this->helpRequestService->sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName);
                 } else {
