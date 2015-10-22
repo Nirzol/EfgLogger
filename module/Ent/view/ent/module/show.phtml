@@ -1,18 +1,26 @@
-<?php
-$title = "Détails du module";
-?>
-<h2><?php echo $this->escapeHtml($title); ?></h2>
+<?php $this->headTitle($this->translate('Détails d\'un module')); ?>
+
+<h2><?= $this->translate('Détails d\'un module') ?></h2>
 <p>
-    <b>Nom du module :</b> <?php echo $this->escapeHtml($module->getModuleName())?>
+    <?= $this->translate('Nom du module :') ?> <?= $this->escapeHtml($module->getModuleName()) ?>
 </p>
 <p>
-    <b>Libellé du module :</b> <?php echo $this->escapeHtml($module->getModuleLibelle())?>
+    <?= $this->translate('Libellé du module :') ?> <?= $this->escapeHtml($module->getModuleLibelle()) ?>
 </p>
 <p>
-    <b>Description du module :</b> <?php echo $this->escapeHtml($module->getModuleDescription())?>
+    <?= $this->translate('Description du module :') ?> <?php echo $this->escapeHtml($module->getModuleDescription()) ?>
 </p>
-<?php if($module->getModuleLastUpdate() != null) :?>
+
 <p>
-    <b>Date de modification :</b> <?php echo $module->getModuleLastUpdate()->format('Y-m-d H:i:s');?>
+    <?= $this->translate('Dernière mise à jour :') ?> 
+    <?php
+    if ($module->getModuleLastUpdate() != null) {
+        echo $module->getModuleLastUpdate()->format('d-m-Y H:i:s');
+    }
+    else {
+        echo $this->translate('Aucune mise à jour');
+    }
+    ?>
 </p>
-<?php endif; ?>
+
+<a class="btn btn-danger" href="<?php echo $this->url('module'); ?>"><?= $this->translate('Retour') ?></a>

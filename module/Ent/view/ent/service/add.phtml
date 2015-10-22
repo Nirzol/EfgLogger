@@ -1,11 +1,12 @@
-<h2><?=$this->translate('Ajouter un service')?></h2>
-<?=$this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
+<?php $this->headTitle($this->translate('Ajouter un service')); ?>
+<h2><?= $this->translate('Ajouter un service') ?></h2>
+<?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
 <div class="form-group<?php if ($form->get('serviceName')->getMessages()) echo ' has-error'; ?>">
     <?= $this->formLabel($form->get('serviceName')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
         <?= $this->formText($form->get('serviceName')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
         <?= $this->formElementErrors($form->get('serviceName')) ?>           
     </div>
 </div>
@@ -15,7 +16,7 @@
     <div class="col-sm-10">
         <?= $this->formText($form->get('serviceLibelle')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
         <?= $this->formElementErrors($form->get('serviceLibelle')) ?>           
     </div>
 </div>
@@ -25,29 +26,88 @@
     <div class="col-sm-10">
         <?= $this->formText($form->get('serviceDescription')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
         <?= $this->formElementErrors($form->get('serviceDescription')) ?>           
     </div>
 </div>
 
-<div class="form-group<?php if ($form->get('fkCsContact')->getMessages()) echo ' has-error'; ?>">
-    <?= $this->formLabel($form->get('fkCsContact')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Attributs : </label>
     <div class="col-sm-10">
-        <div class="checkbox">
-            <?php
-            $this->formMultiCheckbox()->setSeparator('</div><div class="checkbox">');
-            echo $this->formMultiCheckbox($form->get('fkCsContact')->setLabelAttributes(['class' => '']))
-            ?>
+<?php
+$i = 0;
+$formAttribute = '';
+foreach ($attributes as $attribute) {
+    $getServiceAttributes = 'serviceAttributes['.$attribute->getAttributeId().']';
+    $valueAttribute = '';
+    if(isset($_POST['serviceAttributes']) && !empty($_POST['serviceAttributes'])){
+        $valueAttribute = $_POST['serviceAttributes'][$attribute->getAttributeId()];
+    }
+    $i++;
+    if ($i === 1) {?>
+        <div class="row">
+    <?php }
+    ?>
+    <div class="col-md-4">
+        <div class="form-group<?php if ($form->get($getServiceAttributes)->getMessages()) echo ' has-error'; ?>">
+            <div class="col-xs-12">
+                <?= $this->formLabel($form->get($getServiceAttributes)->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+                <?= $this->formText($form->get($getServiceAttributes)->setAttribute('class', 'form-control')->setValue($valueAttribute)) ?>
+                <div id="helpBlock" class="help-block">
+                    <?= $this->formElementErrors($form->get($getServiceAttributes)) ?>           
+                </div>
+            </div>
         </div>
-    </div>
-    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
-        <?= $this->formElementErrors($form->get('fkCsContact')) ?>           
-    </div>
+    </div>  
+    <?php
+    if ($i === 3) {
+        $i = 0; ?>
+        </div>
+    <?php }
+}
+if ($i !== 3) { 
+    echo '</div>';
+}
+?>
+            </div>
 </div>
+        <?php
+//foreach ($attributes as $attribute) { //'.$attribute->getAttributeId().'
+//    $i++;
+//    if ($i === 1) {
+//        $formAttribute = $formAttribute . '<div class="row">';
+//    }
+////value="'.$_POST['serviceAttributes'][$attribute->getAttributeId()].'"
+//    $formAttribute = $formAttribute . 
+//    '<div class="col-md-4">
+//        <div class="form-group">
+//            <div class="col-xs-12">
+//                <label for="' . $attribute->getAttributeName() . '">' . $attribute->getAttributeName() . '</label>
+//                <input type="text" name="serviceAttributes['.$attribute->getAttributeId().']" class="form-control" id="' . $attribute->getAttributeName() . '">
+//            </div>
+//        </div>
+//    </div>';
+//
+//    if ($i === 3) {
+//        $i = 0;
+//        $formAttribute = $formAttribute . '</div>';
+//    }
+//}
+//if ($i !== 3) {
+//    $formAttribute = $formAttribute . '</div>';
+//}
+?>
+<!--<div class="form-group">
+    <label class="col-sm-2 control-label">Attributs : </label>
+    <div class="col-sm-10">
+        <?= $formAttribute; ?>
+    </div>
+</div>-->
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary"><?=$this->translate('Ajouter')?></button>
+        <button type="submit" class="btn btn-primary"><?= $this->translate('Ajouter') ?></button>
+        <a class="btn btn-danger" href="<?php echo $this->url('service'); ?>">Annuler</a>
     </div>
 </div>
-<?=$this->form()->closeTag()?>
+<?= $this->form()->closeTag() ?>

@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
  * EntContact
  *
  * @ORM\Table(name="ent_contact", indexes={@ORM\Index(name="fk_structure_id", columns={"fk_contact_structure_id"})})
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
 class EntContact extends Ent
 {
+
     /**
      * @var integer
      *
@@ -59,7 +61,7 @@ class EntContact extends Ent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="contact_last_update", type="datetime", nullable=false)
+     * @ORM\Column(name="contact_last_update", type="datetime", nullable=true)
      */
     private $contactLastUpdate;
 
@@ -103,7 +105,6 @@ class EntContact extends Ent
         $this->fkCsService = new \Doctrine\Common\Collections\ArrayCollection();
         $this->fkUcUser = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get contactId
@@ -284,21 +285,39 @@ class EntContact extends Ent
     }
 
     /**
-     * Add fkCsService
+     * Add service
      *
-     * @param \Doctrine\Common\Collections\Collection $fkCsService
+     * @param \Doctrine\Common\Collections\Collection $service
      *
      * @return EntContact
      */
-    public function addFkCsService(\Doctrine\Common\Collections\Collection $fkCsService)
+    public function addService($service)
     {
-        
-        /* @var $service \Ent\Entity\EntService */
-        foreach($fkCsService as $service) {
-            if( ! $this->fkCsService->contains($service)) {
-                $this->fkCsService->add($service);
-            }
+        $this->fkCsService[] = $service;
+
+        return $this;
+    }
+
+    /**
+     * Add fkCsService
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkCsService
+     */
+    public function addFkCsService(\Doctrine\Common\Collections\ArrayCollection $fkCsService)
+    {
+        foreach ($fkCsService as $service) {
+            $this->addService($service);
         }
+    }
+
+    /**
+     * Remove service
+     *
+     * @param \Ent\Entity\EntService $service
+     */
+    public function removeService(\Ent\Entity\EntService $service)
+    {
+        $this->fkCsService->removeElement($service);
     }
 
     /**
@@ -306,11 +325,10 @@ class EntContact extends Ent
      *
      * @param \Doctrine\Common\Collections\Collection $fkCsService
      */
-    public function removeFkCsService(\Doctrine\Common\Collections\Collection $fkCsService)
+    public function removeFkCsService(\Doctrine\Common\Collections\ArrayCollection $fkCsService)
     {
-        /* @var $service \Ent\Entity\EntService */
-        foreach($fkCsService as $service) {
-            $this->fkCsService->removeElement($service);
+        foreach ($fkCsService as $service) {
+            $this->removeService($service);
         }
     }
 
@@ -325,34 +343,51 @@ class EntContact extends Ent
     }
 
     /**
-     * Add fkUcUser
+     * Add user
      *
-     * @param \Ent\Entity\EntUser $fkUcUser
+     * @param \Ent\Entity\EntUser $user
      *
      * @return EntContact
      */
-    public function addFkUcUser(\Doctrine\Common\Collections\Collection $fkUcUser)
+    public function addUser($user)
     {
-        /* @var $user \Ent\Entity\EntUser */
-        foreach($fkUcUser as $user) {
-            if( ! $this->fkUcUser->contains($user)) {
-                $this->fkUcUser->add($user);
-                $user->addFkUcContact(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
-            }
+        $this->fkUcUser[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Add fkUcUser
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkUcUser
+     *
+     */
+    public function addFkUcUser(\Doctrine\Common\Collections\ArrayCollection $fkUcUser)
+    {
+        foreach ($fkUcUser as $user) {
+            $this->addUser($user);
         }
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \Ent\Entity\EntUser $user
+     */
+    public function removeUser(\Ent\Entity\EntUser $user)
+    {
+        $this->fkUcUser->removeElement($user);
     }
 
     /**
      * Remove fkUcUser
      *
-     * @param \Ent\Entity\EntUser $fkUcUser
+     * @param \Doctrine\Common\Collections\Collection $fkUcUser
      */
-    public function removeFkUcUser(\Doctrine\Common\Collections\Collection $fkUcUser)
+    public function removeFkUcUser(\Doctrine\Common\Collections\ArrayCollection $fkUcUser)
     {
-        /* @var $user \Ent\Entity\EntUser */
         foreach ($fkUcUser as $user) {
-            $this->fkUcUser->removeElement($user);
-            $user->removeFkUcContact(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+            $this->removeUser($user);
         }
     }
 
@@ -365,4 +400,16 @@ class EntContact extends Ent
     {
         return $this->fkUcUser;
     }
+
+    /**
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setContactLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
+    }
+
 }

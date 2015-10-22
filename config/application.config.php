@@ -12,6 +12,7 @@ return array(
         'SearchLdap',
         'Nuxeo',
         'ZfcRbac',
+        'JMSSerializerModule',
     ),
 
     // These are various options for the listeners attached to the ModuleManager

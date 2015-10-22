@@ -1,5 +1,6 @@
-<h2><?=$this->translate('Ajouter un user')?></h2>
-<?=$this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
+<?php $this->headTitle($this->translate('Ajouter un user')); ?>
+<h2><?= $this->translate('Ajouter un user') ?></h2>
+<?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
 <div class="form-group<?php if ($form->get('userLogin')->getMessages()) echo ' has-error'; ?>">
     <?= $this->formLabel($form->get('userLogin')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
@@ -54,7 +55,9 @@
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary"><?=$this->translate('Ajouter')?></button>
+        <button type="submit" class="btn btn-primary"><?= $this->translate('Ajouter') ?></button>
+        <a class="btn btn-danger" href="<?php echo $this->url('user'); ?>"><?= $this->translate('Annuler') ?></a>
     </div>
 </div>
-<?=$this->form()->closeTag()?>
+<?=
+$this->form()->closeTag()?>

@@ -8,9 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
  * EntVersion
  *
  * @ORM\Table(name="ent_version")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
-class EntVersion  extends Ent {
+class EntVersion extends Ent
+{
 
     /**
      * @var integer
@@ -34,7 +36,7 @@ class EntVersion  extends Ent {
      * @ORM\Column(name="version_commentaire", type="text", nullable=true)
      */
     protected $versionCommentaire;
-    
+
     /**
      * @var \DateTime
      *
@@ -52,10 +54,10 @@ class EntVersion  extends Ent {
     /**
      * Constructor
      */
-    public function __construct($version=null)
+    public function __construct($version = null)
     {
-        if( $version != null) {
-            $this->version  = (string)$version;
+        if ($version != null) {
+            $this->version = (string) $version;
         }
         $this->versionDate = new \DateTime();
     }
@@ -70,7 +72,8 @@ class EntVersion  extends Ent {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
         return $this;
     }
@@ -122,7 +125,7 @@ class EntVersion  extends Ent {
     {
         return $this->versionCommentaire;
     }
-    
+
     /**
      * Set setVersionDate
      *
@@ -146,7 +149,7 @@ class EntVersion  extends Ent {
     {
         return $this->versionDate;
     }
-    
+
     /**
      * Get versionLastUpdate
      *
@@ -170,8 +173,16 @@ class EntVersion  extends Ent {
 
         return $this;
     }
-
-    public function toString() {
-        return $this->getVersion() . " de " . $this->getVersionDate()->format('Y-m-d H:i:s');
+    
+    /**
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setVersionLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
+
 }

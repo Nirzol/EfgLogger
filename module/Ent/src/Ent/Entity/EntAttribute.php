@@ -3,15 +3,19 @@
 namespace Ent\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * EntAttribute
  *
  * @ORM\Table(name="ent_attribute")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
 class EntAttribute extends Ent
 {
+
     /**
      * @var integer
      *
@@ -24,7 +28,7 @@ class EntAttribute extends Ent
     /**
      * @var string
      *
-     * @ORM\Column(name="attribute_name", type="string", length=250, nullable=false)
+     * @ORM\Column(name="attribute_name", type="string", length=250, nullable=false, unique=true)
      */
     private $attributeName;
 
@@ -48,22 +52,23 @@ class EntAttribute extends Ent
      * @ORM\Column(name="attribute_last_update", type="datetime", nullable=true)
      */
     private $attributeLastUpdate;
-        
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="Ent\Entity\EntServiceAttribute", mappedBy="fkSaAttribute", cascade={"persist", "remove"}, orphanRemoval=TRUE)
+     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntService", mappedBy="fkSaAttribute")
+     * @MaxDepth(1)
+     * @Groups({"details"})
      */
-    private $fkSaAttributeSA;
+    private $fkSaService;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->fkSaAttributeSA = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fkSaService = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
 
     /**
      * Get attributeId
@@ -172,62 +177,72 @@ class EntAttribute extends Ent
     }
 
     /**
-     * Add FkSaAttributeSA
+     * Add service
      *
-     * @param \Doctrine\Common\Collections\Collection $fkSaAttributeSA
+     * @param \Ent\Entity\EntService $service
      *
      * @return EntAttribute
      */
-    public function addFkSaAttributeSA(\Ent\Entity\EntServiceAttribute $fkSaAttributeSA)
+    public function addService($service)
     {
-        if (!$this->fkSaAttributeSA->contains($fkSaAttributeSA)) {
-            $this->fkSaAttributeSA->add($fkSaAttributeSA);
-            $fkSaAttributeSA->setFkSaAttribute($this);
-        }
+        $this->fkSaService[] = $service;
+
         return $this;
     }
-//    public function addFkSaAttributeSA(\Doctrine\Common\Collections\Collection $fkSaAttributeSA)
-//    {
-//        /* @var $role \Ent\Entity\EntServiceAttribute */
-//        foreach ($fkSaAttributeSA as $sa) {
-//            if (!$this->fkSaAttributeSA->contains($sa)) {
-//                $this->fkSaAttributeSA->add($sa);
-//                $sa->setFkSaAttribute($this);
-//            }
-//        }
-//        return $this;
-//    }
 
     /**
-     * Remove FkSaAttributeSA
+     * Add fkSaService
      *
-     * @param \Doctrine\Common\Collections\Collection $fkSaAttributeSA
+     * @param \Doctrine\Common\Collections\Collection $fkSaService
      */
-    public function removeFkSaAttributeSA(\Ent\Entity\EntServiceAttribute $fkSaAttributeSA)
+    public function addFkSaService(\Doctrine\Common\Collections\ArrayCollection $fkSaService)
     {
-        if ($this->fkSaAttributeSA->contains($fkSaAttributeSA)) {
-            $this->fkSaAttributeSA->removeElement($fkSaAttributeSA);
-            $fkSaAttributeSA->setFkSaAttribute(null);
+        foreach ($fkSaService as $service) {
+            $this->addService($service);
         }
-        return $this;
     }
-//    public function removeFkSaAttributeSA(\Doctrine\Common\Collections\Collection $fkSaAttributeSA)
-//    {
-//        /* @var $role \Ent\Entity\EntServiceAttribute */
-//        foreach ($fkSaAttributeSA as $sa) {
-//            $this->fkSaAttributeSA->removeElement($sa);
-//            $sa->setFkSaAttribute(null);
-//        }
-//        return $this;
-//    }
-    
+
     /**
-     * Get FkSaAttributeSA
+     * Remove service
+     *
+     * @param \Ent\Entity\EntPermission $service
+     */
+    public function removeService(\Ent\Entity\EntService $service)
+    {
+        $this->fkSaService->removeElement($service);
+    }
+
+    /**
+     * Remove fkSaService
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkSaService
+     */
+    public function removeFkSaService(\Doctrine\Common\Collections\ArrayCollection $fkSaService)
+    {
+        foreach ($fkSaService as $service) {
+            $this->removeService($service);
+        }
+    }
+
+    /**
+     * Get fkSaService
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    function getFkSaAttributeSA() {
-        return $this->fkSaAttributeSA->toArray();
+    public function getFkSaService()
+    {
+        return $this->fkSaService;
     }
-    
+
+    /**
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setAttributeLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
+    }
+
 }

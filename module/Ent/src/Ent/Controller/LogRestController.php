@@ -2,196 +2,194 @@
 
 namespace Ent\Controller;
 
+use Ent\Form\LogForm;
+use Ent\Service\LogDoctrineService;
+use JMS\Serializer\Serializer;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
-use Ent\Entity\EntLog;
-use Ent\Service\LogDoctrineService;
 
 class LogRestController extends AbstractRestfulController
 {
+
     /**
      *
      * @var LogDoctrineService
      */
-    protected $service;
-    
+    protected $logService;
+
     /**
      *
-     * @var DoctrineObject
+     * @var LogForm
      */
-    protected $hydrator;
+    protected $logForm;
 
-    public function __construct(LogDoctrineService $aService, DoctrineObject $hydrator) {
-        $this->service = $aService;
-        $this->hydrator = $hydrator;
-    }
-    
-    public function options()
+    /**
+     * @var Serializer
+     */
+    protected $serializer;
+
+//    public function options()
+//    {
+//        $response = $this->getResponse();
+//        $headers = $response->getHeaders();
+//
+//        if ($this->params()->fromRoute('id', false)) {
+//            // Allow viewing, partial updating, replacement, and deletion
+//            // on individual items
+//            $headers->addHeaderLine('Allow', implode(',', array(
+//                'GET',
+//                'PATCH',
+//                'PUT',
+//                'DELETE',
+//            )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
+//            return $response;
+//        }
+//
+//        // Allow only retrieval and creation on collections
+//        $headers->addHeaderLine('Allow', implode(',', array(
+//            'GET',
+//            'POST',
+//        )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
+//
+//        return $response;
+//    }
+
+    public function __construct(LogDoctrineService $logService, LogForm $logForm, Serializer $serializer)
     {
-        $response = $this->getResponse();
-        $headers  = $response->getHeaders();
-
-        if ($this->params()->fromRoute('id', false)) {
-            // Allow viewing, partial updating, replacement, and deletion
-            // on individual items
-            $headers->addHeaderLine('Allow', implode(',', array(
-                'GET',
-                'PATCH',
-                'PUT',
-                'DELETE',
-            )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
-            return $response;
-        }
-
-        // Allow only retrieval and creation on collections
-        $headers->addHeaderLine('Allow', implode(',', array(
-            'GET',
-            'POST',
-        )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
-
-        return $response;
+        $this->logService = $logService;
+        $this->logForm = $logForm;
+        $this->serializer = $serializer;
     }
 
-    public function getList() {
-        $results = $this->service->getAll();
-        
-        $data = array();
-        
-        foreach ($results as $result) {
-            /* @var $result EntLog */
-            $data[] = $result->toArray($this->hydrator);
-        }
-        
-        return new JsonModel(array(
-            'data' => $data
-        ));    
-    }
-    
-    public function get($id) {
-        
-        $result = $this->service->getById($id);
-        
-        $data = array();
-        
-        if($result) {
-            /* @var $result EntLog */
-            $data[] = $result->toArray($this->hydrator);
-        }
-        return new JsonModel(array(
-            'data' => $data
-        ));
-    }
+    public function getList()
+    {
+        $results = $this->logService->getAll();
 
-    public function delete($id) {
-        $this->service->delete($id);
-        
-        $this->flashMessenger()->addSuccessMessage('L\'entrée Log a bien été supprimée.');
-        
+        $data = '';
+        $successMessage = '';
+        $errorMessage = '';
+
+        if ($results) {
+//            $data[] = $results->toArray($this->hydrator);
+            $data = json_decode($this->serializer->serialize($results, 'json'));
+            $success = true;
+            $successMessage = 'Les logs ont bien été trouvés.';
+        } else {
+            $success = false;
+            $errorMessage = 'Aucun log dans la base de données.';
+        }
+
         return new JsonModel(array(
-            'data' => 'deleted',
-            'success' => true,
+            'data' => $data,
+            'success' => $success,
             'flashMessages' => array(
-                'success' => 'L\'entrée Log a bien été supprimée.',
+                'success' => $successMessage,
+                'error' => $errorMessage,
             ),
         ));
     }
-    
-/*    
-    public function create($data) {
-        $form = new LogForm();
-        
-        if ($data) {
-            $log = $this->service->insert($form, $data);
-            
-            if ($log) {
-                $message = 'Le log a bien été ajouté dans la base.';
-                $this->flashMessenger()->addSuccessMessage($message);
-                
-                return new JsonModel(array(
-                    'data' => $log->getId(),
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => $message
-                    ),
-                ));
-                
-            }
-        }
-        
-        $message = 'LogRestController.create: Le log n\'a pas été ajouté.';
-        error_log("===== Erreur: " . $message);
-        return new JsonModel(array(
-            'success' => false,
-            'flashMessages' => array(
-                'error' => $message
-            ),
-        ));
-    }
-*/    
-    
-    public function create($data) {
-        
-        if ($data) {
 
-            $eo = $this->service->insertArray($data);
-            
-            if ($eo) {
-                $message = 'L\'entrée log a bien été ajoutée dans la base.';
-                $this->flashMessenger()->addSuccessMessage($message);
-                
-                return new JsonModel(array(
-                    'data' => $eo->getId(),
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => $message
-                    ),
-                ));
-                
-            }
+    public function get($id)
+    {
+        $result = $this->logService->getById($id);
+
+        $data = '';
+        $successMessage = '';
+        $errorMessage = '';
+
+        if ($result) {
+//            $data[] = $result->toArray($this->hydrator);
+            $data = json_decode($this->serializer->serialize($result, 'json'));
+            $success = true;
+            $successMessage = 'Le log a bien été trouvé.';
+        } else {
+            $success = false;
+            $errorMessage = 'Le log n\'existe pas dans la base.';
         }
-        
-        $message = 'LogRestController.create: l\'entrée log n\'a pas été ajoutée dans la base.';
-        error_log("===== Erreur: " . $message);
+
         return new JsonModel(array(
-            'success' => false,
+            'data' => $data,
+            'success' => $success,
             'flashMessages' => array(
-                'error' => $message
+                'success' => $successMessage,
+                'error' => $errorMessage,
             ),
         ));
     }
-    
-    public function update($id, $data) {
-        
-        
-        if ($data && ($id != NULL)) {
-            $logFound = $this->service->getById($id);
-            $log = $this->service->update($id, $form, $data);
-            
-            if ($log) {
-                $message = 'Le log a bien été modifiée.';
-                $this->flashMessenger()->addSuccessMessage($message);
-                
-                return new JsonModel(array(
-                    'data' => $log->getId(),
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => $message
-                    ),
-                ));
-                
-            }
-        }
-        
-        $message = 'LogRestController.update: Le Log n\'a pas été modifié.';
-        error_log("===== Erreur: " . $message);
-        return new JsonModel(array(
-            'success' => false,
-            'flashMessages' => array(
-                'error' => $message
-            ),
-        ));
+
+    //EN SOMMEIL
+    public function create($data)
+    {
+//        $form = $this->logForm;
+//
+//        if ($data) {
+//            /* @var $log \Ent\Entity\EntLog */
+//            $log = $this->logService->insert($form, $data);
+//
+//            if ($log) {
+////                $this->flashMessenger()->addSuccessMessage('Le log a bien été ajouté.');
+//
+//                return new JsonModel(array(
+//                    'data' => $log->getLogId(),
+//                    'success' => true,
+//                    'flashMessages' => array(
+//                        'success' => 'Le log a bien été ajouté.'
+//                    ),
+//                ));
+//            }
+//        }
+//
+//        return new JsonModel(array(
+//            'success' => false,
+//            'flashMessages' => array(
+//                'error' => 'Le log n\'a pas été ajouté.'
+//            ),
+//        ));
     }
-    
+
+    //EN SOMMEIL
+    public function update($id, $data)
+    {
+//        $log = $this->logService->getById($id, $this->logForm);
+//
+//        if ($data) {
+//            $log = $this->logService->save($this->logForm, $data, $log);
+//
+//            if ($log) {
+////                $this->flashMessenger()->addSuccessMessage('L\'attribut a bien été modifié.');
+//
+//                return new JsonModel(array(
+//                    'data' => $log->getLogId(),
+//                    'success' => true,
+//                    'flashMessages' => array(
+//                        'success' => 'L\'attribut a bien été modifié.'
+//                    ),
+//                ));
+//            }
+//        }
+//
+//        return new JsonModel(array(
+//            'success' => false,
+//            'flashMessages' => array(
+//                'error' => 'L\'attribut n\'a pas été modifié.'
+//            ),
+//        ));
+    }
+
+    //EN SOMMEIL
+    public function delete($id)
+    {
+//        $this->logService->delete($id);
+//
+////        $this->flashMessenger()->addSuccessMessage('L\'attribut a bien été supprimé.');
+//
+//        return new JsonModel(array(
+//            'data' => 'deleted',
+//            'success' => true,
+//            'flashMessages' => array(
+//                'success' => 'L\'attribut a bien été supprimé.',
+//            ),
+//        ));
+    }
+
 }
-

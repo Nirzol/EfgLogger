@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
  * EntLog
  *
  * @ORM\Table(name="ent_log", indexes={@ORM\Index(name="fk_module_id", columns={"fk_log_module_id"}), @ORM\Index(name="fk_action_id", columns={"fk_log_action_id"}), @ORM\Index(name="fk_user_id", columns={"fk_log_user_id"})})
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
 class EntLog extends Ent
 {
+
     /**
      * @var integer
      *
@@ -66,7 +68,7 @@ class EntLog extends Ent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="log_datetime", type="datetime", nullable=false)
+     * @ORM\Column(name="log_datetime", type="datetime", nullable=true)
      */
     private $logDatetime;
 
@@ -99,8 +101,6 @@ class EntLog extends Ent
      * })
      */
     private $fkLogAction;
-
-
 
     /**
      * Get logId
@@ -351,36 +351,19 @@ class EntLog extends Ent
     {
         return $this->fkLogAction;
     }
-    
-    public function toString() {
-        
-        $result = '';
-        
-        if ( ($this->getLogDatetime()) && ($this->getLogDatetime() != NULL)) {
-            $result = $result . ' ' . $this->getLogDatetime()->format('Y-m-d H:i:s');
-        }
-        if ( ($this->getLogLogin()) && ($this->getLogLogin() != NULL)) {
-            $result = $result . ' ' . $this->getLogLogin();
-        }
-        if ( ($this->getLogSession()) && ($this->getLogSession() != NULL)) {
-            $result = $result . ' ' . $this->getLogSession();
-        }
-        if ( ($this->getLogIp()) && ($this->getLogIp() != NULL)) {
-            $result = $result . ' ' . $this->getLogIp();
-        }
-        if ( ($this->getLogOnline()) && ($this->getLogOnline() != NULL)) {
-            $result = $result . ' ' . $this->getLogOnline()->format('Y-m-d H:i:s');
-        }
-        if ( ($this->getLogUseragent()) && ($this->getLogUseragent() != NULL)) {
-            $result = $result . ' ' . $this->getLogUseragent();
-        }
-        if ( ($this->getFkLogModule()) && ($this->getFkLogModule() != NULL)) {
-            $result = $result . ' ' . $this->getFkLogModule()->getModuleName();
-        }
-        if ( ($this->getFkLogAction()) && ($this->getFkLogAction() != NULL)) {
-            $result = $result . ' ' . $this->getFkLogAction()->getActionName();
-        }
 
-        return $result;
+    /**
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+//        $this->setLogDatetime(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
+        if ($this->getLogDatetime() == null) {
+            $this->setLogDatetime(date_create(date('Y-m-d H:i:s')));
+        }
     }
+
 }

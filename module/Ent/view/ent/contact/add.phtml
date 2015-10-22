@@ -1,11 +1,12 @@
-<h2><?=$this->translate('Ajouter un contact')?></h2>
-<?=$this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
+<?php $this->headTitle($this->translate('Ajouter un contact')); ?>
+<h2><?= $this->translate('Ajouter un contact') ?></h2>
+<?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
 <div class="form-group<?php if ($form->get('contactName')->getMessages()) echo ' has-error'; ?>">
     <?= $this->formLabel($form->get('contactName')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
         <?= $this->formText($form->get('contactName')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
         <?= $this->formElementErrors($form->get('contactName')) ?>           
     </div>
 </div>
@@ -15,7 +16,7 @@
     <div class="col-sm-10">
         <?= $this->formText($form->get('contactLibelle')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
         <?= $this->formElementErrors($form->get('contactLibelle')) ?>           
     </div>
 </div>
@@ -25,7 +26,7 @@
     <div class="col-sm-10">
         <?= $this->formText($form->get('contactDescription')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
         <?= $this->formElementErrors($form->get('contactDescription')) ?>           
     </div>
 </div>
@@ -35,7 +36,7 @@
     <div class="col-sm-10">
         <?= $this->formText($form->get('contactService')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
         <?= $this->formElementErrors($form->get('contactService')) ?>           
     </div>
 </div>
@@ -45,7 +46,7 @@
     <div class="col-sm-10">
         <?= $this->formText($form->get('contactMailto')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
         <?= $this->formElementErrors($form->get('contactMailto')) ?>           
     </div>
 </div>
@@ -97,7 +98,8 @@
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary"><?=$this->translate('Ajouter')?></button>
+        <button type="submit" class="btn btn-primary"><?= $this->translate('Ajouter') ?></button>
+        <a class="btn btn-danger" href="<?php echo $this->url('contact'); ?>"><?= $this->translate('Annuler') ?></a>
     </div>
 </div>
-<?=$this->form()->closeTag()?>
+<?php echo $this->form()->closeTag()?>

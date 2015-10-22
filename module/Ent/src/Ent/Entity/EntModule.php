@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
  * EntModule
  *
  * @ORM\Table(name="ent_module")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
 class EntModule extends Ent
 {
+
     /**
      * @var integer
      *
@@ -49,8 +51,6 @@ class EntModule extends Ent
      */
     private $moduleLastUpdate;
 
-
-
     /**
      * Get moduleId
      *
@@ -60,8 +60,16 @@ class EntModule extends Ent
     {
         return $this->moduleId;
     }
-    
-    public function setModuleId($id) {
+
+    /**
+     * Set moduleId
+     *
+     * @param int $id
+     *
+     * @return EntModule
+     */
+    public function setModuleId($id)
+    {
         $this->moduleId = $id;
         return $this;
     }
@@ -161,4 +169,21 @@ class EntModule extends Ent
     {
         return $this->moduleLastUpdate;
     }
+    
+     /**
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setModuleLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
+
+//        if($this->getCreatedAt() == null)
+//        {
+//            $this->setCreatedAt(date('Y-m-d H:i:s'));
+//        }
+    }
+
 }

@@ -6,35 +6,57 @@ use Zend\InputFilter\InputFilter;
 
 class PreferenceInputFilter extends InputFilter
 {
-    public function __construct() {
-        $input = new \Zend\InputFilter\Input('prefAttribute');
-        $input->setRequired(false);
-        
-        $filter = new \Zend\Filter\StringTrim();
-        $input->getFilterChain()->attach($filter);
-        
-        $filter = new \Zend\Filter\StripTags();
-        $input->getFilterChain()->attach($filter);
-        
-        $validator = new \Zend\Validator\NotEmpty();
-        $input->getValidatorChain()->attach($validator);
-        
-        $this->add($input);
-        
-        $input = new \Zend\InputFilter\Input('fkPrefUser');
-        $input->setRequired(false);
-        $this->add($input);
-        
-        $input = new \Zend\InputFilter\Input('fkPrefService');
-        $input->setRequired(false);
-        $this->add($input);
-        
-        $input = new \Zend\InputFilter\Input('fkPrefStatus');
-        $input->setRequired(false);
-        $this->add($input);
-        
-        $input = new \Zend\InputFilter\Input('fkPrefProfile');
-        $input->setRequired(false);
-        $this->add($input);
+
+    public function __construct()
+    {
+        $this->add(array(
+            'name' => 'prefAttribute',
+            'required' => true,
+            'filters' => array(
+                array('name' => 'StripTags'),
+                array('name' => 'StringTrim'),
+            ),
+            'validators' => array(
+                array(
+                    'name' => 'NotEmpty',
+                ),
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'fkPrefUser',
+            'required' => false,
+            'filters' => array(
+            ),
+            'validators' => array(
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'fkPrefService',
+            'required' => false,
+            'filters' => array(
+            ),
+            'validators' => array(
+            ),
+        ));
+        $this->add(array(
+            'name' => 'fkPrefStatus',
+            'required' => true,
+            'filters' => array(
+            ),
+            'validators' => array(
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'fkPrefProfile',
+            'required' => false,
+            'filters' => array(
+            ),
+            'validators' => array(
+            ),
+        ));
     }
+
 }

@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
  * EntService
  *
  * @ORM\Table(name="ent_service")
- * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Entity(repositoryClass="\Ent\Repository\ServiceRepository")
  */
 class EntService extends Ent
 {
+
     /**
      * @var integer
      *
@@ -24,7 +26,7 @@ class EntService extends Ent
     /**
      * @var string
      *
-     * @ORM\Column(name="service_name", type="string", length=250, nullable=false)
+     * @ORM\Column(name="service_name", type="string", length=250, nullable=false, unique=true)
      */
     private $serviceName;
 
@@ -45,7 +47,7 @@ class EntService extends Ent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="service_last_update", type="datetime", nullable=false)
+     * @ORM\Column(name="service_last_update", type="datetime", nullable=true)
      */
     private $serviceLastUpdate;
 
@@ -55,14 +57,34 @@ class EntService extends Ent
      * @ORM\ManyToMany(targetEntity="Ent\Entity\EntContact", mappedBy="fkCsService")
      */
     private $fkCsContact;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="Ent\Entity\EntServiceAttribute", mappedBy="fkSaService", cascade={"persist", "remove"}, orphanRemoval=TRUE)
+     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntAttribute", inversedBy="fkSaService",)
+     * @ORM\JoinTable(name="ent_service_attribute",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="fk_sa_service_id", referencedColumnName="service_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="fk_sa_attribute_id", referencedColumnName="attribute_id")
+     *   }
+     * )
      */
-    private $fkSaServiceSA;
-
+//    /**
+//     * @var \Doctrine\Common\Collections\Collection
+//     *
+//     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntAttribute", indexBy="attribute_name", fetch="LAZY")
+//     * @ORM\JoinTable(name="ent_service_attribute",
+//     *   joinColumns={
+//     *     @ORM\JoinColumn(name="fk_sa_service_id", referencedColumnName="service_id")
+//     *   },
+//     *   inverseJoinColumns={
+//     *     @ORM\JoinColumn(name="fk_sa_attribute_id", referencedColumnName="attribute_id")
+//     *   }
+//     * )
+//     */
+    private $fkSaAttribute = [];
 
     /**
      * Constructor
@@ -70,9 +92,8 @@ class EntService extends Ent
     public function __construct()
     {
         $this->fkCsContact = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->fkSaServiceSA = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fkSaAttribute = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get serviceId
@@ -183,34 +204,25 @@ class EntService extends Ent
     /**
      * Add fkCsContact
      *
-     * @param \Doctrine\Common\Collections\Collection $fkCsContact
+     * @param \Ent\Entity\EntContact $fkCsContact
      *
      * @return EntService
      */
-    public function addFkCsContact(\Doctrine\Common\Collections\Collection $fkCsContact)
+    public function addFkCsContact(\Ent\Entity\EntContact $fkCsContact)
     {
-        
-        /* @var $contact \Ent\Entity\EntContact */
-        foreach($fkCsContact as $contact) {
-            if( ! $this->fkCsContact->contains($contact)) {
-                $this->fkCsContact->add($contact);
-                $contact->addFkCsService(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
-            }
-        }
+        $this->fkCsContact[] = $fkCsContact;
+
+        return $this;
     }
 
     /**
      * Remove fkCsContact
      *
-     * @param \Doctrine\Common\Collections\Collection $fkCsContact
+     * @param \Ent\Entity\EntContact $fkCsContact
      */
-    public function removeFkCsContact(\Doctrine\Common\Collections\Collection $fkCsContact)
+    public function removeFkCsContact(\Ent\Entity\EntContact $fkCsContact)
     {
-        /* @var $contact \Ent\Entity\EntContact */
-        foreach ($fkCsContact as $contact) {
-            $this->fkCsContact->removeElement($contact);
-            $contact->removeFkCsService(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
-        }
+        $this->fkCsContact->removeElement($fkCsContact);
     }
 
     /**
@@ -222,78 +234,74 @@ class EntService extends Ent
     {
         return $this->fkCsContact;
     }
-    
+
     /**
-     * Add FkSaServiceSA
+     * Add attribute
      *
-     * @param \Ent\Entity\EntServiceAttribute fkSaServiceSA
+     * @param \Doctrine\Common\Collections\Collection $attribute
      *
      * @return EntService
      */
-    public function addFkSaServiceSA(\Ent\Entity\EntServiceAttribute $fkSaServiceSA)
+    public function addAttribute($attribute)
     {
-        if (!$this->fkSaServiceSA->contains($fkSaServiceSA)) {
-            $this->fkSaServiceSA->add($fkSaServiceSA);
-            $fkSaServiceSA->setFkSaService($this);
-        }
+        $this->fkSaAttribute[] = $attribute;
+
         return $this;
     }
-//    public function addFkSaServiceSA(\Doctrine\Common\Collections\Collection $fkSaServiceSA)
-//    {
-//        /* @var $role \Ent\Entity\EntServiceAttribute */
-//        foreach ($fkSaServiceSA as $sa) {
-//            if (!$this->fkSaServiceSA->contains($sa)) {
-//                $this->fkSaServiceSA->add($sa);
-//                $sa->setFkSaService($this);
-//            }
-//        }
-//        return $this;
-//    }
 
     /**
-     * Remove FkSaServiceSA
+     * Add fkSaAttribute
      *
-     * @param \Ent\Entity\EntServiceAttribute $fkSaServiceSA
+     * @param \Doctrine\Common\Collections\Collection $fkSaAttribute
      */
-    public function removeFkSaService(\Ent\Entity\EntServiceAttribute $fkSaServiceSA)
+    public function addFkSaAttribute(\Doctrine\Common\Collections\ArrayCollection $fkSaAttribute)
     {
-        if ($this->fkSaServiceSA->contains($fkSaServiceSA)) {
-            $this->fkSaServiceSA->removeElement($fkSaServiceSA);
-            $fkSaServiceSA->setFkSaService(null);
+        foreach ($fkSaAttribute as $attribute) {
+            $this->addAttribute($attribute);
         }
-        return $this;
     }
-//    public function removeFkSaService(\Doctrine\Common\Collections\Collection $fkSaServiceSA)
-//    {
-//        /* @var $sa \Ent\Entity\EntServiceAttribute */
-//        foreach ($fkSaServiceSA as $sa) {
-//            $this->fkSaServiceSA->removeElement($sa);
-//            $sa->setFkSaService(null);
-//        }
-//        return $this;
-//    }
-    
+
     /**
-     * Get FkSaServiceSA
+     * Remove attribute
+     *
+     * @param \Ent\Entity\EntAttribute $attribute
+     */
+    public function removeAttribute(\Ent\Entity\EntAttribute $attribute)
+    {
+        $this->fkSaAttribute->removeElement($attribute);
+    }
+
+    /**
+     * Remove fkSaAttribute
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkSaAttribute
+     */
+    public function removeFkSaAttribute(\Doctrine\Common\Collections\ArrayCollection $fkSaAttribute)
+    {
+        foreach ($fkSaAttribute as $attribute) {
+            $this->removeAttribute($attribute);
+        }
+    }
+
+    /**
+     * Get fkSaAttribute
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getFkSaService() {
-        return $this->fkSaService->toArray();
+    public function getFkSaAttribute()
+    {
+        return $this->fkSaAttribute;
     }
-    
+
     /**
-     * Get attribute
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
-    public function getAttributes() {
-        return array_map(
-            function ($fkSaServiceSA) {
-                return array('attribute' => $fkSaServiceSA->getFkSaAttribute(), 'value' => $fkSaServiceSA->getServiceAttributeValue());
-            },
-            $this->fkSaServiceSA->toArray()
-        );
+    public function updatedTimestamps()
+    {
+        $this->setServiceLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
-    
+
 }

@@ -4,45 +4,62 @@ namespace Ent\Controller;
 
 use Ent\Form\ProfileForm;
 use Ent\Service\ProfileDoctrineService;
+use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class ProfileController extends AbstractActionController
 {
 
-    protected $service = null;
+    /**
+     *
+     * @var ProfileDoctrineService
+     */
+    protected $profileService;
 
-    public function __construct(ProfileDoctrineService $iservice)
+    /**
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     *
+     * @var ProfileForm
+     */
+    protected $profileForm;
+
+    public function __construct(ProfileDoctrineService $profileService, ProfileForm $profileForm)
     {
-        $this->service = $iservice;
+        $this->profileService = $profileService;
+        $this->profileForm = $profileForm;
     }
 
     public function listAction()
     {
-        $profiles = $this->service->getAll();
+        $listProfiles = $this->profileService->getAll();
 
         return new ViewModel(array(
-            'listProfiles' => $profiles
+            'listProfiles' => $listProfiles,
         ));
     }
 
     public function addAction()
     {
-        $form = new ProfileForm();
+        $form = $this->profileForm;
 
         if ($this->request->isPost()) {
+            $profile = $this->profileService->insert($form, $this->request->getPost());
 
-            $profile = $this->service->insert($form, $this->request->getPost());            
             if ($profile) {
                 $this->flashMessenger()->addSuccessMessage('Le profile a bien été ajouté.');
-                
+
                 return $this->redirect()->toRoute('profile');
             }
-            
         }
 
         return new ViewModel(array(
-            'form' => $form
+            'form' => $form->prepare(),
         ));
     }
 
@@ -50,8 +67,8 @@ class ProfileController extends AbstractActionController
     {
         $id = $this->params('id');
 
-        $profile = $this->service->getById($id);        
-        
+        $profile = $this->profileService->getById($id);
+
         if (!$profile) {
             return $this->notFoundAction();
         }
@@ -61,61 +78,36 @@ class ProfileController extends AbstractActionController
         ));
     }
 
-    public function deleteAction()
-    {
-        $id = (int) $this->params('id');
-
-        if (!$id) {
-            return $this->redirect()->toRoute('profile');
-        }
-        
-        $profile = $this->service->getById($id);
-        
-        $request = $this->getRequest();
-        
-        if($request->isPost()) {
-            $del = $request->getPost('del', 'Non');
-            
-            if ($del == 'Oui') {
-                $id = (int) $request->getPost('id');
-                $this->service->delete($id);
-            }
-            
-            return $this->redirect()->toRoute('profile');
-        }
-        
-        return new ViewModel(array(
-            'id' => $id,
-            'profile' => $profile
-        ));
-    }
-
     public function updateAction()
     {
-        $id = (int) $this->params('id');
-        $form = new ProfileForm();
-        
-        if (!$id) {
-            return $this->redirect()->toRoute('profile');
-        }
-        
-        $profile = $this->service->getById($id, $form);    
-        
+        $id = $this->params('id');
+        $form = $this->profileForm;
+        $profile = $this->profileService->getById($id, $form);
+
         if ($this->request->isPost()) {
-            $profile = $this->service->update($id, $form, $this->request->getPost());
-            
+            $profile = $this->profileService->save($form, $this->request->getPost(), $profile);
+
             if ($profile) {
                 $this->flashMessenger()->addSuccessMessage('Le profile a bien été modifié.');
-                
+
                 return $this->redirect()->toRoute('profile');
             }
         }
-        
+
         return new ViewModel(array(
-            'form' => $form
+            'form' => $form->prepare(),
         ));
     }
 
+    public function deleteAction()
+    {
+        $id = $this->params('id');
+
+        $this->profileService->delete($id);
+
+        $this->flashMessenger()->addSuccessMessage('Le profile a bien été supprimé.');
+
+        return $this->redirect()->toRoute('profile');
+    }
 
 }
-

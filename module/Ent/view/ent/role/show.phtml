@@ -1,3 +1,5 @@
+<?php $this->headTitle($this->translate('Détails d\'un role')); ?>
+
 <h2><?= $this->translate('Détails d\'un role') ?></h2>
 
 <p>
@@ -18,7 +20,7 @@
     <?php
     foreach ($role->getChildren() as $child) {
         if ($child->getName()) :
-            echo $this->escapeHtml($child->getName());
+            echo $this->escapeHtml($child->getName()) . ' - ';
         endif;
     }
     ?>
@@ -29,8 +31,10 @@
     <?php
     foreach ($role->getPermissions() as $permission) {
         if ($permission->getName()) :
-            echo $this->escapeHtml($permission->getName());
+            echo $this->escapeHtml($permission->getName()) . ' - ';
         endif;
     }
     ?>
 </p>
+
+<a class="btn btn-danger" href="<?php echo $this->url('role'); ?>"><?= $this->translate('Retour') ?></a>

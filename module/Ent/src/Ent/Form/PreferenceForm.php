@@ -2,27 +2,36 @@
 
 namespace Ent\Form;
 
-use Zend\Form\Form;
 use Doctrine\ORM\EntityManager;
+use Zend\Form\Form;
 
 class PreferenceForm extends Form
 {
+
     protected $entityManager;
-    
-    public function __construct(EntityManager $entityManager) {
+
+    public function __construct(EntityManager $entityManager)
+    {
         parent::__construct('preference');
-        
+
         $this->entityManager = $entityManager;
-        
-        $element = new \Zend\Form\Element\Textarea('prefAttribute');
-        $element->setLabel('Préférence de l\'attribut : ');
-        $this->add($element);
-        
+
+        $this->add(array(
+            'name' => 'prefAttribute',
+            'options' => array(
+                'label' => 'Préférence de l\'attribut : ',
+            ),
+            'attributes' => array(
+                'type' => 'textarea',
+                'placeholder' => 'Un JSON please :-)',
+            ),
+        ));
+
         $this->add(array(
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
             'name' => 'fkPrefUser',
             'attributes' => array(
-                'id' => 'selectPreferenceUser'
+                'id' => 'selectPreferenceUser',
             ),
             'options' => array(
                 'label' => 'User : ',
@@ -33,12 +42,12 @@ class PreferenceForm extends Form
                 'is_method' => true,
             ),
         ));
-        
+
         $this->add(array(
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
             'name' => 'fkPrefService',
             'attributes' => array(
-                'id' => 'selectPreferenceService'
+                'id' => 'selectPreferenceService',
             ),
             'options' => array(
                 'label' => 'Service : ',
@@ -49,12 +58,12 @@ class PreferenceForm extends Form
                 'is_method' => true,
             ),
         ));
-        
+
         $this->add(array(
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
             'name' => 'fkPrefStatus',
             'attributes' => array(
-                'id' => 'selectPreferenceStatus'
+                'id' => 'selectPreferenceStatus',
             ),
             'options' => array(
                 'label' => 'Status : ',
@@ -65,12 +74,12 @@ class PreferenceForm extends Form
                 'is_method' => true,
             ),
         ));
-        
+
         $this->add(array(
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
             'name' => 'fkPrefProfile',
             'attributes' => array(
-                'id' => 'selectPreferenceProfile'
+                'id' => 'selectPreferenceProfile',
             ),
             'options' => array(
                 'label' => 'Profil : ',
@@ -82,4 +91,5 @@ class PreferenceForm extends Form
             ),
         ));
     }
+
 }

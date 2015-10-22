@@ -15,11 +15,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author fandria
  */
-class StructureDoctrineORMServiceFactory implements FactoryInterface{
+class StructureDoctrineORMServiceFactory implements FactoryInterface
+{
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator ObjectManager */
-        $om   = $serviceLocator->get('Doctrine\ORM\EntityManager');
+        $om = $serviceLocator->get('Doctrine\ORM\EntityManager');
 
         $structure = new EntStructure();
 
@@ -31,4 +33,5 @@ class StructureDoctrineORMServiceFactory implements FactoryInterface{
 
         return $service;
     }
+
 }

@@ -2,8 +2,6 @@
 
 namespace Ent\Factory\Controller;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Ent\Controller\ServiceRestController;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\FactoryInterface;
@@ -14,21 +12,24 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author fandria
  */
-class ServiceRestControllerFactory implements FactoryInterface{
+class ServiceRestControllerFactory implements FactoryInterface
+{
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator ControllerManager */
-        $sm   = $serviceLocator->getServiceLocator();
+        $sm = $serviceLocator->getServiceLocator();
         $serviceService = $sm->get('Ent\Service\ServiceDoctrineORM');
 
-        $serviceForm    = $sm->get('FormElementManager')->get('Ent\Form\ServiceForm');
+        $preferenceService = $sm->get('Ent\Service\PreferenceDoctrineORM');
 
-        /* @var $serviceLocator ObjectManager */
-        $om   = $sm->get('Doctrine\ORM\EntityManager');
-        $hydrator = new DoctrineObject($om);
+        $serviceForm = $sm->get('FormElementManager')->get('Ent\Form\ServiceForm');
 
-        $controller = new ServiceRestController($serviceService, $serviceForm, $hydrator);
+        $serializer = $sm->get('jms_serializer.serializer');
+
+        $controller = new ServiceRestController($serviceService, $preferenceService, $serviceForm, $serializer);
 
         return $controller;
     }
+
 }

@@ -1,0 +1,67 @@
+<?php $this->headTitle($this->translate('Détails d\'un log')); ?>
+
+<h2><?= $this->translate('Détails d\'un log') ?></h2>
+<p>
+    <?= $this->translate('Log login :') ?> <?= $this->escapeHtml($log->getLogLogin()) ?>
+</p>
+<p>
+    <?= $this->translate('Log Online :') ?>
+    <?php
+    if ($log->getLogOnline() != null) {
+        echo $log->getLogOnline()->format('d-m-Y H:i:s');
+    } else {
+        echo $this->translate('Aucune date de Online');
+    }
+    ?>
+</p>
+<p>
+    <?= $this->translate('Log Offline :') ?> 
+    <?php
+    if ($log->getLogOffline() != null) {
+        echo $log->getLogOffline()->format('d-m-Y H:i:s');
+    } else {
+        echo $this->translate('Aucune date de Offline');
+    }
+    ?>
+</p>
+<p>
+    <?= $this->translate('Log Session :') ?> <?= $this->escapeHtml($log->getLogSession()) ?>
+</p>
+<p>
+    <?= $this->translate('Log Ip :') ?> <?= $this->escapeHtml($log->getLogIp()) ?>
+</p>
+<p>
+    <?= $this->translate('Log User Agent :') ?> <?= $this->escapeHtml($log->getLogUseragent()) ?>
+</p>
+<p>
+    <?= $this->translate('Log User Login :') ?>
+    <?php
+    if ($log->getFkLogUser() != null) {
+        echo $this->escapeHtml($log->getFkLogUser()->getUserLogin());
+    } else {
+        echo $this->translate('Aucun user lié');
+    }
+    ?>
+</p>
+<p>
+    <?= $this->translate('Log User Login :') ?>
+    <?php
+    if ($log->getFkLogAction() != null) {
+        echo $this->escapeHtml($log->getFkLogAction()->getActionName());
+    } else {
+        echo $this->translate('Aucune action lié');
+    }
+    ?>
+</p>
+<p>
+    <?= $this->translate('Log User Login :') ?>
+    <?php
+    if ($log->getFkLogModule() != null) {
+        echo $this->escapeHtml($log->getFkLogModule()->getModuleName());
+    } else {
+        echo $this->translate('Aucun module lié');
+    }
+    ?>
+</p>
+
+<a class="btn btn-danger" href="<?php echo $this->url('log'); ?>"><?= $this->translate('Retour') ?></a>

@@ -4,7 +4,6 @@ namespace Ent\Form;
 
 use Doctrine\ORM\EntityManager;
 use Zend\Form\Form;
-use Zend\Stdlib\Hydrator\ClassMethods;
 
 class RoleForm extends Form
 {
@@ -44,7 +43,6 @@ class RoleForm extends Form
 
     public function initParams($id)
     {
-
         $this->add(array(
             'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'children',

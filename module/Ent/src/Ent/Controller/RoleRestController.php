@@ -2,9 +2,9 @@
 
 namespace Ent\Controller;
 
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Ent\Form\RoleForm;
 use Ent\Service\RoleDoctrineService;
+use JMS\Serializer\Serializer;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -24,59 +24,56 @@ class RoleRestController extends AbstractRestfulController
     protected $roleForm;
 
     /**
-     *
-     * @var DoctrineObject
+     * @var Serializer
      */
-    protected $hydrator;
+    protected $serializer;
 
-    public function __construct(RoleDoctrineService $roleService, RoleForm $roleForm, DoctrineObject $hydrator)
+//    public function options()
+//    {
+//        $response = $this->getResponse();
+//        $headers = $response->getHeaders();
+//
+//        if ($this->params()->fromRoute('id', false)) {
+//            // Allow viewing, partial updating, replacement, and deletion
+//            // on individual items
+//            $headers->addHeaderLine('Allow', implode(',', array(
+//                'GET',
+//                'PATCH',
+//                'PUT',
+//                'DELETE',
+//            )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
+//            return $response;
+//        }
+//
+//        // Allow only retrieval and creation on collections
+//        $headers->addHeaderLine('Allow', implode(',', array(
+//            'GET',
+//            'POST',
+//        )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
+//
+//        return $response;
+//    }
+
+    public function __construct(RoleDoctrineService $roleService, RoleForm $roleForm, Serializer $serializer)
     {
         $this->roleService = $roleService;
         $this->roleForm = $roleForm;
-        $this->hydrator = $hydrator;
-    }
-
-    public function options()
-    {
-        $response = $this->getResponse();
-        $headers = $response->getHeaders();
-
-        if ($this->params()->fromRoute('id', false)) {
-            // Allow viewing, partial updating, replacement, and deletion
-            // on individual items
-            $headers->addHeaderLine('Allow', implode(',', array(
-                'GET',
-                'PATCH',
-                'PUT',
-                'DELETE',
-            )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
-            return $response;
-        }
-
-        // Allow only retrieval and creation on collections
-        $headers->addHeaderLine('Allow', implode(',', array(
-            'GET',
-            'POST',
-        )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
-
-        return $response;
+        $this->serializer = $serializer;
     }
 
     public function getList()
     {
         $results = $this->roleService->getAll();
 
-        $data = array();
+        $data = '';
         $successMessage = '';
         $errorMessage = '';
 
         if ($results) {
-            foreach ($results as $result) {
-                /* @var $result EntHierarchicalRole */
-                $data[] = $result->toArray($this->hydrator);
-                $success = true;
-                $successMessage = 'Les roles ont bien été trouvé.';
-            }
+//            $data[] = $results->toArray($this->hydrator);
+            $data = json_decode($this->serializer->serialize($results, 'json'));
+            $success = true;
+            $successMessage = 'Les roles ont bien été trouvé.';
         } else {
             $success = false;
             $errorMessage = 'Aucun role existe dans la base.';
@@ -94,22 +91,22 @@ class RoleRestController extends AbstractRestfulController
 
     public function get($id)
     {
-
         $result = $this->roleService->getById($id);
 
-        $data = array();
+        $data = '';
         $successMessage = '';
         $errorMessage = '';
 
         if ($result) {
-            /* @var $result EntHierarchicalRole */
-            $data[] = $result->toArray($this->hydrator);
+//            $data[] = $result->toArray($this->hydrator);
+            $data = json_decode($this->serializer->serialize($result, 'json'));
             $success = true;
             $successMessage = 'Le role a bien été trouver.';
         } else {
             $success = false;
             $errorMessage = 'Le role n\'existe pas dans la base.';
         }
+
         return new JsonModel(array(
             'data' => $data,
             'success' => $success,
@@ -120,78 +117,81 @@ class RoleRestController extends AbstractRestfulController
         ));
     }
 
+    //EN SOMMEIL
     public function create($data)
     {
-        $form = $this->roleForm;
-
-        if ($data) {
-            /* @var $role \Ent\Entity\EntHierarchicalRole */
-            $role = $this->roleService->insert($form, $data);
-
-            if ($role) {
-//                $message = 'Le role a bien été ajouté dans la base.';
-//                $this->flashMessenger()->addSuccessMessage($message);
-
-                return new JsonModel(array(
-                    'data' => $role->getId(),
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => 'Le role a bien été ajouté dans la base.',
-                    ),
-                ));
-            }
-        }
-        return new JsonModel(array(
-            'success' => false,
-            'flashMessages' => array(
-                'error' => 'Le role n\'a pas été insérer.',
-            ),
-        ));
+//        $form = $this->roleForm;
+//
+//        if ($data) {
+//            /* @var $role \Ent\Entity\EntHierarchicalRole */
+//            $role = $this->roleService->insert($form, $data);
+//
+//            if ($role) {
+////                $message = 'Le role a bien été ajouté dans la base.';
+////                $this->flashMessenger()->addSuccessMessage($message);
+//
+//                return new JsonModel(array(
+//                    'data' => $role->getId(),
+//                    'success' => true,
+//                    'flashMessages' => array(
+//                        'success' => 'Le role a bien été ajouté dans la base.',
+//                    ),
+//                ));
+//            }
+//        }
+//        return new JsonModel(array(
+//            'success' => false,
+//            'flashMessages' => array(
+//                'error' => 'Le role n\'a pas été insérer.',
+//            ),
+//        ));
     }
 
+    //EN SOMMEIL
     public function update($id, $data)
     {
-        $role = $this->roleService->getById($id, $this->roleForm);
-
-        if ($data) {
-            $role = $this->roleService->save($this->roleForm, $data, $role);
-
-            if ($role) {
-//                $message = 'Le role a bien été modifié.';
-//                $this->flashMessenger()->addSuccessMessage($message);
-
-                return new JsonModel(array(
-                    'data' => $role->getId(),
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => 'Le role a bien été modifié.',
-                    ),
-                ));
-            }
-        }
-
-        return new JsonModel(array(
-            'data' => $role,
-            'success' => false,
-            'flashMessages' => array(
-                'error' => 'Le role ' . $id . ' n\'a pas été updater.',
-            ),
-        ));
+//        $role = $this->roleService->getById($id, $this->roleForm);
+//
+//        if ($data) {
+//            $role = $this->roleService->save($this->roleForm, $data, $role);
+//
+//            if ($role) {
+////                $message = 'Le role a bien été modifié.';
+////                $this->flashMessenger()->addSuccessMessage($message);
+//
+//                return new JsonModel(array(
+//                    'data' => $role->getId(),
+//                    'success' => true,
+//                    'flashMessages' => array(
+//                        'success' => 'Le role a bien été modifié.',
+//                    ),
+//                ));
+//            }
+//        }
+//
+//        return new JsonModel(array(
+//            'data' => $role,
+//            'success' => false,
+//            'flashMessages' => array(
+//                'error' => 'Le role ' . $id . ' n\'a pas été updater.',
+//            ),
+//        ));
     }
 
+    //EN SOMMEIL
     public function delete($id)
     {
-        $this->roleService->delete($id);
-
-//        $this->flashMessenger()->addSuccessMessage('Le profile a bien été supprimé.');
-
-        return new JsonModel(array(
-            'data' => 'deleted',
-            'success' => true,
-            'flashMessages' => array(
-                'success' => 'Le role a bien été supprimé.',
-            ),
-        ));
+//        $this->roleService->delete($id);
+//
+////        $this->flashMessenger()->addSuccessMessage('Le profile a bien été supprimé.');
+//
+//        return new JsonModel(array(
+//            'data' => 'deleted',
+//            'success' => true,
+//            'flashMessages' => array(
+//                'success' => 'Le role a bien été supprimé.',
+//            ),
+//        ));
     }
 
 }

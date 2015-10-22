@@ -8,12 +8,16 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AttributeFormFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {       
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         $service = $serviceLocator->getServiceLocator();
-        
+
         $entityManager = $service->get('Doctrine\ORM\EntityManager');
+
         $attributeForm = new AttributeForm($entityManager);
-        
+
         return $attributeForm;
     }
+
 }

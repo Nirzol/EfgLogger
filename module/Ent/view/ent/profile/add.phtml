@@ -1,48 +1,46 @@
-<?php
-    $title = "Ajout d'un profile";
-    $this->headTitle($title);
-?>
-<h2><?php echo $this->escapeHtml($title); ?></h2>
-<?=$this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate'))?>
-<div class="form-group<?php if($form->get('profileName')->getMessages()) echo ' has-error'; ?>">
-    <?=$this->formLabel($form->get('profileName')->setLabelAttributes(['class' => 'col-sm-2 control-label']))?>
+<?php $this->headTitle($this->translate('Ajouter profile')); ?>
+<h2><?= $this->escapeHtml('Ajouter profile'); ?></h2>
+<?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
+<div class="form-group<?php if ($form->get('profileName')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('profileName')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
-        <?=$this->formText($form->get('profileName')->setAttribute('class', 'form-control'))?>
+        <?= $this->formText($form->get('profileName')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
-        <?=$this->formElementErrors($form->get('profileName'))?>           
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('profileName')) ?>           
     </div>
 </div>
-<div class="form-group<?php if($form->get('profileLdap')->getMessages()) echo ' has-error'; ?>">
-    <?=$this->formLabel($form->get('profileLdap')->setLabelAttributes(['class' => 'col-sm-2 control-label']))?>
+<div class="form-group<?php if ($form->get('profileLdap')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('profileLdap')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
-        <?=$this->formText($form->get('profileLdap')->setAttribute('class', 'form-control'))?>
+        <?= $this->formText($form->get('profileLdap')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
-        <?=$this->formElementErrors($form->get('profileLdap'))?>           
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('profileLdap')) ?>           
     </div>
 </div>
-<div class="form-group<?php if($form->get('profileLibelle')->getMessages()) echo ' has-error'; ?>">
-    <?=$this->formLabel($form->get('profileLibelle')->setLabelAttributes(['class' => 'col-sm-2 control-label']))?>
+<div class="form-group<?php if ($form->get('profileLibelle')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('profileLibelle')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
-        <?=$this->formText($form->get('profileLibelle')->setAttribute('class', 'form-control'))?>
+        <?= $this->formText($form->get('profileLibelle')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
-        <?=$this->formElementErrors($form->get('profileLibelle'))?>           
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('profileLibelle')) ?>           
     </div>
 </div>
-<div class="form-group<?php if($form->get('profileDescription')->getMessages()) echo ' has-error'; ?>">
-    <?=$this->formLabel($form->get('profileDescription')->setLabelAttributes(['class' => 'col-sm-2 control-label']))?>
+<div class="form-group<?php if ($form->get('profileDescription')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('profileDescription')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
-        <?=$this->formTextarea($form->get('profileDescription')->setAttribute('class', 'form-control'))?>
+        <?= $this->formTextarea($form->get('profileDescription')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
-        <?=$this->formElementErrors($form->get('profileDescription'))?>           
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('profileDescription')) ?>           
     </div>
 </div>
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Ajouter</button>
+        <button type="submit" class="btn btn-primary"><?= $this->translate('Ajouter') ?></button>
+        <a class="btn btn-danger" href="<?php echo $this->url('profile'); ?>"><?= $this->translate('Annuler') ?></a>
     </div>
 </div>
 <?php echo $this->form()->closeTag(); ?>

@@ -2,124 +2,112 @@
 
 namespace Ent\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use Zend\Http\Request;
 use Ent\Form\AttributeForm;
 use Ent\Service\AttributeDoctrineService;
+use Zend\Http\Request;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
 
 class AttributeController extends AbstractActionController
 {
+
     /**
      *
      * @var AttributeDoctrineService
      */
     protected $attributeService;
-    
+
     /**
      *
      * @var Request
      */
     protected $request;
-    
+
     /**
      *
      * @var AttributeForm
      */
     protected $attributeForm;
 
-
-    public function __construct(AttributeDoctrineService $attributeService, AttributeForm $attributeForm) {
+    public function __construct(AttributeDoctrineService $attributeService, AttributeForm $attributeForm)
+    {
         $this->attributeService = $attributeService;
         $this->attributeForm = $attributeForm;
     }
-    
-    public function listAction() {
+
+    public function listAction()
+    {
         $listAttritutes = $this->attributeService->getAll();
-        
+
         return new ViewModel(array(
-            'listAttributes' => $listAttritutes
+            'listAttributes' => $listAttritutes,
         ));
     }
-    
-    public function addAction() {
+
+    public function addAction()
+    {
         $form = $this->attributeForm;
-        
+
         if ($this->request->isPost()) {
             $attribute = $this->attributeService->insert($form, $this->request->getPost());
-            
+
             if ($attribute) {
                 $this->flashMessenger()->addSuccessMessage('L\'attribut a bien été ajouté.');
-                
+
                 return $this->redirect()->toRoute('attribute');
             }
         }
-        
+
         return new ViewModel(array(
-            'form' => $form
+            'form' => $form->prepare(),
         ));
     }
-    
-    public function showAction() {
-        $id = (int) $this->params('id');
-        
+
+    public function showAction()
+    {
+        $id = $this->params('id');
+
         $attribute = $this->attributeService->getById($id);
-        
+
         if (!$attribute) {
             return $this->notFoundAction();
         }
-        
+
         return new ViewModel(array(
-            'attribute' => $attribute
+            'attribute' => $attribute,
         ));
     }
-    
-    public function updateAction() {
-        $id = (int) $this->params('id');
+
+    public function updateAction()
+    {
+        $id = $this->params('id');
         $form = $this->attributeForm;
-        
         $attribute = $this->attributeService->getById($id, $form);
-        
+
         if ($this->request->isPost()) {
-            $attribute = $this->attributeService->udpate($id, $form, $this->request->getPost());
-            
+            $attribute = $this->attributeService->save($form, $this->request->getPost(), $attribute);
+
             if ($attribute) {
                 $this->flashMessenger()->addSuccessMessage('L\'attribut a bien été modifié.');
-                
+
                 return $this->redirect()->toRoute('attribute');
             }
         }
-        
+
         return new ViewModel(array(
-            'form' => $form
+            'form' => $form->prepare(),
         ));
     }
-    
-    public function deleteAction() {
-        $id = (int) $this->params('id');
-        
-        if (!$id) {
-            $this->redirect()->toRoute('attribute');
-        }
-        
-        $attribute = $this->attributeService->getById($id);
-        
-        if ($this->request->isPost()) {
-            $del = $this->request->getPost('del', 'Non');
-            
-            if ($del == 'Oui') {
-                $id = (int) $this->request->getPost('id');
-                $this->attributeService->delete($id);
-                
-                $this->flashMessenger()->addSuccessMessage('L\'attribut a bien été supprimé.');
-            }
-            
-            return $this->redirect()->toRoute('attribute');
-        }
-        
-        return new ViewModel(array(
-            'id' => $id,
-            'attribute' => $attribute
-        ));
+
+    public function deleteAction()
+    {
+        $id = $this->params('id');
+
+        $this->attributeService->delete($id);
+
+        $this->flashMessenger()->addSuccessMessage('L\'attribut a bien été supprimé.');
+
+        return $this->redirect()->toRoute('attribute');
     }
+
 }

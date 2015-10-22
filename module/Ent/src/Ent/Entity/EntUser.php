@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * EntUser
  *
  * @ORM\Table(name="ent_user", uniqueConstraints={@ORM\UniqueConstraint(name="login", columns={"user_login"})})
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
 class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
@@ -90,9 +91,17 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntHierarchicalRole", mappedBy="fkUrUser")
+     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntHierarchicalRole", inversedBy="fkUrUser")
+     * @ORM\JoinTable(name="ent_user_role",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="fk_ur_user_id", referencedColumnName="user_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="fk_ur_role_id", referencedColumnName="id")
+     *   }
+     * )  
      */
-    private $fkUrRole;
+    private $fkUrRole = [];
 
     /**
      * Constructor
@@ -247,32 +256,50 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     }
 
     /**
-     * Add fkUcContact
+     * Add contact
      *
-     * @param \Ent\Entity\EntContact $fkUcContact
+     * @param \Doctrine\Common\Collections\Collection $contact
      *
      * @return EntUser
      */
-    public function addFkUcContact(\Doctrine\Common\Collections\Collection $fkUcContact)
+    public function addContact($contact)
     {
-        /* @var $contact \Ent\Entity\EntContact */
+        $this->fkUcContact[] = $contact;
+
+        return $this;
+    }
+
+    /**
+     * Add fkUcContact
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkUcContact
+     */
+    public function addFkUcContact(\Doctrine\Common\Collections\ArrayCollection $fkUcContact)
+    {
         foreach ($fkUcContact as $contact) {
-            if (!$this->fkUcContact->contains($contact)) {
-                $this->fkUcContact->add($contact);
-            }
+            $this->addContact($contact);
         }
+    }
+
+    /**
+     * Remove contact
+     *
+     * @param \Ent\Entity\EntContact $contact
+     */
+    public function removeContact(\Ent\Entity\EntContact $contact)
+    {
+        $this->fkUcContact->removeElement($contact);
     }
 
     /**
      * Remove fkUcContact
      *
-     * @param \Ent\Entity\EntContact $fkUcContact
+     * @param \Doctrine\Common\Collections\Collection $fkUcContact
      */
-    public function removeFkUcContact(\Doctrine\Common\Collections\Collection $fkUcContact)
+    public function removeFkUcContact(\Doctrine\Common\Collections\ArrayCollection $fkUcContact)
     {
-        /* @var $contact \Ent\Entity\EntContact */
         foreach ($fkUcContact as $contact) {
-            $this->fkUcContact->removeElement($contact);
+            $this->removeContact($contact);
         }
     }
 
@@ -287,32 +314,50 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     }
 
     /**
-     * Add fkUpProfile
+     * Add profile
      *
-     * @param \Ent\Entity\EntProfile $fkUpProfile
+     * @param \Doctrine\Common\Collections\Collection $profile
      *
      * @return EntUser
      */
-    public function addFkUpProfile(\Doctrine\Common\Collections\Collection $fkUpProfile)
+    public function addProfile($profile)
     {
-        /* @var $profile \Ent\Entity\EntProfile */
+        $this->fkUpProfile[] = $profile;
+
+        return $this;
+    }
+
+    /**
+     * Add fkUpProfile
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkUpProfile
+     */
+    public function addFkUpProfile(\Doctrine\Common\Collections\ArrayCollection $fkUpProfile)
+    {
         foreach ($fkUpProfile as $profile) {
-            if (!$this->fkUpProfile->contains($profile)) {
-                $this->fkUpProfile->add($profile);
-            }
+            $this->addProfile($profile);
         }
+    }
+
+    /**
+     * Remove profile
+     *
+     * @param \Ent\Entity\EntProfile $profile
+     */
+    public function removeProfile(\Ent\Entity\EntProfile $profile)
+    {
+        $this->fkUpProfile->removeElement($profile);
     }
 
     /**
      * Remove fkUpProfile
      *
-     * @param \Ent\Entity\EntProfile $fkUpProfile
+     * @param \Doctrine\Common\Collections\Collection $fkUpProfile
      */
-    public function removeFkUpProfile(\Doctrine\Common\Collections\Collection $fkUpProfile)
+    public function removeFkUpProfile(\Doctrine\Common\Collections\ArrayCollection $fkUpProfile)
     {
-        /* @var $profile \Ent\Entity\EntProfile */
         foreach ($fkUpProfile as $profile) {
-            $this->fkUpProfile->removeElement($profile);
+            $this->removeProfile($profile);
         }
     }
 
@@ -327,21 +372,39 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     }
 
     /**
-     * Add fkUrRole
+     * Add role
      *
-     * @param \Doctrine\Common\Collections\Collection $fkUrRole
+     * @param \Doctrine\Common\Collections\Collection $role
      *
      * @return EntUser
      */
-    public function addFkUrRole(\Doctrine\Common\Collections\Collection $fkUrRole)
+    public function addRole($role)
     {
-        /* @var $role \Ent\Entity\EntHierarchicalRole */
+        $this->fkUrRole[] = $role;
+
+        return $this;
+    }
+
+    /**
+     * Add fkUrRole
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkUrRole
+     */
+    public function addFkUrRole(\Doctrine\Common\Collections\ArrayCollection $fkUrRole)
+    {
         foreach ($fkUrRole as $role) {
-            if (!$this->fkUrRole->contains($role)) {
-                $this->fkUrRole->add($role);
-                $role->addFkUrUser(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
-            }
+            $this->addRole($role);
         }
+    }
+
+    /**
+     * Remove role
+     *
+     * @param \Ent\Entity\EntHierarchicalRole $role
+     */
+    public function removeRole(\Ent\Entity\EntHierarchicalRole $role)
+    {
+        $this->fkUrRole->removeElement($role);
     }
 
     /**
@@ -349,12 +412,10 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
      *
      * @param \Doctrine\Common\Collections\Collection $fkUrRole
      */
-    public function removeFkUrRole(\Doctrine\Common\Collections\Collection $fkUrRole)
+    public function removeFkUrRole(\Doctrine\Common\Collections\ArrayCollection $fkUrRole)
     {
-        /* @var $role \Ent\Entity\EntHierarchicalRole */
         foreach ($fkUrRole as $role) {
-            $this->fkUrRole->removeElement($fkUrRole);
-            $role->removeFkUrUser(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+            $this->removeRole($role);
         }
     }
 
@@ -367,13 +428,24 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     {
         return $this->fkUrRole;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public function getRoles()
     {
         return $this->getFkUrRole()->toArray();
+    }
+    
+    /**
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setUserLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
 
 }

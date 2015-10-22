@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
  * EntAction
  *
  * @ORM\Table(name="ent_action")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
 class EntAction extends Ent
 {
+
     /**
      * @var integer
      *
@@ -48,8 +50,6 @@ class EntAction extends Ent
      * @ORM\Column(name="action_last_update", type="datetime", nullable=true)
      */
     private $actionLastUpdate;
-
-
 
     /**
      * Get actionId
@@ -156,4 +156,16 @@ class EntAction extends Ent
     {
         return $this->actionLastUpdate;
     }
+    
+    /**
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setActionLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
+    }
+
 }

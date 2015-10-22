@@ -1,4 +1,4 @@
-
+<?php $this->headTitle($this->translate('Détails d\'un service')); ?>
 <h2><?= $this->translate('Détails d\'un service') ?></h2>
 
 <p>
@@ -15,43 +15,38 @@
 
 <p>
     <?= $this->translate('Dernière mise à jour :') ?> 
-    <?php 
+    <?php
     if ($service->getServiceLastUpdate() != null) {
         echo $service->getServiceLastUpdate()->format('d-m-Y H:i:s');
-    }
-    ?>
-</p>
-
-<p>
-    <?= $this->translate('Contact :') ?> 
-    <?php
-    foreach ($service->getFkCsContact() as $contact) {
-        if ($contact->getContactLibelle()) :
-            echo $this->escapeHtml($contact->getContactLibelle());
-        endif;
+    } else {
+        echo $this->translate('Aucune mise à jour');
     }
     ?>
 </p>
 
 <p>
     <?= $this->translate('Attribut :') ?> 
-    <br>
     <?php
-    foreach ($service->getAttributes() as $attribute) {
-        if ($attribute) {
-            if ($attribute['attribute']->getAttributeName()) {
-                echo $this->escapeHtml($attribute['attribute']->getAttributeName()).' : ';
-            }
-            if ($attribute['value']) {
-                echo $this->escapeHtml($attribute['value']);
-            } else {
-                echo 'ø';
-            }
+    foreach ($service->getFkSaAttribute() as $attribute) {
+        if ($attribute->getAttributeName()) {
+            echo $this->escapeHtml($attribute->getAttributeName());
         }
         ?>
-    <br>
         <?php
     }
     ?>
 </p>
 
+<?= $this->translate('Préférence :<br />') ?> 
+<dl class="dl-horizontal">
+    <?php
+    if ($preferenceAttribute) {
+        foreach ($preferenceAttribute as $attribute) {
+            echo '<dt>' . $attribute->{'attribute_name'} . '</dt>';
+            echo '<dd>' . $attribute->{'attribute_value'} . '</dd>';
+        }
+    }
+    ?> 
+</dl>
+
+<a class="btn btn-danger" href="<?php echo $this->url('service'); ?>"><?= $this->translate('Retour') ?></a>

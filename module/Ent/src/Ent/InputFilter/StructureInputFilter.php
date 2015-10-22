@@ -9,10 +9,12 @@ use Zend\InputFilter\InputFilter;
  *
  * @author fandria
  */
-class StructureInputFilter extends InputFilter{
+class StructureInputFilter extends InputFilter
+{
+
     public function __construct()
     {
-        
+
         $this->add(array(
             'name' => 'structureId',
             'required' => true,
@@ -28,7 +30,7 @@ class StructureInputFilter extends InputFilter{
                 ),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'structureFatherid',
             'required' => true,
@@ -41,7 +43,7 @@ class StructureInputFilter extends InputFilter{
                 ),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'structureType',
             'required' => true,
@@ -63,7 +65,7 @@ class StructureInputFilter extends InputFilter{
                 ),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'structureCode',
             'required' => true,
@@ -85,7 +87,7 @@ class StructureInputFilter extends InputFilter{
                 ),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'structureLibelle',
             'required' => true,
@@ -108,4 +110,5 @@ class StructureInputFilter extends InputFilter{
             ),
         ));
     }
+
 }

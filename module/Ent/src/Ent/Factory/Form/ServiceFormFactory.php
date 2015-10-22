@@ -11,14 +11,18 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author fandria
  */
-class ServiceFormFactory implements FactoryInterface{
+class ServiceFormFactory implements FactoryInterface
+{
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $services         = $serviceLocator->getServiceLocator();
-        $entityManager    = $services->get('Doctrine\ORM\EntityManager');
+        $services = $serviceLocator->getServiceLocator();
+
+        $entityManager = $services->get('Doctrine\ORM\EntityManager');
 
         $form = new ServiceForm($entityManager);
 
         return $form;
     }
+
 }

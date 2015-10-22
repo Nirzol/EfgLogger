@@ -1,39 +1,38 @@
-<?php
-$title = "modifier d'un attribut";
-$this->headTitle($title);
-?>
-<h2><?php echo $this->escapeHtml($title); ?></h2>
-<?=$this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate'))?>
-<div class="form-group<?php if($form->get('attributeName')->getMessages()) echo ' has-error'; ?>">
-    <?=$this->formLabel($form->get('attributeName')->setLabelAttributes(['class' => 'col-sm-2 control-label']))?>
+<?php $this->headTitle($this->translate('Modifier un attribut')); ?>
+
+<h2><?= $this->translate('Modifier un attribut') ?></h2>
+<?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
+<div class="form-group<?php if ($form->get('attributeName')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('attributeName')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
-        <?=$this->formText($form->get('attributeName')->setAttribute('class', 'form-control'))?>
+        <?= $this->formText($form->get('attributeName')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
-        <?=$this->formElementErrors($form->get('attributeName'))?>           
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('attributeName')) ?>           
     </div>
 </div>
-<div class="form-group<?php if($form->get('attributeLibelle')->getMessages()) echo ' has-error'; ?>">
-    <?=$this->formLabel($form->get('attributeLibelle')->setLabelAttributes(['class' => 'col-sm-2 control-label']))?>
+<div class="form-group<?php if ($form->get('attributeLibelle')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('attributeLibelle')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
-        <?=$this->formText($form->get('attributeLibelle')->setAttribute('class', 'form-control'))?>
+        <?= $this->formText($form->get('attributeLibelle')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
-        <?=$this->formElementErrors($form->get('attributeLibelle'))?>           
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('attributeLibelle')) ?>           
     </div>
 </div>
-<div class="form-group<?php if($form->get('attributeDescription')->getMessages()) echo ' has-error'; ?>">
-    <?=$this->formLabel($form->get('attributeDescription')->setLabelAttributes(['class' => 'col-sm-2 control-label']))?>
+<div class="form-group<?php if ($form->get('attributeDescription')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('attributeDescription')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
-        <?=$this->formTextarea($form->get('attributeDescription')->setAttribute('class', 'form-control'))?>
+        <?= $this->formTextarea($form->get('attributeDescription')->setAttribute('class', 'form-control')) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
-        <?=$this->formElementErrors($form->get('attributeDescription'))?>           
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('attributeDescription')) ?>           
     </div>
 </div>
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Ajouter</button>
+        <button type="submit" class="btn btn-primary"><?= $this->translate('Modifier') ?></button>
+        <a class="btn btn-danger" href="<?php echo $this->url('attribute'); ?>"><?= $this->translate('Annuler') ?></a>
     </div>
 </div>
 <?php echo $this->form()->closeTag(); ?>

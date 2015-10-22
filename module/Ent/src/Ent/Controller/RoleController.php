@@ -12,16 +12,19 @@ class RoleController extends AbstractActionController
 {
 
     /**
+     * 
      * @var Request
      */
     protected $request = null;
 
     /**
+     * 
      * @var RoleDoctrineService
      */
     protected $roleService = null;
 
     /**
+     * 
      * @var RoleForm
      */
     protected $roleForm = null;
@@ -44,16 +47,17 @@ class RoleController extends AbstractActionController
     public function addAction()
     {
         $form = $this->roleForm;
-        $form->initParams(0);
+        $form->initParams(0); // Permet de gérer parent/child
 
         if ($this->request->isPost()) {
             $role = $this->roleService->insert($form, $this->request->getPost());
 
             if ($role) {
                 $this->flashMessenger()->addSuccessMessage('Le role a bien été enregistré dans la base.');
+
                 return $this->redirect()->toRoute('role');
             } else {
-                $this->flashMessenger()->addErrorMessage('Un problème est survenu lors de l\'insertion du role ' );
+                $this->flashMessenger()->addErrorMessage('Un problème est survenu lors de l\'insertion du role ');
             }
         }
 
@@ -73,15 +77,15 @@ class RoleController extends AbstractActionController
         }
 
         return new ViewModel(array(
-            'role' => $role
+            'role' => $role,
         ));
     }
 
-    public function modifyAction()
+    public function updateAction()
     {
         $id = $this->params('id');
         $form = $this->roleForm;
-        $form->initParams($id);
+        $form->initParams($id); // Pour gérer parent/child
         $role = $this->roleService->getById($id, $form);
 
         if ($this->request->isPost()) {
@@ -103,26 +107,11 @@ class RoleController extends AbstractActionController
     {
         $id = $this->params('id');
 
-//        $role = $this->roleService->getById($id);
-//
-//        $request = $this->getRequest();
-//
-//        if ($request->isPost()) {
-//            $del = $request->getPost('del', 'Non');
-//
-//            if ($del == 'Oui') {
-//                $id = (int) $request->getPost('id');
         $this->roleService->delete($id);
-//            }
 
         $this->flashMessenger()->addSuccessMessage('Le role a bien été supprimé.');
 
         return $this->redirect()->toRoute('role');
-//        }
-//
-//        return new ViewModel(array(
-//            'id' => $id,
-//            'role' => $role
-//        ));
     }
+
 }

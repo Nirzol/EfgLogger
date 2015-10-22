@@ -2,19 +2,33 @@
 
 namespace Ent\Factory\Service;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Ent\Entity\EntLog;
+use Ent\InputFilter\LogInputFilter;
 use Ent\Service\LogDoctrineService;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 class LogDoctrineORMServiceFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ObjectManager */
         $om = $serviceLocator->get('Doctrine\ORM\EntityManager');
-        
-        $service = new LogDoctrineService($om);
-        
-        return $service;        
+
+        $log = new EntLog();
+
+        $hydrator = new DoctrineObject($om);
+
+        $logInputFilter = new LogInputFilter($om);
+
+        $authorizationService = $serviceLocator->get('\ZfcRbac\Service\AuthorizationService');
+
+        $service = new LogDoctrineService($om, $log, $hydrator, $logInputFilter, $authorizationService);
+
+        return $service;
     }
+
 }

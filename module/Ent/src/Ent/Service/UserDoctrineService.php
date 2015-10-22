@@ -9,7 +9,7 @@ use Ent\InputFilter\UserInputFilter;
 use Zend\Form\Form;
 use ZfcRbac\Service\AuthorizationService;
 
-class UserDoctrineService implements UserServiceInterface
+class UserDoctrineService extends DoctrineService implements ServiceInterface
 {
 
     /**
@@ -83,11 +83,20 @@ class UserDoctrineService implements UserServiceInterface
         return $repoFind;
     }
 
-    public function findBy($options)
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $repo = $this->em->getRepository('Ent\Entity\EntUser');
 
-        $repoFindOneBy = $repo->findBy($options);
+        $repoFindBy = $repo->findBy($criteria, $orderBy, $limit, $offset);
+
+        return $repoFindBy;
+    }
+
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntUser');
+
+        $repoFindOneBy = $repo->findOneBy($criteria, $orderBy);
 
         return $repoFindOneBy;
     }
@@ -97,33 +106,37 @@ class UserDoctrineService implements UserServiceInterface
         $user = $this->user;
 
         $form->setHydrator($this->hydrator);
-
         $form->bind($user);
-        $form->setInputFilter($this->userInputFilter);
+        $filter = $this->userInputFilter;
+        $form->setInputFilter($filter->appendAddValidator());
         $form->setData($dataAssoc);
 
         if (!$form->isValid()) {
+            $this->addFormMessageToErrorLog($form->getMessages());
             return null;
         }
+
         $this->em->persist($user);
         $this->em->flush();
 
         return $user;
     }
 
-    public function save(Form $form, $dataAssoc, EntUser $user = null)
+    public function save(Form $form, $dataAssoc, $user = null)
     {
+        /* @var $user EntUser */
         if (!$user === null) {
             $user = $this->user;
         }
 
         $form->setHydrator($this->hydrator);
-
         $form->bind($user);
-        $form->setInputFilter($this->userInputFilter);
+        $filter = $this->userInputFilter;
+        $form->setInputFilter($filter->appendEditValidator($user->getUserId()));
         $form->setData($dataAssoc);
 
         if (!$form->isValid()) {
+            $this->addFormMessageToErrorLog($form->getMessages());
             return null;
         }
 

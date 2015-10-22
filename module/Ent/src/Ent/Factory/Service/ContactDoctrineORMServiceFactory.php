@@ -15,11 +15,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author fandria
  */
-class ContactDoctrineORMServiceFactory implements FactoryInterface {
+class ContactDoctrineORMServiceFactory implements FactoryInterface
+{
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator ObjectManager */
-        $om   = $serviceLocator->get('Doctrine\ORM\EntityManager');
+        $om = $serviceLocator->get('Doctrine\ORM\EntityManager');
 
         $contact = new EntContact();
 
@@ -27,8 +29,11 @@ class ContactDoctrineORMServiceFactory implements FactoryInterface {
 
         $contactInputFilter = new ContactInputFilter();
 
-        $service = new ContactDoctrineService($om, $contact, $hydrator, $contactInputFilter);
+        $authorizationService = $serviceLocator->get('\ZfcRbac\Service\AuthorizationService');
+
+        $service = new ContactDoctrineService($om, $contact, $hydrator, $contactInputFilter, $authorizationService);
 
         return $service;
     }
+
 }

@@ -22,7 +22,7 @@ class UserForm extends Form
                 'label' => 'Login :',
             ),
             'attributes' => array(
-                'type' => 'text'
+                'type' => 'text',
             ),
         ));
 
@@ -32,18 +32,18 @@ class UserForm extends Form
             'options' => array(
                 'label' => 'Status : ',
                 'checked_value' => '1',
-                'unchecked_value' => '0'
+                'unchecked_value' => '0',
             ),
             'attributes' => array(
-                'value' => '1'
+                'value' => '1',
             ),
         ));
 
         $this->add(array(
-            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox', 
+            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'fkUrRole',
             'attributes' => array(
-                'id' => 'selectUserRole'
+                'id' => 'selectUserRole',
             ),
             'options' => array(
                 'label' => 'Rôle : ',
@@ -56,12 +56,12 @@ class UserForm extends Form
 //                ),
             ),
         ));
-        
+
         $this->add(array(
-            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox', 
+            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'fkUpProfile',
             'attributes' => array(
-                'id' => 'selectUserProfile'
+                'id' => 'selectUserProfile',
             ),
             'options' => array(
                 'label' => 'Profil : ',

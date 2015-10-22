@@ -8,12 +8,15 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class PreferenceFormFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         $service = $serviceLocator->getServiceLocator();
-        
+
         $entityManager = $service->get('Doctrine\ORM\EntityManager');
+
         $preferenceForm = new PreferenceForm($entityManager);
-        
+
         return $preferenceForm;
     }
 

@@ -14,21 +14,24 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author fandria
  */
-class StructureRestControllerFactory implements FactoryInterface{
-     public function createService(ServiceLocatorInterface $serviceLocator)
+class StructureRestControllerFactory implements FactoryInterface
+{
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator ControllerManager */
-        $sm   = $serviceLocator->getServiceLocator();
+        $sm = $serviceLocator->getServiceLocator();
         $structureService = $sm->get('Ent\Service\StructureDoctrineORM');
 
-        $structureForm    = $sm->get('FormElementManager')->get('Ent\Form\StructureForm');
+        $structureForm = $sm->get('FormElementManager')->get('Ent\Form\StructureForm');
 
         /* @var $serviceLocator ObjectManager */
-        $om   = $sm->get('Doctrine\ORM\EntityManager');
+        $om = $sm->get('Doctrine\ORM\EntityManager');
         $hydrator = new DoctrineObject($om);
 
         $controller = new StructureRestController($structureService, $structureForm, $hydrator);
 
         return $controller;
     }
+
 }

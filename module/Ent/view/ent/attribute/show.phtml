@@ -1,18 +1,26 @@
-<?php
-$title = "Détails d'un attribut";
-?>
-<h2><?php echo $this->escapeHtml($title); ?></h2>
+<?php $this->headTitle($this->translate('Détails d\'un attribut')); ?>
+
+<h2><?= $this->translate('Détails d\'un attribut') ?></h2>
 <p>
-    <b>Nom du attribute :</b> <?php echo $this->escapeHtml($attribute->getAttributeName())?>
+    <?= $this->translate('Nom du attribute :') ?> <?= $this->escapeHtml($attribute->getAttributeName()) ?>
 </p>
 <p>
-    <b>Libellé du attribute :</b> <?php echo $this->escapeHtml($attribute->getAttributeLibelle())?>
+    <?= $this->translate('Libellé du attribute :') ?> <?= $this->escapeHtml($attribute->getAttributeLibelle()) ?>
 </p>
 <p>
-    <b>Description du attribute :</b> <?php echo $this->escapeHtml($attribute->getAttributeDescription())?>
+    <?= $this->translate('Description du attribute :') ?> <?php echo $this->escapeHtml($attribute->getAttributeDescription()) ?>
 </p>
-<?php if($attribute->getAttributeLastUpdate() != null) :?>
+
 <p>
-    <b>Date de modification :</b> <?php echo $attribute->getAttributeLastUpdate()->format('Y-m-d H:i:s');?>
+    <?= $this->translate('Dernière mise à jour :') ?> 
+    <?php
+    if ($attribute->getAttributeLastUpdate() != null) {
+        echo $attribute->getAttributeLastUpdate()->format('d-m-Y H:i:s');
+    }
+    else {
+        echo $this->translate('Aucune mise à jour');
+    }
+    ?>
 </p>
-<?php endif; ?>
+
+<a class="btn btn-danger" href="<?php echo $this->url('attribute'); ?>"><?= $this->translate('Retour') ?></a>

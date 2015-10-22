@@ -33,31 +33,31 @@ class StructureRestController extends AbstractRestfulController{
      */
     protected $hydrator;
     
-    public function options()
-    {
-        $response = $this->getResponse();
-        $headers  = $response->getHeaders();
-
-        if ($this->params()->fromRoute('id', false)) {
-            // Allow viewing, partial updating, replacement, and deletion
-            // on individual items
-            $headers->addHeaderLine('Allow', implode(',', array(
-                'GET',
-                'PATCH',
-                'PUT',
-                'DELETE',
-            )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
-            return $response;
-        }
-
-        // Allow only retrieval and creation on collections
-        $headers->addHeaderLine('Allow', implode(',', array(
-            'GET',
-            'POST',
-        )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
-
-        return $response;
-    }
+//    public function options()
+//    {
+//        $response = $this->getResponse();
+//        $headers  = $response->getHeaders();
+//
+//        if ($this->params()->fromRoute('id', false)) {
+//            // Allow viewing, partial updating, replacement, and deletion
+//            // on individual items
+//            $headers->addHeaderLine('Allow', implode(',', array(
+//                'GET',
+//                'PATCH',
+//                'PUT',
+//                'DELETE',
+//            )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+//            return $response;
+//        }
+//
+//        // Allow only retrieval and creation on collections
+//        $headers->addHeaderLine('Allow', implode(',', array(
+//            'GET',
+//            'POST',
+//        )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+//
+//        return $response;
+//    }
     
 
     public function __construct(StructureDoctrineService $structureService, StructureForm $structureForm, DoctrineObject $hydrator)
@@ -97,75 +97,78 @@ class StructureRestController extends AbstractRestfulController{
 //        );
     }
 
+    // EN SOMMEIL
     public function create($data)
     {
-        $form = $this->structureForm;
-
-        if ($data) {
-                    
-            $structure = $this->structureService->insert($form, $data);
-
-            if ($structure) {
-                $this->flashMessenger()->addSuccessMessage('La structure a bien été insérée.');
-
-                return new JsonModel(array(
-                    'data' => $structure->getStructureId(),
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => 'La structure  a bien été insérée.',
-                    ),
-                ));
-            }
-        }
-        return new JsonModel(array(
-            'success' => false,
-            'flashMessages' => array(
-                'error' => 'La structure n\'a pas été insérée.',
-            ),
-        ));
+//        $form = $this->structureForm;
+//
+//        if ($data) {
+//                    
+//            $structure = $this->structureService->insert($form, $data);
+//
+//            if ($structure) {
+//                $this->flashMessenger()->addSuccessMessage('La structure a bien été insérée.');
+//
+//                return new JsonModel(array(
+//                    'data' => $structure->getStructureId(),
+//                    'success' => true,
+//                    'flashMessages' => array(
+//                        'success' => 'La structure  a bien été insérée.',
+//                    ),
+//                ));
+//            }
+//        }
+//        return new JsonModel(array(
+//            'success' => false,
+//            'flashMessages' => array(
+//                'error' => 'La structure n\'a pas été insérée.',
+//            ),
+//        ));
     }
 
+    // EN SOMMEIL
     public function update($id, $data)
     {
-        $structure = $this->structureService->getById($id, $this->structureForm);
-
-        if ($data) {
-            $structure = $this->structureService->save($this->structureForm, $data, $structure);
-
-            if ($structure) {
-                $this->flashMessenger()->addSuccessMessage('La structure a bien été updatée.');
-
-                return new JsonModel(array(
-                    'data' => $structure->getStructureId(),
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => 'La structure a bien été updatée.',
-                    ),
-                ));
-            }
-        }
-
-        return new JsonModel(array(
-            'data' => $structure,
-            'success' => false,
-            'flashMessages' => array(
-                'error' => 'La structure n\'a pas été updatée.',
-            ),
-        ));
+//        $structure = $this->structureService->getById($id, $this->structureForm);
+//
+//        if ($data) {
+//            $structure = $this->structureService->save($this->structureForm, $data, $structure);
+//
+//            if ($structure) {
+//                $this->flashMessenger()->addSuccessMessage('La structure a bien été updatée.');
+//
+//                return new JsonModel(array(
+//                    'data' => $structure->getStructureId(),
+//                    'success' => true,
+//                    'flashMessages' => array(
+//                        'success' => 'La structure a bien été updatée.',
+//                    ),
+//                ));
+//            }
+//        }
+//
+//        return new JsonModel(array(
+//            'data' => $structure,
+//            'success' => false,
+//            'flashMessages' => array(
+//                'error' => 'La structure n\'a pas été updatée.',
+//            ),
+//        ));
     }
 
+    // EN SOMMEIL
     public function delete($id)
     {
-        $this->structureService->delete($id);
-
-        $this->flashMessenger()->addSuccessMessage('La structure a bien été supprimée.');
-
-        return new JsonModel(array(
-            'data' => 'deleted',
-            'success' => true,
-            'flashMessages' => array(
-                'error' => 'La structure a bien été supprimée.',
-            ),
-        ));
+//        $this->structureService->delete($id);
+//
+//        $this->flashMessenger()->addSuccessMessage('La structure a bien été supprimée.');
+//
+//        return new JsonModel(array(
+//            'data' => 'deleted',
+//            'success' => true,
+//            'flashMessages' => array(
+//                'error' => 'La structure a bien été supprimée.',
+//            ),
+//        ));
     }
 }

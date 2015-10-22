@@ -8,15 +8,18 @@ use Doctrine\ORM\Mapping as ORM;
  * EntStructure
  *
  * @ORM\Table(name="ent_structure")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
 class EntStructure extends Ent
 {
+
     /**
      * @var integer
      *
      * @ORM\Column(name="structure_id", type="integer", nullable=false)
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $structureId;
 
@@ -58,11 +61,9 @@ class EntStructure extends Ent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="structure_last_update", type="datetime", nullable=false)
+     * @ORM\Column(name="structure_last_update", type="datetime", nullable=true)
      */
     private $structureLastUpdate;
-
-
 
     /**
      * Set structureId
@@ -77,7 +78,7 @@ class EntStructure extends Ent
 
         return $this;
     }
-    
+
     /**
      * Get structureId
      *
@@ -231,4 +232,16 @@ class EntStructure extends Ent
     {
         return $this->structureLastUpdate;
     }
+    
+    /**
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setStructureLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
+    }
+
 }

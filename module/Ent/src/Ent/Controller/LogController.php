@@ -2,144 +2,216 @@
 
 namespace Ent\Controller;
 
+use Ent\Form\LogForm;
+use Ent\Service\LogDoctrineService;
+use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Ent\Service\GenericEntityServiceInterface;
-use Ent\Entity\EntLog;
-use Ent\Service\LogDoctrineService;
-use Ent\Entity\EntUser;
-use Ent\Service\UserDoctrineService;
-
 
 class LogController extends AbstractActionController
 {
+
     /**
      *
      * @var LogDoctrineService
      */
-    protected $service = null;
+    protected $logService = null;
 
-    public function __construct(GenericEntityServiceInterface $iservice)
+    /**
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     *
+     * @var LogForm
+     */
+    protected $logForm;
+
+    public function __construct(LogDoctrineService $logService, LogForm $logForm)
     {
-        $this->service = $iservice;
+        $this->logService = $logService;
+        $this->logForm = $logForm;
     }
 
-    
-    public function indexAction()
+    public function listAction()
     {
-        $result = $this->service->getAll();
+        $listLogs = $this->logService->getAll();
 
         return new ViewModel(array(
-            'logs' => $result
+            'listLogs' => $listLogs,
         ));
     }
-    
-    public function addAction() {
-        
-        try {
-            
-            /**
-              * @var EntUser
-              */
-            $eoUser = $this->getUser();
 
-            $anEntLog = new EntLog();
-            $anEntLog->setFkLogUser($eoUser)
-                    ->setLogDatetime(new \DateTime())
-                    ->setLogOnline(new \DateTime())
-                    ->setLogIp($this->getUserIp())
-                    ->setLogLogin($eoUser->getUserLogin())
-                    ->setLogSession($this->getSession())
-                    ->setLogUseragent($this->getHttpUserAgent());
-
-            $this->service->insertEnterpriseObject($anEntLog);
-
-
-        } catch (Exception $exc) {
-//            echo $exc->getTraceAsString();
-        }
-        
-        return $this->redirect()->toRoute('log');
-    }
-    
-    public function testAddEo()
+    public function addAction()
     {
-        /**
-          * @var EntUser
-          */
-        $eoUser = $this->getUser();
-        
-        // Ent\Service\Module => $eoModule
-        $serviceEo = $this->getServiceLocator()->get('Ent\Service\Module');
-        $eoModule = $serviceEo->getById(2);
-        
-        // Ent\Service\Action => $eoAction
-        $serviceEo = $this->getServiceLocator()->get('Ent\Service\Action');
-        $eoAction = $serviceEo->getById(1);
+        $form = $this->logForm;
 
-        $anEntLog = new EntLog();
-        $anEntLog->setFkLogAction($eoAction)
-                ->setFkLogModule($eoModule)
-                ->setFkLogUser($eoUser)
-                ->setLogDatetime(new \DateTime())
-                ->setLogOnline(new \DateTime())
-                ->setLogIp("192.88.99.00")
-                ->setLogLogin("sebbar")
-                ->setLogSession("sesion_4578000987")
-                ->setLogUseragent("Agent Firefox");
-        
-        $this->service->insertEnterpriseObject($anEntLog);
-        
-        return $this->redirect()->toRoute('log');
-    }      
-    
-    /**
-     *  Return current user
-     * @return type EntUser
-     */
-    public function getUser()
-    {
-        /**
-         * @var EntUser
-         */
-        $eoUser = NULL;
-        
-        $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
-        if ($authService->hasIdentity()) {
-            $userLogin = $authService->getIdentity()->getUserLogin();
-            
-            /**
-             * @var UserDoctrineService
-             */
-            $userService = $this->getServiceLocator()->get('Ent\Service\UserDoctrineORM');
-            $eoUser = $userService->findBy(array('userLogin' => $userLogin));
-            if ( $eoUser && is_array($eoUser)) {
-                $eoUser = $eoUser[0];
-            } else {
-                $eoUser = NULL;
+        if ($this->request->isPost()) {
+            $log = $this->logService->insert($form, $this->request->getPost());
+
+            if ($log) {
+                $this->flashMessenger()->addSuccessMessage('Le log a bien été ajouté.');
+
+                return $this->redirect()->toRoute('log');
             }
         }
-        
-        return $eoUser;
-    }
-    
-    public function getSession() {
-        
-        $idSession = session_id();
-        if( !(isset($idSession) && ($idSession != '')) ) {
-            session_start();
-            $idSession = session_id();
-        }
-        
-       return $idSession;
-    }
-    
-    public function getHttpUserAgent() {
-        return $_SERVER["HTTP_USER_AGENT"];
-    }
-    
-    public function getUserIp() {
-        return $_SERVER["REMOTE_ADDR"];
-    }
-}
 
+        return new ViewModel(array(
+            'form' => $form->prepare(),
+        ));
+    }
+
+    public function showAction()
+    {
+        $id = $this->params('id');
+
+        $log = $this->logService->getById($id);
+
+        if (!$log) {
+            return $this->notFoundAction();
+        }
+
+        return new ViewModel(array(
+            'log' => $log,
+        ));
+    }
+
+    public function updateAction()
+    {
+        $id = $this->params('id');
+        $form = $this->logForm;
+        $log = $this->logService->getById($id, $form);
+
+        if ($this->request->isPost()) {
+            $log = $this->logService->save($form, $this->request->getPost(), $log);
+
+            if ($log) {
+                $this->flashMessenger()->addSuccessMessage('Le log a bien été modifié.');
+
+                return $this->redirect()->toRoute('log');
+            }
+        }
+
+        return new ViewModel(array(
+            'form' => $form->prepare(),
+        ));
+    }
+
+    public function deleteAction()
+    {
+        $id = $this->params('id');
+
+        $this->logService->delete($id);
+
+        $this->flashMessenger()->addSuccessMessage('Le log a bien été supprimé.');
+
+        return $this->redirect()->toRoute('log');
+    }
+
+//    public function add2Action() {
+//        
+//        try {
+//            
+//            /**
+//              * @var EntUser
+//              */
+//            $eoUser = $this->getUser();
+//
+//            $anEntLog = new EntLog();
+//            $anEntLog->setFkLogUser($eoUser)
+//                    ->setLogDatetime(new \DateTime())
+//                    ->setLogOnline(new \DateTime())
+//                    ->setLogIp($this->getUserIp())
+//                    ->setLogLogin($eoUser->getUserLogin())
+//                    ->setLogSession($this->getSession())
+//                    ->setLogUseragent($this->getHttpUserAgent());
+//
+//            $this->service->insertEnterpriseObject($anEntLog);
+//
+//
+//        } catch (Exception $exc) {
+////            echo $exc->getTraceAsString();
+//        }
+//        
+//        return $this->redirect()->toRoute('log');
+//    }
+//    public function testAddEo()
+//    {
+//        /**
+//          * @var EntUser
+//          */
+//        $eoUser = $this->getUser();
+//        
+//        // Ent\Service\Module => $eoModule
+//        $serviceEo = $this->getServiceLocator()->get('Ent\Service\Module');
+//        $eoModule = $serviceEo->getById(2);
+//        
+//        // Ent\Service\Action => $eoAction
+//        $serviceEo = $this->getServiceLocator()->get('Ent\Service\Action');
+//        $eoAction = $serviceEo->getById(1);
+//
+//        $anEntLog = new EntLog();
+//        $anEntLog->setFkLogAction($eoAction)
+//                ->setFkLogModule($eoModule)
+//                ->setFkLogUser($eoUser)
+//                ->setLogDatetime(new \DateTime())
+//                ->setLogOnline(new \DateTime())
+//                ->setLogIp("192.88.99.00")
+//                ->setLogLogin("sebbar")
+//                ->setLogSession("sesion_4578000987")
+//                ->setLogUseragent("Agent Firefox");
+//        
+//        $this->service->insertEnterpriseObject($anEntLog);
+//        
+//        return $this->redirect()->toRoute('log');
+//    }      
+//    /**
+//     *  Return current user
+//     * @return type EntUser
+//     */
+//    public function getUser()
+//    {
+//        /**
+//         * @var EntUser
+//         */
+//        $eoUser = NULL;
+//        
+//        $authService = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
+//        if ($authService->hasIdentity()) {
+//            $userLogin = $authService->getIdentity()->getUserLogin();
+//            
+//            /**
+//             * @var UserDoctrineService
+//             */
+//            $userService = $this->getServiceLocator()->get('Ent\Service\UserDoctrineORM');
+//            $eoUser = $userService->findBy(array('userLogin' => $userLogin));
+//            if ( $eoUser && is_array($eoUser)) {
+//                $eoUser = $eoUser[0];
+//            } else {
+//                $eoUser = NULL;
+//            }
+//        }
+//        
+//        return $eoUser;
+//    }
+//    public function getSession() {
+//        
+//        $idSession = session_id();
+//        if( !(isset($idSession) && ($idSession != '')) ) {
+//            session_start();
+//            $idSession = session_id();
+//        }
+//        
+//       return $idSession;
+//    }
+//    
+//    public function getHttpUserAgent() {
+//        return $_SERVER["HTTP_USER_AGENT"];
+//    }
+//    
+//    public function getUserIp() {
+//        return $_SERVER["REMOTE_ADDR"];
+//    }
+}

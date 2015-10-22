@@ -15,20 +15,25 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author fandria
  */
-class ServiceDoctrineORMServiceFactory implements FactoryInterface{
+class ServiceDoctrineORMServiceFactory implements FactoryInterface
+{
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator ObjectManager */
-        $om   = $serviceLocator->get('Doctrine\ORM\EntityManager');
+        $om = $serviceLocator->get('Doctrine\ORM\EntityManager');
 
         $ser = new EntService();
 
         $hydrator = new DoctrineObject($om);
 
-        $serviceInputFilter = new ServiceInputFilter();
+        $serviceInputFilter = new ServiceInputFilter($om);
 
-        $service = new ServiceDoctrineService($om, $ser, $hydrator, $serviceInputFilter);
+        $authorizationService = $serviceLocator->get('\ZfcRbac\Service\AuthorizationService');
+
+        $service = new ServiceDoctrineService($om, $ser, $hydrator, $serviceInputFilter, $authorizationService);
 
         return $service;
     }
+
 }

@@ -1,29 +1,45 @@
 <?php $this->headTitle($this->translate('Liste des services')); ?>
 
-<h1><?=$this->translate('Liste des services')?></h1>
-
-<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
-    <?=$this->translate($m)?>  
-<?php endforeach; ?>
+<h1><?= $this->translate('Liste des services') ?></h1>
 
 <p>
-    <a href="<?php echo $this->url('service/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouveau service</a>
+    <a href="<?= $this->url('service/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouveau service</a>
 </p>
 
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
+    <div class="alert alert-success" role="alert">
+        <?= $this->translate($m) ?>  
+    </div>  
+<?php endforeach; ?>
+
 <table class="table table-striped">
+    <tr>
+        <th><?= $this->translate('Service Name') ?></th>
+        <th><?= $this->translate('Service Libelle') ?></th>
+        <th><?= $this->translate('Service Description') ?></th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>        
+    </tr>
     <?php foreach ($services as $service) : ?>
         <tr>
             <td>
-                <?=$this->escapeHtml($service->getServiceName())?>
+                <?= $this->escapeHtml($service->getServiceName()) ?>
             </td>
             <td>
-                <a href="<?=$this->url('service/show', ['id'=>$this->escapeUrl($service->getServiceId())])?>" class="btn btn-primary btn-xs"><?=$this->translate('Détails')?></a>
+                <?= $this->escapeHtml($service->getServiceLibelle()) ?>
             </td>
             <td>
-                <a href="<?=$this->url('service/show/modify', ['id'=>$this->escapeUrl($service->getServiceId())])?>" class="btn btn-warning btn-xs"><?=$this->translate('Modifier')?></a>
+                <?= $this->escapeHtml($service->getServiceDescription()) ?>
             </td>
             <td>
-                <a href="<?=$this->url('service/show/delete', ['id'=>$this->escapeUrl($service->getServiceId())])?>" class="btn btn-danger btn-xs"><?=$this->translate('Supprimer')?></a>
+                <a href="<?= $this->url('service/show', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+            </td>
+            <td>
+                <a href="<?= $this->url('service/show/update', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+            </td>
+            <td>
+                <a href="<?= $this->url('service/show/delete', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>

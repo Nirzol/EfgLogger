@@ -27,3 +27,6 @@ application.config.old
 /public/styles
 /module/Ent/src/Ent/Log/
 /data/DoctrineORMModule/
+/data/logs/
+/data/openSSL_cert/
+/data/cas_debug.log

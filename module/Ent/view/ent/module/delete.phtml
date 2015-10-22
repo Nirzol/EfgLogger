@@ -1,21 +1,3 @@
-<?php
-$title = 'Supprimer un module';
-$this->headTitle($title);
-?>
-<h1><?php echo $this->escapeHtml($title); ?></h1>
-
-<p>Êtes-vous sur de supprimer le module
-    '<?php echo $this->escapeHtml($module->getModuleName()); ?>'?
-</p>
-<?php
-$url = $this->url('module/show/delete', array(
-    'id' => $this->id,
-    ));
-?>
-<form action="<?php echo $url; ?>" method="post">
-    <div>
-        <input type="hidden" name="id" value="<?php echo (int) $module->getModuleId(); ?>" />
-        <input class="btn btn-primary" type="submit" name="del" value="Oui" />
-        <input class="btn btn-primary" type="submit" name="del" value="Non" />
-    </div>
-</form>
+Module: Ent
+Controller: Module
+Action: delete

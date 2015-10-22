@@ -6,22 +6,44 @@ use Zend\Form\Form;
 
 class ActionForm extends Form
 {
-    public function __construct() {
+
+    protected $entityManager;
+
+    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    {
         parent::__construct('action');
-        
-        // Gestion de l'arrayCopy
-        $this->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods());
-        
-        $element = new \Zend\Form\Element\Text('actionName');
-        $element->setLabel('Nom de l\'action : ');
-        $this->add($element);
-        
-        $element = new \Zend\Form\Element\Text('actionLibelle');
-        $element->setLabel('Libellé de l\'action  : ');
-        $this->add($element);
-        
-        $element = new \Zend\Form\Element\Textarea('actionDescription');
-        $element->setLabel('Description de l\'action  : ');
-        $this->add($element);
+
+        $this->entityManager = $entityManager;
+
+        $this->add(array(
+            'name' => 'actionName',
+            'options' => array(
+                'label' => 'Nom de l\'action : ',
+            ),
+            'attributes' => array(
+                'type' => 'text',
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'actionLibelle',
+            'options' => array(
+                'label' => 'Libellé de l\'action  : ',
+            ),
+            'attributes' => array(
+                'type' => 'text',
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'actionDescription',
+            'options' => array(
+                'label' => 'Description de l\'action  : ',
+            ),
+            'attributes' => array(
+                'type' => 'textarea',
+            ),
+        ));
     }
+
 }
