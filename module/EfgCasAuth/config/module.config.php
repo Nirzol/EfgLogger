@@ -28,6 +28,26 @@ return array(
                     ),
                 ),
             ),
+            'pgtcallback' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/api/pgtcallback',
+                    'defaults' => array(
+                        'controller' => 'EfgCasAuth\Controller\Auth',
+                        'action' => 'pgtcallback',
+                    ),
+                ),
+            ),
+            'proxylogin' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/api/proxylogin',
+                    'defaults' => array(
+                        'controller' => 'EfgCasAuth\Controller\Auth',
+                        'action' => 'proxylogin',
+                    ),
+                ),
+            ),
         ),
     ),
     'service_manager' => array(
