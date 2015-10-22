@@ -1,6 +1,8 @@
 <?php
 
 namespace Ent\Entity;
+use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\Groups;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -55,6 +57,8 @@ class EntService extends Ent
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Ent\Entity\EntContact", mappedBy="fkCsService")
+     * @MaxDepth(1)
+     * @Groups({"fkCsContact"})
      */
     private $fkCsContact;
 

@@ -95,6 +95,19 @@ class EntContact extends Ent
      *
      * @ORM\ManyToMany(targetEntity="Ent\Entity\EntUser", mappedBy="fkUcContact")
      */
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntUser", inversedBy="fkUcContact")
+     * @ORM\JoinTable(name="ent_user_contact",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="fk_uc_contact_id", referencedColumnName="contact_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="fk_uc_user_id", referencedColumnName="user_id")
+     *   }
+     * )
+     */ 
     private $fkUcUser;
 
     /**

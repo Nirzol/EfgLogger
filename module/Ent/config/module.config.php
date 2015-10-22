@@ -75,7 +75,7 @@ return array(
             'index' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/api/index',
+                    'route' => '/api',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Index',
                         'action' => 'index',
@@ -1158,6 +1158,9 @@ return array(
                 'pattern' => 'fr/Zend_Validate.php',
             ),
         ),
+    ),
+    'jms_serializer' => array(
+        'naming_strategy' => 'identical'
     ),
 );
 //$translator = new Zend\Mvc\I18n\Translator();

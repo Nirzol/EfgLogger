@@ -44,8 +44,8 @@
                 $valueAttribute = $_POST['serviceAttributes'][$attribute->getAttributeId()];
             } else if ($preferenceAttribute) {
                 foreach ($preferenceAttribute as $value) {
-                    if ($value->{'attribute_id'} === $attribute->getAttributeId()) {
-                        $valueAttribute = $value->{'attribute_value'};
+                    if ($value->{'attributeId'} === $attribute->getAttributeId()) {
+                        $valueAttribute = $value->{'attributeValue'};
                         break;
                     }
                 }

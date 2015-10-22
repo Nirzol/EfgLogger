@@ -3,6 +3,8 @@
 namespace Ent\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * EntUser
@@ -61,15 +63,9 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntContact", inversedBy="fkUcUser")
-     * @ORM\JoinTable(name="ent_user_contact",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="fk_uc_user_id", referencedColumnName="user_id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="fk_uc_contact_id", referencedColumnName="contact_id")
-     *   }
-     * )
+     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntContact", mappedBy="fkUcUser")
+     * @MaxDepth(1)
+     * @Groups({"fkUcContact"})
      */
     private $fkUcContact;
 
