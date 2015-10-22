@@ -29,7 +29,7 @@ class HelpRequestControllerFactory implements FactoryInterface
         
         $contactService = $sm->get('Ent\Service\ContactDoctrineORM');
         
-        $helpRequestService = $sm->get('Ent\Service\HelpRequest');
+        $helpRequestService = $sm->get('Ent\Service\HelpRequestDoctrineORM');
         
         $controller = new HelpRequestController($contactService, $helpRequestService, $helpRequestForm, $searchLdapController);
 
