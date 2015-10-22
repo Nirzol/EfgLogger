@@ -75,7 +75,7 @@ return array(
             'index' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
-                    'route' => '/api/index',
+                    'route' => '/api',
                     'defaults' => array(
                         'controller' => 'Ent\Controller\Index',
                         'action' => 'index',
