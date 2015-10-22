@@ -13,7 +13,7 @@ namespace Nuxeo\Service;
 class NXQLRequestConfig {
     private $nxqlGeneric = "SELECT * FROM Document WHERE ecm:mixinType != 'HiddenInNavigation' AND ecm:isProxy = 0 AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'";
     
-//    private $authorizedKeys = array( "type", "contributor", "ancestor", "path", "tag", 'permission');
+//    private $usernameizedKeys = array( "type", "contributor", "ancestor", "path", "tag", 'permission');
     
     private $nxqlClause = array(
         'descartes_file_note'   => " AND ecm:primaryType IN ('DescartesFile', 'DescartesNote')",
@@ -34,6 +34,7 @@ class NXQLRequestConfig {
     public function getRequest($paramArray) {
         
         $nxqlQuery = NULL;
+//        var_dump($paramArray);
         
         if ( !is_null($paramArray) && (count($paramArray) > 0)) {
             
@@ -51,8 +52,9 @@ class NXQLRequestConfig {
                     case "author":
                     case "path":
                     case "ancestor":
+                    case "contributor":
                     case "tag":
-                        $nxqlQuery = $nxqlQuery . str_replace("?", "'" . $value . "'", $this->nxqlClause[key]);
+                        $nxqlQuery = $nxqlQuery . str_replace("?", "'" . $value . "'", $this->nxqlClause[$key]);
                         break;
                     
                     default:
@@ -61,26 +63,27 @@ class NXQLRequestConfig {
             }
             // Order by date modified
             $nxqlQuery = $nxqlQuery . $this->nxqlOrder["modified"];
-
+//            var_dump($nxqlQuery);
+            return $nxqlQuery;
         }
     }
     
     /**
      * 
-     * @param type $author
+     * @param type $username
      * @param type $path
      * @param type $tag
      * @param type $ancestor
      * @return string : 
      *          la requete NXQL des documents pour :
-     *                  $author, $path exclusive $ancestor, meta tag $tag
+     *                  $username, $path exclusive $ancestor, meta tag $tag
      */
-    public function getDocumentsRequest($author, $path=NULL, $tag=NULL, $ancestor=NULL) {
+    public function getDocumentsRequest($username, $path=NULL, $tag=NULL, $ancestor=NULL) {
 
         $paramArray = array();
         
-        if( isset($author)) {
-            $paramArray["contributor"] = $author;
+        if( isset($username)) {
+            $paramArray["contributor"] = $username;
         }
         
         // "path" est exclusive a "ancestor" (soit l'un soit l'autre)
@@ -111,7 +114,7 @@ class NXQLRequestConfig {
         if( isset($path) && $path !== NULL) {
             $paramArray["path"] = $path;
         } elseif (isset($ancestor) && $ancestor !== NULL) {
-            $paramArray["path"] = $path;
+            $paramArray["ancestor"] = $path;
         }
         
         return $this->getRequest($paramArray);

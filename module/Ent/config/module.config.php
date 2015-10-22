@@ -456,7 +456,7 @@ return array(
                     'show' => array(
                         'type' => Zend\Mvc\Router\Http\Segment::class,
                         'options' => array(
-                            'route' => '/show/:id',
+                            'route' => '/:id',
                             'defaults' => array(
                                 'action' => 'show',
                             ),

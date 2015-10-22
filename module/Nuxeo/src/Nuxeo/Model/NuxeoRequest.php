@@ -41,6 +41,7 @@ class NuxeoRequest {
 
     public function __construct($url, $requestId, $headers = "Content-Type:application/json+nxrequest") {
         $this->url = $url . "/" . $requestId;
+        error_log("NuxeoRequest() : url = " . $this->url);
         $this->headers = $headers;
         $this->finalRequest = '{}';
         $this->method = 'POST';
@@ -235,9 +236,7 @@ class NuxeoRequest {
 
             $documents = NULL;
         
-            if (!isset($answer) OR $answer == false) {
-                echo 'Error Server:' . $this->finalRequest;
-            } else {
+            if ( isset($answer) && ($answer !== false)) {
                 if (null == json_decode($answer, true)) {
                     $documents = $answer;
                     file_put_contents("tempstream", $answer);
@@ -245,6 +244,8 @@ class NuxeoRequest {
                     $answer = json_decode($answer, true);
                     $documents = new NuxeoDocuments($answer);
                 }
+            } else {
+                error_log( 'NuxeoRequest.sendRequest() - Empty result:' . $this->finalRequest);
             }
             return $documents;
         } else {
