@@ -1159,6 +1159,9 @@ return array(
             ),
         ),
     ),
+    'jms_serializer' => array(
+        'naming_strategy' => 'identical'
+    ),
 );
 //$translator = new Zend\Mvc\I18n\Translator();
 //$translator->addTranslationFile(
