@@ -1,18 +1,26 @@
-<?php
-$title = "Détails d'une action";
-?>
-<h2><?php echo $this->escapeHtml($title); ?></h2>
+<?php $this->headTitle($this->translate('Détails d\'une action')); ?>
+
+<h2><?= $this->translate('Détails d\'une action') ?></h2>
 <p>
-    <b>Nom de l'action :</b> <?php echo $this->escapeHtml($action->getActionName())?>
+    <?= $this->translate('Nom de l\'action :') ?> <?php echo $this->escapeHtml($action->getActionName())?>
 </p>
 <p>
-    <b>Libellé de l'action :</b> <?php echo $this->escapeHtml($action->getActionLibelle())?>
+    <?= $this->translate('Libellé de l\'action :') ?> <?php echo $this->escapeHtml($action->getActionLibelle())?>
 </p>
 <p>
-    <b>Description d'une action :</b> <?php echo $this->escapeHtml($action->getActionDescription())?>
+    <?= $this->translate('Description de l\'action :') ?> <?php echo $this->escapeHtml($action->getActionDescription())?>
 </p>
-<?php if($action->getActionLastUpdate() != null) :?>
+
 <p>
-    <b>Date de modification :</b> <?php echo $action->getActionLastUpdate()->format('Y-m-d H:i:s');?>
+    <?= $this->translate('Dernière mise à jour :') ?> 
+    <?php
+    if ($action->getActionLastUpdate() != null) {
+        echo $action->getActionLastUpdate()->format('d-m-Y H:i:s');
+    }
+    else {
+        echo $this->translate('Aucune mise à jour');
+    }
+    ?>
 </p>
-<?php endif; ?>
+
+<a class="btn btn-danger" href="<?php echo $this->url('action'); ?>"><?= $this->translate('Retour') ?></a>

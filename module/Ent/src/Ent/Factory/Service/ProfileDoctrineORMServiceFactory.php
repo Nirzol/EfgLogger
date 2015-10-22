@@ -1,17 +1,14 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Ent\Factory\Service;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Ent\Entity\EntProfile;
+use Ent\InputFilter\ProfileInputFilter;
 use Ent\Service\ProfileDoctrineService;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Description of ProfileDoctrineORMServiceFactory
@@ -20,12 +17,23 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class ProfileDoctrineORMServiceFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ObjectManager */
         $om = $serviceLocator->get('Doctrine\ORM\EntityManager');
-        
-        $service = new ProfileDoctrineService($om);
-        
-        return $service;        
+
+        $profile = new EntProfile();
+
+        $hydrator = new DoctrineObject($om);
+
+        $profileInputFilter = new ProfileInputFilter($om);
+
+        $authorizationService = $serviceLocator->get('\ZfcRbac\Service\AuthorizationService');
+
+        $service = new ProfileDoctrineService($om, $profile, $hydrator, $profileInputFilter, $authorizationService);
+
+        return $service;
     }
+
 }

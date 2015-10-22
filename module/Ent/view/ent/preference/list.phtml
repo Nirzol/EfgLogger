@@ -1,19 +1,24 @@
-<?php
-$title = 'Liste des préférences';
-$this->headTitle($title);
-?>
+<?php $this->headTitle($this->translate('Liste des préférences')); ?>
+
+<h1><?= $this->translate('Liste des préférences') ?></h1>
+
+<p>
+    <a href="<?php echo $this->url('preference/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter une nouvelle préférence') ?></a>
+</p>
+
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
     <div class="alert alert-success" role="alert">
         <?= $this->translate($m) ?>
     </div>  
-<?php endforeach; ?> 
-<h2><?php echo $this->escapeHtml($title); ?></h2>
-<p>
-    <a href="<?php echo $this->url('preference/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter une nouvelle préférence</a>
-</p>
+<?php endforeach; ?>
+
 <table class="table table-striped">  
     <tr>
-        <th>Attribut de la préférence</th>
+        <th><?= $this->translate('Attribut de la préférence') ?></th>
+        <th><?= $this->translate('User') ?></th>
+        <th><?= $this->translate('Service') ?></th>
+        <th><?= $this->translate('Profile') ?></th>
+        <th><?= $this->translate('Status') ?></th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -22,19 +27,56 @@ $this->headTitle($title);
     <?php foreach ($preferences as $preference) : ?>
         <tr>
             <td>
-                <?= $this->escapeHtml($preference->getPrefId()) ?>
+                <?php //$this->escapeHtml($preference->getPrefAttribute()) ?>
             </td>
             <td>
-                <?= $this->escapeHtml($preference->getPrefAttribute()) ?>
+                <?php
+                if($preference->getFkPrefUser()){
+                    echo $this->escapeHtml($preference->getFkPrefUser()->getUserLogin());
+                }
+                else {
+                    echo 'Aucun lien avec l\'user';
+                }
+                ?>
             </td>
             <td>
-                <a href="<?= $this->url('preference/show', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
+                <?php
+                if($preference->getFkPrefService()){
+                    echo $this->escapeHtml($preference->getFkPrefService()->getServiceName());
+                }
+                else {
+                    echo 'Aucun lien avec le service';
+                }
+                ?>
             </td>
             <td>
-                <a href="<?= $this->url('preference/update', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
+                <?php
+                if($preference->getFkPrefProfile()){
+                    echo $this->escapeHtml($preference->getFkPrefProfile()->getProfileName());
+                }
+                else {
+                    echo 'Aucun lien avec le profile';
+                }
+                ?>
             </td>
             <td>
-                <a href="<?= $this->url('preference/delete', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
+                <?php
+                if($preference->getFkPrefStatus()){
+                    echo $this->escapeHtml($preference->getFkPrefStatus()->getStatusName());
+                }
+                else {
+                    echo 'Mettre un status en place !!! ';
+                }
+                ?>
+            </td>
+            <td>
+                <a href="<?= $this->url('preference/show', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+            </td>
+            <td>
+                <a href="<?= $this->url('preference/show/update', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+            </td>
+            <td>
+                <a href="<?= $this->url('preference/show/delete', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>

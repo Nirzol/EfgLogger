@@ -1,107 +1,154 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Ent\Service;
 
-use Ent\Service\GenericEntityServiceInterface;
-use Zend\Form\Form;
-use Ent\InputFilter\ProfileInputFilter;
 use Doctrine\ORM\EntityManager;
-use Ent\Entity\EntProfile;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Ent\Entity\EntProfile;
+use Ent\InputFilter\ProfileInputFilter;
+use Zend\Form\Form;
+use ZfcRbac\Service\AuthorizationService;
 
 /**
  * Description of ProfileDoctrineService
  *
  * @author sebbar
  */
-class ProfileDoctrineService implements GenericEntityServiceInterface {
-    
+class ProfileDoctrineService extends DoctrineService implements ServiceInterface
+{
+
     /**
+     *
      * @var EntityManager
      */
     protected $em;
-   
-    public function __construct(EntityManager $em) {
+
+    /**
+     *
+     * @var EntProfile
+     */
+    protected $profile;
+
+    /**
+     *
+     * @var DoctrineObject
+     */
+    protected $hydrator;
+
+    /**
+     *
+     * @var ProfileInputFilter
+     */
+    protected $profileInputFilter;
+
+    /**
+     *
+     * @var AuthorizationService
+     */
+    protected $authorizationService;
+
+    public function __construct(EntityManager $em, EntProfile $profile, DoctrineObject $hydrator, ProfileInputFilter $profileInputFilter, AuthorizationService $authorizationService)
+    {
         $this->em = $em;
+        $this->profile = $profile;
+        $this->hydrator = $hydrator;
+        $this->profileInputFilter = $profileInputFilter;
+        $this->authorizationService = $authorizationService;
     }
-    
-    public function getAll() {
+
+    public function getAll()
+    {
         $repository = $this->em->getRepository('Ent\Entity\EntProfile');
-        
+
         return $repository->findAll();
     }
 
-    public function getById($id, $form = null) {
+    public function getById($id, $form = null)
+    {
         $repository = $this->em->getRepository('Ent\Entity\EntProfile');
-        
+
         $repoFind = $repository->find($id);
-        
-        if($form != null) {
-            $hydrator = new DoctrineObject($this->em);
-            $form->setHydrator($hydrator);
+
+        if ($form != null) {
+            /* @var $form Form */
+            $form->setHydrator($this->hydrator);
             $form->bind($repoFind);
         }
-        
+
         return $repoFind;
     }
-    
-    public function insert(Form $form, $dataAssoc) {
-        $profile = new EntProfile();
-        
-        $hydrator = new DoctrineObject($this->em);
-        $form->setHydrator($hydrator);
-        
-        $form->bind($profile);
-        $form->setInputFilter(new ProfileInputFilter());
-        $form->setData($dataAssoc);
-        
-        if (!$form->isValid()) {
-            return null;
-        }
-        
-        $this->em->persist($profile);
-        $this->em->flush();
-        
-        return $profile;
-        
+
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntProfile');
+
+        $repoFindBy = $repo->findBy($criteria, $orderBy, $limit, $offset);
+
+        return $repoFindBy;
     }
 
-    public function update($id, Form $form, $dataAssoc){
-        $profile = $this->em->find('Ent\Entity\EntProfile', $id);
-        
-        $hydrator = new DoctrineObject($this->em);
-        
-        $form->setHydrator($hydrator);        
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntProfile');
+
+        $repoFindOneBy = $repo->findOneBy($criteria, $orderBy);
+
+        return $repoFindOneBy;
+    }
+
+    public function insert(Form $form, $dataAssoc)
+    {
+        $profile = $this->profile;
+
+        $form->setHydrator($this->hydrator);
         $form->bind($profile);
-        $form->setInputFilter(new ProfileInputFilter());
+        $filter = $this->profileInputFilter;
+        $form->setInputFilter($filter->appendAddValidator());
         $form->setData($dataAssoc);
-        
+
         if (!$form->isValid()) {
-            error_log("ProfileDoctrineService.update: form is not valide !");
+            $this->addFormMessageToErrorLog($form->getMessages());
             return null;
         }
-        
+
         $this->em->persist($profile);
         $this->em->flush();
-        
+
         return $profile;
-        
     }
-    
-    public function delete($id){
-        
-        $profile = $this->em->find('Ent\Entity\EntProfile', $id);
-        
+
+    public function save(Form $form, $dataAssoc, $profile = null)
+    {
+        /* @var $profile EntProfile */
+        if (!$profile === null) {
+            $profile = $this->profile;
+        }
+
+        $form->setHydrator($this->hydrator);
+        $form->bind($profile);
+        $filter = $this->profileInputFilter;
+        $form->setInputFilter($filter->appendEditValidator($profile->getProfileId()));
+        $form->setData($dataAssoc);
+
+        if (!$form->isValid()) {
+            $this->addFormMessageToErrorLog($form->getMessages());
+            return null;
+        }
+
+        $this->em->persist($profile);
+        $this->em->flush();
+
+        return $profile;
+    }
+
+    public function delete($id)
+    {
+        $profile = $this->getById($id);
+
         $this->em->remove($profile);
         $this->em->flush();
-        
+
         return $profile;
     }
-    
+
 }

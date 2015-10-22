@@ -9,7 +9,9 @@ use Zend\InputFilter\InputFilter;
  *
  * @author fandria
  */
-class ContactInputFilter extends InputFilter {
+class ContactInputFilter extends InputFilter
+{
+
     public function __construct()
     {
         $this->add(array(
@@ -33,7 +35,7 @@ class ContactInputFilter extends InputFilter {
                 ),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'contactLibelle',
             'required' => true,
@@ -55,7 +57,7 @@ class ContactInputFilter extends InputFilter {
                 ),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'contactDescription',
             'required' => true,
@@ -69,7 +71,7 @@ class ContactInputFilter extends InputFilter {
                 ),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'contactService',
             'required' => true,
@@ -91,7 +93,7 @@ class ContactInputFilter extends InputFilter {
                 ),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'contactMailto',
             'required' => true,
@@ -114,4 +116,5 @@ class ContactInputFilter extends InputFilter {
             ),
         ));
     }
+
 }

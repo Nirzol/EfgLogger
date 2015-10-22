@@ -28,6 +28,7 @@ use Doctrine\Common\Collections\Criteria;
 /**
  * @ORM\Entity
  * @ORM\Table(name="ent_role")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Ent\Repository\RoleRepository")
  */
 class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
@@ -66,22 +67,14 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="role_last_update", type="datetime", nullable=false)
+     * @ORM\Column(name="role_last_update", type="datetime", nullable=true)
      */
     private $lastUpdate;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntUser", inversedBy="fkUrRole")
-     * @ORM\JoinTable(name="ent_user_role",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="fk_ur_role_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="fk_ur_user_id", referencedColumnName="user_id")
-     *   }
-     * )
+     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntUser", mappedBy="fkUrRole")
      */
     private $fkUrUser;
 
@@ -92,6 +85,7 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
     {
         $this->children = new ArrayCollection();
         $this->permissions = new ArrayCollection();
+        $this->fkUrUser = new ArrayCollection();
     }
 
     /**
@@ -132,7 +126,7 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
     {
         $this->children[] = $child;
     }
-    
+
     /**
      * Add children
      *
@@ -158,7 +152,7 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
 
         $this->permissions[(string) $permission] = $permission;
     }
-    
+
     /**
      * Add permissions
      *
@@ -229,21 +223,39 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
     }
 
     /**
-     * Add fkUrUser
+     * Add user
      *
-     * @param \Doctrine\Common\Collections\Collection $fkUrUser 
+     * @param \Doctrine\Common\Collections\Collection $user
      *
      * @return EntHierarchicalRole
      */
-    public function addFkUrUser(\Doctrine\Common\Collections\Collection $fkUrUser)
+    public function addUser($user)
     {
-        /* @var $user \Ent\Entity\EntUser */
+        $this->fkUrUser[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Add fkUrUser
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkUrUser
+     */
+    public function addFkUrUser(\Doctrine\Common\Collections\ArrayCollection $fkUrUser)
+    {
         foreach ($fkUrUser as $user) {
-            if (!$this->fkUrUser->contains($user)) {
-                $this->fkUrUser->add($user);
-//                $user->addFkUrUser(new ArrayCollection(array($this)));
-            }
+            $this->addUser($user);
         }
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \Ent\Entity\EntUser $user
+     */
+    public function removeUser(\Ent\Entity\EntUser $user)
+    {
+        $this->fkUrUser->removeElement($user);
     }
 
     /**
@@ -251,11 +263,10 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
      *
      * @param \Doctrine\Common\Collections\Collection $fkUrUser
      */
-    public function removeFkUrUser(\Doctrine\Common\Collections\Collection $fkUrUser)
+    public function removeFkUrUser(\Doctrine\Common\Collections\ArrayCollection $fkUrUser)
     {
         foreach ($fkUrUser as $user) {
-            $this->fkUrUser->removeElement($user);
-//                $user->addFkUrUser(new ArrayCollection(array($this)));
+            $this->removeUser($user);
         }
     }
 
@@ -278,7 +289,7 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
     {
         $this->children->removeElement($child);
     }
-    
+
     /**
      * Remove children
      *
@@ -300,7 +311,7 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
     {
         $this->permissions->removeElement($permission);
     }
-    
+
     /**
      * Remove permissions
      *
@@ -322,4 +333,16 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
     {
         return $this->permissions;
     }
+
+    /**
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setlastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
+    }
+
 }

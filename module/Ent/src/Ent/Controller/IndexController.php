@@ -2,19 +2,21 @@
 
 namespace Ent\Controller;
 
+use EfgCasAuth\Controller\AuthController;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Mvc\Controller\ControllerManager;
 use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
 
     public function indexAction()
-    {   
+    {
 //        $sm = $this->getServiceLocator();
 //        $config = $sm->get('Config');
-//        
-//        $testCas = new \EfgCasAuth\Controller\AuthController($sm->get('Zend\Authentication\AuthenticationService'), $config['cas']);
-//        
+//
+//        $testCas = new AuthController($sm->get('Zend\Authentication\AuthenticationService'), $config['cas']);
+//
 //        $testCas->getPublicTicket();
 
         // Test de la version : fait par le test unitaire CheckVersionTest
@@ -34,34 +36,33 @@ class IndexController extends AbstractActionController
     {
         /* @var $serviceLocator ControllerManager */
         $sm = $this->getServiceLocator();
-        
+
         // recupere toute la config avec toutes les cles
         $config = $sm->get('config');
-        
+
         // Recuperation version ENT Zend et compatibilite avec Angular et BD ENT
         $versions = $config['versions'];
         $bdVersionRequired = $versions['dependencies']['data-base-version'];
-                
+
         // Recuperation version BD
         $serviceEo = $sm->get('Ent\Service\Version');
-        $bdVersionEo = $serviceEo->getLastInserted(); 
-        
+        $bdVersionEo = $serviceEo->getLastInserted();
+
         $bdVersionCurrent = "";
-        if( isset($bdVersionEo) && ($bdVersionEo != null) ) {
+        if (isset($bdVersionEo) && ($bdVersionEo != null)) {
             $bdVersionCurrent = $bdVersionEo->getVersion();
         }
-        
+
         $isMatchBdVersion = $bdVersionRequired === $bdVersionCurrent;
-        
-        if( $isMatchBdVersion) {
+
+        if ($isMatchBdVersion) {
             error_log("INFO: ENT Zend App version = " . $versions['version'] . " matches database version " . $bdVersionCurrent);
         } else {
             error_log("===== Error : ENT Zend App version = " . $versions['version'] . " needs database version " . $versions['dependencies']['data-base-version']);
-            error_log( "===== Your database version is " . $bdVersionCurrent);
+            error_log("===== Your database version is " . $bdVersionCurrent);
         }
         return $isMatchBdVersion;
 //        return array( $versions, $bdVersionEo);
     }
-                
-}
 
+}

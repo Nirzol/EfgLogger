@@ -35,21 +35,80 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Index <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Index') ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?=$this->url('index')?>">Index</a></li>
-                               <li><a href="<?=$this->url('action')?>">Action</a></li>
-                               <li><a href="<?=$this->url('attribute')?>">Attribut</a></li>
-                               <li><a href="<?=$this->url('contact')?>">Contact</a></li>
-                               <li><a href="<?=$this->url('module')?>">Module</a></li>
-                               <li><a href="<?=$this->url('permission')?>">Permission</a></li>
-                               <li><a href="<?=$this->url('preference')?>">Préférence</a></li>
-                               <li><a href="<?=$this->url('profile')?>">Profil</a></li>
-                               <li><a href="<?=$this->url('role')?>">Rôle</a></li>
-                               <li><a href="<?=$this->url('service')?>">Service</a></li>
-                               <li><a href="<?=$this->url('status')?>">Status</a></li>
-                               <li><a href="<?=$this->url('user')?>">Utilisateur</a></li>
-                               <li><a href="<?=$this->url('version')?>">Version</a></li>
+                                <li><a href="<?=$this->url('index')?>"><?= $this->translate('Index') ?></a></li>
+                               <!-- <li><a href="<?=$this->url('index/add')?>">Ajouter</a></li>-->
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Attribute') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?=$this->url('attribute')?>"><?= $this->translate('Attribute') ?></a></li>
+                                <li><a href="<?=$this->url('attribute/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('User') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?=$this->url('user')?>"><?= $this->translate('User') ?></a></li>
+                                <li><a href="<?=$this->url('user/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Service') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?=$this->url('service')?>"><?= $this->translate('Service') ?></a></li>
+                                <li><a href="<?=$this->url('service/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Preference') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?=$this->url('preference')?>"><?= $this->translate('Preference') ?></a></li>
+                                <li><a href="<?=$this->url('preference/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Action') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?=$this->url('action')?>"><?= $this->translate('Action') ?></a></li>
+                                <li><a href="<?=$this->url('action/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Status') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?=$this->url('status')?>"><?= $this->translate('Status') ?></a></li>
+                                <li><a href="<?=$this->url('status/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Log') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?=$this->url('log')?>"><?= $this->translate('Log') ?></a></li>
+                                <li><a href="<?=$this->url('log/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Module') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?=$this->url('module')?>"><?= $this->translate('Module') ?></a></li>
+                                <li><a href="<?=$this->url('module/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Permission') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?=$this->url('permission')?>"><?= $this->translate('Permission') ?></a></li>
+                                <li><a href="<?=$this->url('permission/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Role') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?=$this->url('role')?>"><?= $this->translate('Role') ?></a></li>
+                                <li><a href="<?=$this->url('role/add')?>"><?= $this->translate('Ajouter') ?></a></li>
                             </ul>
                         </li>
                     </ul>

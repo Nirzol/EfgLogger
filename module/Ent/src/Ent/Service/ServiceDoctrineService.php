@@ -13,7 +13,8 @@ use Zend\Form\Form;
  *
  * @author fandria
  */
-class ServiceDoctrineService implements ServiceServiceInterface{
+class ServiceDoctrineService extends DoctrineService implements ServiceInterface
+{
     /**
      *
      * @var EntityManager
@@ -38,12 +39,13 @@ class ServiceDoctrineService implements ServiceServiceInterface{
      */
     protected $serviceInputFilter;
 
-    public function __construct(EntityManager $em, EntService $service, DoctrineObject $hydrator, ServiceInputFilter $serviceInputFilter)
+    public function __construct(EntityManager $em, EntService $service, DoctrineObject $hydrator, ServiceInputFilter $serviceInputFilter, \ZfcRbac\Service\AuthorizationService $authorizationService)
     {
         $this->em = $em;
         $this->service = $service;
         $this->hydrator = $hydrator;
         $this->serviceInputFilter = $serviceInputFilter;
+        $this->authorizationService = $authorizationService;
     }
 
     public function getAll()
@@ -51,6 +53,13 @@ class ServiceDoctrineService implements ServiceServiceInterface{
         $repo = $this->em->getRepository('Ent\Entity\EntService');
 
         return $repo->findAll();
+    }
+
+    public function getAllWithPreference()
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntService');
+
+        return $repo->findAllWithPreference();
     }
 
     public function getById($id, $form = null)
@@ -67,17 +76,36 @@ class ServiceDoctrineService implements ServiceServiceInterface{
         return $repoFind;
     }
 
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntService');
+
+        $repoFindOneBy = $repo->findBy($criteria, $orderBy, $limit, $offset);
+
+        return $repoFindOneBy;
+    }
+
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntService');
+
+        $repoFindOneBy = $repo->findOneBy($criteria, $orderBy);
+
+        return $repoFindOneBy;
+    }
+
     public function insert(Form $form, $dataAssoc)
     {
         $service = $this->service;
 
         $form->setHydrator($this->hydrator);
-
         $form->bind($service);
-        $form->setInputFilter($this->serviceInputFilter);
+        $filter = $this->serviceInputFilter;
+        $form->setInputFilter($filter->appendAddValidator());
         $form->setData($dataAssoc);
 
         if (!$form->isValid()) {
+            $this->addFormMessageToErrorLog($form->getMessages());
             return null;
         }
         $this->em->persist($service);
@@ -86,19 +114,21 @@ class ServiceDoctrineService implements ServiceServiceInterface{
         return $service;
     }
 
-    public function save(Form $form, $dataAssoc, EntService $service = null)
+    public function save(Form $form, $dataAssoc, $service = null)
     {
+        /* @var $user EntService */
         if (!$service === null) {
             $service = $this->service;
         }
 
         $form->setHydrator($this->hydrator);
-
         $form->bind($service);
-        $form->setInputFilter($this->serviceInputFilter);
+        $filter = $this->serviceInputFilter;
+        $form->setInputFilter($filter->appendEditValidator($service->getServiceId()));
         $form->setData($dataAssoc);
 
         if (!$form->isValid()) {
+            $this->addFormMessageToErrorLog($form->getMessages());
             return null;
         }
 
@@ -113,4 +143,5 @@ class ServiceDoctrineService implements ServiceServiceInterface{
         $this->em->remove($this->getById($id));
         $this->em->flush();
     }
+
 }

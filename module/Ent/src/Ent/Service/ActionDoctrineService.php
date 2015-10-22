@@ -2,92 +2,146 @@
 
 namespace Ent\Service;
 
-use Ent\Entity\EntAction;
-use Ent\InputFilter\ActionInputFilter;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Ent\Entity\EntAction;
+use Ent\InputFilter\ActionInputFilter;
 use Zend\Form\Form;
+use ZfcRbac\Service\AuthorizationService;
 
-class ActionDoctrineService implements ActionServiceInterface
+class ActionDoctrineService extends DoctrineService implements ServiceInterface
 {
+
     /**
      *
      * @var EntityManager
      */
     protected $em;
-    
-    public function __construct(EntityManager $em) {
+
+    /**
+     *
+     * @var EntAction
+     */
+    protected $action;
+
+    /**
+     *
+     * @var DoctrineObject
+     */
+    protected $hydrator;
+
+    /**
+     *
+     * @var ActionInputFilter
+     */
+    protected $actionInputFilter;
+
+    /**
+     *
+     * @var AuthorizationService
+     */
+    protected $authorizationService;
+
+    public function __construct(EntityManager $em, EntAction $action, DoctrineObject $hydrator, ActionInputFilter $actionInputFilter, AuthorizationService $authorizationService)
+    {
         $this->em = $em;
+        $this->action = $action;
+        $this->hydrator = $hydrator;
+        $this->actionInputFilter = $actionInputFilter;
+        $this->authorizationService = $authorizationService;
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         $repository = $this->em->getRepository('Ent\Entity\EntAction');
-        
+
         return $repository->findAll();
     }
 
-    public function getById($id, $form = null) {
+    public function getById($id, $form = null)
+    {
         $repository = $this->em->getRepository('Ent\Entity\EntAction');
-        
+
         $repoFind = $repository->find($id);
-        
+
         if ($form != null) {
-            $hydrator = new DoctrineObject($this->em);
-            $form->setHydrator($hydrator);
+            /* @var $form Form */
+            $form->setHydrator($this->hydrator);
             $form->bind($repoFind);
         }
-        
+
         return $repoFind;
     }
 
-    public function insert(Form $form, $dataAssoc) {
-        $action = new EntAction();
-        
-        $hydrator = new DoctrineObject($this->em);
-        
-        $form->setHydrator($hydrator);
-        $form->bind($action);
-        $form->setInputFilter(new ActionInputFilter());
-        $form->setData($dataAssoc);
-        
-        if (!$form->isValid()) {
-            return null;
-        }
-        
-        $this->em->persist($action);
-        $this->em->flush();
-        
-        return $action;
-        
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntAction');
+
+        $repoFindOneBy = $repo->findBy($criteria, $orderBy, $limit, $offset);
+
+        return $repoFindOneBy;
     }
 
-    public function update($id, Form $form, $dataAssoc) {
-        $action = $this->em->find('Ent\Entity\EntAction', $id);
-        
-        $hydrator = new DoctrineObject($this->em);
-        
-        $form->setHydrator($hydrator);
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntAction');
+
+        $repoFindOneBy = $repo->findOneBy($criteria, $orderBy);
+
+        return $repoFindOneBy;
+    }
+
+    public function insert(Form $form, $dataAssoc)
+    {
+        $action = $this->action;
+
+        $form->setHydrator($this->hydrator);
         $form->bind($action);
-        $form->setInputFilter(new ActionInputFilter());
+        $filter = $this->actionInputFilter;
+        $form->setInputFilter($filter->appendAddValidator());
         $form->setData($dataAssoc);
-        
+
         if (!$form->isValid()) {
+            $this->addFormMessageToErrorLog($form->getMessages());
             return null;
         }
-        
+
         $this->em->persist($action);
         $this->em->flush();
-        
+
         return $action;
     }
-    
-    public function delete($id) {
-        $action = $this->em->find('Ent\Entity\EntAction', $id);
-        
+
+    public function save(Form $form, $dataAssoc, $action = null)
+    {
+        /* @var $action EntAction */
+        if (!$action === null) {
+            $action = $this->action;
+        }
+
+        $form->setHydrator($this->hydrator);
+        $form->bind($action);
+        $filter = $this->actionInputFilter;
+        $form->setInputFilter($filter->appendEditValidator($action->getActionId()));
+        $form->setData($dataAssoc);
+
+        if (!$form->isValid()) {
+            $this->addFormMessageToErrorLog($form->getMessages());
+            return null;
+        }
+
+        $this->em->persist($action);
+        $this->em->flush();
+
+        return $action;
+    }
+
+    public function delete($id)
+    {
+        $action = $this->getById($id);
+
         $this->em->remove($action);
         $this->em->flush();
-        
-        return $action;
     }
 
 }

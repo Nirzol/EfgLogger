@@ -7,13 +7,16 @@ use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Ent\Entity\EntContact;
 use Ent\InputFilter\ContactInputFilter;
 use Zend\Form\Form;
+use ZfcRbac\Service\AuthorizationService;
 
 /**
  * Description of ContactDoctrineService
  *
  * @author fandria
  */
-class ContactDoctrineService implements ContactServiceInterface{
+class ContactDoctrineService extends DoctrineService implements ServiceInterface
+{
+
     /**
      *
      * @var EntityManager
@@ -38,12 +41,19 @@ class ContactDoctrineService implements ContactServiceInterface{
      */
     protected $contactInputFilter;
 
-    public function __construct(EntityManager $em, EntContact $contact, DoctrineObject $hydrator, ContactInputFilter $contactInputFilter)
+    /**
+     *
+     * @var AuthorizationService
+     */
+    protected $authorizationService;
+
+    public function __construct(EntityManager $em, EntContact $contact, DoctrineObject $hydrator, ContactInputFilter $contactInputFilter, AuthorizationService $authorizationService)
     {
         $this->em = $em;
         $this->contact = $contact;
         $this->hydrator = $hydrator;
         $this->contactInputFilter = $contactInputFilter;
+        $this->authorizationService = $authorizationService;
     }
 
     public function getAll()
@@ -60,6 +70,7 @@ class ContactDoctrineService implements ContactServiceInterface{
         $repoFind = $repo->find($id);
 
         if ($form != null) {
+            /* @var $form Form */
             $form->setHydrator($this->hydrator);
             $form->bind($repoFind);
         }
@@ -67,12 +78,29 @@ class ContactDoctrineService implements ContactServiceInterface{
         return $repoFind;
     }
 
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntContact');
+
+        $repoFindBy = $repo->findBy($criteria, $orderBy, $limit, $offset);
+
+        return $repoFindBy;
+    }
+
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntContact');
+
+        $repoFindOneBy = $repo->findOneBy($criteria, $orderBy);
+
+        return $repoFindOneBy;
+    }
+
     public function insert(Form $form, $dataAssoc)
     {
         $contact = $this->contact;
 
         $form->setHydrator($this->hydrator);
-
         $form->bind($contact);
         $form->setInputFilter($this->contactInputFilter);
         $form->setData($dataAssoc);
@@ -80,20 +108,20 @@ class ContactDoctrineService implements ContactServiceInterface{
         if (!$form->isValid()) {
             return null;
         }
+        
         $this->em->persist($contact);
         $this->em->flush();
 
         return $contact;
     }
 
-    public function save(Form $form, $dataAssoc, EntContact $contact = null)
+    public function save(Form $form, $dataAssoc, $contact = null)
     {
         if (!$contact === null) {
             $contact = $this->contact;
         }
 
         $form->setHydrator($this->hydrator);
-
         $form->bind($contact);
         $form->setInputFilter($this->contactInputFilter);
         $form->setData($dataAssoc);
@@ -110,7 +138,10 @@ class ContactDoctrineService implements ContactServiceInterface{
 
     public function delete($id)
     {
-        $this->em->remove($this->getById($id));
+        $contact = $this->getById($id);
+        
+        $this->em->remove($contact);
         $this->em->flush();
     }
+
 }

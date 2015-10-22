@@ -1,0 +1,107 @@
+<?php $this->headTitle($this->translate('Modifier un contact')); ?>
+
+<h2><?= $this->translate('Modifier un contact') ?></h2>
+<?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
+<div class="form-group<?php if ($form->get('contactName')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('contactName')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?= $this->formText($form->get('contactName')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('contactName')) ?>
+    </div>
+</div>
+
+<div class="form-group<?php if ($form->get('contactLibelle')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('contactLibelle')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?= $this->formText($form->get('contactLibelle')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('contactLibelle')) ?>
+    </div>
+</div>
+
+<div class="form-group<?php if ($form->get('contactDescription')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('contactDescription')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?= $this->formText($form->get('contactDescription')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('contactDescription')) ?>
+    </div>
+</div>
+
+<div class="form-group<?php if ($form->get('contactService')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('contactService')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?= $this->formText($form->get('contactService')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('contactService')) ?>
+    </div>
+</div>
+
+<div class="form-group<?php if ($form->get('contactMailto')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('contactMailto')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?= $this->formText($form->get('contactMailto')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('contactMailto')) ?>
+    </div>
+</div>
+
+<div class="form-group<?php if ($form->get('fkContactStructure')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('fkContactStructure')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <div class="radio">
+            <?php
+            $this->formRadio()->setSeparator('</div><div class="radio">');
+            echo $this->formRadio($form->get('fkContactStructure')->setLabelAttributes(['class' => '']))
+            ?>
+        </div>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('fkContactStructure')) ?>
+    </div>
+</div>
+
+<div class="form-group<?php if ($form->get('fkCsService')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('fkCsService')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <div class="checkbox">
+            <?php
+            $this->formMultiCheckbox()->setSeparator('</div><div class="checkbox">');
+            echo $this->formMultiCheckbox($form->get('fkCsService')->setLabelAttributes(['class' => '']))
+            ?>
+        </div>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('fkCsService')) ?>
+    </div>
+</div>
+
+<div class="form-group<?php if ($form->get('fkUcUser')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('fkUcUser')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <div class="checkbox">
+            <?php
+            $this->formMultiCheckbox()->setSeparator('</div><div class="checkbox">');
+            echo $this->formMultiCheckbox($form->get('fkUcUser')->setLabelAttributes(['class' => '']))
+            ?>
+        </div>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('fkUcUser')) ?>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary"><?= $this->translate('Modifier') ?></button>
+        <a class="btn btn-danger" href="<?php echo $this->url('contact'); ?>"><?= $this->translate('Annuler') ?></a>
+    </div>
+</div>
+<?=
+$this->form()->closeTag()?>

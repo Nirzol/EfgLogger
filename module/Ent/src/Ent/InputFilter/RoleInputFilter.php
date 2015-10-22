@@ -23,6 +23,7 @@ class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterf
                 array('name' => 'StringTrim'),
             ),
         ));
+        
         $this->add(array(
             'name' => 'permissions',
             'required' => false,

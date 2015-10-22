@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
  * EntProfile
  *
  * @ORM\Table(name="ent_profile")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
 class EntProfile extends Ent
 {
+
     /**
      * @var integer
      *
@@ -31,7 +33,7 @@ class EntProfile extends Ent
     /**
      * @var string
      *
-     * @ORM\Column(name="profile_name", type="string", length=250, nullable=false)
+     * @ORM\Column(name="profile_name", type="string", length=250, nullable=false, unique=true)
      */
     private $profileName;
 
@@ -62,13 +64,6 @@ class EntProfile extends Ent
      * @ORM\ManyToMany(targetEntity="Ent\Entity\EntUser", mappedBy="fkUpProfile")
      */
     private $fkUpUser;
-    
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="Ent\Entity\EntPreference", mappedBy="fkPrefProfile", cascade={"persist", "remove"}, orphanRemoval=TRUE)
-     */
-    private $fkPref;
 
     /**
      * Constructor
@@ -77,7 +72,6 @@ class EntProfile extends Ent
     {
         $this->fkUpUser = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get profileId
@@ -210,34 +204,50 @@ class EntProfile extends Ent
     }
 
     /**
-     * Add fkUpUser
+     * Add user
      *
-     * @param \Ent\Entity\EntUser $fkUpUser
+     * @param \Doctrine\Common\Collections\Collection $user
      *
      * @return EntProfile
      */
-    public function addFkUpUser(\Doctrine\Common\Collections\Collection $fkUpUser)
+    public function addUser($user)
     {
-        /* @var $user \Ent\Entity\EntUser */
-        foreach($fkUpUser as $user) {
-            if( ! $this->fkUpUser->contains($user)) {
-                $this->fkUpUser->add($user);
-                $user->addFkUpProfile(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
-            }
+        $this->fkUpUser[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Add fkUpUser
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkUpUser
+     */
+    public function addFkUpUser(\Doctrine\Common\Collections\ArrayCollection $fkUpUser)
+    {
+        foreach ($fkUpUser as $user) {
+            $this->addUser($user);
         }
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \Ent\Entity\EntUser $user
+     */
+    public function removeUser(\Ent\Entity\EntUser $user)
+    {
+        $this->fkUpUser->removeElement($user);
     }
 
     /**
      * Remove fkUpUser
      *
-     * @param \Ent\Entity\EntUser $fkUpUser
+     * @param \Doctrine\Common\Collections\Collection $fkUpUser
      */
-    public function removeFkUpUser(\Doctrine\Common\Collections\Collection $fkUpUser)
+    public function removeFkUpUser(\Doctrine\Common\Collections\ArrayCollection $fkUpUser)
     {
-        /* @var $user \Ent\Entity\EntUser */
         foreach ($fkUpUser as $user) {
-            $this->fkUpUser->removeElement($user);
-            $user->removeFkUpProfile(new \Doctrine\Common\Collections\ArrayCollection(array($this)));
+            $this->removeUser($user);
         }
     }
 
@@ -250,43 +260,16 @@ class EntProfile extends Ent
     {
         return $this->fkUpUser;
     }
-    
+
     /**
-     * Add FkPref
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
      *
-     * @param \Ent\Entity\EntPreference $fkPref
-     *
-     * @return EntService
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
-    public function addFkPref(\Ent\Entity\EntPreference $fkPref)
+    public function updatedTimestamps()
     {
-        if (!$this->fkPref->contains($fkPref)) {
-            $this->fkPref->add($fkPref);
-            $fkPref->setFkPrefProfile($this);
-        }
-        return $this;
+        $this->setProfileLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
-    
-    /**
-     * Remove FkPref
-     *
-     * @param \Ent\Entity\EntPreference $fkPref
-     */
-    public function removeFkPref(\Ent\Entity\EntPreference $fkPref)
-    {
-        if ($this->fkPref->contains($fkPref)) {
-            $this->fkPref->removeElement($fkPref);
-            $fkPref->setFkPrefProfile(null);
-        }
-        return $this;
-    }
-    
-    /**
-     * Get FkPref
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getFkPref() {
-        return $this->fkPref->toArray();
-    }
+
 }

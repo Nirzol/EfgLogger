@@ -2,6 +2,9 @@
 
 namespace Ent\Controller;
 
+use Ent\Form\PermissionForm;
+use Ent\Service\PermissionDoctrineService;
+use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -9,21 +12,21 @@ class PermissionController extends AbstractActionController
 {
 
     /**
-     * @var \Zend\Http\Request
+     * @var Request
      */
     protected $request = null;
 
     /**
-     * @return \Ent\Service\PermissionDoctrineService
+     * @return PermissionDoctrineService
      */
     protected $permissionService = null;
 
     /**
-     * @var \Ent\Form\PermissionForm
+     * @var PermissionForm
      */
     protected $permissionForm = null;
 
-    public function __construct(\Ent\Service\PermissionDoctrineService $permissionService, \Ent\Form\PermissionForm $permissionForm)
+    public function __construct(PermissionDoctrineService $permissionService, PermissionForm $permissionForm)
     {
         $this->permissionService = $permissionService;
         $this->permissionForm = $permissionForm;
@@ -43,8 +46,7 @@ class PermissionController extends AbstractActionController
         $form = $this->permissionForm;
 
         if ($this->request->isPost()) {
-            $data = $this->request->getPost();
-            $permission = $this->permissionService->insert($form, $data);
+            $permission = $this->permissionService->insert($form, $this->request->getPost());
 
             if ($permission) {
                 $this->flashMessenger()->addSuccessMessage('La permission a bien été insérer.');
@@ -73,7 +75,7 @@ class PermissionController extends AbstractActionController
         ));
     }
 
-    public function modifyAction()
+    public function updateAction()
     {
         $id = $this->params('id');
         $form = $this->permissionForm;

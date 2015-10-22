@@ -2,28 +2,33 @@
 
 namespace Ent\Factory\Service;
 
-use Ent\Service\PermissionDoctrineService;
 use Doctrine\Common\Persistence\ObjectManager;
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Ent\Entity\EntPermission;
+use Ent\InputFilter\PermissionInputFilter;
+use Ent\Service\PermissionDoctrineService;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class PermissionDoctrineORMServiceFactory implements FactoryInterface
 {
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator ObjectManager */
-        $om   = $serviceLocator->get('Doctrine\ORM\EntityManager');
+        $om = $serviceLocator->get('Doctrine\ORM\EntityManager');
 
-        $permission = new \Ent\Entity\EntPermission('');
+        $permission = new EntPermission('');
 
-        $hydrator = new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($om);
+        $hydrator = new DoctrineObject($om);
 
-        $permissionInputFilter = new \Ent\InputFilter\PermissionInputFilter($om);
-        
+        $permissionInputFilter = new PermissionInputFilter($om);
+
         $authorizationService = $serviceLocator->get('\ZfcRbac\Service\AuthorizationService');
 
         $service = new PermissionDoctrineService($om, $permission, $hydrator, $permissionInputFilter, $authorizationService);
 
         return $service;
     }
+
 }

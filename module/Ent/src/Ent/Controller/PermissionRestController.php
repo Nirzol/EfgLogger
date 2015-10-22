@@ -2,9 +2,9 @@
 
 namespace Ent\Controller;
 
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Ent\Form\PermissionForm;
 use Ent\Service\PermissionDoctrineService;
+use JMS\Serializer\Serializer;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -24,57 +24,56 @@ class PermissionRestController extends AbstractRestfulController
     protected $permissionForm;
 
     /**
-     *
-     * @var DoctrineObject
+     * @var Serializer
      */
-    protected $hydrator;
+    protected $serializer;
 
-    public function options()
-    {
-        $response = $this->getResponse();
-        $headers = $response->getHeaders();
+//    public function options()
+//    {
+//        $response = $this->getResponse();
+//        $headers = $response->getHeaders();
+//
+//        if ($this->params()->fromRoute('id', false)) {
+//            // Allow viewing, partial updating, replacement, and deletion
+//            // on individual items
+//            $headers->addHeaderLine('Allow', implode(',', array(
+//                'GET',
+//                'PATCH',
+//                'PUT',
+//                'DELETE',
+//            )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
+//            return $response;
+//        }
+//
+//        // Allow only retrieval and creation on collections
+//        $headers->addHeaderLine('Allow', implode(',', array(
+//            'GET',
+//            'POST',
+//        )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
+//
+//        return $response;
+//    }
 
-        if ($this->params()->fromRoute('id', false)) {
-            // Allow viewing, partial updating, replacement, and deletion
-            // on individual items
-            $headers->addHeaderLine('Allow', implode(',', array(
-                'GET',
-                'PATCH',
-                'PUT',
-                'DELETE',
-            )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
-            return $response;
-        }
-
-        // Allow only retrieval and creation on collections
-        $headers->addHeaderLine('Allow', implode(',', array(
-            'GET',
-            'POST',
-        )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
-
-        return $response;
-    }
-
-    public function __construct(PermissionDoctrineService $permissionService, PermissionForm $permissionForm, DoctrineObject $hydrator)
+    public function __construct(PermissionDoctrineService $permissionService, PermissionForm $permissionForm, Serializer $serializer)
     {
         $this->permissionService = $permissionService;
         $this->permissionForm = $permissionForm;
-        $this->hydrator = $hydrator;
+        $this->serializer = $serializer;
     }
 
     public function getList()
     {
         $results = $this->permissionService->getAll();
 
-        $data = array();
+        $data = '';
         $successMessage = '';
         $errorMessage = '';
+
         if ($results) {
-            foreach ($results as $result) {
-                $data[] = $result->toArray($this->hydrator);
-                $success = false;
-                $successMessage = 'Les permissions ont bien été trouvé.';
-            }
+//            $data[] = $results->toArray($this->hydrator);
+            $data = json_decode($this->serializer->serialize($results, 'json'));
+            $success = true;
+            $successMessage = 'Les permissions ont bien été trouvé.';
         } else {
             $success = false;
             $errorMessage = 'Aucun permission existe dans la base.';
@@ -94,11 +93,13 @@ class PermissionRestController extends AbstractRestfulController
     {
         $result = $this->permissionService->getById($id);
 
-        $data = array();
+        $data = '';
         $successMessage = '';
         $errorMessage = '';
+
         if ($result) {
-            $data[] = $result->toArray($this->hydrator);
+//            $data[] = $result->toArray($this->hydrator);
+            $data = json_decode($this->serializer->serialize($result, 'json'));
             $success = false;
             $successMessage = 'La permission a bien été trouver.';
         } else {
@@ -116,76 +117,79 @@ class PermissionRestController extends AbstractRestfulController
         ));
     }
 
+    //EN SOMMEIL
     public function create($data)
     {
-        $form = $this->permissionForm;
-
-        if ($data) {
-
-            $permission = $this->permissionService->insert($form, $data);
-
-            if ($permission) {
-                $this->flashMessenger()->addSuccessMessage('La permission a bien été insérer.');
-
-                return new JsonModel(array(
-                    'data' => $permission->getPermissionId(),
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => 'La permission  a bien été insérer.',
-                    ),
-                ));
-            }
-        }
-        return new JsonModel(array(
-            'success' => false,
-            'flashMessages' => array(
-                'error' => 'La permission n\'a pas été insérer.',
-            ),
-        ));
+//        $form = $this->permissionForm;
+//
+//        if ($data) {
+//
+//            $permission = $this->permissionService->insert($form, $data);
+//
+//            if ($permission) {
+//                $this->flashMessenger()->addSuccessMessage('La permission a bien été insérer.');
+//
+//                return new JsonModel(array(
+//                    'data' => $permission->getPermissionId(),
+//                    'success' => true,
+//                    'flashMessages' => array(
+//                        'success' => 'La permission  a bien été insérer.',
+//                    ),
+//                ));
+//            }
+//        }
+//        return new JsonModel(array(
+//            'success' => false,
+//            'flashMessages' => array(
+//                'error' => 'La permission n\'a pas été insérer.',
+//            ),
+//        ));
     }
 
+    //EN SOMMEIL
     public function update($id, $data)
     {
-        $permission = $this->permissionService->getById($id, $this->permissionForm);
-
-        if ($data) {
-            $permission = $this->permissionService->save($this->permissionForm, $data, $permission);
-
-            if ($permission) {
-                $this->flashMessenger()->addSuccessMessage('La permission a bien été updater.');
-
-                return new JsonModel(array(
-                    'data' => $permission->getPermissionId(),
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => 'La permission '.$id.' a bien été updater.',
-                    ),
-                ));
-            }
-        }
-
-        return new JsonModel(array(
-            'data' => $permission,
-            'success' => false,
-            'flashMessages' => array(
-                'error' => 'La permission '.$id.' n\'a pas été updater.',
-            ),
-        ));
+//        $permission = $this->permissionService->getById($id, $this->permissionForm);
+//
+//        if ($data) {
+//            $permission = $this->permissionService->save($this->permissionForm, $data, $permission);
+//
+//            if ($permission) {
+////                $this->flashMessenger()->addSuccessMessage('La permission a bien été updater.');
+//
+//                return new JsonModel(array(
+//                    'data' => $permission->getPermissionId(),
+//                    'success' => true,
+//                    'flashMessages' => array(
+//                        'success' => 'La permission ' . $id . ' a bien été updater.',
+//                    ),
+//                ));
+//            }
+//        }
+//
+//        return new JsonModel(array(
+//            'data' => $permission,
+//            'success' => false,
+//            'flashMessages' => array(
+//                'error' => 'La permission ' . $id . ' n\'a pas été updater.',
+//            ),
+//        ));
     }
 
+    //EN SOMMEIL
     public function delete($id)
     {
-        $this->permissionService->delete($id);
-
-        $this->flashMessenger()->addSuccessMessage('La permission a bien été supprimé.');
-
-        return new JsonModel(array(
-            'data' => 'deleted',
-            'success' => true,
-            'flashMessages' => array(
-                'error' => 'La permission a bien été supprimé.',
-            ),
-        ));
+//        $this->permissionService->delete($id);
+//
+////        $this->flashMessenger()->addSuccessMessage('La permission a bien été supprimé.');
+//
+//        return new JsonModel(array(
+//            'data' => 'deleted',
+//            'success' => true,
+//            'flashMessages' => array(
+//                'error' => 'La permission a bien été supprimé.',
+//            ),
+//        ));
     }
 
 }

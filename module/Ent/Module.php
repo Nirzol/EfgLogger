@@ -47,12 +47,12 @@ class Module implements ConfigProviderInterface, BootstrapListenerInterface //Au
 //            ->setFallbackLocale( 'en_US' );
 
         $t = $e->getTarget();
-        
+
         //This strategy is used to redirect the user to another route when a user is unauthorized.
         $t->getEventManager()->attach(
                 $t->getServiceManager()->get('ZfcRbac\View\Strategy\RedirectStrategy')
         );
-        
+
         //This strategy is used to render a template whenever a user is unauthorized.
 //        $t->getEventManager()->attach(
 //                $t->getServiceManager()->get('ZfcRbac\View\Strategy\UnauthorizedStrategy')

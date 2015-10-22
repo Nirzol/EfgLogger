@@ -1,16 +1,13 @@
-<?php
-$title = "Modifier une préférence";
-$this->headTitle($title);
-$prefAttribute = $form->get('prefAttribute')->getValue();
-?>
-<h2><?php echo $this->escapeHtml($title); ?></h2>
+<?php $this->headTitle($this->translate('Modifier une préférence')); ?>
+<h2><?= $this->translate('Modifier une préférence') ?></h2>
+
 <?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
 <div class="form-group<?php if ($form->get('prefAttribute')->getMessages()) echo ' has-error'; ?>">
     <?= $this->formLabel($form->get('prefAttribute')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
-        <?= $this->formTextarea($form->get('prefAttribute')->setAttribute('class', 'form-control')->setValue($prefAttribute)) ?>
+        <?= $this->formTextarea($form->get('prefAttribute')->setAttribute('class', 'form-control')->setValue($form->get('prefAttribute')->getValue())) ?>
     </div>
-    <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
         <?= $this->formElementErrors($form->get('prefAttribute')) ?>           
     </div>
 </div>
@@ -47,7 +44,7 @@ $prefAttribute = $form->get('prefAttribute')->getValue();
         ?>
     </div>
     <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
-        <?= $this->formElementErrors($form->get('fkPrefUser')) ?>           
+        <?= $this->formElementErrors($form->get('fkPrefStatus')) ?>           
     </div>
 </div>
 <div class="form-group<?php if ($form->get('fkPrefProfile')->getMessages()) echo ' has-error'; ?>">
@@ -64,7 +61,8 @@ $prefAttribute = $form->get('prefAttribute')->getValue();
 </div>
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Ajouter</button>
+        <button type="submit" class="btn btn-primary"><?= $this->translate('Modifier') ?></button>
+        <a class="btn btn-danger" href="<?php echo $this->url('preference'); ?>"><?= $this->translate('Annuler') ?></a>
     </div>
 </div>
 <?php echo $this->form()->closeTag(); ?>

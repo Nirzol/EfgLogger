@@ -3,8 +3,6 @@
 namespace Ent\Factory\Controller;
 
 use Ent\Controller\RoleRestController;
-use Doctrine\Common\Persistence\ObjectManager;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -26,12 +24,9 @@ class RoleRestControllerFactory implements FactoryInterface
 
         $roleForm = $sm->get('FormElementManager')->get('Ent\Form\RoleForm');
 
-        /* @var $serviceLocator ObjectManager */
-        $om = $sm->get('Doctrine\ORM\EntityManager');
+        $serializer = $sm->get('jms_serializer.serializer');
 
-        $hydrator = new DoctrineObject($om);
-
-        $controller = new RoleRestController($roleService, $roleForm, $hydrator);
+        $controller = new RoleRestController($roleService, $roleForm, $serializer);
 
         return ($controller);
     }

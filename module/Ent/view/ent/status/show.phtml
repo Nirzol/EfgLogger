@@ -1,18 +1,26 @@
-<?php
-$title = "Détails du status";
-?>
-<h2><?php echo $this->escapeHtml($title); ?></h2>
+<?php $this->headTitle($this->translate('Détails d\'un status')); ?>
+
+<h2><?= $this->translate('Détails d\'un status') ?></h2>
 <p>
-    <b>Nom du status :</b> <?php echo $this->escapeHtml($status->getStatusName())?>
+    <?= $this->translate('Nom du status :') ?> <?php echo $this->escapeHtml($status->getStatusName())?>
 </p>
 <p>
-    <b>Libellé du status :</b> <?php echo $this->escapeHtml($status->getStatusLibelle())?>
+    <?= $this->translate('Libellé du status :') ?> <?php echo $this->escapeHtml($status->getStatusLibelle())?>
 </p>
 <p>
-    <b>Description du status :</b> <?php echo $this->escapeHtml($status->getStatusDescription())?>
+    <?= $this->translate('Description du status :') ?> <?php echo $this->escapeHtml($status->getStatusDescription())?>
 </p>
-<?php if($status->getStatusLastUpdate() != null) :?>
+
 <p>
-    <b>Date de modification :</b> <?php echo $status->getStatusLastUpdate()->format('Y-m-d H:i:s');?>
+    <?= $this->translate('Dernière mise à jour :') ?> 
+    <?php
+    if ($status->getStatusLastUpdate() != null) {
+        echo $status->getStatusLastUpdate()->format('d-m-Y H:i:s');
+    }
+    else {
+        echo $this->translate('Aucune mise à jour');
+    }
+    ?>
 </p>
-<?php endif; ?>
+
+<a class="btn btn-danger" href="<?php echo $this->url('status'); ?>"><?= $this->translate('Retour') ?></a>

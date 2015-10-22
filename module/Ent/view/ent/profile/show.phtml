@@ -1,21 +1,29 @@
-<?php
-$title = "Détails du profile";
-?>
-<h2><?php echo $this->escapeHtml($title); ?></h2>
+<?php $this->headTitle($this->translate('Détails du profile')); ?>
+
+<h2><?= $this->translate('Détails du profile') ?></h2>
+
 <p>
-    <b>Nom du profile :</b> <?php echo $this->escapeHtml($profile->getProfileName())?>
+    <?= $this->translate('Nom du profile :') ?> <?php echo $this->escapeHtml($profile->getProfileName()) ?>
 </p>
 <p>
-    <b>Profile Ldap :</b> <?php echo $this->escapeHtml($profile->getProfileLdap())?>
+    <?= $this->translate('Profile LDAP :') ?> <?php echo $this->escapeHtml($profile->getProfileLdap()) ?>
 </p>
 <p>
-    <b>Libellé du profile :</b> <?php echo $this->escapeHtml($profile->getProfileLibelle())?>
+    <?= $this->translate('Libellé du profile :') ?> <?php echo $this->escapeHtml($profile->getProfileLibelle()) ?>
 </p>
 <p>
-    <b>Description du profile :</b> <?php echo $this->escapeHtml($profile->getProfileDescription())?>
+    <?= $this->translate('Description du profile :') ?> <?php echo $this->escapeHtml($profile->getProfileDescription()) ?>
 </p>
-<?php if($profile->getProfileLastUpdate() != null) :?>
+
 <p>
-    <b>Date de modification :</b> <?php echo $profile->getProfileLastUpdate()->format('Y-m-d H:i:s');?>
+    <?= $this->translate('Dernière mise à jour :') ?> 
+    <?php
+    if ($profile->getProfileLastUpdate() != null) {
+        echo $profile->getProfileLastUpdate()->format('d-m-Y H:i:s');
+    } else {
+        echo $this->translate('Aucune mise à jour');
+    }
+    ?>
 </p>
-<?php endif; ?>
+
+<a class="btn btn-danger" href="<?php echo $this->url('profile'); ?>"><?= $this->translate('Retour') ?></a>

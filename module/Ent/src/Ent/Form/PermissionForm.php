@@ -2,7 +2,6 @@
 
 namespace Ent\Form;
 
-use DoctrineModule\Validator\NoObjectExists as NoObjectExistsValidator;
 use Doctrine\ORM\EntityManager;
 use Zend\Form\Form;
 
@@ -26,8 +25,6 @@ class PermissionForm extends Form
                 'type' => 'text'
             ),
         ));
-        
     }
-
 
 }

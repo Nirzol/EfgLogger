@@ -10,7 +10,9 @@ use Zend\Form\Form;
  *
  * @author fandria
  */
-class ContactForm extends Form {
+class ContactForm extends Form
+{
+
     protected $entityManager;
 
     public function __construct(EntityManager $entityManager)
@@ -28,7 +30,7 @@ class ContactForm extends Form {
                 'type' => 'text'
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'contactLibelle',
             'options' => array(
@@ -38,7 +40,7 @@ class ContactForm extends Form {
                 'type' => 'text'
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'contactDescription',
             'options' => array(
@@ -48,7 +50,7 @@ class ContactForm extends Form {
                 'type' => 'text'
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'contactService',
             'options' => array(
@@ -58,7 +60,7 @@ class ContactForm extends Form {
                 'type' => 'text'
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'contactMailto',
             'options' => array(
@@ -68,9 +70,9 @@ class ContactForm extends Form {
                 'type' => 'text'
             ),
         ));
-        
+
         $this->add(array(
-            'type' => '\DoctrineModule\Form\Element\ObjectRadio', 
+            'type' => '\DoctrineModule\Form\Element\ObjectRadio',
             'name' => 'fkContactStructure',
             'attributes' => array(
                 'id' => 'selectContactStructure'
@@ -85,7 +87,7 @@ class ContactForm extends Form {
         ));
 
         $this->add(array(
-            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox', 
+            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'fkCsService',
             'attributes' => array(
                 'id' => 'selectContactService'
@@ -98,9 +100,9 @@ class ContactForm extends Form {
                 'is_method' => true
             ),
         ));
-        
+
         $this->add(array(
-            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox', 
+            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'fkUcUser',
             'attributes' => array(
                 'id' => 'selectContactUser'
@@ -114,4 +116,5 @@ class ContactForm extends Form {
             ),
         ));
     }
+
 }

@@ -10,6 +10,7 @@ use Zend\View\Model\ViewModel;
 
 class ContactController extends AbstractActionController
 {
+
     /**
      * @var Request
      */
@@ -74,7 +75,7 @@ class ContactController extends AbstractActionController
         ));
     }
 
-    public function modifyAction()
+    public function updateAction()
     {
         $id = $this->params('id');
         $form = $this->contactForm;
@@ -84,7 +85,7 @@ class ContactController extends AbstractActionController
             $contact = $this->contactService->save($form, $this->request->getPost(), $contact);
 
             if ($contact) {
-                $this->flashMessenger()->addSuccessMessage('Le contact a bien été updaté.'); 
+                $this->flashMessenger()->addSuccessMessage('Le contact a bien été updaté.');
 
                 return $this->redirect()->toRoute('contact');
             }
@@ -105,5 +106,5 @@ class ContactController extends AbstractActionController
 
         return $this->redirect()->toRoute('contact');
     }
-}
 
+}

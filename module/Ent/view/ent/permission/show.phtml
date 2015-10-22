@@ -1,3 +1,4 @@
+<?php $this->headTitle($this->translate('Détails d\'un attribut')); ?>
 
 <h2><?= $this->translate('Détails d\'une permission') ?></h2>
 
@@ -5,4 +6,4 @@
     <?= $this->translate('Permission :') ?> <?= $this->escapeHtml($permission->getName()) ?>
 </p>
 
-
+<a class="btn btn-danger" href="<?php echo $this->url('permission'); ?>"><?= $this->translate('Retour') ?></a>

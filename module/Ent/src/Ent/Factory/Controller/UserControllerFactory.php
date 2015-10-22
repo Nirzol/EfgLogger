@@ -3,6 +3,8 @@
 namespace Ent\Factory\Controller;
 
 use Ent\Controller\UserController;
+use SearchLdap\Controller\SearchLdapController;
+use SearchLdap\Model\SearchLdap;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -14,15 +16,16 @@ class UserControllerFactory implements FactoryInterface
     {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
+
         $userService = $sm->get('Ent\Service\UserDoctrineORM');
 
         $config = $sm->get('config');
 
         $userForm = $sm->get('FormElementManager')->get('Ent\Form\UserForm');
-        
-        $searchLdapModel = new \SearchLdap\Model\SearchLdap($config['searchldap_config']);
 
-        $searchLdapController = new \SearchLdap\Controller\SearchLdapController($searchLdapModel);
+        $searchLdapModel = new SearchLdap($config['searchldap_config']);
+
+        $searchLdapController = new SearchLdapController($searchLdapModel);
 
         $controller = new UserController($userService, $userForm, $config['user-add-base'], $searchLdapController);
 

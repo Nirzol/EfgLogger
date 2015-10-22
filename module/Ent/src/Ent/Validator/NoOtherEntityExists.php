@@ -9,8 +9,10 @@ namespace Ent\Validator;
  */
 class NoOtherEntityExists extends \DoctrineModule\Validator\NoObjectExists
 {
+
     private $id;
     private $additionalFields = null;
+
     public function __construct(array $options)
     {
         parent::__construct($options);
@@ -26,13 +28,14 @@ class NoOtherEntityExists extends \DoctrineModule\Validator\NoObjectExists
         $this->id = $options['id'];
         $this->id_getter = $options['id_getter'];
     }
+
     public function isValid($value, $context = null)
     {
         if (null !== $this->additionalFields && is_array($context)) {
             $value = (array) $value;
             foreach ($this->additionalFields as $field) {
                 if (!isset($context[$field])) {
-                    throw new InvalidArgumentException('Field "'. $field.'"Unspecified in additionalFields');
+                    throw new InvalidArgumentException('Field "' . $field . '"Unspecified in additionalFields');
                 }
                 $value[] = $context[$field];
             }
@@ -55,4 +58,5 @@ class NoOtherEntityExists extends \DoctrineModule\Validator\NoObjectExists
         }
         return true;
     }
+
 }

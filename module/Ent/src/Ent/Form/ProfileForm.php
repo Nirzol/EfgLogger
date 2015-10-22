@@ -1,15 +1,9 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Ent\Form;
 
+use Doctrine\ORM\EntityManager;
 use Zend\Form\Form;
-use Zend\Stdlib\Hydrator\ClassMethods;
 
 /**
  * Description of ProfileForm
@@ -18,29 +12,54 @@ use Zend\Stdlib\Hydrator\ClassMethods;
  */
 class ProfileForm extends Form
 {
-    public function __construct() {
+
+    protected $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
         parent::__construct('profile');
-        
-        // Gestion de l'arrayCopy
-        $this->setHydrator(new ClassMethods());
-        
-        $element = new \Zend\Form\Element\Text('profileLdap');
-        $element->setLabel('Profile Ldap : ');
-        $this->add($element);
-                
-        $element = new \Zend\Form\Element\Text('profileName');
-        $element->setLabel('Nom du profile : ');
-        $this->add($element);
-        
-        $element = new \Zend\Form\Element\Text('profileLibelle');
-        $element->setLabel('Libellé du profile : ');
-        $this->add($element);
-        
-        $element = new \Zend\Form\Element\Textarea('profileDescription');
-        $element->setLabel('Description du profile : ');
-        $this->add($element);
-        
+
+        $this->entityManager = $entityManager;
+
+        $this->add(array(
+            'name' => 'profileLdap',
+            'options' => array(
+                'label' => 'Profile Ldap : ',
+            ),
+            'attributes' => array(
+                'type' => 'text',
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'profileName',
+            'options' => array(
+                'label' => 'Nom du profile : ',
+            ),
+            'attributes' => array(
+                'type' => 'text',
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'profileLibelle',
+            'options' => array(
+                'label' => 'Libellé du profile : ',
+            ),
+            'attributes' => array(
+                'type' => 'text',
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'profileDescription',
+            'options' => array(
+                'label' => 'Description du profile : ',
+            ),
+            'attributes' => array(
+                'type' => 'text',
+            ),
+        ));
     }
-        
-        
+
 }

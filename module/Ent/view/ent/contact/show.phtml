@@ -1,3 +1,4 @@
+<?php $this->headTitle($this->translate('Détails d\'un contact')); ?>
 
 <h2><?= $this->translate('Détails d\'un contact') ?></h2>
 
@@ -26,6 +27,9 @@
     <?php 
     if ($contact->getContactLastUpdate() != null) {
         echo $contact->getContactLastUpdate()->format('d-m-Y H:i:s');
+    }
+    else {
+        echo $this->translate('Aucune mise à jour');
     }
     ?>
 </p>
@@ -56,3 +60,4 @@
     ?>
 </p>
 
+<a class="bctn btn-danger" href="<?php echo $this->url('contact'); ?>"><?= $this->translate('Retour') ?></a>

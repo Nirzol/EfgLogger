@@ -14,6 +14,7 @@ class RoleControllerFactory implements FactoryInterface
     {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
+        
         $roleService = $sm->get('Ent\Service\RoleDoctrineORM');
 
         $roleForm = $sm->get('FormElementManager')->get('Ent\Form\RoleForm');

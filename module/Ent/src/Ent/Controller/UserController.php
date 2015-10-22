@@ -5,31 +5,35 @@ namespace Ent\Controller;
 use Ent\Form\UserForm;
 use Ent\Service\UserDoctrineService;
 use SearchLdap\Controller\SearchLdapController;
-use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
+use Zend\XmlRpc\Request;
 
 class UserController extends AbstractActionController
 {
 
     /**
+     * 
      * @var Request
      */
     protected $request = null;
 
     /**
+     * 
      * @var UserDoctrineService
      */
     protected $userService = null;
 
     /**
+     * 
      * @var UserForm
      */
     protected $userForm = null;
     protected $config = null;
-    
+
     /**
+     * 
      * @var SearchLdapController
      */
     protected $searchLdapController = null;
@@ -61,26 +65,13 @@ class UserController extends AbstractActionController
 
     public function addAction()
     {
-        //TODO: une idée de début en commentaire...
-        //        $container = new \Zend\Session\Container('noAuth');
-        //        echo 'Avant le clear : ' . $container->login . $container->loginMessage;
-        //        if ($container->login) {
-        //            $data = $data = array('userLogin' => 'bibi', 'userStatus' => '1',
-        //                'fkUrRole' => array('1'));
-        //            $container->getManager()->getStorage()->clear('noAuth');
-        //            
-        //            //TODO : direct insert puis redirect vers /login
-        //            
-        //        }
-        //        echo '<br />Après le clear : ' . $container->login;
-
         $form = $this->userForm;
 
         if ($this->request->isPost()) {
             //            if (!isset($data)) {
-            $data = $this->request->getPost();
+//            $data = $this->request->getPost();
             //            }
-            $user = $this->userService->insert($form, $data);
+            $user = $this->userService->insert($form, $this->request->getPost());
             //            $user = $this->userService->save($form, $this->request->getPost(), null);
 
             if ($user) {
@@ -95,6 +86,11 @@ class UserController extends AbstractActionController
         ));
     }
 
+    /**
+     * Add and check user if not exist in database after login
+     * 
+     * @return void
+     */
     public function addAutoAction()
     {
         $container = new Container('noAuth');
@@ -102,31 +98,34 @@ class UserController extends AbstractActionController
         $config = $this->config;
 
         if ($container->login) {
-            // check primary affiliation
+            // Check primary affiliation to redirect if user is a student
             $affiliation = $this->searchLdapController->getPrimaryAffiliationByUid($container->login);
-            //if student
-            if (strcmp($affiliation, 'student') === 0 ) {
-                return $this->redirect()->toUrl('http://ent-ng.parisdescartes.fr');
+            if ($affiliation === 'student') { // === optimisation est + rapide que strcmp
+                return $this->redirect()->toUrl($config['student_redirect_url']);
             }
-            
-            $data = $data = array('userLogin' => $container->login, 'userStatus' => $config['status-base-id'],
-                'fkUrRole' => array($config['role-base-id']), 'fkUpProfile' => array($config['profile-base-id']));
 
+            $data = $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
+                'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => array($config['profile_default_id']));
+
+            // Test if user already in database, if not insert it !
             $user = $this->userService->findBy(array('userLogin' => $container->login));
-
             if (!$user) {
                 $form = $this->userForm;
 
                 $user = $this->userService->insert($form, $data);
                 if (!$user) {
                     //TODO handle exception
-//                    return $this->notFoundAction();  A tester ???? ou autre....
+                    return $this->notFoundAction();  //A tester ???? ou autre....
                 }
             }
 
+            // Don't need to keep this container because zf2 identity will be ok after redirect to login.
             $container->getManager()->getStorage()->clear('noAuth');
 
             return $this->redirect()->toRoute('login');
+        } else {
+            error_log("Le container dans UserController est vide");
+            return $this->notFoundAction();
         }
     }
 
@@ -145,7 +144,7 @@ class UserController extends AbstractActionController
         ));
     }
 
-    public function modifyAction()
+    public function updateAction()
     {
         $id = $this->params('id');
         $form = $this->userForm;

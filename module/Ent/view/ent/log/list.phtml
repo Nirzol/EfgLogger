@@ -1,0 +1,102 @@
+<?php $this->headTitle($this->translate('Liste des logs')); ?>
+
+<h1><?= $this->translate('Liste des logs') ?></h1>
+
+<p>
+    <a href="<?= $this->url('log/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un log') ?></a>
+</p>
+
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
+    <div class="alert alert-success" role="alert">
+        <?= $this->translate($m) ?>
+    </div>  
+<?php endforeach; ?> 
+
+
+<table class="table table-striped">  
+    <tr>
+        <th><?= $this->translate('Log login') ?></th>
+        <th><?= $this->translate('Log online') ?></th>
+        <th><?= $this->translate('Log Offline') ?></th>
+        <th><?= $this->translate('Log Session') ?></th>
+        <th><?= $this->translate('Log Ip') ?></th>
+        <th><?= $this->translate('Log Useragent') ?></th>
+        <th><?= $this->translate('Log datetime') ?></th>
+        <th><?= $this->translate('Log User') ?></th>
+        <th><?= $this->translate('Log Action') ?></th>
+        <th><?= $this->translate('Log Module') ?></th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>        
+    </tr>
+    <?php foreach ($listLogs as $log) : ?>
+        <tr>
+            <td>
+                <?= $this->escapeHtml($log->getLogLogin()) ?>
+            </td>
+            <td>
+                <?php
+                if ($log->getLogOnline() != null) {
+                    echo $log->getLogOnline()->format('d-m-Y H:i:s');
+                } else {
+                    echo $this->translate('Aucune date de Online');
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if ($log->getLogOffline() != null) {
+                    echo $log->getLogOffline()->format('d-m-Y H:i:s');
+                } else {
+                    echo $this->translate('Aucune date de Offline');
+                }
+                ?>
+            </td>
+            <td>
+                <?= $this->escapeHtml($log->getLogSession()) ?>
+            </td>
+            <td>
+                <?= $this->escapeHtml($log->getLogIp()) ?>
+            </td>
+            <td>
+                <?= $this->escapeHtml($log->getLogUseragent()) ?>
+            </td>
+            <td>
+                <?php
+                if ($log->getFkLogUser() != null) {
+                    echo $this->escapeHtml($log->getFkLogUser()->getUserLogin());
+                } else {
+                    echo $this->translate('Aucun user lié');
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if ($log->getFkLogAction() != null) {
+                    echo $this->escapeHtml($log->getFkLogAction()->getActionName());
+                } else {
+                    echo $this->translate('Aucune action lié');
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if ($log->getFkLogModule() != null) {
+                    echo $this->escapeHtml($log->getFkLogModule()->getModuleName());
+                } else {
+                    echo $this->translate('Aucun module lié');
+                }
+                ?>
+            </td>
+            <td>
+                <a href="<?= $this->url('log/show', ['id' => $this->escapeUrl($log->getLogId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+            </td>
+            <td>
+                <a href="<?= $this->url('log/show/update', ['id' => $this->escapeUrl($log->getLogId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+            </td>
+            <td>
+                <a href="<?= $this->url('log/show/delete', ['id' => $this->escapeUrl($log->getLogId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

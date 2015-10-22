@@ -9,14 +9,19 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class LogControllerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
-        
-        $service = $sm->get('Ent\Service\Log');
-        
-        $controller = new LogController($service);
-        
+
+        $logService = $sm->get('Ent\Service\LogDoctrineORM');
+
+        $logForm = $sm->get('FormElementManager')->get('Ent\Form\LogForm');
+
+        $controller = new LogController($logService, $logForm);
+
         return $controller;
     }
+
 }

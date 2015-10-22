@@ -2,188 +2,269 @@
 
 namespace Ent\Service;
 
-use Ent\Service\GenericEntityServiceInterface;
-use Zend\Form\Form;
-//use Ent\InputFilter\LogInputFilter;
 use Doctrine\ORM\EntityManager;
-use Ent\Entity\EntLog;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
-use Ent\Entity\EntUser;
+use Ent\Entity\EntLog;
+use Ent\InputFilter\LogInputFilter;
+use Zend\Form\Form;
+use ZfcRbac\Service\AuthorizationService;
 
+class LogDoctrineService extends DoctrineService implements ServiceInterface
+{
 
-class LogDoctrineService implements GenericEntityServiceInterface {
-    
     /**
      * @var EntityManager
      */
     protected $em;
-   
-    public function __construct(EntityManager $em) {
+
+    /**
+     *
+     * @var EntLog
+     */
+    protected $log;
+
+    /**
+     *
+     * @var DoctrineObject
+     */
+    protected $hydrator;
+
+    /**
+     *
+     * @var LogInputFilter
+     */
+    protected $logInputFilter;
+
+    /**
+     *
+     * @var AuthorizationService
+     */
+    protected $authorizationService;
+
+    public function __construct(EntityManager $em, EntLog $log, DoctrineObject $hydrator, LogInputFilter $logInputFilter, AuthorizationService $authorizationService)
+    {
         $this->em = $em;
+        $this->log = $log;
+        $this->hydrator = $hydrator;
+        $this->logInputFilter = $logInputFilter;
+        $this->authorizationService = $authorizationService;
     }
-    
-    public function getAll() {
+
+    public function getAll()
+    {
         $repository = $this->em->getRepository('Ent\Entity\EntLog');
-        
+
         return $repository->findAll();
     }
-    
-    public function getById($id, $form = null) {
+
+    public function getById($id, $form = null)
+    {
         $repository = $this->em->getRepository('Ent\Entity\EntLog');
-        
+
         $repoFind = $repository->find($id);
-        
-        if($form != null) {
-            $hydrator = new DoctrineObject($this->em);
-            $form->setHydrator($hydrator);
+
+        if ($form != null) {
+            /* @var $form Form */
+            $form->setHydrator($this->hydrator);
             $form->bind($repoFind);
         }
-        
+
         return $repoFind;
     }
 
-    /**
-     * 
-     * @param type $login
-     * @return type EntUser
-     */
-//    public function getUserByLogin($login) {
-//        
-//        $eoUser = NULL;
-//        
-//        try {
-//            $repository = $this->em->getRepository('Ent\Entity\EntUser');
-//            $users = $repository->findBy(array('userLogin' => $login));
-//            $eoUser = $users[0];
-//        } catch (Exception $exc) {
-//            $eoUser = NULL;
-//            error_log($exc->getTraceAsString());
-//            return NULL;
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntLog');
+
+        $repoFindOneBy = $repo->findBy($criteria, $orderBy, $limit, $offset);
+
+        return $repoFindOneBy;
+    }
+
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntLog');
+
+        $repoFindOneBy = $repo->findOneBy($criteria, $orderBy);
+
+        return $repoFindOneBy;
+    }
+
+    public function insert(Form $form, $dataAssoc)
+    {
+        $log = $this->log;
+
+        $form->setHydrator($this->hydrator);
+        $form->bind($log);
+        $filter = $this->logInputFilter;
+        $form->setInputFilter($filter);
+        $form->setData($dataAssoc);
+
+        if (!$form->isValid()) {
+            $this->addFormMessageToErrorLog($form->getMessages());
+            return null;
+        }
+
+        $this->em->persist($log);
+        $this->em->flush();
+
+        return $log;
+    }
+
+    public function save(Form $form, $dataAssoc, $log = null)
+    {
+        /* @var $log EntLog */
+        if (!$log === null) {
+            $log = $this->log;
+        }
+
+        $form->setHydrator($this->hydrator);
+        $form->bind($log);
+        $filter = $this->logInputFilter;
+        $form->setInputFilter($filter);
+        $form->setData($dataAssoc);
+
+        if (!$form->isValid()) {
+            $this->addFormMessageToErrorLog($form->getMessages());
+            return null;
+        }
+
+        $this->em->persist($log);
+        $this->em->flush();
+
+        return $log;
+    }
+
+    public function delete($id)
+    {
+        $log = $this->getById($id);
+
+        $this->em->remove($log);
+        $this->em->flush();
+    }
+
+//    public function insertEnterpriseObject($eo)
+//    {
+//
+//
+//        if (isset($eo) && ($eo instanceof EntLog)) {
+//            $this->em->persist($eo);
+//            $this->em->flush();
+//            return $eo;
 //        }
 //
-//        return $eoUser;
+//        return null;
 //    }
-    
-    public function insertEnterpriseObject($eo) {
-        
 
-        if( isset($eo) && ($eo instanceof EntLog) ) {  
-            $this->em->persist($eo);
-            $this->em->flush();
-            return $eo;
-        }
-        
-        return null;
-        
-    }
+//    /**
+//     * Sauvegarde d'un eo
+//     * 
+//     */
+//    public function updateEnterpriseObject($eo)
+//    {
+//
+//        if (isset($eo) && ($eo instanceof EntLog)) {
+//            $this->em->refresh($eo);
+//            $this->em->flush();
+//            return $eo;
+//        }
+//
+//        return null;
+//    }
 
-    /**
-     * Sauvegarde d'un eo
-     * 
-     */
-    public function updateEnterpriseObject($eo) {
-        
-        if( isset($eo) && ($eo instanceof EntLog) ) {
-            $this->em->refresh($eo);
-            $this->em->flush();
-            return $eo;
-        }
+//    public function insertArray($dataArray)
+//    {
+//
+//        $anEntLog = NULL;
+//
+//        if (isset($dataArray) && (count($dataArray) > 0)) {
+//
+//            try {
+//                $anEntLog = new EntLog();
+//
+//                $hydrator = new DoctrineObject($this->em);
+//
+//                $hydrator->hydrate($dataArray, $anEntLog);
+//
+//                $this->insertEnterpriseObject($anEntLog);
+//            } catch (Exception $exc) {
+//                // echo $exc->getTraceAsString();
+//                $anEntLog = NULL;
+//            }
+//        }
+//
+//        return $anEntLog;
+//    }
 
-        return null;
-    }
+//    public function insert(Form $form, $dataAssoc)
+//    {
+//        $eo = new EntLog();
+//
+//        $hydrator = new DoctrineObject($this->em);
+//        $form->setHydrator($hydrator);
+//
+//        $form->bind($eo);
+////        $form->setInputFilter(new LogInputFilter());
+//        $form->setData($dataAssoc);
+//
+//        if (!$form->isValid()) {
+//            return null;
+//        }
+//
+//        $this->em->persist($eo);
+//        $this->em->flush();
+//
+//        return $eo;
+//    }
+//
+//    public function updateArray($id, $dataArray)
+//    {
+//
+//        $anEntLog = $this->em->find('Ent\Entity\EntLog', $id);
+//
+//        $hydrator = new DoctrineObject($this->em);
+//        $hydrator->hydrate($dataArray, $anEntLog);
+//        $this->insertEnterpriseObject($anEntLog);
+//
+//        $this->em->persist($anEntLog);
+//        $this->em->flush();
+//
+//        return $anEntLog;
+//    }
+//
+//    public function update($id, Form $form, $dataAssoc)
+//    {
+//        $eo = $this->em->find('Ent\Entity\EntLog', $id);
+//
+//        $hydrator = new DoctrineObject($this->em);
+//
+//        $form->setHydrator($hydrator);
+//        $form->bind($eo);
+////        $form->setInputFilter(new LogInputFilter());
+//        $form->setData($dataAssoc);
+//
+//        if (!$form->isValid()) {
+//            error_log("ProfileDoctrineService.update: form is not valide !");
+//            return null;
+//        }
+//
+//        $this->em->persist($eo);
+//        $this->em->flush();
+//
+//        return $eo;
+//    }
+//
+//    public function delete($id)
+//    {
+//
+//        $eo = $this->em->find('Ent\Entity\EntLog', $id);
+//
+//        $this->em->remove($eo);
+//        $this->em->flush();
+//
+//        return $eo;
+//    }
 
-    public function insertArray($dataArray) {
-        
-        $anEntLog = NULL;
-        
-        if( isset($dataArray) && (count($dataArray) > 0)) {
-            
-            try {
-                $anEntLog = new EntLog();
-
-                $hydrator = new DoctrineObject($this->em);
-
-                $hydrator->hydrate($dataArray, $anEntLog);
-
-                $this->insertEnterpriseObject($anEntLog);
-
-            } catch (Exception $exc) {
-                // echo $exc->getTraceAsString();
-                $anEntLog = NULL;
-            }
-        }
-        
-        return $anEntLog;
-        
-    }
-
-    public function insert(Form $form, $dataAssoc) {
-        $eo = new EntLog();
-        
-        $hydrator = new DoctrineObject($this->em);
-        $form->setHydrator($hydrator);
-        
-        $form->bind($eo);
-//        $form->setInputFilter(new LogInputFilter());
-        $form->setData($dataAssoc);
-        
-        if (!$form->isValid()) {
-            return null;
-        }
-        
-        $this->em->persist($eo);
-        $this->em->flush();
-        
-        return $eo;
-        
-    }
-    
-    public function updateArray($id, $dataArray){
-        
-        $anEntLog = $this->em->find('Ent\Entity\EntLog', $id);
-        
-        $hydrator = new DoctrineObject($this->em);
-        $hydrator->hydrate($dataArray, $anEntLog);
-        $this->insertEnterpriseObject($anEntLog);
-        
-        $this->em->persist($anEntLog);
-        $this->em->flush();
-        
-        return $anEntLog;
-        
-    }
-    
-    public function update($id, Form $form, $dataAssoc){
-        $eo = $this->em->find('Ent\Entity\EntLog', $id);
-        
-        $hydrator = new DoctrineObject($this->em);
-        
-        $form->setHydrator($hydrator);        
-        $form->bind($eo);
-//        $form->setInputFilter(new LogInputFilter());
-        $form->setData($dataAssoc);
-        
-        if (!$form->isValid()) {
-            error_log("ProfileDoctrineService.update: form is not valide !");
-            return null;
-        }
-        
-        $this->em->persist($eo);
-        $this->em->flush();
-        
-        return $eo;
-        
-    }
-    
-    public function delete($id){
-        
-        $eo = $this->em->find('Ent\Entity\EntLog', $id);
-        
-        $this->em->remove($eo);
-        $this->em->flush();
-        
-        return $eo;
-    }
 //    
 //    public function logEvent($event) {
 //        
@@ -213,5 +294,4 @@ class LogDoctrineService implements GenericEntityServiceInterface {
 //
 //        }
 //    }
-    
 }

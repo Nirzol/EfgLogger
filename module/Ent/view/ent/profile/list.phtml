@@ -1,19 +1,20 @@
-<?php
-    $title = 'Liste des profiles';
-    $this->headTitle($title);
-?>
+<?php $this->headTitle($this->translate('Liste des profiles')); ?>
+
+<h1><?= $this->translate('Liste des profiles') ?></h1>
+
+<p>
+    <a href="<?= $this->url('profile/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouveau profile') ?></a>
+</p>
+
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
     <div class="alert alert-success" role="alert">
         <?= $this->translate($m) ?>
     </div>  
-<?php endforeach; ?> 
-<h2><?php echo $this->escapeHtml($title); ?></h2>
-<p>
-    <a href="<?php echo $this->url('profile/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouveau profile</a>
-</p>
+<?php endforeach; ?>
+
 <table class="table table-striped">  
     <tr>
-        <th>Nom du profile</th>
+        <th><?= $this->translate('Nom du profile') ?></th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>        
@@ -27,10 +28,10 @@
                 <a href="<?= $this->url('profile/show', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
             </td>
             <td>
-                <a href="<?= $this->url('profile/update', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
+                <a href="<?= $this->url('profile/show/update', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
             </td>
             <td>
-                <a href="<?= $this->url('profile/delete', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
+                <a href="<?= $this->url('profile/show/delete', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
             </td>
         </tr>
     <?php endforeach; ?>

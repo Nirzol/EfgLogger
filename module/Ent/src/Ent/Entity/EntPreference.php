@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * EntPreference
  *
  * @ORM\Table(name="ent_preference", indexes={@ORM\Index(name="fk_pref_user_id", columns={"fk_pref_user_id"}), @ORM\Index(name="fk_pref_service_id", columns={"fk_pref_service_id"}), @ORM\Index(name="fk_pref_status_id", columns={"fk_pref_status_id"}), @ORM\Index(name="fk_pref_profile_id", columns={"fk_pref_profile_id"})})
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
  */
 class EntPreference extends Ent
@@ -31,7 +32,7 @@ class EntPreference extends Ent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="pref_last_update", type="datetime", nullable=false)
+     * @ORM\Column(name="pref_last_update", type="datetime", nullable=true)
      */
     private $prefLastUpdate;
 
@@ -50,7 +51,7 @@ class EntPreference extends Ent
      *
      * @ORM\ManyToOne(targetEntity="Ent\Entity\EntService")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fk_pref_service_id", referencedColumnName="service_id")
+     *   @ORM\JoinColumn(name="fk_pref_service_id", referencedColumnName="service_id", onDelete="CASCADE" )
      * })
      */
     private $fkPrefService;
@@ -70,7 +71,7 @@ class EntPreference extends Ent
      *
      * @ORM\ManyToOne(targetEntity="Ent\Entity\EntProfile")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fk_pref_profile_id", referencedColumnName="profile_id")
+     *   @ORM\JoinColumn(name="fk_pref_profile_id", referencedColumnName="profile_id", onDelete="CASCADE")
      * })
      */
     private $fkPrefProfile;
@@ -229,5 +230,16 @@ class EntPreference extends Ent
     public function getFkPrefProfile()
     {
         return $this->fkPrefProfile;
+    }
+    
+    /**
+     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setPrefLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
 }

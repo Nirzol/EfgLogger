@@ -1,19 +1,22 @@
-<?php
-$title = 'Liste des attributs';
-$this->headTitle($title);
-?>
+<?php $this->headTitle($this->translate('Liste des attributs')); ?>
+
+<h1><?= $this->translate('Liste des attributs') ?></h1>
+
+<p>
+    <a href="<?= $this->url('attribute/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouvel attribut') ?></a>
+</p>
+
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
     <div class="alert alert-success" role="alert">
         <?= $this->translate($m) ?>
     </div>  
 <?php endforeach; ?> 
-<h2><?php echo $this->escapeHtml($title); ?></h2>
-<p>
-    <a href="<?php echo $this->url('attribute/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouvel attribut</a>
-</p>
+
 <table class="table table-striped">  
     <tr>
-        <th>Nom de l'attribut</th>
+        <th><?=$this->translate('Nom de l\'attribut')?></th>
+        <th><?=$this->translate('Libellé')?></th>
+        <th><?=$this->translate('Description')?></th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>        
@@ -24,13 +27,19 @@ $this->headTitle($title);
                 <?= $this->escapeHtml($attribute->getAttributeName()) ?>
             </td>
             <td>
-                <a href="<?= $this->url('attribute/show', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
+                <?= $this->escapeHtml($attribute->getAttributeLibelle()) ?>
             </td>
             <td>
-                <a href="<?= $this->url('attribute/update', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
+                <?= $this->escapeHtml($attribute->getAttributeDescription()) ?>
             </td>
             <td>
-                <a href="<?= $this->url('attribute/delete', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
+                <a href="<?= $this->url('attribute/show', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+            </td>
+            <td>
+                <a href="<?= $this->url('attribute/show/update', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+            </td>
+            <td>
+                <a href="<?= $this->url('attribute/show/delete', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>

@@ -2,9 +2,9 @@
 
 namespace Ent\Factory\Form;
 
+use Ent\Form\RoleForm;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Ent\Form\RoleForm;
 
 class RoleFormFactory implements FactoryInterface
 {
@@ -12,11 +12,12 @@ class RoleFormFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $services = $serviceLocator->getServiceLocator();
+        
         $entityManager = $services->get('Doctrine\ORM\EntityManager');
 
-        $form = new RoleForm($entityManager);
+        $roleDorm = new RoleForm($entityManager);
 
-        return $form;
+        return $roleDorm;
     }
 
 }

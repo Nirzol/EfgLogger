@@ -2,13 +2,14 @@
 
 namespace Ent\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Ent\Form\ModuleForm;
 use Ent\Service\ModuleDoctrineService;
 use Zend\Http\Request;
-use Ent\Form\ModuleForm;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
 
-class ModuleController extends AbstractActionController {
+class ModuleController extends AbstractActionController
+{
 
     /**
      * @var ModuleDoctrineService
@@ -20,11 +21,20 @@ class ModuleController extends AbstractActionController {
      */
     protected $request;
 
-    public function __construct(ModuleDoctrineService $moduleService) {
+    /**
+     *
+     * @var ModuleForm
+     */
+    protected $moduleForm;
+
+    public function __construct(ModuleDoctrineService $moduleService, ModuleForm $moduleForm)
+    {
         $this->moduleService = $moduleService;
+        $this->moduleForm = $moduleForm;
     }
 
-    public function listAction() {
+    public function listAction()
+    {
         $listModules = $this->moduleService->getAll();
 
         return new ViewModel(array(
@@ -32,30 +42,31 @@ class ModuleController extends AbstractActionController {
         ));
     }
 
-    public function addAction() {
-        $form = new ModuleForm();
-        
-        if ($this->request->isPost()) {
+    public function addAction()
+    {
+        $form = $this->moduleForm;
 
-            $module = $this->moduleService->insert($form, $this->request->getPost());            
+        if ($this->request->isPost()) {
+            $module = $this->moduleService->insert($form, $this->request->getPost());
+
             if ($module) {
                 $this->flashMessenger()->addSuccessMessage('Le module a bien été ajouté.');
-                
+
                 return $this->redirect()->toRoute('module');
             }
-            
         }
-        
+
         return new ViewModel(array(
-            'form' => $form
+            'form' => $form->prepare(),
         ));
     }
 
-    public function showAction() {
+    public function showAction()
+    {
         $id = $this->params('id');
 
-        $module = $this->moduleService->getById($id);        
-        
+        $module = $this->moduleService->getById($id);
+
         if (!$module) {
             return $this->notFoundAction();
         }
@@ -65,57 +76,36 @@ class ModuleController extends AbstractActionController {
         ));
     }
 
-    public function updateAction() {
-        $id = (int) $this->params('id');
-        $form = new ModuleForm();
-        
-        if (!$id) {
-            return $this->redirect()->toRoute('module');
-        }
-        
-        $module = $this->moduleService->getById($id, $form);                      
-        
+    public function updateAction()
+    {
+        $id = $this->params('id');
+        $form = $this->moduleForm;
+        $module = $this->moduleService->getById($id, $form);
+
         if ($this->request->isPost()) {
-            $module = $this->moduleService->update($id, $form, $this->request->getPost());
-            
+            $module = $this->moduleService->save($form, $this->request->getPost(), $module);
+
             if ($module) {
                 $this->flashMessenger()->addSuccessMessage('Le module a bien été modifié.');
-                
+
                 return $this->redirect()->toRoute('module');
             }
         }
-        
+
         return new ViewModel(array(
-            'form' => $form
+            'form' => $form->prepare(),
         ));
     }
 
-    public function deleteAction() {
-        $id = (int) $this->params('id');
+    public function deleteAction()
+    {
+        $id = $this->params('id');
 
-        if (!$id) {
-            return $this->redirect()->toRoute('module');
-        }
-        
-        $module = $this->moduleService->getById($id);
-        
-        $request = $this->getRequest();
-        
-        if($request->isPost()) {
-            $del = $request->getPost('del', 'Non');
-            
-            if ($del == 'Oui') {
-                $id = (int) $request->getPost('id');
-                $this->moduleService->delete($id);
-            }
-            
-            return $this->redirect()->toRoute('module');
-        }
-        
-        return new ViewModel(array(
-            'id' => $id,
-            'module' => $module
-        ));
+        $this->moduleService->delete($id);
+
+        $this->flashMessenger()->addSuccessMessage('Le module a bien été supprimé.');
+
+        return $this->redirect()->toRoute('module');
     }
 
 }

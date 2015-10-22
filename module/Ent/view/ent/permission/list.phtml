@@ -2,13 +2,23 @@
 
 <h1><?=$this->translate('Liste des permissions')?></h1>
 
-<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
-    <?=$this->translate($m)?>  
-<?php endforeach; ?>
 <p>
-    <a href="<?php echo $this->url('permission/add'); ?>" class="btn btn-primary btn-xs">Ajouter une permission</a>
+    <a href="<?php echo $this->url('permission/add'); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter une permission') ?></a>
 </p>
-<table class="table table-striped">
+
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
+    <div class="alert alert-success" role="alert">
+    <?=$this->translate($m)?>
+    </div>  
+<?php endforeach; ?>
+
+<table class="table table-striped">  
+    <tr>
+        <th><?=$this->translate('Nom de la permission')?></th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>        
+    </tr>
     <?php foreach ($permissions as $permission) : ?>
         <tr>
             <td>
@@ -18,7 +28,7 @@
                 <a href="<?=$this->url('permission/show', ['id'=>$this->escapeUrl($permission->getId())])?>" class="btn btn-primary btn-xs"><?=$this->translate('Détails')?></a>
             </td>
             <td>
-                <a href="<?=$this->url('permission/show/modify', ['id'=>$this->escapeUrl($permission->getId())])?>" class="btn btn-warning btn-xs"><?=$this->translate('Modifier')?></a>
+                <a href="<?=$this->url('permission/show/update', ['id'=>$this->escapeUrl($permission->getId())])?>" class="btn btn-warning btn-xs"><?=$this->translate('Modifier')?></a>
             </td>
             <td>
                 <a href="<?=$this->url('permission/show/delete', ['id'=>$this->escapeUrl($permission->getId())])?>" class="btn btn-danger btn-xs"><?=$this->translate('Supprimer')?></a>

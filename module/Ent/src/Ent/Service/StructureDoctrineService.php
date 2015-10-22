@@ -13,7 +13,9 @@ use Zend\Form\Form;
  *
  * @author fandria
  */
-class StructureDoctrineService implements StructureServiceInterface{
+class StructureDoctrineService extends DoctrineService implements ServiceInterface
+{
+
     /**
      *
      * @var EntityManager
@@ -67,6 +69,24 @@ class StructureDoctrineService implements StructureServiceInterface{
         return $repoFind;
     }
 
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntStructure');
+
+        $repoFindOneBy = $repo->findBy($criteria, $orderBy, $limit, $offset);
+
+        return $repoFindOneBy;
+    }
+
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntStructure');
+
+        $repoFindOneBy = $repo->findOneBy($criteria, $orderBy);
+
+        return $repoFindOneBy;
+    }
+
     public function insert(Form $form, $dataAssoc)
     {
         $structure = $this->structure;
@@ -78,6 +98,7 @@ class StructureDoctrineService implements StructureServiceInterface{
         $form->setData($dataAssoc);
 
         if (!$form->isValid()) {
+            $this->addFormMessageToErrorLog($form->getMessages());
             return null;
         }
         $this->em->persist($structure);
@@ -99,6 +120,7 @@ class StructureDoctrineService implements StructureServiceInterface{
         $form->setData($dataAssoc);
 
         if (!$form->isValid()) {
+            $this->addFormMessageToErrorLog($form->getMessages());
             return null;
         }
 
@@ -113,4 +135,5 @@ class StructureDoctrineService implements StructureServiceInterface{
         $this->em->remove($this->getById($id));
         $this->em->flush();
     }
+
 }

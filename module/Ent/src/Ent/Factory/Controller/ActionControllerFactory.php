@@ -9,14 +9,18 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ActionControllerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
-        
-        $actionService = $sm->get('Ent\Service\Action');
-        
-        $controller = new ActionController($actionService);
-        
+
+        $actionService = $sm->get('Ent\Service\ActionDoctrineORM');
+
+        $actionForm = $sm->get('FormElementManager')->get('Ent\Form\ActionForm');
+
+        $controller = new ActionController($actionService, $actionForm);
+
         return $controller;
     }
 

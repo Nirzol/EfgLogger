@@ -1,3 +1,4 @@
+<?php $this->headTitle($this->translate('Détails d\'un user')); ?>
 
 <h2><?= $this->translate('Détails d\'un user') ?></h2>
 
@@ -16,9 +17,12 @@
 
 <p>
     <?= $this->translate('Dernière mise à jour :') ?> 
-    <?php 
+    <?php
     if ($user->getUserLastUpdate() != null) {
         echo $user->getUserLastUpdate()->format('d-m-Y H:i:s');
+    }
+    else {
+        echo $this->translate('Aucune mise à jour');
     }
     ?>
 </p>
@@ -40,3 +44,18 @@
     ?>
 </p>
 
+<p>
+    <?= $this->translate('Status :') ?> 
+    <?php
+    foreach ($user->getFkUpProfile() as $profile) {
+        if ($profile->getProfileName()) :
+            echo $this->escapeHtml($profile->getProfileName());
+            echo ' - ';
+            echo $this->escapeHtml($profile->getProfileLdap());
+            echo '<br />';
+        endif;
+    }
+    ?>
+</p>
+
+<a class="btn btn-danger" href="<?php echo $this->url('user'); ?>"><?= $this->translate('Retour') ?></a>

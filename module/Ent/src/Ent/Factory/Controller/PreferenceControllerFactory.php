@@ -13,7 +13,8 @@ class PreferenceControllerFactory implements FactoryInterface
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
         
-        $preferenceService = $sm->get('Ent\Service\Preference');
+        $preferenceService = $sm->get('Ent\Service\PreferenceDoctrineORM');
+        
         $preferenceForm = $sm->get('FormElementManager')->get('Ent\Form\PreferenceForm');
         
         $controller = new PreferenceController($preferenceService, $preferenceForm);
