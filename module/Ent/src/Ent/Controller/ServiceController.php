@@ -134,10 +134,15 @@ class ServiceController extends AbstractActionController
         if (!$service) {
             return $this->notFoundAction();
         }
-
+        
+        $preferenceAttribute = '';
+        if($preference){
+            $preferenceAttribute = Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT);
+            var_dump($preferenceAttribute);
+        }
         return new ViewModel(array(
             'service' => $service,
-            'preferenceAttribute' => Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT),
+            'preferenceAttribute' => $preferenceAttribute,
         ));
     }
 
@@ -169,18 +174,18 @@ class ServiceController extends AbstractActionController
             }
             // Update le service
             /* @var $service EntService */
-//            $service = $this->serviceService->save($form, $serviceGetPost, $service);
-//            if ($service) {
-//                if (isset($prefAttribute) && !empty($prefAttribute)) {
-//                    $formPreference = $this->preferenceForm;
-//                    //Update la prefrence du service
-//                    $dataPreference = array('prefAttribute' => Json::encode($prefAttribute), 'fkPrefService' => $service->getServiceId(), 'fkPrefStatus' => $this->config['default_status']);
-//                    $this->preferenceService->save($formPreference, $dataPreference, $preference);
-//                }
-//                $this->flashMessenger()->addSuccessMessage('Le service a bien été updaté.');
-//
-//                return $this->redirect()->toRoute('service');
-//            }
+            $service = $this->serviceService->save($form, $serviceGetPost, $service);
+            if ($service) {
+                if (isset($prefAttribute) && !empty($prefAttribute)) {
+                    $formPreference = $this->preferenceForm;
+                    //Update la prefrence du service
+                    $dataPreference = array('prefAttribute' => Json::encode($prefAttribute), 'fkPrefService' => $service->getServiceId(), 'fkPrefStatus' => $this->config['default_status']);
+                    $this->preferenceService->save($formPreference, $dataPreference, $preference);
+                }
+                $this->flashMessenger()->addSuccessMessage('Le service a bien été updaté.');
+
+                return $this->redirect()->toRoute('service');
+            }
         }
 
         return new ViewModel(array(

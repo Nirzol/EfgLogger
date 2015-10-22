@@ -68,7 +68,6 @@ class EntPlugin extends AbstractPlugin
         // Trie croissant du tableau et trie croissant de la requete findby sur attributeID, 
         // pour être sur que les champs correspondent lors du merge
         ksort($attributeFilterPost);
-        var_dump($attributeFilterPost);
         // On ne garde que les valeurs du array pour pouvoir merge avec le array de la requete
         $attributeValueFilterPost = array_values($attributeFilterPost);
 
@@ -86,7 +85,7 @@ class EntPlugin extends AbstractPlugin
 //            $prefAttributeData[$i] = Json::decode($serializer->serialize($attributeData, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_ARRAY);
 //            $prefAttributeData[$i]['attribute_value'] = $attributeValueFilterPost[$i];
 //            $attributeData['attribute_value'] = $attributeValueFilterPost[$i];
-            $attributesDataArray[$key]['attribute_value'] = $attributeValueFilterPost[$i];
+            $attributesDataArray[$key]['attributeValue'] = $attributeValueFilterPost[$i];
             $i++;
         }
 
