@@ -58,7 +58,7 @@ class EntAttribute extends Ent
      *
      * @ORM\ManyToMany(targetEntity="Ent\Entity\EntService", mappedBy="fkSaAttribute")
      * @MaxDepth(1)
-     * @Groups({"details"})
+     * @Groups({"fkSaService"})
      */
     private $fkSaService;
 

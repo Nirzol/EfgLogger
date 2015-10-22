@@ -4,7 +4,9 @@ namespace Ent\Controller;
 
 use Ent\Form\ContactForm;
 use Ent\Service\ContactDoctrineService;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
+use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -76,7 +78,7 @@ class ContactRestController extends AbstractRestfulController
 
         if ($results) {
 //            $data[] = $results->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($results, 'json'));
+            $data = Json::decode($this->serializer->serialize($results, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = false;
             $successMessage = 'Les contacts ont bien été trouvés.';
         } else {
@@ -104,7 +106,7 @@ class ContactRestController extends AbstractRestfulController
 
         if ($result) {
 //            $data[] = $result->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($result, 'json'));
+            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = false;
             $successMessage = 'Le contact a bien été trouvé.';
         } else {
