@@ -79,6 +79,8 @@ class HelpRequestController extends AbstractActionController {
                 
                 $senderMail = $infoUser[0]['mail'][0];
                 $senderName = $infoUser[0]['displayname'][0];
+                $senderService = $infoUser[0]['ou'][0];
+                $senderPhone = $infoUser[0]['telephonenumber'][0];
                 
                 $id = (int) $request->getPost('contactDescription');
                 
@@ -92,9 +94,9 @@ class HelpRequestController extends AbstractActionController {
                 $mailAlt = $request->getPost('email');
                 
                 if (!empty($mailAlt)) {
-                    $message = $body.' Mail alternatif : '.$mailAlt;
+                    $message = $body."\n" ."\n" ."**** Informations supplémentaires ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService." \n "."Téléphone : ".$senderPhone." \n "."Mail alternatif : " .$mailAlt;
                 } else {
-                    $message = $body;
+                    $message = $body."\n" ."\n" ."**** Informations supplémentaires ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService." \n "."Téléphone : ".$senderPhone;
                 }
                                
                 if (empty($filePath) && empty($fileName)) {
