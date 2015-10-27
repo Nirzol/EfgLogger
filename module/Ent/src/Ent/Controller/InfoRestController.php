@@ -15,7 +15,7 @@ class InfoRestController extends AbstractRestfulController
 {
     /* @var $searchLdapController SearchLdapController */
     protected $searchLdapController;
-        public function options()
+    public function options()
     {
         $response = $this->getResponse();
         $headers = $response->getHeaders();
