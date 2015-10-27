@@ -21,7 +21,7 @@ class HelpRequestRestControllerFactory implements FactoryInterface
         
         $contactService = $sm->get('Ent\Service\ContactDoctrineORM');
         
-        $helpRequestService = $sm->get('Ent\Service\HelpRequest');
+        $helpRequestService = $sm->get('Ent\Service\HelpRequestDoctrineORM');
         
         $helpRequestForm    = $sm->get('FormElementManager')->get('Ent\Form\HelpRequestForm');
         

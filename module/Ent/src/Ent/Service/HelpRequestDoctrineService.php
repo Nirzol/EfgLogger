@@ -27,7 +27,10 @@ class HelpRequestDoctrineService implements HelpRequestServiceInterface {
         $text = new Mime\Part($message);
         $text->type = Mime\Mime::TYPE_TEXT;
         $text->charset = 'utf-8';
-
+        
+        $html = new Mime\Part($message);
+        $html->type = Mime\Mime::TYPE_HTML;
+        
         $fileContent = fopen($filePath, 'r');
 
         $attachment = new Mime\Part($fileContent);
@@ -40,7 +43,7 @@ class HelpRequestDoctrineService implements HelpRequestServiceInterface {
 
         // then add them to a MIME message
         $mimeMessage = new Mime\Message();
-        $mimeMessage->setParts(array($text, $attachment));
+        $mimeMessage->setParts(array($text, $html, $attachment));
 
         // and finally we create the actual email
         $mail = new Mail\Message();
@@ -58,13 +61,23 @@ class HelpRequestDoctrineService implements HelpRequestServiceInterface {
     }
 
     public function sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName) {
+        $text = new Mime\Part($message);
+        $text->type = Mime\Mime::TYPE_TEXT;
+        $text->charset = 'utf-8';
+        
+        $html = new Mime\Part($message);
+        $html->type = Mime\Mime::TYPE_HTML;
+        
+        $mimeMessage = new Mime\Message();
+        $mimeMessage->setParts(array($text, $html));
+        
         $mail = new Mail\Message();
         $mail->setEncoding("UTF-8");
-        $mail->setBody($message);
+        $mail->setBody($mimeMessage);
         $mail->setFrom($senderMail, $senderName);
         $mail->addTo($recipientMail, $recipientName);
         $mail->setSubject($subject);
-
+        
         $transport = new Mail\Transport\Sendmail();
         $transport->send($mail);
         
