@@ -73,7 +73,8 @@ class EntService extends Ent
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="fk_sa_attribute_id", referencedColumnName="attribute_id")
      *   }
-     * )
+     * )     
+     * @Groups({"fkSaAttribute"})
      */
 //    /**
 //     * @var \Doctrine\Common\Collections\Collection
