@@ -96,6 +96,15 @@ class PreferenceDoctrineService extends DoctrineService implements ServiceInterf
 
         return $repoFindOneBy;
     }
+    
+    public function matching(\Doctrine\Common\Collections\Criteria $criteria){
+        $repo = $this->em->getRepository('Ent\Entity\EntPreference');
+
+        $repoMatching = $repo->matching($criteria);
+
+        return $repoMatching;
+        
+    }
 
     public function insert(Form $form, $dataAssoc)
     {

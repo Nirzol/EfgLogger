@@ -78,15 +78,19 @@ foreach ($services as $service) {
                                     $valueAttribute = $_POST['serviceAttributes'][$service->getServiceId()][$attribute->getAttributeId()];
                                 } else if ($preferences) {
                                     foreach ($preferences as $preference) {
-                                        if ($preference->getFkPrefService()->getServiceId() === $service->getServiceId()) {
-                                            $preferenceAttribute = json_decode($preference->getPrefAttribute());
+                                        if ($preference['serviceData']['serviceId'] === $service->getServiceId()) {
+                                            $serviceAttributeData = $this->json($preference['serviceAttributeData']);
+
+                                            $preferenceAttribute = json_decode($serviceAttributeData);
+
+//                                            $preferenceAttribute = json_decode($preference->getPrefAttribute());
                                             foreach ($preferenceAttribute as $value) {
-                                                foreach ($value->{'serviceAttributeData'} as $att) {
-                                                    if ($att->{'attributeId'} === $attribute->getAttributeId()) {
-                                                        $valueAttribute = $att->{'attributeValue'};
+//                                                foreach ($value->{'serviceAttributeData'} as $att) {
+                                                    if ($value->{'attributeId'} === $attribute->getAttributeId()) {
+                                                        $valueAttribute = $value->{'attributeValue'};
                                                         break;
                                                     }
-                                                }
+//                                                }
                                             }
 //                                            break;
                                         }
