@@ -41,7 +41,7 @@ class EntPreference extends Ent
      *
      * @ORM\ManyToOne(targetEntity="Ent\Entity\EntUser")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fk_pref_user_id", referencedColumnName="user_id")
+     *   @ORM\JoinColumn(name="fk_pref_user_id", referencedColumnName="user_id", onDelete="CASCADE")
      * })
      */
     private $fkPrefUser;

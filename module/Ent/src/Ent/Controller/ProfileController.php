@@ -4,19 +4,17 @@ namespace Ent\Controller;
 
 use Ent\Controller\Plugin\EntPlugin;
 use Ent\Entity\EntPreference;
-use Ent\Entity\EntService;
+use Ent\Form\PreferenceForm;
 use Ent\Form\ProfileForm;
 use Ent\Service\AttributeDoctrineService;
 use Ent\Service\PreferenceDoctrineService;
 use Ent\Service\ProfileDoctrineService;
 use Ent\Service\ServiceDoctrineService;
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\Serializer as Serializer2;
+use JMS\Serializer\Serializer;
 use Zend\Form\Element\MultiCheckbox;
 use Zend\Http\Request;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Serializer\Serializer;
 use Zend\View\Model\ViewModel;
 
 class ProfileController extends AbstractActionController
@@ -59,7 +57,7 @@ class ProfileController extends AbstractActionController
     protected $profileForm;
 
     /**
-     * @var \Ent\Form\PreferenceForm
+     * @var PreferenceForm
      */
     protected $preferenceForm = null;
 
@@ -69,7 +67,7 @@ class ProfileController extends AbstractActionController
     protected $serializer;
     protected $config = null;
 
-    public function __construct(ProfileDoctrineService $profileService, ProfileForm $profileForm, \Ent\Form\PreferenceForm $preferenceForm, AttributeDoctrineService $attributeService, ServiceDoctrineService $serviceService, PreferenceDoctrineService $preferenceService, Serializer2 $serializer, $config)
+    public function __construct(ProfileDoctrineService $profileService, ProfileForm $profileForm, PreferenceForm $preferenceForm, AttributeDoctrineService $attributeService, ServiceDoctrineService $serviceService, PreferenceDoctrineService $preferenceService, Serializer $serializer, $config)
     {
         $this->profileService = $profileService;
         $this->attributeService = $attributeService;
@@ -97,55 +95,37 @@ class ProfileController extends AbstractActionController
 
         /* @var $preference EntPreference */
 //        $preference = $this->preferenceService->findOneBy(array('fkPrefService' => 'notnull', 'fkPrefUser' => null, 'fkPrefProfile' => null));
-        $preference = $this->preferenceService->findOneBy(array('fkPrefUser' => null, 'fkPrefProfile' => null));
+        $preferences = $this->preferenceService->findBy(array('fkPrefUser' => null, 'fkPrefProfile' => null));
 
         $form = $this->profileForm;
+
         /* @var $serviceMultiCheckbox MultiCheckbox */
         $serviceMultiCheckbox = $form->get('services');
         $result = array();
-//        var_dump($serviceMultiCheckbox->get);
+        // Ajout de l'attribut pour faire foncitonner le modal
         foreach ($serviceMultiCheckbox->getValueOptions() as $value) {
-            $value['attributes'] = array('data-toggle' => 'buttons-checkbox', 'data-target' => '#serviceIdModal' . $value['value']);
+//            $value['attributes'] = array('data-toggle' => 'modal', 'data-target' => '#serviceIdModal' . $value['value']);
+            $test = "if(this.checked){ $('#serviceIdModal" . $value['value'] . "').modal(); }";
+            $value['attributes'] = array('onChange' => $test);
             $result[] = $value;
         }
-//        $serviceMultiCheckbox->setValueOptions($result);
+        $serviceMultiCheckbox->setValueOptions($result);
 
         if ($this->request->isPost()) {
             $serviceGetPost = $this->request->getPost();
-//            $serviceGetPost['services'];
-//            var_dump($serviceGetPost['services']);
-            // Filtre du array Attribute pour enlever les valeurs vides/null
-//            $attributeFilterPost = array_filter($serviceGetPost['serviceAttributes']);
+
             /* @var $entPlugin EntPlugin */
             $entPlugin = $this->EntPlugin();
-//            $attributeFilterPost = $entPlugin->array_filter_recursive($serviceGetPost['serviceAttributes']);
-//            $attributeFilterPost = array_intersect_key($attributeFilterPost, array_flip($serviceGetPost['services']));
-//
-//            if (isset($attributeFilterPost) && !empty($attributeFilterPost)) {
-//                foreach ($attributeFilterPost as $key => $value) {
-//                    /* @var $service EntService */
-//                    $service = $this->serviceService->getById($key);
-//
-//                    $prefAttribute[$service->getServiceName()]['serviceData'] = Json::decode($this->serializer->serialize($service, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_ARRAY);
-//
-//                    // Récupère les key qui sont en fait les attributeId
-//                    $attributeKeyFilterPost = array_keys($value);
-//
-//                    // Prepare les attribute pour les insérer dans EntPreferences
-//                    /* @var $entPlugin EntPlugin */
-//                    $prefAttribute[$service->getServiceName()]['serviceAttributeData'] = $entPlugin->preparePrefAttribute($value, $attributeKeyFilterPost, $this->attributeService, $this->serializer);
-//                }
-//            }
-//            var_dump($prefAttribute);
+
             $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], $serviceGetPost['services'], $this->serviceService, $this->attributeService, $this->serializer);
-//var_dump($prefAttribute);
+
             $profile = $this->profileService->insert($form, $this->request->getPost());
             if ($profile) {
                 if (isset($prefAttribute) && !empty($prefAttribute)) {
                     $formPreference = $this->preferenceForm;
                     //Update la prefrence du service
                     $dataPreference = array('prefAttribute' => Json::encode($prefAttribute), 'fkPrefProfile' => $profile->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
-                    $this->preferenceService->save($formPreference, $dataPreference, $preference);
+                    $this->preferenceService->insert($formPreference, $dataPreference);
                 }
                 $this->flashMessenger()->addSuccessMessage('Le profile a bien été ajouté.');
 
@@ -156,7 +136,8 @@ class ProfileController extends AbstractActionController
         return new ViewModel(array(
             'attributes' => $attributes,
             'services' => $services,
-            'preferenceAttribute' => Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT),
+            'preferences' => $preferences,
+//            'preferenceAttribute' => Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT),
             'form' => $form->prepare(),
         ));
     }
@@ -167,12 +148,21 @@ class ProfileController extends AbstractActionController
 
         $profile = $this->profileService->getById($id);
 
+        /* @var $preference EntPreference */
+        $preference = $this->preferenceService->findOneBy(array('fkPrefService' => null, 'fkPrefUser' => null, 'fkPrefProfile' => $id));
+
         if (!$profile) {
             return $this->notFoundAction();
         }
 
+        $preferenceAttribute = '';
+        if ($preference) {
+            $preferenceAttribute = Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT);
+        }
+
         return new ViewModel(array(
-            'profile' => $profile
+            'profile' => $profile,
+            'preferenceAttribute' => $preferenceAttribute,
         ));
     }
 
@@ -181,11 +171,67 @@ class ProfileController extends AbstractActionController
         $id = $this->params('id');
         $form = $this->profileForm;
         $profile = $this->profileService->getById($id, $form);
+        $services = $this->serviceService->getAll();
+        $attributes = $this->attributeService->getAll();
+        $preference = $this->preferenceService->findOneBy(array('fkPrefService' => null, 'fkPrefUser' => null, 'fkPrefProfile' => $id));
+        $allPreference = $this->preferenceService->findBy(array('fkPrefUser' => null, 'fkPrefProfile' => null));
+
+        $preferences = (object) array_merge_recursive((array) $allPreference, (array) $preference);
+
+        $profileServiceId = array();
+        $preferenceArray = Json::decode($preference->getPrefAttribute(), Json::TYPE_ARRAY);
+        foreach ($preferenceArray as $preferenceArrayService) {
+            $profileServiceId[] = $preferenceArrayService['serviceData']['serviceId'];
+            foreach ($allPreference as $allPreferenceValue) {
+                if ($preferenceArrayService['serviceData']['serviceId'] === $allPreferenceValue->getFkPrefService()->getServiceId()) {
+                    var_dump($allPreferenceValue->getPrefAttribute());
+                    var_dump($preference->getPrefAttribute());
+                    var_dump($preferenceArrayService['serviceData']['serviceId']);
+                    var_dump($preferenceArrayService);
+                    break;
+                }
+            }
+        }
+        var_dump($profileServiceId);
+
+//        var_dump('$preference');
+//
+//        var_dump('$preferences');
+//        var_dump($preferences);
+//        var_dump('$allPreference');
+//        var_dump($allPreference);
+
+        /* @var $serviceMultiCheckbox MultiCheckbox */
+        $serviceMultiCheckbox = $form->get('services');
+        $result = array();
+        // Ajout de l'attribut pour faire foncitonner le modal
+//        var_dump($serviceMultiCheckbox->getValueOptions());
+        foreach ($serviceMultiCheckbox->getValueOptions() as $value) {
+//            $value['attributes'] = array('data-toggle' => 'modal', 'data-target' => '#serviceIdModal' . $value['value']);
+            $test = "if(this.checked){ $('#serviceIdModal" . $value['value'] . "').modal(); }";
+            $value['attributes'] = array('onChange' => $test);
+            $result[] = $value;
+        }
+        $serviceMultiCheckbox->setValueOptions($result);
 
         if ($this->request->isPost()) {
+            $serviceGetPost = $this->request->getPost();
+
+            /* @var $entPlugin EntPlugin */
+            $entPlugin = $this->EntPlugin();
+
+            $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], $serviceGetPost['services'], $this->serviceService, $this->attributeService, $this->serializer);
+
             $profile = $this->profileService->save($form, $this->request->getPost(), $profile);
 
             if ($profile) {
+                if (isset($prefAttribute) && !empty($prefAttribute)) {
+                    $formPreference = $this->preferenceForm;
+                    //Update la prefrence du service
+                    $dataPreference = array('prefAttribute' => Json::encode($prefAttribute), 'fkPrefProfile' => $profile->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
+                    $this->preferenceService->save($formPreference, $dataPreference, $preference);
+                }
+
                 $this->flashMessenger()->addSuccessMessage('Le profile a bien été modifié.');
 
                 return $this->redirect()->toRoute('profile');
@@ -193,6 +239,9 @@ class ProfileController extends AbstractActionController
         }
 
         return new ViewModel(array(
+            'attributes' => $attributes,
+            'services' => $services,
+            'preferences' => $preferences,
             'form' => $form->prepare(),
         ));
     }

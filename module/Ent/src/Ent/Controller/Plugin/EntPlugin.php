@@ -94,26 +94,44 @@ class EntPlugin extends AbstractPlugin
 
     public function preparePrefAttributePerService($serviceGetPostAttributes, $serviceGetPostServices, \Ent\Service\ServiceDoctrineService $service, AttributeDoctrineService $attributeService, Serializer $serializer)
     {
+        // Filtre du array Attribute pour enlever les valeurs vides/null
         $attributeFilterPost = $this->array_filter_recursive($serviceGetPostAttributes);
-        // on ne garde que les cases cochees. 
-        $attributeFilterPost = array_intersect_key($attributeFilterPost, array_flip($serviceGetPostServices));
+
         $prefAttribute = array();
-        if (isset($attributeFilterPost) && !empty($attributeFilterPost)) {
-            foreach ($attributeFilterPost as $key => $value) {
-                /* @var $serviceKey EntService */
-                $serviceKey = $service->getById($key);
 
-                $prefAttribute[$serviceKey->getServiceName()]['serviceData'] = Json::decode($serializer->serialize($serviceKey, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_ARRAY);
+        if ($serviceGetPostServices != null && !($serviceGetPostServices instanceof \Ent\Entity\EntService)) {
+            // on ne garde que les cases cochees. 
+            $attributeFilterPost = array_intersect_key($attributeFilterPost, array_flip($serviceGetPostServices));
 
-                // Récupère les key qui sont en fait les attributeId
-                $attributeKeyFilterPost = array_keys($value);
+            if (isset($attributeFilterPost) && !empty($attributeFilterPost)) {
+                foreach ($attributeFilterPost as $key => $value) {
+                    /* @var $serviceKey EntService */
+                    $serviceKey = $service->getById($key);
 
-                // Prepare les attribute pour les insérer dans EntPreferences
-                /* @var $entPlugin EntPlugin */
-                $prefAttribute[$serviceKey->getServiceName()]['serviceAttributeData'] = $this->preparePrefAttribute($value, $attributeKeyFilterPost, $attributeService, $serializer);
+                    $prefAttribute[$serviceKey->getServiceName()]['serviceData'] = Json::decode($serializer->serialize($serviceKey, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_ARRAY);
+
+                    // Récupère les key qui sont en fait les attributeId
+                    $attributeKeyFilterPost = array_keys($value);
+
+                    // Prepare les attribute pour les insérer dans EntPreferences
+                    /* @var $entPlugin EntPlugin */
+                    $prefAttribute[$serviceKey->getServiceName()]['serviceAttributeData'] = $this->preparePrefAttribute($value, $attributeKeyFilterPost, $attributeService, $serializer);
+                }
             }
+        } else {
+            if ($serviceGetPostServices instanceof \Ent\Entity\EntService) {
+                $key = $serviceGetPostServices->getServiceName();
+                $prefAttribute[$key]['serviceData'] = Json::decode($serializer->serialize($serviceGetPostServices, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_ARRAY);
+            } else {
+                $key = 0;
+                $prefAttribute[$key]['serviceData'] = '';
+            }
+
+            // Récupère les key qui sont en fait les attributeId
+            $attributeKeyFilterPost = array_keys($attributeFilterPost);
+
+            $prefAttribute[$key]['serviceAttributeData'] = $this->preparePrefAttribute($attributeFilterPost, $attributeKeyFilterPost, $attributeService, $serializer);
         }
-        
         return $prefAttribute;
     }
 
