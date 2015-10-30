@@ -72,92 +72,102 @@ return array(
                     'route' => '/',
                 ),
             ),
-            'index' => array(
-                'type' => \Zend\Mvc\Router\Http\Literal::class,
+//        'zfcadmin' => array(
+//                'options' => array(
+//                    'route' => '/api',
+//                ),
+//            ),
+            'zfcadmin' => array(
                 'options' => array(
                     'route' => '/api',
-                    'defaults' => array(
-                        'controller' => 'Ent\Controller\Index',
-                        'action' => 'index',
-                    ),
                 ),
-                'may_terminate' => true,
                 'child_routes' => array(
-                    'add' => array(
+                    'index' => array(
                         'type' => \Zend\Mvc\Router\Http\Literal::class,
                         'options' => array(
-                            'route' => '/add',
+                            'route' => '/index',
                             'defaults' => array(
-                                'action' => 'add',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'user' => array(
-                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                'options' => array(
-                    'route' => '/api/user',
-                    'defaults' => array(
-                        'controller' => 'Ent\Controller\User',
-                        'action' => 'list',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'add' => array(
-                        'type' => \Zend\Mvc\Router\Http\Literal::class,
-                        'options' => array(
-                            'route' => '/add',
-                            'defaults' => array(
-                                'action' => 'add',
-                            ),
-                        ),
-                    ),
-                    'add-auto' => array(
-                        'type' => \Zend\Mvc\Router\Http\Literal::class,
-                        'options' => array(
-                            'route' => '/add-auto',
-                            'defaults' => array(
-                                'action' => 'addAuto',
-                            ),
-                        ),
-                    ),
-                    'show' => array(
-                        'type' => \Zend\Mvc\Router\Http\Segment::class,
-                        'options' => array(
-                            'route' => '/:id',
-                            'defaults' => array(
-                                'action' => 'show',
-                            ),
-                            'constraints' => array(
-                                'id' => '[1-9][0-9]*',
+                                'controller' => 'Ent\Controller\Index',
+                                'action' => 'index',
                             ),
                         ),
                         'may_terminate' => true,
                         'child_routes' => array(
-                            'delete' => array(
+                            'add' => array(
                                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                                 'options' => array(
-                                    'route' => '/delete',
+                                    'route' => '/add',
                                     'defaults' => array(
-                                        'action' => 'delete',
-                                    ),
-                                ),
-                            ),
-                            'update' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                                'options' => array(
-                                    'route' => '/update',
-                                    'defaults' => array(
-                                        'action' => 'update',
+                                        'action' => 'add',
                                     ),
                                 ),
                             ),
                         ),
                     ),
-                ),
-            ),
+                    'user' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/user',
+                            'defaults' => array(
+                                'controller' => 'Ent\Controller\User',
+                                'action' => 'list',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'add' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/add',
+                                    'defaults' => array(
+                                        'action' => 'add',
+                                    ),
+                                ),
+                            ),
+                            'add-auto' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/add-auto',
+                                    'defaults' => array(
+                                        'action' => 'addAuto',
+                                    ),
+                                ),
+                            ),
+                            'show' => array(
+                                'type' => \Zend\Mvc\Router\Http\Segment::class,
+                                'options' => array(
+                                    'route' => '/:id',
+                                    'defaults' => array(
+                                        'action' => 'show',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[1-9][0-9]*',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' => array(
+                                    'delete' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/delete',
+                                            'defaults' => array(
+                                                'action' => 'delete',
+                                            ),
+                                        ),
+                                    ),
+                                    'update' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/update',
+                                            'defaults' => array(
+                                                'action' => 'update',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),),),
             'module' => array(
                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                 'options' => array(
@@ -1142,6 +1152,9 @@ return array(
 //                'credential_property' => 'password',
 //            ),
 //        ),
+    ),
+    'zfcadmin' => array(
+        'use_admin_layout' => false
     ),
     'translator' => array(
         'locale' => 'fr_FR',
