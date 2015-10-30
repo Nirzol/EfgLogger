@@ -26,7 +26,7 @@ class EntContact extends Ent
     /**
      * @var string
      *
-     * @ORM\Column(name="contact_name", type="string", length=200, nullable=false)
+     * @ORM\Column(name="contact_name", type="string", length=200, nullable=false, unique=true)
      */
     private $contactName;
 

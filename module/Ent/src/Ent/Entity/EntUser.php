@@ -28,7 +28,7 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="user_login", type="string", length=80, nullable=false)
+     * @ORM\Column(name="user_login", type="string", length=80, nullable=false, unique=true)
      */
     private $userLogin;
 
