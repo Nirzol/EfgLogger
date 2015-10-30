@@ -876,18 +876,6 @@ return array(
                     ),
                 ),
             ),
-            'user-services-rest' => array(
-                'type' => \Zend\Mvc\Router\Http\Segment::class,
-                'options' => array(
-                    'route' => '/api/user-services-rest[/:id]',
-                    'constraints' => array(
-                        'id' => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Ent\Controller\UserServicesRest',
-                    ),
-                ),
-            ),
             'module-rest' => array(
                 'type' => \Zend\Mvc\Router\Http\Segment::class,
                 'options' => array(
