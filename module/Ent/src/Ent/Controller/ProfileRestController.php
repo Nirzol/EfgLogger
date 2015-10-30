@@ -2,8 +2,13 @@
 
 namespace Ent\Controller;
 
+use Ent\Entity\EntPreference;
+use Ent\Form\PreferenceForm;
 use Ent\Form\ProfileForm;
+use Ent\Service\AttributeDoctrineService;
+use Ent\Service\PreferenceDoctrineService;
 use Ent\Service\ProfileDoctrineService;
+use Ent\Service\ServiceDoctrineService;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
 use Zend\Json\Json;
@@ -21,14 +26,44 @@ class ProfileRestController extends AbstractRestfulController
 
     /**
      *
+     * @var ProfileDoctrineService
+     */
+    protected $serviceService;
+
+    /**
+     *
+     * @var ProfileDoctrineService
+     */
+    protected $attributeService;
+
+    /**
+     *
+     * @var PreferenceDoctrineService
+     */
+    protected $preferenceService;
+
+    /**
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     *
      * @var ProfileForm
      */
     protected $profileForm;
 
     /**
+     * @var PreferenceForm
+     */
+    protected $preferenceForm = null;
+
+    /**
      * @var Serializer
      */
     protected $serializer;
+    protected $config = null;
 
 //    public function options()
 //    {
@@ -56,10 +91,15 @@ class ProfileRestController extends AbstractRestfulController
 //        return $response;
 //    }
 
-    public function __construct(ProfileDoctrineService $profileService, ProfileForm $profileForm, Serializer $serializer)
+    public function __construct(ProfileDoctrineService $profileService, ProfileForm $profileForm, PreferenceForm $preferenceForm, AttributeDoctrineService $attributeService, ServiceDoctrineService $serviceService, PreferenceDoctrineService $preferenceService, Serializer $serializer, $config)
     {
         $this->profileService = $profileService;
-        $this->aprofileForm = $profileForm;
+        $this->attributeService = $attributeService;
+        $this->serviceService = $serviceService;
+        $this->preferenceService = $preferenceService;
+        $this->profileForm = $profileForm;
+        $this->preferenceForm = $preferenceForm;
+        $this->config = $config;
         $this->serializer = $serializer;
     }
 
@@ -93,6 +133,9 @@ class ProfileRestController extends AbstractRestfulController
     public function get($id)
     {
         $result = $this->profileService->getById($id);
+        
+        /* @var $preference EntPreference */
+        $preference = $this->preferenceService->findOneBy(array('fkPrefService' => null, 'fkPrefUser' => null, 'fkPrefProfile' => $id));
 
         $data = '';
         $successMessage = '';

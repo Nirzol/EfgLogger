@@ -9,6 +9,8 @@ use Ent\Entity\EntProfile;
 use Ent\Entity\EntUser;
 use Ent\Form\UserForm;
 use Ent\Service\UserDoctrineService;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\Serializer;
 use SearchLdap\Controller\SearchLdapController;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
@@ -38,6 +40,16 @@ class UserServicesRestController extends AbstractRestfulController
      * @var SearchLdapController
      */
     protected $searchLdapController = null;
+    
+    /**
+     * @var ProfileRestController
+     */
+    protected $profileRestController = null;
+    
+    /**
+     * @var Serializer
+     */
+    protected $serializer;
 
 //    public function options()
 //    {
@@ -65,24 +77,27 @@ class UserServicesRestController extends AbstractRestfulController
 //        return $response;
 //    }
 
-    public function __construct(UserDoctrineService $userService, UserForm $userForm, DoctrineObject $hydrator, SearchLdapController $searchLdapController)
+    public function __construct(UserDoctrineService $userService, UserForm $userForm, DoctrineObject $hydrator, SearchLdapController $searchLdapController, Serializer $serializer, ProfileRestController $profileRestController)
     {
         $this->userService = $userService;
         $this->userForm = $userForm;
         $this->hydrator = $hydrator;
         $this->searchLdapController = $searchLdapController;
+        $this->profileRestController = $profileRestController;
+        $this->serializer = $serializer;
     }
 
     /* get the authenticated user (waiting for an other controller ?) */
 
     public function getList()
     {
-        $login = null;
+        $login = 'fandria';
+//        $login = null;
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
             $login = $authService->getIdentity()->getUserLogin();
         }
-        $results = null;
+        $user = null;
         if (!is_null($login)) {
             $results = $this->userService->findBy(array('userLogin' => $login));
             //        $results = $this->userService->getAll();
@@ -99,25 +114,46 @@ class UserServicesRestController extends AbstractRestfulController
                 $successMessage = 'L\'user a bien été trouvé.';
 //                $successMessage = 'Les users ont bien été trouvé.';
             }
-        } else {
-            $success = false;
-            $errorMessage = 'L\'user n\'existe pas dans la base.';
-//            $errorMessage = 'Aucun user existe dans la base.';
+            
+//            $data = $this->profileRestController->get(7);
         }
 
         return new JsonModel(array(
             'data' => $data,
-            'success' => $success,
-            'flashMessages' => array(
-                'success' => $successMessage,
-                'error' => $errorMessage,
-            ),
+//            'success' => $success,
+//            'flashMessages' => array(
+//                'success' => $successMessage,
+//                'error' => $errorMessage,
+//            ),
         ));
     }
 
-    public function get($id)
-    {
-        $result = $this->userService->getById($id);
+//    public function get($id)
+//    {
+//        $result = $this->userService->getById($id);
+//
+//        $data = array();
+//        $successMessage = '';
+//        $errorMessage = '';
+//        if ($result) {
+//            $data = $this->extractDataService($result, null);
+////            $data[] = $result->toArray($this->hydrator);
+//            $success = true;
+//            $successMessage = 'L\'user a bien été trouver.';
+//        } else {
+//            $success = false;
+//            $errorMessage = 'L\'user n\'existe pas dans la base.';
+//        }
+//        
+//        return new JsonModel(array(
+//            'data' => $data,
+//            'success' => $success,
+//            'flashMessages' => array(
+//                'success' => $successMessage,
+//                'error' => $errorMessage,
+//            ),
+//        ));
+//    }
 
         $data = array();
         $successMessage = '';
@@ -142,85 +178,49 @@ class UserServicesRestController extends AbstractRestfulController
         ));
     }
 
-    public function create($data)
-    {
-        $form = $this->userForm;
+//    public function update($id, $data)
+//    {
+//        $user = $this->userService->getById($id, $this->userForm);
+//
+//        if ($data) {
+//            $user = $this->userService->save($this->userForm, $data, $user);
+//
+//            if ($user) {
+////                $this->flashMessenger()->addSuccessMessage('L\'user a bien été updater.');
+//
+//                return new JsonModel(array(
+//                    'data' => $user->getUserId(),
+//                    'success' => true,
+//                    'flashMessages' => array(
+//                        'success' => 'L\'user ' . $id . ' a bien été updater.',
+//                    ),
+//                ));
+//            }
+//        }
+//
+//        return new JsonModel(array(
+//            'data' => $user,
+//            'success' => false,
+//            'flashMessages' => array(
+//                'error' => 'L\'user ' . $id . ' n\'a pas été updater.',
+//            ),
+//        ));
+//    }
 
-        if ($data) {
-
-//            object(Zend\Stdlib\Parameters)[140]
-//  private 'storage' (ArrayObject) => 
-//    array (size=3)
-//      'userLogin' => string 'ffff' (length=4)
-//      'userStatus' => string '1' (length=1)
-//      'fkUrRole' => string '1' (length=1)
-
-            /* @var $user EntUser */
-            $user = $this->userService->insert($form, $data);
-
-            if ($user) {
-//                $this->flashMessenger()->addSuccessMessage('L\'user a bien été insérer.');
-
-                return new JsonModel(array(
-                    'data' => $user->getUserId(),
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => 'L\'user a bien été insérer.',
-                    ),
-                ));
-            }
-        }
-        return new JsonModel(array(
-            'success' => false,
-            'flashMessages' => array(
-                'error' => 'L\'user n\'a pas été insérer.',
-            ),
-        ));
-    }
-
-    public function update($id, $data)
-    {
-        $user = $this->userService->getById($id, $this->userForm);
-
-        if ($data) {
-            $user = $this->userService->save($this->userForm, $data, $user);
-
-            if ($user) {
-//                $this->flashMessenger()->addSuccessMessage('L\'user a bien été updater.');
-
-                return new JsonModel(array(
-                    'data' => $user->getUserId(),
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => 'L\'user ' . $id . ' a bien été updater.',
-                    ),
-                ));
-            }
-        }
-
-        return new JsonModel(array(
-            'data' => $user,
-            'success' => false,
-            'flashMessages' => array(
-                'error' => 'L\'user ' . $id . ' n\'a pas été updater.',
-            ),
-        ));
-    }
-
-    public function delete($id)
-    {
-        $this->userService->delete($id);
-
-//        $this->flashMessenger()->addSuccessMessage('L\'user a bien été supprimé.');
-
-        return new JsonModel(array(
-            'data' => 'deleted',
-            'success' => true,
-            'flashMessages' => array(
-                'error' => 'L\'user a bien été supprimé.',
-            ),
-        ));
-    }
+//    public function delete($id)
+//    {
+//        $this->userService->delete($id);
+//
+////        $this->flashMessenger()->addSuccessMessage('L\'user a bien été supprimé.');
+//
+//        return new JsonModel(array(
+//            'data' => 'deleted',
+//            'success' => true,
+//            'flashMessages' => array(
+//                'error' => 'L\'user a bien été supprimé.',
+//            ),
+//        ));
+//    }
 
     private function extractDataService($result, $login)
     {

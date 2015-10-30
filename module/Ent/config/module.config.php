@@ -873,16 +873,16 @@ return array(
                         'controller' => 'Ent\Controller\UserRest',
                     ),
                 ),
-            ),
-            'user-services-rest' => array(
-                'type' => \Zend\Mvc\Router\Http\Segment::class,
-                'options' => array(
-                    'route' => '/api/user-services-rest[/:id]',
-                    'constraints' => array(
-                        'id' => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Ent\Controller\UserServicesRest',
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'services' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/services',
+                            'defaults' => array(
+                                'action' => 'getServices',
+                            ),
+                        ),
                     ),
                 ),
             ),
