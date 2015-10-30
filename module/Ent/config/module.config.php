@@ -884,6 +884,15 @@ return array(
                             ),
                         ),
                     ),
+                    'mailhost' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/mailhost',
+                            'defaults' => array(
+                                'action' => 'getMailHost',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'module-rest' => array(
