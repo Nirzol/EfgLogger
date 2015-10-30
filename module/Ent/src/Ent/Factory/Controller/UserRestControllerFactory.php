@@ -24,7 +24,7 @@ class UserRestControllerFactory implements FactoryInterface
         $preferenceService = $sm->get('Ent\Service\PreferenceDoctrineORM');
 
 //        $searchLdapModel = new SearchLdap($config['searchldap_config']);
-//
+
 //        $searchLdapController = new SearchLdapController($searchLdapModel);
 
         $serializer = $sm->get('jms_serializer.serializer');

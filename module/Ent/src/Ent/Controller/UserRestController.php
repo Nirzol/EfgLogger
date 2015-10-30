@@ -33,6 +33,7 @@ class UserRestController extends AbstractRestfulController
      * @var PreferenceDoctrineService
      */
     protected $preferenceService;
+    
 
     /**
      * @var Serializer

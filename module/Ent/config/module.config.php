@@ -1053,6 +1053,18 @@ return array(
                         'controller' => 'Ent\Controller\InfoRest',
                     ),
                 ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'mailhost' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/mailhost',
+                            'defaults' => array(
+                                'action' => 'getMailHost',
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'role-rest' => array(
                 'type' => \Zend\Mvc\Router\Http\Segment::class,
