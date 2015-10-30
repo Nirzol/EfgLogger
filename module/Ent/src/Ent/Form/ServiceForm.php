@@ -85,7 +85,7 @@ class ServiceForm extends Form
         $attributes = $this->entityManager->getRepository('\Ent\Entity\EntAttribute')->findAll();
         foreach ($attributes as $attribute) {
             $this->add(array(
-                'name' => 'serviceAttributes['.$attribute->getAttributeId().']',
+                'name' => 'serviceAttributes[' . $attribute->getAttributeId() . ']',
                 'options' => array(
                     'label' => $attribute->getAttributeName(),
                 ),

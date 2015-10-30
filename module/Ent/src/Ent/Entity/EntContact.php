@@ -93,11 +93,6 @@ class EntContact extends Ent
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntUser", mappedBy="fkUcContact")
-     */
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\ManyToMany(targetEntity="Ent\Entity\EntUser", inversedBy="fkUcContact")
      * @ORM\JoinTable(name="ent_user_contact",
      *   joinColumns={
@@ -300,9 +295,9 @@ class EntContact extends Ent
     /**
      * Add service
      *
-     * @param \Doctrine\Common\Collections\Collection $service
+     * @param EntService $service
      *
-     * @return EntContact
+     * @return EntService
      */
     public function addService($service)
     {
@@ -360,7 +355,7 @@ class EntContact extends Ent
      *
      * @param \Ent\Entity\EntUser $user
      *
-     * @return EntContact
+     * @return EntUser
      */
     public function addUser($user)
     {

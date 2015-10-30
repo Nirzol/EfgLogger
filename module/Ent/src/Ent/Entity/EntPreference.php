@@ -76,8 +76,6 @@ class EntPreference extends Ent
      */
     private $fkPrefProfile;
 
-
-
     /**
      * Get prefId
      *

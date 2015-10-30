@@ -6,6 +6,7 @@ use Ent\Form\ProfileForm;
 use Ent\Service\ProfileDoctrineService;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
+use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -71,8 +72,7 @@ class ProfileRestController extends AbstractRestfulController
         $errorMessage = '';
 
         if ($results) {
-//            $data[] = $results->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($results, 'json', SerializationContext::create()->enableMaxDepthChecks()));
+            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'Les profils ont bien été trouvés.';
         } else {
@@ -99,8 +99,7 @@ class ProfileRestController extends AbstractRestfulController
         $errorMessage = '';
 
         if ($result) {
-//            $data[] = $result->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($result, 'json'));
+            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'Le profil a bien été trouvé.';
         } else {

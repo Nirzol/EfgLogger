@@ -4,7 +4,9 @@ namespace Ent\Controller;
 
 use Ent\Form\ModuleForm;
 use Ent\Service\ModuleDoctrineService;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
+use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -70,8 +72,7 @@ class ModuleRestController extends AbstractRestfulController
         $errorMessage = '';
 
         if ($results) {
-//            $data[] = $results->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($results, 'json'));
+            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'Les modules ont bien été trouvés.';
         } else {
@@ -99,8 +100,7 @@ class ModuleRestController extends AbstractRestfulController
         $errorMessage = '';
 
         if ($result) {
-//            $data[] = $result->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($result, 'json'));
+            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'Le module a bien été trouvé.';
         } else {

@@ -2,6 +2,7 @@
 
 namespace Ent\Service;
 
+use Doctrine\Common\Collections\Criteria;
 use Zend\Form\Form;
 
 /**
@@ -19,6 +20,8 @@ interface ServiceInterface
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 
     public function findOneBy(array $criteria, array $orderBy = null);
+
+    public function matching(Criteria $criteria);
 
     public function insert(Form $form, $dataAssoc);
 

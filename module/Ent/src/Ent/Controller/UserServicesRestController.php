@@ -33,7 +33,7 @@ class UserServicesRestController extends AbstractRestfulController
      * @var DoctrineObject
      */
     protected $hydrator;
-    
+
     /**
      * @var SearchLdapController
      */
@@ -74,6 +74,7 @@ class UserServicesRestController extends AbstractRestfulController
     }
 
     /* get the authenticated user (waiting for an other controller ?) */
+
     public function getList()
     {
         $login = null;
@@ -84,7 +85,7 @@ class UserServicesRestController extends AbstractRestfulController
         $results = null;
         if (!is_null($login)) {
             $results = $this->userService->findBy(array('userLogin' => $login));
-    //        $results = $this->userService->getAll();
+            //        $results = $this->userService->getAll();
         }
         $data = array();
         $successMessage = '';
@@ -103,7 +104,7 @@ class UserServicesRestController extends AbstractRestfulController
             $errorMessage = 'L\'user n\'existe pas dans la base.';
 //            $errorMessage = 'Aucun user existe dans la base.';
         }
-        
+
         return new JsonModel(array(
             'data' => $data,
             'success' => $success,
@@ -130,7 +131,7 @@ class UserServicesRestController extends AbstractRestfulController
             $success = false;
             $errorMessage = 'L\'user n\'existe pas dans la base.';
         }
-        
+
         return new JsonModel(array(
             'data' => $data,
             'success' => $success,
@@ -221,18 +222,19 @@ class UserServicesRestController extends AbstractRestfulController
         ));
     }
 
-    private function extractDataService($result, $login) {
+    private function extractDataService($result, $login)
+    {
 
         $profiles = null;
         foreach ($result->getFkUpProfile() as $profile) {
-            
+
             $prefsProfile = null;
-            foreach ($profile->getFkPref() as $pref) {                
+            foreach ($profile->getFkPref() as $pref) {
                 $service = null;
                 if ($pref->getFkPrefService()) {
                     $data = $pref->getFkPrefService();
                     $attributes = $this->extractAttributes($data, $login);
-                 
+
                     $service = array(
                         'serviceName' => $pref->getFkPrefService()->getServiceName(),
                         'serviceLibelle' => $pref->getFkPrefService()->getServiceLibelle(),
@@ -240,7 +242,7 @@ class UserServicesRestController extends AbstractRestfulController
                         'serviceAttributes' => $attributes
                     );
                 }
-                                
+
                 /* @var $pref EntPreference */
                 $prefsProfile[] = array(
 //                    'prefId' => $pref->getPrefId(),
@@ -248,23 +250,24 @@ class UserServicesRestController extends AbstractRestfulController
                     'prefService' => $service
                 );
             }
-            
+
             /* @var $profile EntProfile */
             $profiles[] = array(
                 'profilePref' => $prefsProfile
             );
         }
-        
+
         return $profiles;
     }
-    
-    private function extractAttributes($data, $login = null) {
+
+    private function extractAttributes($data, $login = null)
+    {
         $attributes = null;
         $mailHost = '';
-        
-         if (!is_null($login)) {
+
+        if (!is_null($login)) {
             $mailHost = $this->searchLdapController->getMailHostByUid($login);
-         }
+        }
         foreach ($data->getAttributes() as $attribute) {
             /* @var $attribute EntAttribute */
             /* match mailhost of mail service with mailhost of user */
@@ -306,8 +309,9 @@ class UserServicesRestController extends AbstractRestfulController
 //                        'value' => $attribute['value']
                     );
                     break;
-            }            
-        }                    
+            }
+        }
         return $attributes;
     }
+
 }
