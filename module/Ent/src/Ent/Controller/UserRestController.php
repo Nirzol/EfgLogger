@@ -2,9 +2,13 @@
 
 namespace Ent\Controller;
 
+use Ent\Entity\EntPreference;
+use Ent\Entity\EntProfile;
 use Ent\Form\UserForm;
+use Ent\Service\PreferenceDoctrineService;
 use Ent\Service\UserDoctrineService;
 use JMS\Serializer\Serializer;
+use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -22,6 +26,12 @@ class UserRestController extends AbstractRestfulController
      * @var UserForm
      */
     protected $userForm;
+    
+    /**
+     *
+     * @var PreferenceDoctrineService
+     */
+    protected $preferenceService;
 
     /**
      * @var Serializer
@@ -54,11 +64,12 @@ class UserRestController extends AbstractRestfulController
 //        return $response;
 //    }
 
-    public function __construct(UserDoctrineService $userService, UserForm $userForm, Serializer $serializer)
+    public function __construct(UserDoctrineService $userService, UserForm $userForm, PreferenceDoctrineService $preferenceService, Serializer $serializer)
     {
         $this->userService = $userService;
         $this->userForm = $userForm;
         $this->serializer = $serializer;
+        $this->preferenceService = $preferenceService;
     }
 
     public function getList()
@@ -394,4 +405,49 @@ class UserRestController extends AbstractRestfulController
 //        }
 //        return $attributes;
 //    }
+    
+    public function getServicesAction() {
+        $login = null;
+        $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
+        if ($authService->hasIdentity()) {
+            $login = $authService->getIdentity()->getUserLogin();
+        }
+        
+        $success = false;
+        $successMessage = '';
+        $errorMessage = '';
+        $data = null;
+        $user = null;
+        $profiles = null;
+        if (!is_null($login)) {
+            $user = $this->userService->findOneBy(array('userLogin' => $login));
+            
+            /* we get the profile of the user at this time*/
+            if ($user) {
+                $success = true;
+                $successMessage = 'L\'user a bien été trouvé.';
+                $profiles = $user->getFkUpProfile();
+                $preferences = null;
+                foreach ($profiles as $profile) {
+                    /* @var $profile EntProfile */
+                    $preference = $this->preferenceService->findOneBy(array('fkPrefProfile' => $profile->getProfileId()));
+                    /* @var $preference EntPreference */
+                    $preferences[] = Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT);
+                }
+                $data = $preferences;                
+            } else {
+                $success = false;
+                $errorMessage = 'L\'user n\'existe pas dans la base.';
+            }
+        }
+        
+        return new JsonModel(array(
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
+    }
 }
