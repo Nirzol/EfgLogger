@@ -98,6 +98,15 @@ class RoleDoctrineService extends DoctrineService implements ServiceInterface
         return $repoFindOneBy;
     }
 
+    public function matching(\Doctrine\Common\Collections\Criteria $criteria)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntHierarchicalRole');
+
+        $repoMatching = $repo->matching($criteria);
+
+        return $repoMatching;
+    }
+
     public function insert(Form $form, $dataAssoc)
     {
         $role = $this->role;

@@ -26,7 +26,7 @@ class EntStatus extends Ent
     /**
      * @var string
      *
-     * @ORM\Column(name="status_name", type="string", length=250, nullable=false)
+     * @ORM\Column(name="status_name", type="string", length=250, nullable=false, unique=true)
      */
     private $statusName;
 

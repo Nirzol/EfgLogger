@@ -4,7 +4,9 @@ namespace Ent\Controller;
 
 use Ent\Form\ActionForm;
 use Ent\Service\ActionDoctrineService;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
+use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -71,7 +73,9 @@ class ActionRestController extends AbstractRestfulController
 
         if ($results) {
 //            $data[] = $results->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($results, 'json'));
+//            $data = json_decode($this->serializer->serialize($results, 'json'));
+//            $success = true;
+            $data = Json::decode($this->serializer->serialize($results, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'Les actions ont bien été trouvés.';
         } else {
@@ -99,7 +103,9 @@ class ActionRestController extends AbstractRestfulController
 
         if ($result) {
 //            $data[] = $result->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($result, 'json'));
+//            $data = json_decode($this->serializer->serialize($result, 'json'));
+//            $success = true;
+            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'L\'action a bien été trouvé.';
         } else {
@@ -116,7 +122,7 @@ class ActionRestController extends AbstractRestfulController
             ),
         ));
     }
-    
+
     // EN SOMMEIL
     public function create($data)
     {

@@ -28,7 +28,7 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="user_login", type="string", length=80, nullable=false)
+     * @ORM\Column(name="user_login", type="string", length=80, nullable=false, unique=true)
      */
     private $userLogin;
 
@@ -254,9 +254,9 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     /**
      * Add contact
      *
-     * @param \Doctrine\Common\Collections\Collection $contact
+     * @param EntContact $contact
      *
-     * @return EntUser
+     * @return EntContact
      */
     public function addContact($contact)
     {
@@ -312,9 +312,9 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     /**
      * Add profile
      *
-     * @param \Doctrine\Common\Collections\Collection $profile
+     * @param EntProfile $profile
      *
-     * @return EntUser
+     * @return EntProfile
      */
     public function addProfile($profile)
     {
@@ -370,9 +370,9 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     /**
      * Add role
      *
-     * @param \Doctrine\Common\Collections\Collection $role
+     * @param EntHierarchicalRole $role
      *
-     * @return EntUser
+     * @return EntHierarchicalRole
      */
     public function addRole($role)
     {

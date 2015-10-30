@@ -26,7 +26,7 @@ class EntContact extends Ent
     /**
      * @var string
      *
-     * @ORM\Column(name="contact_name", type="string", length=200, nullable=false)
+     * @ORM\Column(name="contact_name", type="string", length=200, nullable=false, unique=true)
      */
     private $contactName;
 
@@ -90,11 +90,6 @@ class EntContact extends Ent
      */
     private $fkCsService;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntUser", mappedBy="fkUcContact")
-     */
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
@@ -300,9 +295,9 @@ class EntContact extends Ent
     /**
      * Add service
      *
-     * @param \Doctrine\Common\Collections\Collection $service
+     * @param EntService $service
      *
-     * @return EntContact
+     * @return EntService
      */
     public function addService($service)
     {
@@ -360,7 +355,7 @@ class EntContact extends Ent
      *
      * @param \Ent\Entity\EntUser $user
      *
-     * @return EntContact
+     * @return EntUser
      */
     public function addUser($user)
     {

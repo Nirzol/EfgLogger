@@ -205,7 +205,7 @@ class EntAttribute extends Ent
     /**
      * Remove service
      *
-     * @param \Ent\Entity\EntPermission $service
+     * @param \Ent\Entity\EntService $service
      */
     public function removeService(\Ent\Entity\EntService $service)
     {

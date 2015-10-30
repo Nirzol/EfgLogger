@@ -7,6 +7,7 @@ use Ent\Entity\EntProfile;
 use Ent\Form\UserForm;
 use Ent\Service\PreferenceDoctrineService;
 use Ent\Service\UserDoctrineService;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
@@ -81,8 +82,7 @@ class UserRestController extends AbstractRestfulController
         $errorMessage = '';
 
         if ($results) {
-//            $data[] = $results->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($results, 'json'));
+            $data = Json::decode($this->serializer->serialize($results, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'Les users ont bien été trouvés.';
         } else {
@@ -109,8 +109,7 @@ class UserRestController extends AbstractRestfulController
         $errorMessage = '';
 
         if ($result) {
-//            $data[] = $result->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($result, 'json'));
+            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'L\'user a bien été trouvé.';
         } else {

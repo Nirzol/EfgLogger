@@ -35,7 +35,7 @@ class UserServicesRestController extends AbstractRestfulController
      * @var DoctrineObject
      */
     protected $hydrator;
-    
+
     /**
      * @var SearchLdapController
      */
@@ -88,6 +88,7 @@ class UserServicesRestController extends AbstractRestfulController
     }
 
     /* get the authenticated user (waiting for an other controller ?) */
+
     public function getList()
     {
         $login = 'fandria';
@@ -98,38 +99,25 @@ class UserServicesRestController extends AbstractRestfulController
         }
         $user = null;
         if (!is_null($login)) {
-            $user = $this->userService->findOneBy(array('userLogin' => $login));
-            
-            /* we get the profile of the user at this time*/
-            if ($user) {
-                $profiles = $user->getFkUpProfile();
-                $services[] = null;
-                foreach ($profiles as $profile) {
-                    $services[] =  $this->profileRestController->get($profile->getProfileId());
-                }
-                $data = json_decode($this->serializer->serialize($services, 'json'));
+            $results = $this->userService->findBy(array('userLogin' => $login));
+            //        $results = $this->userService->getAll();
+        }
+        $data = array();
+        $successMessage = '';
+        $errorMessage = '';
+        if (!is_null($results)) {
+            foreach ($results as $result) {
+
+                $data = $this->extractDataService($result, $login);
+//                $data[] = $result->toArray($this->hydrator);
+                $success = true;
+                $successMessage = 'L\'user a bien été trouvé.';
+//                $successMessage = 'Les users ont bien été trouvé.';
             }
             
 //            $data = $this->profileRestController->get(7);
         }
-//        $data = array();
-//        $successMessage = '';
-//        $errorMessage = '';
-//        if (!is_null($results)) {
-//            foreach ($results as $result) {
-//
-//                $data = $this->extractDataService($result, $login);
-////                $data[] = $result->toArray($this->hydrator);
-//                $success = true;
-//                $successMessage = 'L\'user a bien été trouvé.';
-////                $successMessage = 'Les users ont bien été trouvé.';
-//            }
-//        } else {
-//            $success = false;
-//            $errorMessage = 'L\'user n\'existe pas dans la base.';
-////            $errorMessage = 'Aucun user existe dans la base.';
-//        }
-        
+
         return new JsonModel(array(
             'data' => $data,
 //            'success' => $success,
@@ -167,41 +155,28 @@ class UserServicesRestController extends AbstractRestfulController
 //        ));
 //    }
 
-//    public function create($data)
-//    {
-//        $form = $this->userForm;
-//
-//        if ($data) {
-//
-////            object(Zend\Stdlib\Parameters)[140]
-////  private 'storage' (ArrayObject) => 
-////    array (size=3)
-////      'userLogin' => string 'ffff' (length=4)
-////      'userStatus' => string '1' (length=1)
-////      'fkUrRole' => string '1' (length=1)
-//
-//            /* @var $user EntUser */
-//            $user = $this->userService->insert($form, $data);
-//
-//            if ($user) {
-////                $this->flashMessenger()->addSuccessMessage('L\'user a bien été insérer.');
-//
-//                return new JsonModel(array(
-//                    'data' => $user->getUserId(),
-//                    'success' => true,
-//                    'flashMessages' => array(
-//                        'success' => 'L\'user a bien été insérer.',
-//                    ),
-//                ));
-//            }
-//        }
-//        return new JsonModel(array(
-//            'success' => false,
-//            'flashMessages' => array(
-//                'error' => 'L\'user n\'a pas été insérer.',
-//            ),
-//        ));
-//    }
+        $data = array();
+        $successMessage = '';
+        $errorMessage = '';
+        if ($result) {
+            $data = $this->extractDataService($result, null);
+//            $data[] = $result->toArray($this->hydrator);
+            $success = true;
+            $successMessage = 'L\'user a bien été trouver.';
+        } else {
+            $success = false;
+            $errorMessage = 'L\'user n\'existe pas dans la base.';
+        }
+
+        return new JsonModel(array(
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
+    }
 
 //    public function update($id, $data)
 //    {
@@ -247,18 +222,19 @@ class UserServicesRestController extends AbstractRestfulController
 //        ));
 //    }
 
-    private function extractDataService($result, $login) {
+    private function extractDataService($result, $login)
+    {
 
         $profiles = null;
         foreach ($result->getFkUpProfile() as $profile) {
-            
+
             $prefsProfile = null;
-            foreach ($profile->getFkPref() as $pref) {                
+            foreach ($profile->getFkPref() as $pref) {
                 $service = null;
                 if ($pref->getFkPrefService()) {
                     $data = $pref->getFkPrefService();
                     $attributes = $this->extractAttributes($data, $login);
-                 
+
                     $service = array(
                         'serviceName' => $pref->getFkPrefService()->getServiceName(),
                         'serviceLibelle' => $pref->getFkPrefService()->getServiceLibelle(),
@@ -266,7 +242,7 @@ class UserServicesRestController extends AbstractRestfulController
                         'serviceAttributes' => $attributes
                     );
                 }
-                                
+
                 /* @var $pref EntPreference */
                 $prefsProfile[] = array(
 //                    'prefId' => $pref->getPrefId(),
@@ -274,23 +250,24 @@ class UserServicesRestController extends AbstractRestfulController
                     'prefService' => $service
                 );
             }
-            
+
             /* @var $profile EntProfile */
             $profiles[] = array(
                 'profilePref' => $prefsProfile
             );
         }
-        
+
         return $profiles;
     }
-    
-    private function extractAttributes($data, $login = null) {
+
+    private function extractAttributes($data, $login = null)
+    {
         $attributes = null;
         $mailHost = '';
-        
-         if (!is_null($login)) {
+
+        if (!is_null($login)) {
             $mailHost = $this->searchLdapController->getMailHostByUid($login);
-         }
+        }
         foreach ($data->getAttributes() as $attribute) {
             /* @var $attribute EntAttribute */
             /* match mailhost of mail service with mailhost of user */
@@ -332,8 +309,9 @@ class UserServicesRestController extends AbstractRestfulController
 //                        'value' => $attribute['value']
                     );
                     break;
-            }            
-        }                    
+            }
+        }
         return $attributes;
     }
+
 }

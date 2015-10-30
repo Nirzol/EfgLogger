@@ -96,6 +96,15 @@ class ContactDoctrineService extends DoctrineService implements ServiceInterface
         return $repoFindOneBy;
     }
 
+    public function matching(\Doctrine\Common\Collections\Criteria $criteria)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntContact');
+
+        $repoMatching = $repo->matching($criteria);
+
+        return $repoMatching;
+    }
+
     public function insert(Form $form, $dataAssoc)
     {
         $contact = $this->contact;

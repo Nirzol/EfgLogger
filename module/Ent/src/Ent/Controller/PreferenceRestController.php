@@ -9,7 +9,8 @@ use Ent\Service\PreferenceDoctrineService;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
-class PreferenceRestController extends AbstractRestfulController {
+class PreferenceRestController extends AbstractRestfulController
+{
 
     /**
      *
@@ -28,11 +29,11 @@ class PreferenceRestController extends AbstractRestfulController {
      * @var DoctrineObject
      */
     protected $hydrator;
-    
+
     public function options()
     {
         $response = $this->getResponse();
-        $headers  = $response->getHeaders();
+        $headers = $response->getHeaders();
 
         if ($this->params()->fromRoute('id', false)) {
             // Allow viewing, partial updating, replacement, and deletion
@@ -42,7 +43,7 @@ class PreferenceRestController extends AbstractRestfulController {
                 'PATCH',
                 'PUT',
                 'DELETE',
-            )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+            )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
             return $response;
         }
 
@@ -50,18 +51,20 @@ class PreferenceRestController extends AbstractRestfulController {
         $headers->addHeaderLine('Allow', implode(',', array(
             'GET',
             'POST',
-        )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+        )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
 
         return $response;
     }
 
-    public function __construct(PreferenceDoctrineService $preferenceService, PreferenceForm $preferenceForm, DoctrineObject $hydrator) {
+    public function __construct(PreferenceDoctrineService $preferenceService, PreferenceForm $preferenceForm, DoctrineObject $hydrator)
+    {
         $this->preferenceService = $preferenceService;
         $this->preferenceForm = $preferenceForm;
         $this->hydrator = $hydrator;
     }
 
-    public function getList() {
+    public function getList()
+    {
         $results = $this->preferenceService->getAll();
 
         $data = array();
@@ -132,7 +135,7 @@ class PreferenceRestController extends AbstractRestfulController {
 //                    'fkPrefStatus' => $status,
 //                    'fkPrefProfile' => $profiles
 //                );
-            
+
                 $data[] = $result->toArray($this->hydrator);
                 $success = false;
                 $successMessage = 'Les préférences ont bien été trouvées.';
@@ -154,8 +157,9 @@ class PreferenceRestController extends AbstractRestfulController {
             ),
         ));
     }
-    
-    public function get($id) {
+
+    public function get($id)
+    {
         $result = $this->preferenceService->getById($id);
 
 //        $data = array();
@@ -249,7 +253,8 @@ class PreferenceRestController extends AbstractRestfulController {
         ));
     }
 
-    public function create($data) {
+    public function create($data)
+    {
         $form = $this->preferenceForm;
 
         if ($data) {
@@ -276,8 +281,9 @@ class PreferenceRestController extends AbstractRestfulController {
             ),
         ));
     }
-    
-    public function update($id, $data) {
+
+    public function update($id, $data)
+    {
         $form = $this->preferenceForm;
 
         $preference = $this->preferenceService->getById($id, $form);
@@ -307,7 +313,8 @@ class PreferenceRestController extends AbstractRestfulController {
         ));
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $this->preferenceService->delete($id);
 
         $this->flashMessenger()->addSuccessMessage('La préférence a bien été supprimée.');

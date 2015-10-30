@@ -24,6 +24,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Rbac\Role\HierarchicalRoleInterface;
 use ZfcRbac\Permission\PermissionInterface;
 use Doctrine\Common\Collections\Criteria;
+use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity
@@ -75,6 +77,8 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Ent\Entity\EntUser", mappedBy="fkUrRole")
+     * @MaxDepth(1)
+     * @Groups({"fkUrUser"})
      */
     private $fkUrUser;
 
@@ -225,9 +229,9 @@ class EntHierarchicalRole extends Ent implements HierarchicalRoleInterface
     /**
      * Add user
      *
-     * @param \Doctrine\Common\Collections\Collection $user
+     * @param EntUser $user
      *
-     * @return EntHierarchicalRole
+     * @return EntUser
      */
     public function addUser($user)
     {
