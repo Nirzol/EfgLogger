@@ -20,6 +20,8 @@ class UserRestControllerFactory implements FactoryInterface
 //        $config = $sm->get('config');
 
         $userForm = $sm->get('FormElementManager')->get('Ent\Form\UserForm');
+        
+        $preferenceService = $sm->get('Ent\Service\PreferenceDoctrineORM');
 
 //        $searchLdapModel = new SearchLdap($config['searchldap_config']);
 //
@@ -27,7 +29,7 @@ class UserRestControllerFactory implements FactoryInterface
 
         $serializer = $sm->get('jms_serializer.serializer');
 
-        $controller = new UserRestController($userService, $userForm, $serializer);
+        $controller = new UserRestController($userService, $userForm, $preferenceService, $serializer);
 
         return $controller;
     }
