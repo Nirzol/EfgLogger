@@ -99,9 +99,9 @@ class HelpRequestRestController extends AbstractRestfulController
             $recipientMail = $data['recipientMail'];
             $recipientName = $data['recipientName'];
             
-            if(isset($_FILES)) {
+            if(isset($_FILES['file'])) {
                 $filePath = $_FILES['file']['tmp_name'];
-                $fileName = $_FILES['file']['name'];
+                $fileName = $_FILES['file']['name'];                
                 $transport = $this->helpRequestService->sendWithImage($message, $filePath, $fileName, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
             } else {
                 $transport = $this->helpRequestService->sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName);
