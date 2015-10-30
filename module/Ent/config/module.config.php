@@ -863,6 +863,18 @@ return array(
                         'controller' => 'Ent\Controller\UserRest',
                     ),
                 ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'services' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/services',
+                            'defaults' => array(
+                                'action' => 'getServices',
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'user-services-rest' => array(
                 'type' => \Zend\Mvc\Router\Http\Segment::class,
