@@ -7,7 +7,7 @@ return array(
 	'cas_hostname' => 'servauth.univ-paris5.fr',
 	'cas_port' => 443,
 	'cas_path' => '/cas',
-        'no_account_route' => 'user/add-auto',
+        'no_account_route' => 'zfcadmin/user/add-auto',
         'cas_server_ca_cert_path' => dirname(dirname(__DIR__)) . '/data/certificat_P5_cas.pem',
         'cas_proxy' => true,
         'cas_imap_name' => 'imap-i.infr.univ-paris5.fr', //'imap.univ-paris5.fr:993',

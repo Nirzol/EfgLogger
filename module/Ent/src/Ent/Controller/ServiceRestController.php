@@ -98,7 +98,7 @@ class ServiceRestController extends AbstractRestfulController
         $errorMessage = '';
 
         if ($results) {
-            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
+            $data = Json::decode($this->serializer->serialize($results, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'Les users ont bien été trouvés.';
         } else {

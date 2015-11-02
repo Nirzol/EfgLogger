@@ -87,7 +87,7 @@ class EntLog extends Ent
      *
      * @ORM\ManyToOne(targetEntity="Ent\Entity\EntUser")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fk_log_user_id", referencedColumnName="user_id")
+     *   @ORM\JoinColumn(name="fk_log_user_id", referencedColumnName="user_id", onDelete="SET NULL")
      * })
      */
     private $fkLogUser;
