@@ -77,7 +77,7 @@ class UserController extends AbstractActionController
             if ($user) {
                 $this->flashMessenger()->addSuccessMessage('L\'user a bien été insérer.');
 
-                return $this->redirect()->toRoute('user');
+                return $this->redirect()->toRoute('zfcadmin/user');
             }
         }
 
@@ -156,7 +156,7 @@ class UserController extends AbstractActionController
             if ($user) {
                 $this->flashMessenger()->addSuccessMessage('L\'user a bien été updaté.');
 
-                return $this->redirect()->toRoute('user');
+                return $this->redirect()->toRoute('zfcadmin/user');
             }
         }
 
@@ -176,7 +176,7 @@ class UserController extends AbstractActionController
 
         $this->flashMessenger()->addSuccessMessage('L\'user a bien été supprimé.');
 
-        return $this->redirect()->toRoute('user');
+        return $this->redirect()->toRoute('zfcadmin/user');
     }
 
 }

@@ -79,7 +79,7 @@ class ContactRestController extends AbstractRestfulController
         if ($results) {
 //            $data[] = $results->toArray($this->hydrator);
             $data = Json::decode($this->serializer->serialize($results, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
-            $success = false;
+            $success = true;
             $successMessage = 'Les contacts ont bien été trouvés.';
         } else {
             $success = false;
@@ -107,7 +107,7 @@ class ContactRestController extends AbstractRestfulController
         if ($result) {
 //            $data[] = $result->toArray($this->hydrator);
             $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
-            $success = false;
+            $success = true;
             $successMessage = 'Le contact a bien été trouvé.';
         } else {
             $success = false;

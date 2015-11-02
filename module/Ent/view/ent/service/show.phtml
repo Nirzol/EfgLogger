@@ -41,9 +41,14 @@
 <dl class="dl-horizontal">
     <?php
     if ($preferenceAttribute) {
-        foreach ($preferenceAttribute as $attribute) {
-            echo '<dt>' . $attribute->{'attributeName'} . '</dt>';
-            echo '<dd>' . $attribute->{'attributeValue'} . '</dd>';
+        foreach ($preferenceAttribute as $service) {
+            echo $service->{'serviceData'}->{'serviceName'};
+            echo '<dl>';
+            foreach ($service->{'serviceAttributeData'} as $attribute) {
+                echo '<dt>' . $attribute->{'attributeName'} . '</dt>';
+                echo '<dd>' . $attribute->{'attributeValue'} . '</dd>';   
+            }
+            echo '</dl>';
         }
     }
     ?> 

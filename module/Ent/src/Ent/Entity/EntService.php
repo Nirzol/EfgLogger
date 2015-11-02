@@ -73,21 +73,9 @@ class EntService extends Ent
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="fk_sa_attribute_id", referencedColumnName="attribute_id")
      *   }
-     * )
+     * )     
+     * @Groups({"fkSaAttribute"})
      */
-//    /**
-//     * @var \Doctrine\Common\Collections\Collection
-//     *
-//     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntAttribute", indexBy="attribute_name", fetch="LAZY")
-//     * @ORM\JoinTable(name="ent_service_attribute",
-//     *   joinColumns={
-//     *     @ORM\JoinColumn(name="fk_sa_service_id", referencedColumnName="service_id")
-//     *   },
-//     *   inverseJoinColumns={
-//     *     @ORM\JoinColumn(name="fk_sa_attribute_id", referencedColumnName="attribute_id")
-//     *   }
-//     * )
-//     */
     private $fkSaAttribute = [];
 
     /**
@@ -206,27 +194,51 @@ class EntService extends Ent
     }
 
     /**
-     * Add fkCsContact
+     * Add contact
      *
-     * @param \Ent\Entity\EntContact $fkCsContact
+     * @param \Ent\Entity\EntContact $contact
      *
-     * @return EntService
+     * @return EntContact
      */
-    public function addFkCsContact(\Ent\Entity\EntContact $fkCsContact)
+    public function addContact($contact)
     {
-        $this->fkCsContact[] = $fkCsContact;
+        $this->fkCsContact[] = $contact;
 
         return $this;
     }
 
     /**
+     * Add fkCsContact
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkCsContact
+     */
+    public function addFkCsContact(\Doctrine\Common\Collections\ArrayCollection $fkCsContact)
+    {
+        foreach ($fkCsContact as $contact) {
+            $this->addContact($contact);
+        }
+    }
+
+    /**
+     * Remove contact
+     *
+     * @param \Ent\Entity\EntContact $contact
+     */
+    public function removeContact(\Ent\Entity\EntContact $contact)
+    {
+        $this->fkCsContact->removeElement($contact);
+    }
+
+    /**
      * Remove fkCsContact
      *
-     * @param \Ent\Entity\EntContact $fkCsContact
+     * @param \Doctrine\Common\Collections\Collection $fkCsContact
      */
-    public function removeFkCsContact(\Ent\Entity\EntContact $fkCsContact)
+    public function removeFkCsContact(\Doctrine\Common\Collections\ArrayCollection $fkCsContact)
     {
-        $this->fkCsContact->removeElement($fkCsContact);
+        foreach ($fkCsContact as $contact) {
+            $this->removeContact($contact);
+        }
     }
 
     /**
@@ -242,9 +254,9 @@ class EntService extends Ent
     /**
      * Add attribute
      *
-     * @param \Doctrine\Common\Collections\Collection $attribute
+     * @param EntAttribute $attribute
      *
-     * @return EntService
+     * @return EntAttribute
      */
     public function addAttribute($attribute)
     {

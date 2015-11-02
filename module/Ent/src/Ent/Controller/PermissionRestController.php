@@ -4,7 +4,9 @@ namespace Ent\Controller;
 
 use Ent\Form\PermissionForm;
 use Ent\Service\PermissionDoctrineService;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
+use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -70,8 +72,7 @@ class PermissionRestController extends AbstractRestfulController
         $errorMessage = '';
 
         if ($results) {
-//            $data[] = $results->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($results, 'json'));
+            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'Les permissions ont bien été trouvé.';
         } else {
@@ -98,9 +99,8 @@ class PermissionRestController extends AbstractRestfulController
         $errorMessage = '';
 
         if ($result) {
-//            $data[] = $result->toArray($this->hydrator);
-            $data = json_decode($this->serializer->serialize($result, 'json'));
-            $success = false;
+            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
+            $success = true;
             $successMessage = 'La permission a bien été trouver.';
         } else {
             $success = false;

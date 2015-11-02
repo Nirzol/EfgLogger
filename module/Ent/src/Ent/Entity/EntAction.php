@@ -26,7 +26,7 @@ class EntAction extends Ent
     /**
      * @var string
      *
-     * @ORM\Column(name="action_name", type="string", length=250, nullable=false)
+     * @ORM\Column(name="action_name", type="string", length=250, nullable=false, unique=true)
      */
     private $actionName;
 

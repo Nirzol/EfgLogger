@@ -44,7 +44,8 @@ class AuthController extends AbstractActionController
         $configCas = $this->configCas;
         // Enable debugging      
         if ($configCas['cas_debug']) {
-            phpCAS::setDebug($configCas['cas_debug_file']);
+//            phpCAS::setDebug($configCas['cas_debug_file']);
+            phpCAS::setDebug();
         }
 
         // Initialize phpCAS

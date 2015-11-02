@@ -42,13 +42,20 @@
             $valueAttribute = '';
             if (isset($_POST['serviceAttributes']) && !empty($_POST['serviceAttributes'])) {
                 $valueAttribute = $_POST['serviceAttributes'][$attribute->getAttributeId()];
-            } else if ($preferenceAttribute) {
-                foreach ($preferenceAttribute as $value) {
-                    if ($value->{'attributeId'} === $attribute->getAttributeId()) {
-                        $valueAttribute = $value->{'attributeValue'};
-                        break;
+            } else if ($preference) {
+//                foreach ($preferences as $preference) {
+                if ($preference->getFkPrefService()->getServiceId() === $service->getServiceId()) {
+                    $preferenceAttribute = json_decode($preference->getPrefAttribute());
+                    foreach ($preferenceAttribute as $value) {
+                        foreach ($value->{'serviceAttributeData'} as $att) {
+                            if ($att->{'attributeId'} === $attribute->getAttributeId()) {
+                                $valueAttribute = $att->{'attributeValue'};
+                                break;
+                            }
+                        }
                     }
                 }
+//                }
             }
             $i++;
             if ($i === 1) {
@@ -72,7 +79,7 @@
                     $i = 0;
                     ?>
                 </div>
-            <?php
+                <?php
             }
         }
         if ($i !== 3) {

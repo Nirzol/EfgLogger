@@ -84,27 +84,24 @@ class ServiceController extends AbstractActionController
 
         if ($this->request->isPost()) {
             $serviceGetPost = $this->request->getPost();
+            
+            /* @var $entPlugin EntPlugin */
+            $entPlugin = $this->EntPlugin();
 
-            // Filtre du array Attribute pour enlever les valeurs vides/null
-            $attributeFilterPost = array_filter($serviceGetPost['serviceAttributes']);
-            if (isset($attributeFilterPost) && !empty($attributeFilterPost)) {
-                // Récupère les key qui sont en fait les attributeId
-                $attributeKeyFilterPost = array_keys($attributeFilterPost);
+            $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], null, $this->serviceService, $this->attributeService, $this->serializer);
 
-                // Assigne fkSaAttribute pour pouvoir insérer le service et les attributs qui lui sont liés
-                $serviceGetPost['fkSaAttribute'] = $attributeKeyFilterPost;
-
-                // Prepare les attribute pour les insérer dans EntPreferences
-                /* @var $entPlugin EntPlugin */
-                $entPlugin = $this->EntPlugin();
-                $prefAttribute = $entPlugin->preparePrefAttribute($attributeFilterPost, $attributeKeyFilterPost, $this->attributeService, $this->serializer);
-            }
             // Insert le service
             /* @var $service EntService */
             $service = $this->serviceService->insert($form, $serviceGetPost);
 
             if ($service) {
                 if (isset($prefAttribute) && !empty($prefAttribute)) {
+                    
+                    $prefAttribute[0]['serviceData'] = Json::decode($this->serializer->serialize($service, 'json', \JMS\Serializer\SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_ARRAY);
+                    
+                    $prefAttribute[$service->getServiceName()] = $prefAttribute[0];
+                    unset($prefAttribute[0]);
+                    
                     $formPreference = $this->preferenceForm;
                     //Insert la prefrence du service
                     $dataPreference = array('prefAttribute' => Json::encode($prefAttribute), 'fkPrefService' => $service->getServiceId(), 'fkPrefStatus' => $this->config['default_status']);
@@ -138,7 +135,7 @@ class ServiceController extends AbstractActionController
         $preferenceAttribute = '';
         if($preference){
             $preferenceAttribute = Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT);
-            var_dump($preferenceAttribute);
+//            var_dump($preferenceAttribute);
         }
         return new ViewModel(array(
             'service' => $service,
@@ -157,21 +154,26 @@ class ServiceController extends AbstractActionController
         if ($this->request->isPost()) {
 
             $serviceGetPost = $this->request->getPost();
+            
+                        /* @var $entPlugin EntPlugin */
+            $entPlugin = $this->EntPlugin();
 
-            // Filtre du array Attribute pour enlever les valeurs vides/null
-            $attributeFilterPost = array_filter($serviceGetPost['serviceAttributes']);
-            if (isset($attributeFilterPost) && !empty($attributeFilterPost)) {
-                // Récupère les key qui sont en fait les attributeId
-                $attributeKeyFilterPost = array_keys($attributeFilterPost);
-
-                // Assigne fkSaAttribute pour pouvoir insérer le service et les attributs qui lui sont liés
-                $serviceGetPost['fkSaAttribute'] = $attributeKeyFilterPost;
-
-                // Prepare les attribute pour les updater dans EntPreferences
-                /* @var $entPlugin EntPlugin */
-                $entPlugin = $this->EntPlugin();
-                $prefAttribute = $entPlugin->preparePrefAttribute($attributeFilterPost, $attributeKeyFilterPost, $this->attributeService, $this->serializer);
-            }
+            $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], $service, $this->serviceService, $this->attributeService, $this->serializer);
+//            var_dump($prefAttribute);
+//            // Filtre du array Attribute pour enlever les valeurs vides/null
+//            $attributeFilterPost = array_filter($serviceGetPost['serviceAttributes']);
+//            if (isset($attributeFilterPost) && !empty($attributeFilterPost)) {
+//                // Récupère les key qui sont en fait les attributeId
+//                $attributeKeyFilterPost = array_keys($attributeFilterPost);
+//
+//                // Assigne fkSaAttribute pour pouvoir insérer le service et les attributs qui lui sont liés
+//                $serviceGetPost['fkSaAttribute'] = $attributeKeyFilterPost;
+//
+//                // Prepare les attribute pour les updater dans EntPreferences
+//                /* @var $entPlugin EntPlugin */
+//                $entPlugin = $this->EntPlugin();
+//                $prefAttribute = $entPlugin->preparePrefAttribute($attributeFilterPost, $attributeKeyFilterPost, $this->attributeService, $this->serializer);
+//            }
             // Update le service
             /* @var $service EntService */
             $service = $this->serviceService->save($form, $serviceGetPost, $service);
@@ -190,7 +192,8 @@ class ServiceController extends AbstractActionController
 
         return new ViewModel(array(
             'attributes' => $attributes,
-            'preferenceAttribute' => Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT),
+            'service' => $service,
+            'preference' => $preference,
             'form' => $form->prepare(),
         ));
     }

@@ -14,7 +14,9 @@ use Zend\View\Model\JsonModel;
  *
  * @author fandria
  */
-class StructureRestController extends AbstractRestfulController{
+class StructureRestController extends AbstractRestfulController
+{
+
     /**
      *
      * @return StructureDoctrineService
@@ -32,7 +34,7 @@ class StructureRestController extends AbstractRestfulController{
      * @var DoctrineObject
      */
     protected $hydrator;
-    
+
 //    public function options()
 //    {
 //        $response = $this->getResponse();
@@ -58,7 +60,7 @@ class StructureRestController extends AbstractRestfulController{
 //
 //        return $response;
 //    }
-    
+
 
     public function __construct(StructureDoctrineService $structureService, StructureForm $structureForm, DoctrineObject $hydrator)
     {
@@ -171,4 +173,5 @@ class StructureRestController extends AbstractRestfulController{
 //            ),
 //        ));
     }
+
 }

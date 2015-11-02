@@ -38,6 +38,106 @@
         <?= $this->formElementErrors($form->get('profileDescription')) ?>           
     </div>
 </div>
+
+
+<div class="form-group<?php if ($form->get('services')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('services')->setLabelAttributes(['class' => 'col-sm-2 control-label '])) ?>
+    <div class="col-sm-10">
+        <!--<div class="checkbox">-->
+        <?php
+//            $this->formMultiCheckbox()->setSeparator('</div><div class="checkbox">');
+        echo $this->formMultiCheckbox($form->get('services')->setLabelAttributes(['class' => 'checkbox-inline'])) //->setAttributes(array('data-toggle' => 'modal', 'data-target' => '#myModal'))
+        ?>
+        <!--</div>-->
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('services')) ?>           
+    </div>
+</div>
+
+<?php
+foreach ($services as $service) {
+    ?>
+    <div class="modal fade" id="<?php echo 'serviceIdModal' . $service->getServiceId(); ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><?= $this->translate('Attribut pour ') . $service->getServiceName() ?></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <?php
+                            $i = 0;
+                            $formAttribute = '';
+                            foreach ($attributes as $attribute) {
+                                $getServiceAttributes = 'serviceAttributes[' . $service->getServiceId() . '][' . $attribute->getAttributeId() . ']';
+                                $valueAttribute = '';
+                                if (isset($_POST['serviceAttributes']) && !empty($_POST['serviceAttributes'])) {
+                                    $valueAttribute = $_POST['serviceAttributes'][$service->getServiceId()][$attribute->getAttributeId()];
+                                } else if ($preferences) {
+                                    foreach ($preferences as $preference) {
+                                        if ($preference['serviceData']['serviceId'] === $service->getServiceId()) {
+                                            $serviceAttributeData = $this->json($preference['serviceAttributeData']);
+
+                                            $preferenceAttribute = json_decode($serviceAttributeData);
+
+//                                            $preferenceAttribute = json_decode($preference->getPrefAttribute());
+                                            foreach ($preferenceAttribute as $value) {
+//                                                foreach ($value->{'serviceAttributeData'} as $att) {
+                                                    if ($value->{'attributeId'} === $attribute->getAttributeId()) {
+                                                        $valueAttribute = $value->{'attributeValue'};
+                                                        break;
+                                                    }
+//                                                }
+                                            }
+//                                            break;
+                                        }
+                                    }
+                                }
+                                $i++;
+                                if ($i === 1) {
+                                    ?>
+                                    <div class="row">
+                                    <?php }
+                                    ?>
+                                    <div class="col-md-4">
+                                        <div class="form-group<?php if ($form->get($getServiceAttributes)->getMessages()) echo ' has-error'; ?>">
+                                            <div class="col-xs-12">
+                                                <?= $this->formLabel($form->get($getServiceAttributes)->setLabelAttributes(['class' => 'control-label'])) ?>
+                                                <?= $this->formText($form->get($getServiceAttributes)->setAttribute('class', 'form-control')->setValue($valueAttribute)) ?>
+                                                <div id="helpBlock" class="help-block">
+                                                    <?= $this->formElementErrors($form->get($getServiceAttributes)) ?>           
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <?php
+                                    if ($i === 3) {
+                                        $i = 0;
+                                        ?>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            if ($i !== 3) {
+                                echo '</div>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+?>
+
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-primary"><?= $this->translate('Modifier') ?></button>

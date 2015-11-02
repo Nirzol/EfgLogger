@@ -72,7 +72,7 @@ class PreferenceDoctrineService extends DoctrineService implements ServiceInterf
 
         return $repoFind;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -80,11 +80,11 @@ class PreferenceDoctrineService extends DoctrineService implements ServiceInterf
     {
         $repo = $this->em->getRepository('Ent\Entity\EntPreference');
 
-        $repoFindOneBy = $repo->findBy($criteria, $orderBy, $limit, $offset);
+        $repoFindBy = $repo->findBy($criteria, $orderBy, $limit, $offset);
 
-        return $repoFindOneBy;
+        return $repoFindBy;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -95,6 +95,15 @@ class PreferenceDoctrineService extends DoctrineService implements ServiceInterf
         $repoFindOneBy = $repo->findOneBy($criteria, $orderBy);
 
         return $repoFindOneBy;
+    }
+
+    public function matching(\Doctrine\Common\Collections\Criteria $criteria)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntPreference');
+
+        $repoMatching = $repo->matching($criteria);
+
+        return $repoMatching;
     }
 
     public function insert(Form $form, $dataAssoc)

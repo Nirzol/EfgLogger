@@ -3,6 +3,8 @@
 namespace Ent\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * EntProfile
@@ -62,6 +64,8 @@ class EntProfile extends Ent
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Ent\Entity\EntUser", mappedBy="fkUpProfile")
+     * @MaxDepth(1)
+     * @Groups({"fkUpUser"})
      */
     private $fkUpUser;
 
@@ -206,9 +210,9 @@ class EntProfile extends Ent
     /**
      * Add user
      *
-     * @param \Doctrine\Common\Collections\Collection $user
+     * @param EntUser $user
      *
-     * @return EntProfile
+     * @return EntUser
      */
     public function addUser($user)
     {

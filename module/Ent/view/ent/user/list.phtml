@@ -3,7 +3,7 @@
 <h1><?= $this->translate('Liste des users') ?></h1>
 
 <p>
-    <a href="<?= $this->url('user/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouvel user') ?></a>
+    <a href="<?= $this->url('zfcadmin/user/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouvel user') ?></a>
 </p>
 
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
@@ -11,9 +11,7 @@
         <?= $this->translate($m) ?>  
     </div> 
 <?php endforeach; ?>
-<p>
-    <a href="<?php echo $this->url('user/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouvel utilisateur</a>
-</p>
+
 <table class="table table-striped">
     <tr>
         <th><?= $this->translate('Login') ?></th>
@@ -27,13 +25,13 @@
                 <?= $this->escapeHtml($user->getUserLogin()) ?>
             </td>
             <td>
-                <a href="<?= $this->url('user/show', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+                <a href="<?= $this->url('zfcadmin/user/show', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('user/show/update', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+                <a href="<?= $this->url('zfcadmin/user/show/update', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('user/show/delete', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+                <a href="<?= $this->url('zfcadmin/user/show/delete', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>

@@ -2,6 +2,7 @@
 
 namespace Ent\Form;
 
+use Doctrine\ORM\EntityManager;
 use Zend\Form\Form;
 
 class ActionForm extends Form
@@ -9,7 +10,7 @@ class ActionForm extends Form
 
     protected $entityManager;
 
-    public function __construct(\Doctrine\ORM\EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager)
     {
         parent::__construct('action');
 

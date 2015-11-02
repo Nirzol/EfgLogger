@@ -7,6 +7,7 @@ use Ent\Service\PreferenceDoctrineService;
 use Ent\Service\ServiceDoctrineService;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
+use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -97,9 +98,7 @@ class ServiceRestController extends AbstractRestfulController
         $errorMessage = '';
 
         if ($results) {
-//            $data[] = $results->toArray($this->hydrator);
-//            $data = json_decode($this->serializer->serialize($results, 'json', \JMS\Serializer\SerializationContext::create()->enableMaxDepthChecks()));
-            $data = json_decode($this->serializer->serialize($results, 'json', SerializationContext::create()->enableMaxDepthChecks()->setGroups(array('Default'))));
+            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'Les users ont bien été trouvés.';
         } else {
@@ -126,10 +125,7 @@ class ServiceRestController extends AbstractRestfulController
         $errorMessage = '';
 
         if ($result) {
-//            $data[] = $result->toArray($this->hydrator);
-//            $data = json_decode($this->serializer->serialize($result, 'json'));
-//            $data = json_decode($this->serializer->serialize($results, 'json', \JMS\Serializer\SerializationContext::create()->enableMaxDepthChecks()));
-            $data = json_decode($this->serializer->serialize($result, 'json', SerializationContext::create()->enableMaxDepthChecks()->setGroups(array('Default'))));
+            $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
             $successMessage = 'L\'user a bien été trouvé.';
         } else {

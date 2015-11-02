@@ -101,6 +101,15 @@ class UserDoctrineService extends DoctrineService implements ServiceInterface
         return $repoFindOneBy;
     }
 
+    public function matching(\Doctrine\Common\Collections\Criteria $criteria)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntUser');
+
+        $repoMatching = $repo->matching($criteria);
+
+        return $repoMatching;
+    }
+
     public function insert(Form $form, $dataAssoc)
     {
         $user = $this->user;

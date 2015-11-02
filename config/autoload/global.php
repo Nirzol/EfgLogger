@@ -24,12 +24,9 @@ return array(
     ),
     
     'user-add-base' => array(
-//        'role-base-id' => 3,
-//        'status-base-id' => 1,
-//        'profile-base-id' => 3
         'role_default_id' => 3,
         'status_default_id' => 1,
-        'profile_default_id' => 3,
+        'profile_default_id' => 7,
         'student_redirect_url' => 'http://ent-ng.parisdescartes.fr',
     ),
     

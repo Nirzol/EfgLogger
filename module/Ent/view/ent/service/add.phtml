@@ -32,46 +32,49 @@
 </div>
 
 <div class="form-group">
-    <label class="col-sm-2 control-label">Attributs : </label>
+    <label class="col-sm-2 control-label"><?= $this->translate('Attributs :') ?> </label>
     <div class="col-sm-10">
-<?php
-$i = 0;
-$formAttribute = '';
-foreach ($attributes as $attribute) {
-    $getServiceAttributes = 'serviceAttributes['.$attribute->getAttributeId().']';
-    $valueAttribute = '';
-    if(isset($_POST['serviceAttributes']) && !empty($_POST['serviceAttributes'])){
-        $valueAttribute = $_POST['serviceAttributes'][$attribute->getAttributeId()];
-    }
-    $i++;
-    if ($i === 1) {?>
-        <div class="row">
-    <?php }
-    ?>
-    <div class="col-md-4">
-        <div class="form-group<?php if ($form->get($getServiceAttributes)->getMessages()) echo ' has-error'; ?>">
-            <div class="col-xs-12">
-                <?= $this->formLabel($form->get($getServiceAttributes)->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
-                <?= $this->formText($form->get($getServiceAttributes)->setAttribute('class', 'form-control')->setValue($valueAttribute)) ?>
-                <div id="helpBlock" class="help-block">
-                    <?= $this->formElementErrors($form->get($getServiceAttributes)) ?>           
-                </div>
-            </div>
-        </div>
-    </div>  
-    <?php
-    if ($i === 3) {
-        $i = 0; ?>
-        </div>
-    <?php }
-}
-if ($i !== 3) { 
-    echo '</div>';
-}
-?>
-            </div>
-</div>
         <?php
+        $i = 0;
+        $formAttribute = '';
+        foreach ($attributes as $attribute) {
+            $getServiceAttributes = 'serviceAttributes[' . $attribute->getAttributeId() . ']';
+            $valueAttribute = '';
+            if (isset($_POST['serviceAttributes']) && !empty($_POST['serviceAttributes'])) {
+                $valueAttribute = $_POST['serviceAttributes'][$attribute->getAttributeId()];
+            }
+            $i++;
+            if ($i === 1) {
+                ?>
+                <div class="row">
+                <?php }
+                ?>
+                <div class="col-md-4">
+                    <div class="form-group<?php if ($form->get($getServiceAttributes)->getMessages()) echo ' has-error'; ?>">
+                        <div class="col-xs-12">
+                            <?= $this->formLabel($form->get($getServiceAttributes)->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+                                <?= $this->formText($form->get($getServiceAttributes)->setAttribute('class', 'form-control')->setValue($valueAttribute)) ?>
+                            <div id="helpBlock" class="help-block">
+                                <?= $this->formElementErrors($form->get($getServiceAttributes)) ?>           
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                <?php
+                if ($i === 3) {
+                    $i = 0;
+                    ?>
+                </div>
+            <?php
+            }
+        }
+        if ($i !== 3) {
+            echo '</div>';
+        }
+        ?>
+    </div>
+</div>
+<?php
 //foreach ($attributes as $attribute) { //'.$attribute->getAttributeId().'
 //    $i++;
 //    if ($i === 1) {
@@ -100,7 +103,7 @@ if ($i !== 3) {
 <!--<div class="form-group">
     <label class="col-sm-2 control-label">Attributs : </label>
     <div class="col-sm-10">
-        <?= $formAttribute; ?>
+<?= $formAttribute; ?>
     </div>
 </div>-->
 

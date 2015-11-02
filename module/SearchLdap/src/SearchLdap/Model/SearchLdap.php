@@ -29,7 +29,7 @@ class SearchLdap {
         
         return $ldap;
     }
-    
+          
     public function searchUser($searchValue) {
         $ldap = $this->ldapConnect();
         $filter = "";
@@ -70,16 +70,18 @@ class SearchLdap {
             
             if ($searchValues[1] === 'Personnel') {
                 // Pour le filtre Personnel, on recherche les personnes dont l'edupersonprimaryaffiliation est égale à staff ou faculty 
-                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."*))(|(edupersonprimaryaffiliation=staff)(edupersonprimaryaffiliation=faculty)))";
+                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."))(|(edupersonprimaryaffiliation=staff)(edupersonprimaryaffiliation=faculty)))";
             } else if ($searchValues[1] === 'Etudiant') {
-                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."*))(edupersonprimaryaffiliation=student))";
+                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."))(edupersonprimaryaffiliation=student))";
             }
         } else {
             // Recherche avec un uid ou un nom
-            $filter = "(|(sn=" . $searchValue . "*)(uid=" . $searchValue . "*))";
+            $filter = "(uid=" . $searchValue . ")";
         }
         
         $searchResult = $ldap->searchEntries($filter);
+        
+        $ldap->disconnect();
         
         return (count($searchResult) > 0 ? $searchResult : 0);
     }
@@ -87,10 +89,11 @@ class SearchLdap {
     public function getPrimaryAffiliationByUid($uid) {
         $ldap = $this->ldapConnect();
         
-        $filter = "(uid=" . $uid . "*)";
+        $filter = "(uid=" . $uid . ")";
         
         $searchResult = $ldap->searchEntries($filter);
         if (!empty($searchResult)) {
+            $ldap->disconnect();
             return ($searchResult[0]['edupersonprimaryaffiliation']) ? $searchResult[0]['edupersonprimaryaffiliation'][0] : null;
         }
         
@@ -101,10 +104,11 @@ class SearchLdap {
     public function getMailHostByUid($uid) {
         $ldap = $this->ldapConnect();
         
-        $filter = "(uid=" . $uid . "*)";
+        $filter = "(uid=" . $uid . ")";
         
         $searchResult = $ldap->searchEntries($filter);
         if (!empty($searchResult)) {
+            $ldap->disconnect();
             return ($searchResult[0]['mailhost']) ? $searchResult[0]['mailhost'][0] : null;
         }
         
