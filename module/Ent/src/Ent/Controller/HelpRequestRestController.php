@@ -99,11 +99,18 @@ class HelpRequestRestController extends AbstractRestfulController
             $recipientMail = $data['recipientMail'];
             $recipientName = $data['recipientName'];
             
-            if(isset($_FILES['file'])) {
-                $filePath = $_FILES['file']['tmp_name'];
-                $fileName = $_FILES['file']['name'];                
-                $transport = $this->helpRequestService->sendWithImage($message, $filePath, $fileName, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
+            // On compte le nombre fichiers à envoyer
+            $countFiles = count($_FILES);
+                       
+            if(count($_FILES) > 0) {
+                // Si on a un ou plusieurs fichiers à envoyer
+                for($i = 0; $i < $countFiles; $i++) {
+                    $filePaths[] = $_FILES['file'.$i]['tmp_name'];
+                    $fileNames[] = $_FILES['file'.$i]['name'];
+                }
+                $transport = $this->helpRequestService->sendWithImage($message, $filePaths, $fileNames, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
             } else {
+                // Si on n'a pas de fichiers à envoyer
                 $transport = $this->helpRequestService->sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName);
             }
                         
@@ -118,7 +125,6 @@ class HelpRequestRestController extends AbstractRestfulController
                     ),
                 ));
             }
-            
         }
                
         return new JsonModel(array(
