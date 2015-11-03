@@ -100,7 +100,7 @@ class ProfileController extends AbstractActionController
         $form = $this->profileForm;
 
         /* @var $serviceMultiCheckbox MultiCheckbox */
-        $serviceMultiCheckbox = $form->get('services');
+        $serviceMultiCheckbox = $form->get('fkPsService');
         $result = array();
         // Ajout de l'attribut pour faire foncitonner le modal
         foreach ($serviceMultiCheckbox->getValueOptions() as $value) {
@@ -117,7 +117,7 @@ class ProfileController extends AbstractActionController
             /* @var $entPlugin EntPlugin */
             $entPlugin = $this->EntPlugin();
 
-            $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], $serviceGetPost['services'], $this->serviceService, $this->attributeService, $this->serializer);
+            $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], $serviceGetPost['fkPsService'], $this->serviceService, $this->attributeService, $this->serializer);
 
             $profile = $this->profileService->insert($form, $this->request->getPost());
             if ($profile) {
@@ -170,26 +170,22 @@ class ProfileController extends AbstractActionController
     {
         $id = $this->params('id');
         $form = $this->profileForm;
+        /* @var $profile \Ent\Entity\EntProfile */
         $profile = $this->profileService->getById($id, $form);
         $services = $this->serviceService->getAll();
         $attributes = $this->attributeService->getAll();
         $preferenceProfile = $this->preferenceService->findOneBy(array('fkPrefService' => null, 'fkPrefUser' => null, 'fkPrefProfile' => $id));
 
         /* DEBUT gestion du merge des preference : ceux des services + celui du Profil */
-        $profileServiceId = array();
         $preferences = '';
-        //Récupèration de la preference du profil et je stocke les services ID 
+        //Récupèration de la preference du profil
         if ($preferenceProfile) {
             $preferences = Json::decode($preferenceProfile->getPrefAttribute(), Json::TYPE_ARRAY);
-
-            foreach ($preferences as $preferenceArrayService) {
-                $profileServiceId[] = $preferenceArrayService['serviceData']['serviceId'];
-            }
         }
-//        var_dump($profileServiceId);
+
         // Récuperation les preferences des services en enlevant ceux du profil
         $criteria = new \Doctrine\Common\Collections\Criteria();
-        $criteria->where($criteria->expr()->notIn('fkPrefService', $profileServiceId));
+        $criteria->where($criteria->expr()->notIn('fkPrefService', $profile->getFkPsService()->toArray()));
         $preferenceServices = $this->preferenceService->matching($criteria);
 
         // merge des attributs
@@ -198,21 +194,17 @@ class ProfileController extends AbstractActionController
         }
         /* FIN gestion du merge des preference : ceux des services + celui du Profil */
 
-//        var_dump($preferences);
-
-        /* DEBUT gestion des multicheckbox pour le Modal Boostrap + gestion checked */
+        /* DEBUT gestion des multicheckbox pour le Modal Boostrap */
         /* @var $serviceMultiCheckbox MultiCheckbox */
-        $serviceMultiCheckbox = $form->get('services');
+        $serviceMultiCheckbox = $form->get('fkPsService');
         $result = array();
         // Ajout de l'attribut pour faire fonctionner le modal
         foreach ($serviceMultiCheckbox->getValueOptions() as $value) {           
             // Construction de l'attribut pour le modal
             $test = "if(this.checked){ $('#serviceIdModal" . $value['value'] . "').modal(); }";
-            $value['attributes'] = array('onChange' => $test, 'checked' => true);
+            $value['attributes'] = array('onChange' => $test);
             $result[] = $value;
         }
-        // On check les case qu'il faut
-        $serviceMultiCheckbox->setValue($profileServiceId);
         //Reasigne les values avec le nouveau attribut
         $serviceMultiCheckbox->setValueOptions($result);
         /* FIN gestion des multicheckbox pour le Modal Boostrap + gestion checked */
@@ -223,7 +215,7 @@ class ProfileController extends AbstractActionController
             /* @var $entPlugin EntPlugin */
             $entPlugin = $this->EntPlugin();
 
-            $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], $serviceGetPost['services'], $this->serviceService, $this->attributeService, $this->serializer);
+            $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], $serviceGetPost['fkPsService'], $this->serviceService, $this->attributeService, $this->serializer);
 
             $profile = $this->profileService->save($form, $this->request->getPost(), $profile);
 

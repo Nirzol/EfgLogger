@@ -92,6 +92,15 @@ class ProfileInputFilter extends InputFilter
             'validators' => array(
             ),
         ));
+        
+        $this->add(array(
+            'name' => 'fkPsService',
+            'required' => true,
+            'filters' => array(
+            ),
+            'validators' => array(
+            ),
+        ));
     }
 
     public function appendEditValidator($id)
