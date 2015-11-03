@@ -74,19 +74,9 @@ class HelpRequestController extends AbstractActionController {
                 $form->getData();                
                 
                 $body = $request->getPost('message');
-                
-                $countFiles = count($_FILES);
-                
-                if(count($_FILES) > 0) {
-                    // Si on a un ou plusieurs fichiers à envoyer
-                    for($i = 0; $i < $countFiles; $i++) {
-                        $filePaths[] = $_FILES['image-file']['tmp_name'];
-                        $fileNames[] = $_FILES['image-file']['name'];
-                    }
-                }
-                
-//                $filePath = $_FILES['image-file']['tmp_name'];
-//                $fileName = $_FILES['image-file']['name'];
+                                              
+                $filePaths = $_FILES['image-file']['tmp_name'];
+                $fileNames = $_FILES['image-file']['name'];
                 
                 $senderMail = $infoUser[0]['mail'][0];
                 $senderName = $infoUser[0]['displayname'][0];
@@ -112,7 +102,7 @@ class HelpRequestController extends AbstractActionController {
                     $message = $body."\n" ."\n" ."**** INFORMATIONS SUPPLEMENTAIRES ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService;
                 }
                                
-                if (empty($filePaths) && empty($fileNames)) {
+                if (empty($fileNames[0]) && empty($filePaths[0])) {
                     $transport = $this->helpRequestService->sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName);
                 } else {
                     $transport = $this->helpRequestService->sendWithImage($message, $filePaths, $fileNames, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
