@@ -23,27 +23,33 @@ class HelpRequestDoctrineService implements HelpRequestServiceInterface {
         $this->em = $em;
     }
 
-    public function sendWithImage($message, $filePath, $fileName, $senderMail, $senderName, $recipientMail, $recipientName, $subject) {
+    public function sendWithImage($message, $filePaths, $fileNames, $senderMail, $senderName, $recipientMail, $recipientName, $subject) {
+        $mimeMessage = new Mime\Message();
+        
         $text = new Mime\Part($message);
         $text->type = Mime\Mime::TYPE_TEXT;
         $text->charset = 'utf-8';
         
+        $mimeMessage->addPart($text);
+        
         $html = new Mime\Part($message);
         $html->type = Mime\Mime::TYPE_HTML;
         
-        $fileContent = fopen($filePath, 'r');
+        $mimeMessage->addPart($html);
+        
+        // Boucle pour gérer l'envoi d'un ou plusieurs fichiers
+        for($i = 0; $i < count($filePaths); $i++) {
+            $fileContent = fopen($filePaths[$i], 'r');
+            
+            $attachment = new Mime\Part($fileContent);
+            $attachment->type = 'image/jpg';
+            $attachment->disposition = Mime\Mime::DISPOSITION_ATTACHMENT;
+            $attachment->filename = $fileNames[$i];
 
-        $attachment = new Mime\Part($fileContent);
-        $attachment->type = 'image/jpg';
-        $attachment->disposition = Mime\Mime::DISPOSITION_ATTACHMENT;
-        $attachment->filename = $fileName;
-
-        // Setting the encoding is recommended for binary data
-        $attachment->encoding = Mime\Mime::ENCODING_BASE64;
-
-        // then add them to a MIME message
-        $mimeMessage = new Mime\Message();
-        $mimeMessage->setParts(array($text, $html, $attachment));
+            // Setting the encoding is recommended for binary data
+            $attachment->encoding = Mime\Mime::ENCODING_BASE64;
+            $mimeMessage->addPart($attachment);
+        }
 
         // and finally we create the actual email
         $mail = new Mail\Message();

@@ -45,6 +45,7 @@ class HelpRequestForm extends Form
         $file = new File('image-file');
         $file->setLabel('Copie d\'écran');
         $file->setAttribute('id', 'image-file');
+        $file->setAttribute('multiple', true);
         $this->add($file);
 
         $element = new Email('email');

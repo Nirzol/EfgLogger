@@ -74,13 +74,14 @@ class HelpRequestController extends AbstractActionController {
                 $form->getData();                
                 
                 $body = $request->getPost('message');
-                $filePath = $_FILES['image-file']['tmp_name'];
-                $fileName = $_FILES['image-file']['name'];
+                                              
+                $filePaths = $_FILES['image-file']['tmp_name'];
+                $fileNames = $_FILES['image-file']['name'];
                 
                 $senderMail = $infoUser[0]['mail'][0];
                 $senderName = $infoUser[0]['displayname'][0];
                 $senderService = $infoUser[0]['ou'][0];
-                $senderPhone = $infoUser[0]['telephonenumber'][0];
+                //$senderPhone = $infoUser[0]['telephonenumber'][0];
                 
                 $id = (int) $request->getPost('contactDescription');
                 
@@ -94,15 +95,17 @@ class HelpRequestController extends AbstractActionController {
                 $mailAlt = $request->getPost('email');
                 
                 if (!empty($mailAlt)) {
-                    $message = $body."\n" ."\n" ."**** Informations supplémentaires ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService." \n "."Téléphone : ".$senderPhone." \n "."Mail alternatif : " .$mailAlt;
+                    //$message = $body."\n" ."\n" ."**** INFORMATIONS SUPPLEMENTAIRES ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService." \n "."Téléphone : ".$senderPhone." \n "."Mail alternatif : " .$mailAlt;
+                    $message = $body."\n" ."\n" ."**** INFORMATIONS SUPPLEMENTAIRES ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService." \n "."Mail alternatif : " .$mailAlt;
                 } else {
-                    $message = $body."\n" ."\n" ."**** Informations supplémentaires ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService." \n "."Téléphone : ".$senderPhone;
+                    //$message = $body."\n" ."\n" ."**** INFORMATIONS SUPPLEMENTAIRES ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService." \n "."Téléphone : ".$senderPhone;
+                    $message = $body."\n" ."\n" ."**** INFORMATIONS SUPPLEMENTAIRES ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService;
                 }
                                
-                if (empty($filePath) && empty($fileName)) {
+                if (empty($fileNames[0]) && empty($filePaths[0])) {
                     $transport = $this->helpRequestService->sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName);
                 } else {
-                    $transport = $this->helpRequestService->sendWithImage($message, $filePath, $fileName, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
+                    $transport = $this->helpRequestService->sendWithImage($message, $filePaths, $fileNames, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
                 }
                 
                 if ($transport) {
