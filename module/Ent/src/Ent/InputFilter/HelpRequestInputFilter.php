@@ -34,12 +34,14 @@ class HelpRequestInputFilter extends InputFilter {
 
         $this->add($input);
         
-        $fileInput = new \Zend\InputFilter\FileInput();
+        $fileInput = new \Zend\InputFilter\FileInput('image-file');
         $fileInput->setRequired(false);
         
-        $fileInput->getValidatorChain()
-                ->attachByName('file-size', array('max' => 2000000))
-                ->attachByName('filemimetype',  array('mimeType' => 'image/png,image/jpg'));
+        $validatorSize = new \Zend\Validator\File\Size(array('min' => 1, 'max' => 2000000));
+        $fileInput->getValidatorChain()->attach($validatorSize);
+        
+        $validatorType = new \Zend\Validator\File\MimeType(array('image/png', 'image/jpeg'));
+        $fileInput->getValidatorChain()->attach($validatorType);
         
         $this->add($fileInput);
         
