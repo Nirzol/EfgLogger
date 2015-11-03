@@ -494,6 +494,15 @@ return array(
                                     ),
                                 ),
                             ),
+                            'updateProfile' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/updateProfile',
+                                    'defaults' => array(
+                                        'action' => 'updateProfile',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),

@@ -19,6 +19,7 @@
         <th><?= $this->translate('Service Description') ?></th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
+        <th>&nbsp;</th> 
         <th>&nbsp;</th>        
     </tr>
     <?php foreach ($services as $service) : ?>
@@ -40,6 +41,9 @@
             </td>
             <td>
                 <a href="<?= $this->url('service/show/delete', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+            </td>
+            <td>
+                <a href="<?= $this->url('service/show/updateProfile', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-info btn-xs"><?= $this->translate('Update Profil') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>
