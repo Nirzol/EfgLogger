@@ -69,15 +69,15 @@ class HelpRequestController extends AbstractActionController {
             $post = array_merge_recursive($request->getPost()->toArray(), $request->getFiles()->toArray());
             
             $form->setData($post);
-
+            
             if ($form->isValid()) {
-                $form->getData();                
+                $form->getData();
                 
                 $body = $request->getPost('message');
                                               
                 $filePaths = $_FILES['image-file']['tmp_name'];
                 $fileNames = $_FILES['image-file']['name'];
-                
+
                 $senderMail = $infoUser[0]['mail'][0];
                 $senderName = $infoUser[0]['displayname'][0];
                 $senderService = $infoUser[0]['ou'][0];
