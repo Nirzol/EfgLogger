@@ -181,7 +181,7 @@ class EntAttribute extends Ent
      *
      * @param \Ent\Entity\EntService $service
      *
-     * @return EntAttribute
+     * @return EntService
      */
     public function addService($service)
     {

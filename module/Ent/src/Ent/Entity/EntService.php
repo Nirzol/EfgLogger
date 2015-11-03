@@ -79,6 +79,15 @@ class EntService extends Ent
     private $fkSaAttribute = [];
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntProfile", mappedBy="fkPsService")
+     * @MaxDepth(1)
+     * @Groups({"fkPsProfile"})
+     */
+    private $fkPsProfile;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -307,6 +316,64 @@ class EntService extends Ent
     public function getFkSaAttribute()
     {
         return $this->fkSaAttribute;
+    }
+
+    /**
+     * Add profile
+     *
+     * @param \Ent\Entity\EntProfile $profile
+     *
+     * @return EntProfile
+     */
+    public function addProfile($profile)
+    {
+        $this->fkPsProfile[] = $profile;
+
+        return $this;
+    }
+
+    /**
+     * Add fkPsProfile
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkPsProfile
+     */
+    public function addFkPsProfile(\Doctrine\Common\Collections\ArrayCollection $fkPsProfile)
+    {
+        foreach ($fkPsProfile as $profile) {
+            $this->addProfile($profile);
+        }
+    }
+
+    /**
+     * Remove profile
+     *
+     * @param \Ent\Entity\EntProfile $profile
+     */
+    public function removeProfile(\Ent\Entity\EntProfile $profile)
+    {
+        $this->fkPsProfile->removeElement($profile);
+    }
+
+    /**
+     * Remove fkPsProfile
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkPsProfile
+     */
+    public function removeFkPsProfile(\Doctrine\Common\Collections\ArrayCollection $fkPsProfile)
+    {
+        foreach ($fkPsProfile as $profile) {
+            $this->removeProfile($profile);
+        }
+    }
+
+    /**
+     * Get fkPsProfile
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFkPsProfile()
+    {
+        return $this->fkPsProfile;
     }
 
     /**

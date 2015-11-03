@@ -38,18 +38,18 @@
     </div>
 </div>
 
-<div class="form-group<?php if ($form->get('services')->getMessages()) echo ' has-error'; ?>">
-    <?= $this->formLabel($form->get('services')->setLabelAttributes(['class' => 'col-sm-2 control-label '])) ?>
+<div class="form-group<?php if ($form->get('fkPsService')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('fkPsService')->setLabelAttributes(['class' => 'col-sm-2 control-label '])) ?>
     <div class="col-sm-10">
         <!--<div class="checkbox">-->
         <?php
 //            $this->formMultiCheckbox()->setSeparator('</div><div class="checkbox">');
-        echo $this->formMultiCheckbox($form->get('services')->setLabelAttributes(['class' => 'checkbox-inline'])) //->setAttributes(array('data-toggle' => 'modal', 'data-target' => '#myModal'))
+        echo $this->formMultiCheckbox($form->get('fkPsService')->setLabelAttributes(['class' => 'checkbox-inline'])) //->setAttributes(array('data-toggle' => 'modal', 'data-target' => '#myModal'))
         ?>
         <!--</div>-->
     </div>
     <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
-        <?= $this->formElementErrors($form->get('services')) ?>           
+        <?= $this->formElementErrors($form->get('fkPsService')) ?>           
     </div>
 </div>
 

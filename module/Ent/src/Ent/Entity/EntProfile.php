@@ -70,6 +70,22 @@ class EntProfile extends Ent
     private $fkUpUser;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Ent\Entity\EntService", inversedBy="fkPsProfile",)
+     * @ORM\JoinTable(name="ent_profile_service",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="fk_ps_profile_id", referencedColumnName="profile_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="fk_ps_service_id", referencedColumnName="service_id")
+     *   }
+     * )     
+     * @Groups({"fkPsService"})
+     */
+    private $fkPsService = [];
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -263,6 +279,64 @@ class EntProfile extends Ent
     public function getFkUpUser()
     {
         return $this->fkUpUser;
+    }
+
+    /**
+     * Add service
+     *
+     * @param EntService $service
+     *
+     * @return EntService
+     */
+    public function addService($service)
+    {
+        $this->fkPsService[] = $service;
+
+        return $this;
+    }
+
+    /**
+     * Add fkPsService
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkPsService
+     */
+    public function addFkPsService(\Doctrine\Common\Collections\ArrayCollection $fkPsService)
+    {
+        foreach ($fkPsService as $service) {
+            $this->addService($service);
+        }
+    }
+
+    /**
+     * Remove service
+     *
+     * @param \Ent\Entity\EntService $service
+     */
+    public function removeService(\Ent\Entity\EntService $service)
+    {
+        $this->fkPsService->removeElement($service);
+    }
+
+    /**
+     * Remove fkPsService
+     *
+     * @param \Doctrine\Common\Collections\Collection $fkPsService
+     */
+    public function removeFkPsService(\Doctrine\Common\Collections\ArrayCollection $fkPsService)
+    {
+        foreach ($fkPsService as $service) {
+            $this->removeService($service);
+        }
+    }
+
+    /**
+     * Get fkPsService
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFkPsService()
+    {
+        return $this->fkPsService;
     }
 
     /**

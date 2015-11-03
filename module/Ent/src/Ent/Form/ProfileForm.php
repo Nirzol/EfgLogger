@@ -71,7 +71,7 @@ class ProfileForm extends Form
 
         $this->add(array(
             'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox',
-            'name' => 'services',
+            'name' => 'fkPsService',
             'attributes' => array(
                 'id' => 'selectPrefAttribute',
 //                'data-toggle'=>'modal',
@@ -83,12 +83,6 @@ class ProfileForm extends Form
                 'target_class' => 'Ent\Entity\EntService',
                 'property' => 'serviceName',
                 'is_method' => true,
-//                'find_method' => array(
-//                    'name' => 'findAllExceptOne',
-//                    'params' => array(
-//                        'roleID' => $id,
-//                    ),
-//                ),
             ),
         ));
 
