@@ -38,20 +38,35 @@
 </p>
 
 <?= $this->translate('Préférence :<br />') ?> 
-<dl class="dl-horizontal">
-    <?php
-    if ($preferenceAttribute) {
-        foreach ($preferenceAttribute as $service) {
-            echo $service->{'serviceData'}->{'serviceName'};
-            echo '<dl>';
+<!--<dl class="dl-horizontal">-->
+<?php
+if ($preferenceAttribute) {
+    foreach ($preferenceAttribute as $service) {
+        ?>
+        <table class="table">
+             <caption><?= $service->{'serviceData'}->{'serviceName'} ?></caption>
+            <tr class="warning">
+                <th><?= $this->translate('Attribute') ?></th>
+                <th><?= $this->translate('Value') ?></th>
+                <th>&nbsp;</th>       
+            </tr>    
+            <?php
             foreach ($service->{'serviceAttributeData'} as $attribute) {
-                echo '<dt>' . $attribute->{'attributeName'} . '</dt>';
-                echo '<dd>' . $attribute->{'attributeValue'} . '</dd>';   
+                echo '<tr><td class="success">' . $attribute->{'attributeName'} . '</td>';
+                echo '<td>' . $attribute->{'attributeValue'} . '</td>';
+                echo '
+                <td>
+                    <a href="' . $this->url('service/show/updateProfile', ['id' => $service->{'serviceData'}->{'serviceId'}, 'ida' => $attribute->{'attributeId'}]) . '" class="btn btn-info btn-xs">
+                        ' . $this->translate('Update Profil') . '
+                    </a>
+                </td></tr>';
             }
-            echo '</dl>';
         }
-    }
-    ?> 
-</dl>
+        ?>
+    </table>
+    <?php
+}
+?> 
+<!--</dl>-->
 
 <a class="btn btn-danger" href="<?php echo $this->url('service'); ?>"><?= $this->translate('Retour') ?></a>

@@ -27,20 +27,28 @@
 </p>
 
 <?= $this->translate('Préférence :<br />') ?> 
-<dl class="dl-horizontal">
-    <?php
-    if ($preferenceAttribute) {
-        foreach ($preferenceAttribute as $service) {
-            echo $service->{'serviceData'}->{'serviceName'};
-            echo '<dl>';
+<!--<dl class="dl-horizontal">-->
+<?php
+if ($preferenceAttribute) {
+    foreach ($preferenceAttribute as $service) {
+        ?>
+        <table class="table">
+             <caption><?= $service->{'serviceData'}->{'serviceName'} ?></caption>
+            <tr class="warning">
+                <th><?= $this->translate('Attribute') ?></th>
+                <th><?= $this->translate('Value') ?></th>      
+            </tr>    
+            <?php
             foreach ($service->{'serviceAttributeData'} as $attribute) {
-                echo '<dt>' . $attribute->{'attributeName'} . '</dt>';
-                echo '<dd>' . $attribute->{'attributeValue'} . '</dd>';   
+                echo '<tr><td class="success">' . $attribute->{'attributeName'} . '</td>';
+                echo '<td>' . $attribute->{'attributeValue'} . '</td>';
             }
-            echo '</dl>';
         }
-    }
-    ?> 
-</dl>
+        ?>
+    </table>
+    <?php
+}
+?> 
+<!--</dl>-->
 
 <a class="btn btn-danger" href="<?php echo $this->url('profile'); ?>"><?= $this->translate('Retour') ?></a>

@@ -466,12 +466,12 @@ return array(
                     'show' => array(
                         'type' => Zend\Mvc\Router\Http\Segment::class,
                         'options' => array(
-                            'route' => '/:id',
+                            'route' => '[/:id]',
                             'defaults' => array(
                                 'action' => 'show',
                             ),
                             'constraints' => array(
-                                'id' => '[1-9][0-9]*'
+                                'id' => '[1-9][0-9]*',
                             ),
                         ),
                         'may_terminate' => true,
@@ -495,11 +495,14 @@ return array(
                                 ),
                             ),
                             'updateProfile' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'type' => \Zend\Mvc\Router\Http\Segment::class,
                                 'options' => array(
-                                    'route' => '/updateProfile',
+                                    'route' => '/updateProfile[/:ida]',
                                     'defaults' => array(
                                         'action' => 'updateProfile',
+                                    ),
+                                    'constraints' => array(
+                                        'ida' => '[1-9][0-9]*'
                                     ),
                                 ),
                             ),

@@ -215,15 +215,31 @@ class ServiceController extends AbstractActionController
     {
         $id = $this->params('id');
 
+        // Get Service attribute from Preference
         /* @var $prefService EntPreference */
         $prefService = $this->preferenceService->findOneBy(array('fkPrefService' => $id));
         $prefServiceAttribute = Json::decode($prefService->getPrefAttribute(), Json::TYPE_ARRAY);
 
+        // Update one attribute. Filter on $prefServiceAttribute
+        if ($this->params('ida')) {
+            $ida = $this->params('ida');
+            foreach ($prefServiceAttribute as $keyServiceAttribute => $serviceAttribute) {
+                foreach ($serviceAttribute['serviceAttributeData'] as $keyAttributeData => $attributeData) {
+                    if ((int) $ida !== (int) $attributeData['attributeId']) {
+                        unset($prefServiceAttribute[$keyServiceAttribute]['serviceAttributeData'][$keyAttributeData]);
+                    }
+                }
+            }
+        }
+
+        // Get All Profile Preference
         $criteria = new Criteria();
         $criteria->where($criteria->expr()->neq('fkPrefProfile', NULL));
         $criteria->andWhere($criteria->expr()->isNull('fkPrefUser'));
         $criteria->andWhere($criteria->expr()->isNull('fkPrefService'));
         $prefProfiles = $this->preferenceService->matching($criteria);
+        
+        // Merge ProfilAttribute and ServiceAttribute with priority for ServiceAttribute 
         /* @var $prefProfile EntPreference */
         foreach ($prefProfiles as $prefProfile) {
             $prefProfileAttribute = Json::decode($prefProfile->getPrefAttribute(), Json::TYPE_ARRAY);
@@ -237,7 +253,7 @@ class ServiceController extends AbstractActionController
         $this->flashMessenger()->addSuccessMessage('Le profil a bien été mis à jour.');
 
         return $this->redirect()->toRoute('service');
-
+        
 //        return new ViewModel(array(
 //        ));
     }
