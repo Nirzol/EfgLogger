@@ -59,8 +59,8 @@ return [
 //        ],
         'guards' => [
             'ZfcRbac\Guard\RouteGuard' => [
-//                'zfcadmin*'     => ['admin'],
-//                'zfcadmin/*'     => ['admin'],
+                'zfcadmin'     => ['admin'],
+                'zfcadmin/index'     => ['admin'],
                 'login'     => ['guest'],
                 'logout'    => ['user'], // required if registration is enabled
 //                'zfcuser*'         => ['user'] // includes logout, changepassword and changeemail

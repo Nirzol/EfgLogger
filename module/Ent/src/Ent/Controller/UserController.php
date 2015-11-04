@@ -48,6 +48,9 @@ class UserController extends AbstractActionController
 
     public function listAction()
     {
+        if (!$this->isGranted('list_user')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
 //        $user = $this->userService->findBy(array('userLogin' => 'ss'));
 //        var_dump(!$user);
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
@@ -56,6 +59,7 @@ class UserController extends AbstractActionController
         } else {
             echo "nonono";
         }
+
         $users = $this->userService->getAll();
 
         return new ViewModel(array(
@@ -65,6 +69,10 @@ class UserController extends AbstractActionController
 
     public function addAction()
     {
+        if (!$this->isGranted('add_user')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+
         $form = $this->userForm;
 
         if ($this->request->isPost()) {
@@ -125,12 +133,17 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute('login');
         } else {
             error_log("Le container dans UserController est vide");
-            return $this->notFoundAction();
+//            return $this->notFoundAction();
+            return $this->redirect()->toRoute('login');
         }
     }
 
     public function showAction()
     {
+        if (!$this->isGranted('show_user')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+
         $id = $this->params('id');
 
         $user = $this->userService->getById($id);
@@ -146,6 +159,10 @@ class UserController extends AbstractActionController
 
     public function updateAction()
     {
+        if (!$this->isGranted('update_user')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+
         $id = $this->params('id');
         $form = $this->userForm;
         $user = $this->userService->getById($id, $form);
@@ -167,9 +184,9 @@ class UserController extends AbstractActionController
 
     public function deleteAction()
     {
-        //        if (!$this->isGranted('delete')) {
-        //            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
-        //        }
+        if (!$this->isGranted('delete_user')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
         $id = $this->params('id');
 
         $this->userService->delete($id);

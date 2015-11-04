@@ -3,7 +3,7 @@
 <h1><?= $this->translate('Liste des modules') ?></h1>
 
 <p>
-    <a href="<?php echo $this->url('module/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouvel module') ?></a>
+    <a href="<?php echo $this->url('zfcadmin/module/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouvel module') ?></a>
 </p>
 
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
@@ -33,13 +33,13 @@
                 <?= $this->escapeHtml($module->getModuleDescription()) ?>
             </td>
             <td>
-                <a href="<?= $this->url('module/show', ['id' => $this->escapeUrl($module->getModuleId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+                <a href="<?= $this->url('zfcadmin/module/show', ['id' => $this->escapeUrl($module->getModuleId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('module/show/update', ['id' => $this->escapeUrl($module->getModuleId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+                <a href="<?= $this->url('zfcadmin/module/show/update', ['id' => $this->escapeUrl($module->getModuleId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('module/show/delete', ['id' => $this->escapeUrl($module->getModuleId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+                <a href="<?= $this->url('zfcadmin/module/show/delete', ['id' => $this->escapeUrl($module->getModuleId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>

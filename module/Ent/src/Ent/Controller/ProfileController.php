@@ -81,6 +81,10 @@ class ProfileController extends AbstractActionController
 
     public function listAction()
     {
+        if (!$this->isGranted('list_profile')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $listProfiles = $this->profileService->getAll();
 
         return new ViewModel(array(
@@ -90,6 +94,10 @@ class ProfileController extends AbstractActionController
 
     public function addAction()
     {
+        if (!$this->isGranted('add_profile')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $attributes = $this->attributeService->getAll();
         $services = $this->serviceService->getAll();
 
@@ -129,7 +137,7 @@ class ProfileController extends AbstractActionController
                 }
                 $this->flashMessenger()->addSuccessMessage('Le profile a bien été ajouté.');
 
-                return $this->redirect()->toRoute('profile');
+                return $this->redirect()->toRoute('zfcadmin/profile');
             }
         }
 
@@ -144,6 +152,10 @@ class ProfileController extends AbstractActionController
 
     public function showAction()
     {
+        if (!$this->isGranted('show_profile')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $profile = $this->profileService->getById($id);
@@ -168,6 +180,10 @@ class ProfileController extends AbstractActionController
 
     public function updateAction()
     {
+        if (!$this->isGranted('update_profile')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
         $form = $this->profileForm;
         /* @var $profile \Ent\Entity\EntProfile */
@@ -229,7 +245,7 @@ class ProfileController extends AbstractActionController
 
                 $this->flashMessenger()->addSuccessMessage('Le profile a bien été modifié.');
 
-                return $this->redirect()->toRoute('profile');
+                return $this->redirect()->toRoute('zfcadmin/profile');
             }
         }
 
@@ -243,13 +259,17 @@ class ProfileController extends AbstractActionController
 
     public function deleteAction()
     {
+        if (!$this->isGranted('delete_profile')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $this->profileService->delete($id);
 
         $this->flashMessenger()->addSuccessMessage('Le profile a bien été supprimé.');
 
-        return $this->redirect()->toRoute('profile');
+        return $this->redirect()->toRoute('zfcadmin/profile');
     }
 
 }

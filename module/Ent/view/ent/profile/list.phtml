@@ -3,7 +3,7 @@
 <h1><?= $this->translate('Liste des profiles') ?></h1>
 
 <p>
-    <a href="<?= $this->url('profile/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouveau profile') ?></a>
+    <a href="<?= $this->url('zfcadmin/profile/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouveau profile') ?></a>
 </p>
 
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
@@ -25,13 +25,13 @@
                 <?= $this->escapeHtml($profile->getProfileName()) ?>
             </td>
             <td>
-                <a href="<?= $this->url('profile/show', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
+                <a href="<?= $this->url('zfcadmin/profile/show', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
             </td>
             <td>
-                <a href="<?= $this->url('profile/show/update', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
+                <a href="<?= $this->url('zfcadmin/profile/show/update', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
             </td>
             <td>
-                <a href="<?= $this->url('profile/show/delete', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
+                <a href="<?= $this->url('zfcadmin/profile/show/delete', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
             </td>
         </tr>
     <?php endforeach; ?>
