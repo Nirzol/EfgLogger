@@ -2,20 +2,23 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <?=$this->headMeta()?>
-        <?=$this->headTitle('ENT')->setSeparator(' - ')->setAutoEscape(false) ?>
-        
-        <!--<link rel="stylesheet" href="<?//=$this->basePath('lib/css/bootstrap.css')?>">-->
+        <?= $this->headMeta() ?>
+        <?= $this->headTitle('ENT')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+<!--<link rel="stylesheet" href="<?//=$this->basePath('lib/css/bootstrap.css')?>">-->
         <!-- Le styles -->
-        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/images/favicon.ico'))
-                        ->prependStylesheet($this->basePath('styles/style.css'))
-                        ->prependStylesheet($this->basePath('lib/css/bootstrap-theme.min.css'))
-                        ->prependStylesheet($this->basePath('lib/css/bootstrap.min.css')) ?>
-        <?=$this->headLink()?>
-        
-        <?=$this->headStyle()?>
-        
-        <?=$this->headScript()?>
+        <?php
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/images/favicon.ico'))
+                ->prependStylesheet($this->basePath('styles/style.css'))
+                ->prependStylesheet($this->basePath('lib/css/bootstrap-theme.min.css'))
+                ->prependStylesheet($this->basePath('lib/css/bootstrap.min.css'))
+        ?>
+        <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">-->
+        <?= $this->headLink() ?>
+
+        <?= $this->headStyle() ?>
+
+<?= $this->headScript() ?>
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -28,7 +31,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="<?=$this->url('home')?>">ENT</a>
+                    <a class="navbar-brand" href="<?= $this->url('home') ?>">ENT</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -37,91 +40,96 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Index') ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?=$this->url('zfcadmin/index')?>"><?= $this->translate('Index') ?></a></li>
-                               <!-- <li><a href="<?=$this->url('zfcadmin/index/add')?>">Ajouter</a></li>-->
+                                <li><a href="<?= $this->url('zfcadmin/index') ?>"><?= $this->translate('Index') ?></a></li>
+                               <!-- <li><a href="<?= $this->url('zfcadmin/index/add') ?>">Ajouter</a></li>-->
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('User') ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?=$this->url('zfcadmin/user')?>"><?= $this->translate('User') ?></a></li>
-                                <li><a href="<?=$this->url('zfcadmin/user/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                                <li><a href="<?= $this->url('zfcadmin/user') ?>"><?= $this->translate('User') ?></a></li>
+                                <li><a href="<?= $this->url('zfcadmin/user/add') ?>"><?= $this->translate('Ajouter') ?></a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Service / Attribute') ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?=$this->url('service')?>"><?= $this->translate('Service') ?></a></li>
-                                <li><a href="<?=$this->url('attribute')?>"><?= $this->translate('Attribute') ?></a></li>
+                                <li><a href="<?= $this->url('zfcadmin/service') ?>"><?= $this->translate('Service') ?></a></li>
+                                <li><a href="<?= $this->url('zfcadmin/attribute') ?>"><?= $this->translate('Attribute') ?></a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Preference / Status') ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?=$this->url('preference')?>"><?= $this->translate('Preference') ?></a></li>
-                                <li><a href="<?=$this->url('status')?>"><?= $this->translate('Status') ?></a></li>
+                                <li><a href="<?= $this->url('preference') ?>"><?= $this->translate('Preference') ?></a></li>
+                                <li><a href="<?= $this->url('zfcadmin/status') ?>"><?= $this->translate('Status') ?></a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Log / Module / Action') ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?=$this->url('log')?>"><?= $this->translate('Log') ?></a></li>
-                                <li><a href="<?=$this->url('zfcadmin/module')?>"><?= $this->translate('Module') ?></a></li>
-                                <li><a href="<?=$this->url('action')?>"><?= $this->translate('Action') ?></a></li>
+                                <li><a href="<?= $this->url('log') ?>"><?= $this->translate('Log') ?></a></li>
+                                <li><a href="<?= $this->url('zfcadmin/module') ?>"><?= $this->translate('Module') ?></a></li>
+                                <li><a href="<?= $this->url('zfcadmin/action') ?>"><?= $this->translate('Action') ?></a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Role / Permission') ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?=$this->url('role')?>"><?= $this->translate('Role') ?></a></li>
-                                <li><a href="<?=$this->url('permission')?>"><?= $this->translate('Permission') ?></a></li>
+                                <li><a href="<?= $this->url('role') ?>"><?= $this->translate('Role') ?></a></li>
+                                <li><a href="<?= $this->url('permission') ?>"><?= $this->translate('Permission') ?></a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Profile') ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?=$this->url('zfcadmin/profile')?>"><?= $this->translate('Profile') ?></a></li>
-                                <li><a href="<?=$this->url('zfcadmin/profile/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                                <li><a href="<?= $this->url('zfcadmin/profile') ?>"><?= $this->translate('Profile') ?></a></li>
+                                <li><a href="<?= $this->url('zfcadmin/profile/add') ?>"><?= $this->translate('Ajouter') ?></a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?= $this->translate('Contact') ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?=$this->url('contact')?>"><?= $this->translate('Contact') ?></a></li>
-                                <li><a href="<?=$this->url('contact/add')?>"><?= $this->translate('Ajouter') ?></a></li>
+                                <li><a href="<?= $this->url('contact') ?>"><?= $this->translate('Contact') ?></a></li>
+                                <li><a href="<?= $this->url('contact/add') ?>"><?= $this->translate('Ajouter') ?></a></li>
                             </ul>
                         </li>
                     </ul>
-<!--                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Link</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
-                        </li>
-                    </ul>-->
+                    <!--                    <ul class="nav navbar-nav navbar-right">
+                                            <li><a href="#">Link</a></li>
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#">Action</a></li>
+                                                    <li><a href="#">Another action</a></li>
+                                                    <li><a href="#">Something else here</a></li>
+                                                    <li class="divider"></li>
+                                                    <li><a href="#">Separated link</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>-->
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container -->
         </nav>
-        
+
         <div class="container">
-            <?=$this->content?>
+<?= $this->content ?>
         </div>
-        
-                <!-- Scripts -->
-        <?php echo $this->headScript()
-            ->prependFile($this->basePath('lib/js/bootstrap.min.js'))
-            ->prependFile($this->basePath('lib/js/jquery.min.js'))
-            ->prependFile($this->basePath('lib/js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
-            ->prependFile($this->basePath('lib/js/html5shiv.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
-        ; ?>
-<!--        <script src="<?//=$this->basePath('lib/js/jquery.min.js')?>"></script>
-        <script src="<?//=$this->basePath('lib/js/bootstrap.min.js')?>"></script>-->
-        <?=$this->inlineSCript()?>
+
+        <!-- Scripts -->
+        <?php
+        echo $this->headScript()
+                ->prependFile($this->basePath('scripts/front-end.js'))
+                ->prependFile($this->basePath('lib/js/bootstrap.min.js'))
+                ->prependFile($this->basePath('lib/js/jquery.min.js'))
+                ->prependFile($this->basePath('lib/js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
+                ->prependFile($this->basePath('lib/js/html5shiv.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
+        ;
+        ?>
+<!--        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/locale/bootstrap-table-fr-FR.min.js"></script>-->
+        <!--        <script src="<?//=$this->basePath('lib/js/jquery.min.js')?>"></script>
+                <script src="<?//=$this->basePath('lib/js/bootstrap.min.js')?>"></script>-->
+<?= $this->inlineSCript() ?>
     </body>
 </html>

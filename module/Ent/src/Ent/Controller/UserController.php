@@ -55,7 +55,7 @@ class UserController extends AbstractActionController
 //        var_dump(!$user);
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
-            var_dump($authService->getIdentity()->getUserLogin());
+//            var_dump($authService->getIdentity()->getUserLogin());
         } else {
             echo "nonono";
         }

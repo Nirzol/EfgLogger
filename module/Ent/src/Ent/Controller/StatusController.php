@@ -35,6 +35,10 @@ class StatusController extends AbstractActionController
 
     public function listAction()
     {
+        if (!$this->isGranted('list_status')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $listStatus = $this->statusService->getAll();
 
         return new ViewModel(array(
@@ -44,6 +48,10 @@ class StatusController extends AbstractActionController
 
     public function addAction()
     {
+        if (!$this->isGranted('add_status')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $form = $this->statusForm;
 
         if ($this->request->isPost()) {
@@ -52,7 +60,7 @@ class StatusController extends AbstractActionController
             if ($status) {
                 $this->flashMessenger()->addSuccessMessage('Le status a bien été ajouté.');
 
-                return $this->redirect()->toRoute('status');
+                return $this->redirect()->toRoute('zfcadmin/status');
             }
         }
 
@@ -63,6 +71,10 @@ class StatusController extends AbstractActionController
 
     public function showAction()
     {
+        if (!$this->isGranted('show_status')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $status = $this->statusService->getById($id);
@@ -78,6 +90,10 @@ class StatusController extends AbstractActionController
 
     public function updateAction()
     {
+        if (!$this->isGranted('update_status')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
         $form = $this->statusForm;
         $status = $this->statusService->getById($id, $form);
@@ -88,7 +104,7 @@ class StatusController extends AbstractActionController
             if ($status) {
                 $this->flashMessenger()->addSuccessMessage('Le status a bien été modifié.');
 
-                return $this->redirect()->toRoute('status');
+                return $this->redirect()->toRoute('zfcadmin/status');
             }
         }
 
@@ -99,13 +115,17 @@ class StatusController extends AbstractActionController
 
     public function deleteAction()
     {
+        if (!$this->isGranted('delete_status')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $this->statusService->delete($id);
 
         $this->flashMessenger()->addSuccessMessage('Le status a bien été supprimé.');
 
-        return $this->redirect()->toRoute('status');
+        return $this->redirect()->toRoute('zfcadmin/status');
     }
 
 }

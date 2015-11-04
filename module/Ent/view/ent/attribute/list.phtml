@@ -3,7 +3,7 @@
 <h1><?= $this->translate('Liste des attributs') ?></h1>
 
 <p>
-    <a href="<?= $this->url('attribute/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouvel attribut') ?></a>
+    <a href="<?= $this->url('zfcadmin/attribute/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouvel attribut') ?></a>
 </p>
 
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
@@ -33,13 +33,13 @@
                 <?= $this->escapeHtml($attribute->getAttributeDescription()) ?>
             </td>
             <td>
-                <a href="<?= $this->url('attribute/show', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+                <a href="<?= $this->url('zfcadmin/attribute/show', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('attribute/show/update', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+                <a href="<?= $this->url('zfcadmin/attribute/show/update', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('attribute/show/delete', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+                <a href="<?= $this->url('zfcadmin/attribute/show/delete', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>

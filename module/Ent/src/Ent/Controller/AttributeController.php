@@ -37,6 +37,10 @@ class AttributeController extends AbstractActionController
 
     public function listAction()
     {
+        if (!$this->isGranted('list_attribute')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $listAttritutes = $this->attributeService->getAll();
 
         return new ViewModel(array(
@@ -46,6 +50,10 @@ class AttributeController extends AbstractActionController
 
     public function addAction()
     {
+        if (!$this->isGranted('add_attribute')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $form = $this->attributeForm;
 
         if ($this->request->isPost()) {
@@ -54,7 +62,7 @@ class AttributeController extends AbstractActionController
             if ($attribute) {
                 $this->flashMessenger()->addSuccessMessage('L\'attribut a bien été ajouté.');
 
-                return $this->redirect()->toRoute('attribute');
+                return $this->redirect()->toRoute('zfcadmin/attribute');
             }
         }
 
@@ -65,6 +73,10 @@ class AttributeController extends AbstractActionController
 
     public function showAction()
     {
+        if (!$this->isGranted('show_attribute')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $attribute = $this->attributeService->getById($id);
@@ -80,6 +92,10 @@ class AttributeController extends AbstractActionController
 
     public function updateAction()
     {
+        if (!$this->isGranted('update_attribute')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
         $form = $this->attributeForm;
         $attribute = $this->attributeService->getById($id, $form);
@@ -90,7 +106,7 @@ class AttributeController extends AbstractActionController
             if ($attribute) {
                 $this->flashMessenger()->addSuccessMessage('L\'attribut a bien été modifié.');
 
-                return $this->redirect()->toRoute('attribute');
+                return $this->redirect()->toRoute('zfcadmin/attribute');
             }
         }
 
@@ -101,13 +117,17 @@ class AttributeController extends AbstractActionController
 
     public function deleteAction()
     {
+        if (!$this->isGranted('delete_attribute')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $this->attributeService->delete($id);
 
         $this->flashMessenger()->addSuccessMessage('L\'attribut a bien été supprimé.');
 
-        return $this->redirect()->toRoute('attribute');
+        return $this->redirect()->toRoute('zfcadmin/attribute');
     }
 
 }

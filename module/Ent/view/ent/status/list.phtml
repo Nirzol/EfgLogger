@@ -3,7 +3,7 @@
 <h1><?= $this->translate('Liste des status') ?></h1>
 
 <p>
-    <a href="<?php echo $this->url('status/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouveau status') ?></a>
+    <a href="<?php echo $this->url('zfcadmin/status/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouveau status') ?></a>
 </p>
 
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
@@ -33,13 +33,13 @@
                 <?= $this->escapeHtml($status->getStatusDescription()) ?>
             </td>
             <td>
-                <a href="<?= $this->url('status/show', ['id' => $this->escapeUrl($status->getStatusId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+                <a href="<?= $this->url('zfcadmin/status/show', ['id' => $this->escapeUrl($status->getStatusId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('status/show/update', ['id' => $this->escapeUrl($status->getStatusId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+                <a href="<?= $this->url('zfcadmin/status/show/update', ['id' => $this->escapeUrl($status->getStatusId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('status/show/delete', ['id' => $this->escapeUrl($status->getStatusId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+                <a href="<?= $this->url('zfcadmin/status/show/delete', ['id' => $this->escapeUrl($status->getStatusId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>

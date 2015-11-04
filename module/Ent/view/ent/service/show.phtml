@@ -56,7 +56,7 @@ if ($preferenceAttribute) {
                 echo '<td>' . $attribute->{'attributeValue'} . '</td>';
                 echo '
                 <td>
-                    <a href="' . $this->url('service/show/updateProfile', ['id' => $service->{'serviceData'}->{'serviceId'}, 'ida' => $attribute->{'attributeId'}]) . '" class="btn btn-info btn-xs">
+                    <a href="' . $this->url('zfcadmin/service/show/updateProfile', ['id' => $service->{'serviceData'}->{'serviceId'}, 'ida' => $attribute->{'attributeId'}]) . '" class="btn btn-info btn-xs">
                         ' . $this->translate('Update Profil') . '
                     </a>
                 </td></tr>';
@@ -69,4 +69,4 @@ if ($preferenceAttribute) {
 ?> 
 <!--</dl>-->
 
-<a class="btn btn-danger" href="<?php echo $this->url('service'); ?>"><?= $this->translate('Retour') ?></a>
+<a class="btn btn-danger" href="<?php echo $this->url('zfcadmin/service'); ?>"><?= $this->translate('Retour') ?></a>

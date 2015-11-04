@@ -71,6 +71,10 @@ class ServiceController extends AbstractActionController
 
     public function listAction()
     {
+        if (!$this->isGranted('list_service')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $services = $this->serviceService->getAll();
 
         return new ViewModel(array(
@@ -80,6 +84,10 @@ class ServiceController extends AbstractActionController
 
     public function addAction()
     {
+        if (!$this->isGranted('add_service')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $attributes = $this->attributeService->getAll();
 
         $form = $this->serviceForm;
@@ -111,7 +119,7 @@ class ServiceController extends AbstractActionController
                 }
                 $this->flashMessenger()->addSuccessMessage('Le service a bien été inséré.');
 
-                return $this->redirect()->toRoute('service');
+                return $this->redirect()->toRoute('zfcadmin/service');
             }
         }
 
@@ -123,6 +131,10 @@ class ServiceController extends AbstractActionController
 
     public function showAction()
     {
+        if (!$this->isGranted('show_service')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $service = $this->serviceService->getById($id);
@@ -147,6 +159,10 @@ class ServiceController extends AbstractActionController
 
     public function updateAction()
     {
+        if (!$this->isGranted('update_service')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
         $form = $this->serviceForm;
         $service = $this->serviceService->getById($id, $form);
@@ -188,7 +204,7 @@ class ServiceController extends AbstractActionController
                 }
                 $this->flashMessenger()->addSuccessMessage('Le service a bien été updaté.');
 
-                return $this->redirect()->toRoute('service');
+                return $this->redirect()->toRoute('zfcadmin/service');
             }
         }
 
@@ -202,17 +218,25 @@ class ServiceController extends AbstractActionController
 
     public function deleteAction()
     {
+        if (!$this->isGranted('delete_service')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $this->serviceService->delete($id);
 
         $this->flashMessenger()->addSuccessMessage('Le service a bien été supprimé.');
 
-        return $this->redirect()->toRoute('service');
+        return $this->redirect()->toRoute('zfcadmin/service');
     }
 
     public function updateProfileAction()
     {
+        if (!$this->isGranted('update_profile')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         // Get Service attribute from Preference
@@ -252,7 +276,7 @@ class ServiceController extends AbstractActionController
 
         $this->flashMessenger()->addSuccessMessage('Le profil a bien été mis à jour.');
 
-        return $this->redirect()->toRoute('service');
+        return $this->redirect()->toRoute('zfcadmin/service');
         
 //        return new ViewModel(array(
 //        ));

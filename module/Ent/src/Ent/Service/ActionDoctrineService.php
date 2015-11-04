@@ -144,7 +144,8 @@ class ActionDoctrineService extends DoctrineService implements ServiceInterface
         $this->em->flush();
     }
 
-    public function matching(\Doctrine\Common\Collections\Criteria $criteria) {
+    public function matching(\Doctrine\Common\Collections\Criteria $criteria)
+    {
         $repo = $this->em->getRepository('Ent\Entity\EntAttribute');
 
         $repoMatching = $repo->matching($criteria);

@@ -37,6 +37,10 @@ class ActionController extends AbstractActionController
 
     public function listAction()
     {
+        if (!$this->isGranted('list_action')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $listActions = $this->actionService->getAll();
 
         return new ViewModel(array(
@@ -46,6 +50,10 @@ class ActionController extends AbstractActionController
 
     public function addAction()
     {
+        if (!$this->isGranted('add_action')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $form = $this->actionForm;
 
         if ($this->request->isPost()) {
@@ -54,7 +62,7 @@ class ActionController extends AbstractActionController
             if ($action) {
                 $this->flashMessenger()->addSuccessMessage('L\'action a bien été ajoutée');
 
-                return $this->redirect()->toRoute('action');
+                return $this->redirect()->toRoute('zfcadmin/action');
             }
         }
 
@@ -65,6 +73,10 @@ class ActionController extends AbstractActionController
 
     public function showAction()
     {
+        if (!$this->isGranted('show_action')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $action = $this->actionService->getById($id);
@@ -80,6 +92,10 @@ class ActionController extends AbstractActionController
 
     public function updateAction()
     {
+        if (!$this->isGranted('update_action')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
         $form = $this->actionForm;
         $action = $this->actionService->getById($id, $form);
@@ -90,7 +106,7 @@ class ActionController extends AbstractActionController
             if ($action) {
                 $this->flashMessenger()->addSuccessMessage('L\'action a bien été modifiée.');
 
-                return $this->redirect()->toRoute('action');
+                return $this->redirect()->toRoute('zfcadmin/action');
             }
         }
 
@@ -101,13 +117,17 @@ class ActionController extends AbstractActionController
 
     public function deleteAction()
     {
+        if (!$this->isGranted('delete_action')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $this->actionService->delete($id);
 
         $this->flashMessenger()->addSuccessMessage('L\'action a bien été supprimée.');
 
-        return $this->redirect()->toRoute('action');
+        return $this->redirect()->toRoute('zfcadmin/action');
     }
 
 }

@@ -11,28 +11,38 @@
         <?= $this->translate($m) ?>  
     </div> 
 <?php endforeach; ?>
+<div class="input-group col-lg-3 pull-right">
+    <input id="filterTable" type="text" class="form-control" placeholder="<?= $this->translate('Search for... ou faible...') ?>">
+    <span class="input-group-addon"><?= $this->translate('Magic !') ?></span>
+</div>
+<table class="table table-striped" >
 
-<table class="table table-striped">
-    <tr>
-        <th><?= $this->translate('Login') ?></th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>        
-    </tr>
-    <?php foreach ($users as $user) : ?>
+    <!--           data-detail-view="true"
+               data-detail-formatter="detailFormatter"-->
+    <thead>
         <tr>
-            <td>
-                <?= $this->escapeHtml($user->getUserLogin()) ?>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/user/show', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/user/show/update', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/user/show/delete', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
-            </td>
+            <th><?= $this->translate('Login') ?></th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>        
         </tr>
-    <?php endforeach; ?>
+    </thead>
+    <tbody  class="searchable">
+        <?php foreach ($users as $user) : ?>
+            <tr>
+                <td>
+                    <?= $this->escapeHtml($user->getUserLogin()) ?>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/user/show', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/user/show/update', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/user/show/delete', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>

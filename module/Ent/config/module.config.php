@@ -328,178 +328,178 @@ return array(
                             ),
                         ),
                     ),
-                ),
-            ),
-            'action' => array(
-                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                'options' => array(
-                    'route' => '/api/action',
-                    'defaults' => array(
-                        'controller' => 'Ent\Controller\Action',
-                        'action' => 'list',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'add' => array(
+                    'action' => array(
                         'type' => \Zend\Mvc\Router\Http\Literal::class,
                         'options' => array(
-                            'route' => '/add',
+                            'route' => '/action',
                             'defaults' => array(
-                                'action' => 'add',
-                            ),
-                        ),
-                    ),
-                    'show' => array(
-                        'type' => \Zend\Mvc\Router\Http\Segment::class,
-                        'options' => array(
-                            'route' => '/:id',
-                            'defaults' => array(
-                                'action' => 'show',
-                            ),
-                            'constraints' => array(
-                                'id' => '[1-9][0-9]*',
+                                'controller' => 'Ent\Controller\Action',
+                                'action' => 'list',
                             ),
                         ),
                         'may_terminate' => true,
                         'child_routes' => array(
-                            'delete' => array(
+                            'add' => array(
                                 'type' => \Zend\Mvc\Router\Http\Literal::class,
                                 'options' => array(
-                                    'route' => '/delete',
+                                    'route' => '/add',
                                     'defaults' => array(
-                                        'action' => 'delete',
+                                        'action' => 'add',
                                     ),
                                 ),
                             ),
-                            'update' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                                'options' => array(
-                                    'route' => '/update',
-                                    'defaults' => array(
-                                        'action' => 'update',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'attribute' => array(
-                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                'options' => array(
-                    'route' => '/api/attribute',
-                    'defaults' => array(
-                        'controller' => 'Ent\Controller\Attribute',
-                        'action' => 'list',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'add' => array(
-                        'type' => \Zend\Mvc\Router\Http\Literal::class,
-                        'options' => array(
-                            'route' => '/add',
-                            'defaults' => array(
-                                'action' => 'add',
-                            ),
-                        ),
-                    ),
-                    'show' => array(
-                        'type' => \Zend\Mvc\Router\Http\Segment::class,
-                        'options' => array(
-                            'route' => '/:id',
-                            'defaults' => array(
-                                'action' => 'show',
-                            ),
-                            'constraints' => array(
-                                'id' => '[1-9][0-9]*',
-                            ),
-                        ),
-                        'may_terminate' => true,
-                        'child_routes' => array(
-                            'delete' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                                'options' => array(
-                                    'route' => '/delete',
-                                    'defaults' => array(
-                                        'action' => 'delete',
-                                    ),
-                                ),
-                            ),
-                            'update' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                                'options' => array(
-                                    'route' => '/update',
-                                    'defaults' => array(
-                                        'action' => 'update',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'service' => array(
-                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                'options' => array(
-                    'route' => '/api/service',
-                    'defaults' => array(
-                        'controller' => 'Ent\Controller\Service',
-                        'action' => 'list',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'add' => array(
-                        'type' => \Zend\Mvc\Router\Http\Literal::class,
-                        'options' => array(
-                            'route' => '/add',
-                            'defaults' => array(
-                                'action' => 'add',
-                            ),
-                        ),
-                    ),
-                    'show' => array(
-                        'type' => Zend\Mvc\Router\Http\Segment::class,
-                        'options' => array(
-                            'route' => '[/:id]',
-                            'defaults' => array(
-                                'action' => 'show',
-                            ),
-                            'constraints' => array(
-                                'id' => '[1-9][0-9]*',
-                            ),
-                        ),
-                        'may_terminate' => true,
-                        'child_routes' => array(
-                            'delete' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                                'options' => array(
-                                    'route' => '/delete',
-                                    'defaults' => array(
-                                        'action' => 'delete',
-                                    ),
-                                ),
-                            ),
-                            'update' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                                'options' => array(
-                                    'route' => '/update',
-                                    'defaults' => array(
-                                        'action' => 'update',
-                                    ),
-                                ),
-                            ),
-                            'updateProfile' => array(
+                            'show' => array(
                                 'type' => \Zend\Mvc\Router\Http\Segment::class,
                                 'options' => array(
-                                    'route' => '/updateProfile[/:ida]',
+                                    'route' => '/:id',
                                     'defaults' => array(
-                                        'action' => 'updateProfile',
+                                        'action' => 'show',
                                     ),
                                     'constraints' => array(
-                                        'ida' => '[1-9][0-9]*'
+                                        'id' => '[1-9][0-9]*',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' => array(
+                                    'delete' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/delete',
+                                            'defaults' => array(
+                                                'action' => 'delete',
+                                            ),
+                                        ),
+                                    ),
+                                    'update' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/update',
+                                            'defaults' => array(
+                                                'action' => 'update',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                    'attribute' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/attribute',
+                            'defaults' => array(
+                                'controller' => 'Ent\Controller\Attribute',
+                                'action' => 'list',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'add' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/add',
+                                    'defaults' => array(
+                                        'action' => 'add',
+                                    ),
+                                ),
+                            ),
+                            'show' => array(
+                                'type' => \Zend\Mvc\Router\Http\Segment::class,
+                                'options' => array(
+                                    'route' => '/:id',
+                                    'defaults' => array(
+                                        'action' => 'show',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[1-9][0-9]*',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' => array(
+                                    'delete' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/delete',
+                                            'defaults' => array(
+                                                'action' => 'delete',
+                                            ),
+                                        ),
+                                    ),
+                                    'update' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/update',
+                                            'defaults' => array(
+                                                'action' => 'update',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                    'service' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/service',
+                            'defaults' => array(
+                                'controller' => 'Ent\Controller\Service',
+                                'action' => 'list',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'add' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/add',
+                                    'defaults' => array(
+                                        'action' => 'add',
+                                    ),
+                                ),
+                            ),
+                            'show' => array(
+                                'type' => Zend\Mvc\Router\Http\Segment::class,
+                                'options' => array(
+                                    'route' => '[/:id]',
+                                    'defaults' => array(
+                                        'action' => 'show',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[1-9][0-9]*',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' => array(
+                                    'delete' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/delete',
+                                            'defaults' => array(
+                                                'action' => 'delete',
+                                            ),
+                                        ),
+                                    ),
+                                    'update' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/update',
+                                            'defaults' => array(
+                                                'action' => 'update',
+                                            ),
+                                        ),
+                                    ),
+                                    'updateProfile' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Segment::class,
+                                        'options' => array(
+                                            'route' => '/updateProfile[/:ida]',
+                                            'defaults' => array(
+                                                'action' => 'updateProfile',
+                                            ),
+                                            'constraints' => array(
+                                                'ida' => '[1-9][0-9]*'
+                                            ),
+                                        ),
                                     ),
                                 ),
                             ),

@@ -3,7 +3,7 @@
 <h1><?= $this->translate('Liste des services') ?></h1>
 
 <p>
-    <a href="<?= $this->url('service/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouveau service</a>
+    <a href="<?= $this->url('zfcadmin/service/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter un nouveau service</a>
 </p>
 
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
@@ -34,16 +34,16 @@
                 <?= $this->escapeHtml($service->getServiceDescription()) ?>
             </td>
             <td>
-                <a href="<?= $this->url('service/show', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+                <a href="<?= $this->url('zfcadmin/service/show', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('service/show/update', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+                <a href="<?= $this->url('zfcadmin/service/show/update', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('service/show/delete', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+                <a href="<?= $this->url('zfcadmin/service/show/delete', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('service/show/updateProfile', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-info btn-xs"><?= $this->translate('Update Profil') ?></a>
+                <a href="<?= $this->url('zfcadmin/service/show/updateProfile', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-info btn-xs"><?= $this->translate('Update Profil') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>
