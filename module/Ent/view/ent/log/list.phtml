@@ -3,7 +3,7 @@
 <h1><?= $this->translate('Liste des logs') ?></h1>
 
 <p>
-    <a href="<?= $this->url('log/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un log') ?></a>
+    <a href="<?= $this->url('zfcadmin/log/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un log') ?></a>
 </p>
 
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
@@ -89,13 +89,13 @@
                 ?>
             </td>
             <td>
-                <a href="<?= $this->url('log/show', ['id' => $this->escapeUrl($log->getLogId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+                <a href="<?= $this->url('zfcadmin/log/show', ['id' => $this->escapeUrl($log->getLogId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('log/show/update', ['id' => $this->escapeUrl($log->getLogId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+                <a href="<?= $this->url('zfcadmin/log/show/update', ['id' => $this->escapeUrl($log->getLogId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('log/show/delete', ['id' => $this->escapeUrl($log->getLogId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+                <a href="<?= $this->url('zfcadmin/log/show/delete', ['id' => $this->escapeUrl($log->getLogId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>

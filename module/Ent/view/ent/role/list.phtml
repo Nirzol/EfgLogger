@@ -3,7 +3,7 @@
 <h1><?= $this->translate('Liste des rôles') ?></h1>
 
 <p>
-    <a href="<?php echo $this->url('role/add'); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter une nouveau role') ?></a>
+    <a href="<?php echo $this->url('zfcadmin/role/add'); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter une nouveau role') ?></a>
 </p>
 
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m) : ?>
@@ -25,13 +25,13 @@
                 <?= $this->escapeHtml($role->getName()) ?>
             </td>
             <td>
-                <a href="<?= $this->url('role/show', ['id' => $this->escapeUrl($role->getId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+                <a href="<?= $this->url('zfcadmin/role/show', ['id' => $this->escapeUrl($role->getId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('role/show/update', ['id' => $this->escapeUrl($role->getId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+                <a href="<?= $this->url('zfcadmin/role/show/update', ['id' => $this->escapeUrl($role->getId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('role/show/delete', ['id' => $this->escapeUrl($role->getId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+                <a href="<?= $this->url('zfcadmin/role/show/delete', ['id' => $this->escapeUrl($role->getId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>

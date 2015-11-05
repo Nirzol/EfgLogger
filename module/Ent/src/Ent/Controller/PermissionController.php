@@ -51,7 +51,7 @@ class PermissionController extends AbstractActionController
             if ($permission) {
                 $this->flashMessenger()->addSuccessMessage('La permission a bien été insérer.');
 
-                return $this->redirect()->toRoute('permission');
+                return $this->redirect()->toRoute('zfcadmin/permission');
             }
         }
 
@@ -87,7 +87,7 @@ class PermissionController extends AbstractActionController
             if ($permission) {
                 $this->flashMessenger()->addSuccessMessage('La permission  a bien été updaté.');
 
-                return $this->redirect()->toRoute('permission');
+                return $this->redirect()->toRoute('zfcadmin/permission');
             }
         }
 
@@ -104,7 +104,7 @@ class PermissionController extends AbstractActionController
 
         $this->flashMessenger()->addSuccessMessage('La permission a bien été supprimé.');
 
-        return $this->redirect()->toRoute('permission');
+        return $this->redirect()->toRoute('zfcadmin/permission');
     }
 
 }

@@ -37,6 +37,10 @@ class RoleController extends AbstractActionController
 
     public function listAction()
     {
+        if (!$this->isGranted('list_role')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $roles = $this->roleService->getAll();
 
         return new ViewModel(array(
@@ -46,6 +50,10 @@ class RoleController extends AbstractActionController
 
     public function addAction()
     {
+        if (!$this->isGranted('add_role')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $form = $this->roleForm;
         $form->initParams(0); // Permet de gérer parent/child
 
@@ -55,7 +63,7 @@ class RoleController extends AbstractActionController
             if ($role) {
                 $this->flashMessenger()->addSuccessMessage('Le role a bien été enregistré dans la base.');
 
-                return $this->redirect()->toRoute('role');
+                return $this->redirect()->toRoute('zfcadmin/role');
             } else {
                 $this->flashMessenger()->addErrorMessage('Un problème est survenu lors de l\'insertion du role ');
             }
@@ -68,6 +76,10 @@ class RoleController extends AbstractActionController
 
     public function showAction()
     {
+        if (!$this->isGranted('show_role')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $role = $this->roleService->getById($id);
@@ -83,6 +95,10 @@ class RoleController extends AbstractActionController
 
     public function updateAction()
     {
+        if (!$this->isGranted('update_role')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
         $form = $this->roleForm;
         $form->initParams($id); // Pour gérer parent/child
@@ -94,7 +110,7 @@ class RoleController extends AbstractActionController
             if ($user) {
                 $this->flashMessenger()->addSuccessMessage('Le role a bien été updaté.');
 
-                return $this->redirect()->toRoute('role');
+                return $this->redirect()->toRoute('zfcadmin/role');
             }
         }
 
@@ -105,13 +121,17 @@ class RoleController extends AbstractActionController
 
     public function deleteAction()
     {
+        if (!$this->isGranted('delete_role')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $this->roleService->delete($id);
 
         $this->flashMessenger()->addSuccessMessage('Le role a bien été supprimé.');
 
-        return $this->redirect()->toRoute('role');
+        return $this->redirect()->toRoute('zfcadmin/role');
     }
 
 }

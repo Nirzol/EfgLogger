@@ -37,6 +37,10 @@ class PreferenceController extends AbstractActionController
 
     public function listAction()
     {
+        if (!$this->isGranted('list_preference')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $preferences = $this->preferenceService->getAll();
 
         return new ViewModel(array(
@@ -46,6 +50,10 @@ class PreferenceController extends AbstractActionController
 
     public function addAction()
     {
+        if (!$this->isGranted('add_preference')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $form = $this->preferenceForm;
 
         if ($this->request->isPost()) {
@@ -54,7 +62,7 @@ class PreferenceController extends AbstractActionController
             if ($preference) {
                 $this->flashMessenger()->addSuccessMessage('La préférence a bien été ajoutée.');
 
-                return $this->redirect()->toRoute('preference');
+                return $this->redirect()->toRoute('zfcadmin/preference');
             }
         }
 
@@ -65,6 +73,10 @@ class PreferenceController extends AbstractActionController
 
     public function showAction()
     {
+        if (!$this->isGranted('show_preference')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $preference = $this->preferenceService->getById($id);
@@ -80,6 +92,10 @@ class PreferenceController extends AbstractActionController
 
     public function updateAction()
     {
+        if (!$this->isGranted('update_preference')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
         $form = $this->preferenceForm;
         $preference = $this->preferenceService->getById($id, $form);
@@ -90,7 +106,7 @@ class PreferenceController extends AbstractActionController
             if ($preference) {
                 $this->flashMessenger()->addSuccessMessage('La préférence a bien été modifiée.');
 
-                return $this->redirect()->toRoute('preference');
+                return $this->redirect()->toRoute('zfcadmin/preference');
             }
         }
 
@@ -101,13 +117,17 @@ class PreferenceController extends AbstractActionController
 
     public function deleteAction()
     {
+        if (!$this->isGranted('delete_preference')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $this->preferenceService->delete($id);
 
         $this->flashMessenger()->addSuccessMessage('La préférence a bien été supprimée.');
 
-        return $this->redirect()->toRoute('preference');
+        return $this->redirect()->toRoute('zfcadmin/preference');
 
 //        if (!$id) {
 //            $this->redirect()->toRoute('preference');

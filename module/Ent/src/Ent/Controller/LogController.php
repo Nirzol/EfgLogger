@@ -37,6 +37,10 @@ class LogController extends AbstractActionController
 
     public function listAction()
     {
+        if (!$this->isGranted('list_log')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $listLogs = $this->logService->getAll();
 
         return new ViewModel(array(
@@ -46,6 +50,10 @@ class LogController extends AbstractActionController
 
     public function addAction()
     {
+        if (!$this->isGranted('add_log')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $form = $this->logForm;
 
         if ($this->request->isPost()) {
@@ -54,7 +62,7 @@ class LogController extends AbstractActionController
             if ($log) {
                 $this->flashMessenger()->addSuccessMessage('Le log a bien été ajouté.');
 
-                return $this->redirect()->toRoute('log');
+                return $this->redirect()->toRoute('zfcadmin/log');
             }
         }
 
@@ -65,6 +73,10 @@ class LogController extends AbstractActionController
 
     public function showAction()
     {
+        if (!$this->isGranted('show_log')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $log = $this->logService->getById($id);
@@ -80,6 +92,10 @@ class LogController extends AbstractActionController
 
     public function updateAction()
     {
+        if (!$this->isGranted('update_log')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
         $form = $this->logForm;
         $log = $this->logService->getById($id, $form);
@@ -90,7 +106,7 @@ class LogController extends AbstractActionController
             if ($log) {
                 $this->flashMessenger()->addSuccessMessage('Le log a bien été modifié.');
 
-                return $this->redirect()->toRoute('log');
+                return $this->redirect()->toRoute('zfcadmin/log');
             }
         }
 
@@ -101,13 +117,17 @@ class LogController extends AbstractActionController
 
     public function deleteAction()
     {
+        if (!$this->isGranted('delete_log')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $id = $this->params('id');
 
         $this->logService->delete($id);
 
         $this->flashMessenger()->addSuccessMessage('Le log a bien été supprimé.');
 
-        return $this->redirect()->toRoute('log');
+        return $this->redirect()->toRoute('zfcadmin/log');
     }
 
 //    public function add2Action() {

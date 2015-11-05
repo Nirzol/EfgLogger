@@ -66,18 +66,19 @@ class InfoRestController extends AbstractRestfulController
         ));
     }
 
-    public function getMailHostAction() {
+    public function getMailHostAction()
+    {
         $login = null;
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
             $login = $authService->getIdentity()->getUserLogin();
         }
-        
+
         $success = false;
         $successMessage = '';
         $errorMessage = '';
         $affiliation = null;
-        
+
         if (!is_null($login)) {
             $affiliation = $this->searchLdapController->getMailHostByUid($login);
         }
@@ -89,7 +90,7 @@ class InfoRestController extends AbstractRestfulController
             $success = false;
             $errorMessage = 'Le mailhost user n\'existe pas.';
         }
-        
+
         return new JsonModel(array(
             'data' => $affiliation,
             'success' => $success,
@@ -99,4 +100,5 @@ class InfoRestController extends AbstractRestfulController
             ),
         ));
     }
+
 }

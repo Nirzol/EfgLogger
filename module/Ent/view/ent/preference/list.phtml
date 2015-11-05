@@ -3,7 +3,7 @@
 <h1><?= $this->translate('Liste des préférences') ?></h1>
 
 <p>
-    <a href="<?php echo $this->url('preference/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter une nouvelle préférence') ?></a>
+    <a href="<?php echo $this->url('zfcadmin/preference/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter une nouvelle préférence') ?></a>
 </p>
 
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
@@ -70,13 +70,13 @@
                 ?>
             </td>
             <td>
-                <a href="<?= $this->url('preference/show', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+                <a href="<?= $this->url('zfcadmin/preference/show', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('preference/show/update', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+                <a href="<?= $this->url('zfcadmin/preference/show/update', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
             </td>
             <td>
-                <a href="<?= $this->url('preference/show/delete', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+                <a href="<?= $this->url('zfcadmin/preference/show/delete', ['id' => $this->escapeUrl($preference->getPrefId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>
