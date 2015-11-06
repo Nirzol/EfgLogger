@@ -123,7 +123,7 @@ class HelpRequestController extends AbstractActionController {
                     $this->flashMessenger()->addSuccessMessage('Le mail de demande d\'aide a bien été envoyé');
                 }
             } else {
-                $this->flashMessenger()->addSuccessMessage('Le mail de demande d\'aide n\'a pas été envoyé car le formulaire est invalide.');
+                $this->flashMessenger()->addErrorMessage('Le mail de demande d\'aide n\'a pas été envoyé car le formulaire est invalide.');
             }
 
             return $this->redirect()->toRoute('help-request');
