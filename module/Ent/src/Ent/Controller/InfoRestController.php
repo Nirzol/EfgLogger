@@ -52,17 +52,29 @@ class InfoRestController extends AbstractRestfulController
     {
         $user = '';
         $infoUser = '';
+        $success = false;
+        $successMessage = '';
+        $errorMessage = '';
 
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
             $user = $authService->getIdentity()->getUserLogin();
             $infoUser = $this->searchLdapController->getUser($user);
+            $success = true;
+            $successMessage = 'Les infos ont bien été trouvées';
         } else {
-            $infoUser = 'Utilisateur Inconnu';
+            $success = false;
+            $infoUser = null;
+            $errorMessage = 'Utilisateur Inconnu';
         }
 
         return new JsonModel(array(
-            'infoUser' => $infoUser
+            'infoUser' => $infoUser,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
         ));
     }
 
