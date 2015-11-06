@@ -25,11 +25,13 @@ class HelpRequestRestControllerFactory implements FactoryInterface
         
         $helpRequestForm    = $sm->get('FormElementManager')->get('Ent\Form\HelpRequestForm');
         
+        $helpRequestInputFilter = $sm->get('InputFilterManager')->get('Ent\InputFilter\HelpRequestInputFilter');
+        
         $config = $sm->get('Config');
         $searchLdapModel = new \SearchLdap\Model\SearchLdap($config['searchldap_config']);        
         $searchLdapController = new \SearchLdap\Controller\SearchLdapController($searchLdapModel);
                 
-        $controller = new HelpRequestRestController($contactService, $helpRequestService, $helpRequestForm, $searchLdapController);
+        $controller = new HelpRequestRestController($contactService, $helpRequestService, $helpRequestForm, $helpRequestInputFilter, $searchLdapController);
         
         return $controller;
     }
