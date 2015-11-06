@@ -4,7 +4,14 @@ $this->headTitle($title);
 ?>
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
     <div class="alert alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <?= $this->translate($m) ?>
+    </div>  
+<?php endforeach; ?>
+<?php foreach ($this->flashMessenger()->getErrorMessages() as $e): ?>
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?= $this->translate($e) ?>
     </div>  
 <?php endforeach; ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
