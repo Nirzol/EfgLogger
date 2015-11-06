@@ -5,6 +5,7 @@ namespace Ent\Controller;
 use Ent\Service\HelpRequestDoctrineService;
 use Ent\Service\ContactDoctrineService;
 use Ent\Form\HelpRequestForm;
+use Ent\InputFilter\HelpRequestInputFilter;
 use SearchLdap\Controller\SearchLdapController;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\Controller\AbstractRestfulController;
@@ -34,6 +35,12 @@ class HelpRequestRestController extends AbstractRestfulController
      * @var HelpRequestForm
      */
     protected $helpRequestForm;
+    
+    /**
+     *
+     * @var HelpRequestInputFilter
+     */
+    protected $helpRequestInputFilter;
     
     /**
      *
@@ -67,10 +74,11 @@ class HelpRequestRestController extends AbstractRestfulController
         return $response;
     }
     
-    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, SearchLdapController $searchLdapController) {
+    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter , SearchLdapController $searchLdapController) {
         $this->contactService = $contactService;
         $this->helpRequestService = $helpRequestService;
         $this->helpRequestForm = $helpRequestForm;
+        $this->helpRequestInputFilter = $helpRequestInputFilter;
         $this->searchLdapController = $searchLdapController;
     }
 
