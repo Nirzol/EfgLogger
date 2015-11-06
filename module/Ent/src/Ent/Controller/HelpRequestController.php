@@ -36,12 +36,23 @@ class HelpRequestController extends AbstractActionController {
      */
     protected $helpRequestForm;
     
+    /**
+     *
+     * @var HelpRequestInputFilter
+     */
+    protected $helpRequestInputFilter;
+    
+    /**
+     *
+     * @var SearchLdapController
+     */
     protected $searchLdapController;
 
-    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, SearchLdapController $searchLdapController) {
+    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter, SearchLdapController $searchLdapController) {
         $this->contactService = $contactService;
         $this->helpRequestService = $helpRequestService;
         $this->helpRequestForm = $helpRequestForm;
+        $this->helpRequestInputFilter = $helpRequestInputFilter;
         $this->searchLdapController = $searchLdapController;
     }
 
@@ -64,7 +75,7 @@ class HelpRequestController extends AbstractActionController {
         if ($request->isPost()) {
             
             $form = $this->helpRequestForm;
-            $form->setInputFilter(new HelpRequestInputFilter());
+            $form->setInputFilter($this->helpRequestInputFilter);
 
             $post = array_merge_recursive($request->getPost()->toArray(), $request->getFiles()->toArray());
             
