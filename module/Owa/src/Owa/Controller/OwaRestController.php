@@ -40,7 +40,7 @@ class OwaRestController extends AbstractRestfulController {
         $errorMessage = '';
         
         return new JsonModel(array(
-            'data' => $data,
+            'number' => $data,
             'success' => $success,
             'flashMessages' => array(
                 'success' => $successMessage,
@@ -56,7 +56,7 @@ class OwaRestController extends AbstractRestfulController {
         $errorMessage = '';
         
         return new JsonModel(array(
-            'data' => $data,
+            'number' => $data,
             'success' => $success,
             'flashMessages' => array(
                 'success' => $successMessage,
