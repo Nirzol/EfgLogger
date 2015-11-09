@@ -70,7 +70,7 @@
             "Ent\\": "module/Ent/src/Ent",
             "EfgCasAuth\\": "module/EfgCasAuth/src/EfgCasAuth",
             "SearchLdap\\": "module/SearchLdap/src/SearchLdap",
-            "Iframe\\": "module/Iframe/src/Iframe"
+            "Owa\\": "module/Owa/src/Owa"
         }
     }
 }
