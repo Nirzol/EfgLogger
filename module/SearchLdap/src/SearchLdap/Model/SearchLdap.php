@@ -115,4 +115,18 @@ class SearchLdap {
         return null;
         
     }
+    
+    public function getMailByUid($uid) {
+        $ldap = $this->ldapConnect();
+        
+        $filter = "(uid=" . $uid . ")";
+        
+        $searchResult = $ldap->searchEntries($filter);
+        if (!empty($searchResult)) {
+            $ldap->disconnect();
+            return ($searchResult[0]['mail']) ? $searchResult[0]['mail'][0] : null;
+        }
+        
+        return null;
+    } 
 }
