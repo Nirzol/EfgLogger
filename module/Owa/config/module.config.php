@@ -48,9 +48,9 @@ return array(
             'ViewJsonStrategy'
         ),
     ),
-    'service_manager' => array(
+//    'service_manager' => array(
 //        'factories' => array(
-//            'Zend\Authentication\AuthenticationService' => 'EfgCasAuth\Factory\Service\AuthDoctrineORMServiceFactory',
-//        )
-    )
+//            'Owa\Model\Owa' => 'Owa\Factory\Model\OwaFactory',
+//        ),
+//    ),
 );
