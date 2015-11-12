@@ -2,6 +2,8 @@
 
 namespace Owa\Controller;
 
+use Owa\Model\Owa;
+use SearchLdap\Controller\SearchLdapController;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -11,9 +13,17 @@ use Zend\View\Model\JsonModel;
  * @author fandria
  */
 class OwaRestController extends AbstractRestfulController {
-    public function __construct()
+    
+    /* @var $owa Owa */
+    protected $owa;
+    
+    /* @var $searchLdapController SearchLdapController */
+    protected $searchLdapController;
+
+    public function __construct(SearchLdapController $searchLdapController, Owa $owa)
     {
-        
+        $this->owa = $owa;
+        $this->searchLdapController = $searchLdapController;
     }
 
     public function getList()
@@ -34,10 +44,43 @@ class OwaRestController extends AbstractRestfulController {
     }
     
     public function getMailNotifAction() {
-        $data = 200;
-        $success = true;
-        $successMessage = 'ok';
+        
+        $login = null;
+        $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
+        if ($authService->hasIdentity()) {
+            $login = $authService->getIdentity()->getUserLogin();
+        }
+
+        $data = null;
+        $success = false;
+        $successMessage = '';
         $errorMessage = '';
+        
+        $mail = null;
+        if (!is_null($login)) {
+            $mail = $this->searchLdapController->getMailByUid($login);
+            $owa = $this->owa;
+            if (!is_null($owa)) {
+                $owa->setImpersonation($mail);
+                $mails = $owa->getUnreadMails();
+                
+                if (!is_null($mails)) {
+                    $number = $owa->getNumberOfUnread($mails);
+                
+                    $data = $number;
+                    $success = true;
+                    $successMessage = 'ok';
+                    $errorMessage = '';
+                } else {
+                    $errorMessage = 'Mails non récupérés';
+                }
+               
+            }
+        } else {
+            $errorMessage = 'User non authentifié';
+        }
+        
+        
         
         return new JsonModel(array(
             'number' => $data,
