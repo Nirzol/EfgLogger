@@ -102,5 +102,33 @@ class Owa {
         return $numberOfUnreadMail;
     }
     
-    
+//    public function getCalendarEvents() {
+//        // Set init class
+//        $request = new FindItemType();
+//        // Use this to search only the items in the parent directory in question or use ::SOFT_DELETED
+//        // to identify "soft deleted" items, i.e. not visible and not in the trash can.
+//        $request->Traversal = ItemQueryTraversalType::SHALLOW;
+//        // This identifies the set of properties to return in an item or folder response
+//        $request->ItemShape = new ItemResponseShapeType();
+//        $request->ItemShape->BaseShape = DefaultShapeNamesType::ALL_PROPERTIES;
+//
+//        // Define the timeframe to load calendar items
+////        $request->CalendarView = new CalendarViewType();
+////        $request->CalendarView->StartDate = date("c", strtotime("-1 day", time()));
+////        $request->CalendarView->EndDate = date("c", strtotime("+2 month", time()));
+//
+//        // Only look in the "calendars folder"
+//        $request->ParentFolderIds = new NonEmptyArrayOfBaseFolderIdsType();
+//        $request->ParentFolderIds->DistinguishedFolderId = new DistinguishedFolderIdType();
+//        $request->ParentFolderIds->DistinguishedFolderId->Id = DistinguishedFolderIdNameType::CALENDAR;
+//
+//        // Send request
+//        if ($this->ews) {
+//            $response = $this->ews->FindItem($request);
+//
+//            return $response;
+//        } else {
+//            return null;
+//        }
+//    }
 }
