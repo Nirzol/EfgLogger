@@ -137,21 +137,15 @@ class InfoRestController extends AbstractRestfulController
         if (!is_null($login)) {
             $mail = $this->searchLdapController->getMailByUid($login);
             $ews = $this->ews;
-            if (!is_null($ews)) {
-                /* @var $owaPlugin OwaPlugin */
-                $owaPlugin = $this->OwaPlugin();
-                $number = $owaPlugin->getNotifMail($ews, $mail); 
-                
-                if (!is_null($number)) {
-                    $data = array('mail' => $number);
-                    $success = true;
-                    $successMessage = 'ok';
-                    $errorMessage = '';
-                } else {
-                    $errorMessage = 'Notifs non récupérées';
-                }
-               
-            }
+            
+            /* @var $owaPlugin OwaPlugin */
+            $owaPlugin = $this->OwaPlugin();
+            $number = $owaPlugin->getNotifMail($ews, $mail); 
+
+            $data = array('mail' => $number);
+            $success = true;
+            $successMessage = 'ok';
+            $errorMessage = '';
         } else {
             $errorMessage = 'User non authentifié';
         }
