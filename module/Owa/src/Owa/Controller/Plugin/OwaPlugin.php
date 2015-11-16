@@ -15,14 +15,15 @@ class OwaPlugin extends AbstractPlugin {
     public function getNotifMail(EwsConnection $ews, $mail)
     {
         $owa = new Owa($ews);
-        
-        $owa->setImpersonation($mail);
-        $mails = $owa->getUnreadMails();
+        if (!is_null($owa)) {
+            $owa->setImpersonation($mail);
+            $mails = $owa->getUnreadMails();
 
-        if (!is_null($mails)) {
-            $number = $owa->getNumberOfUnread($mails);
-            
-            return $number;
+            if (!is_null($mails)) {
+                $number = $owa->getNumberOfUnread($mails);
+
+                return $number;
+            }
         }
         return null;
     }
