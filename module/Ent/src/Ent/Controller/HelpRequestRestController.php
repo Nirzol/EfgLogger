@@ -100,43 +100,57 @@ class HelpRequestRestController extends AbstractRestfulController
     public function create($data) {
         
         if ($data) {
-            $subject = $data['subject'];
-            $message = $data['message'];
-            $senderMail = $data['senderMail'];
-            $senderName = $data['senderName'];
-            $recipientMail = $data['recipientMail'];
-            $recipientName = $data['recipientName'];
             
-            // On compte le nombre fichiers à envoyer
-            $countFiles = count($_FILES);
-                       
-            if(count($_FILES) > 0) {
-                // Si on a un ou plusieurs fichiers à envoyer
-                for($i = 0; $i < $countFiles; $i++) {
-                    $filePaths[] = $_FILES['file'.$i]['tmp_name'];
-                    $fileNames[] = $_FILES['file'.$i]['name'];
-                }
-                $transport = $this->helpRequestService->sendWithImage($message, $filePaths, $fileNames, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
-            } else {
-                // Si on n'a pas de fichiers à envoyer
-                $transport = $this->helpRequestService->sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName);
-            }
-                        
-            if ($transport) {
-                $this->flashMessenger()->addSuccessMessage('Le mail de demande d\'aide a bien été envoyé.');
+            $form = $this->helpRequestForm;
+            $form->setInputFilter($this->helpRequestInputFilter);
+            
+            $form->setData($data);
+            
+            if($form->isValid()) {
+                $form->getData();
+                $subject = $data['subject'];
+                $message = $data['messageplus'];
+                $senderMail = $data['senderMail'];
+                $senderName = $data['senderName'];
+                $recipientMail = $data['recipientMail'];
+                $recipientName = $data['recipientName'];
 
-                return new JsonModel(array(
-                    'data' => $data,
-                    'success' => true,
-                    'flashMessages' => array(
-                        'success' => 'Le mail de demande d\'aide a bien été envoyé.',
-                    ),
-                ));
+                // On compte le nombre fichiers à envoyer
+                $countFiles = count($_FILES);
+
+                if(count($_FILES) > 0) {
+                    // Si on a un ou plusieurs fichiers à envoyer
+                    for($i = 0; $i < $countFiles; $i++) {
+                        $filePaths[] = $_FILES['file'.$i]['tmp_name'];
+                        $fileNames[] = $_FILES['file'.$i]['name'];
+                    }
+                    $transport = $this->helpRequestService->sendWithImage($message, $filePaths, $fileNames, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
+                } else {
+                    // Si on n'a pas de fichiers à envoyer
+                    $transport = $this->helpRequestService->sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName);
+                }
+
+                if ($transport) {
+                    $this->flashMessenger()->addSuccessMessage('Le mail de demande d\'aide a bien été envoyé.');
+
+                    return new JsonModel(array(
+                        'data' => $data,
+                        'success' => true,
+                        'flashMessages' => array(
+                            'success' => 'Le mail de demande d\'aide a bien été envoyé.',
+                        ),
+                    ));
+                }
+            } else {
+                $error = $form->getMessages();
             }
+            
+            
         }
                
         return new JsonModel(array(
             'success' => false,
+            'error' => $error,
             'flashMessages' => array(
                 'error' => 'Le mail de demande d\'aide n\'a pas été envoyé.',
             ),

@@ -25,8 +25,8 @@ class HelpRequestInputFilter extends InputFilter {
         $filter = new \Zend\Filter\StripTags();
         $input->getFilterChain()->attach($filter);
 
-        $validator = new \Zend\Validator\StringLength();
-        $validator->setMax(255);
+        $validator = new \Zend\Validator\StringLength(array('min' => 1, 'max' => 255));
+        //$validator->setMax(255);
         $input->getValidatorChain()->attach($validator);
 
         $validator = new \Zend\Validator\NotEmpty();
