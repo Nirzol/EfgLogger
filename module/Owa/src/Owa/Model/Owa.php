@@ -92,6 +92,27 @@ class Owa {
         }
     }
     
+    public function getAllMails() {
+        $request = new FindItemType();
+
+        $request->ItemShape = new ItemResponseShapeType();
+        $request->ItemShape->BaseShape = DefaultShapeNamesType::DEFAULT_PROPERTIES;
+
+        $request->Traversal = ItemQueryTraversalType::SHALLOW;
+        
+        $request->ParentFolderIds = new NonEmptyArrayOfBaseFolderIdsType();
+        $request->ParentFolderIds->DistinguishedFolderId = new DistinguishedFolderIdType();
+        $request->ParentFolderIds->DistinguishedFolderId->Id = DistinguishedFolderIdNameType::INBOX;
+
+        if ($this->ews) {
+            $response = $this->ews->FindItem($request);
+
+            return $response;
+        } else {
+            return null;
+        }
+    }
+    
     public function getNumberOfUnread($response) {
         $numberOfUnreadMail = 0;
 
