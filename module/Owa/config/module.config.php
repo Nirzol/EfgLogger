@@ -6,6 +6,11 @@ return array(
             'Owa\Controller\OwaRest' => 'Owa\Factory\Controller\OwaRestControllerFactory',
         ),
     ),
+    'controller_plugins' => array(
+        'invokables' => array(
+            'OwaPlugin' => 'Owa\Controller\Plugin\OwaPlugin',
+        )
+    ),
     'router' => array(
         'routes' => array(
             'owa-rest' => array(

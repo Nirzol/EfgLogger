@@ -74,13 +74,12 @@ class HelpRequestController extends AbstractActionController {
         
         if ($request->isPost()) {
             
-            $form = $this->helpRequestForm;
             $form->setInputFilter($this->helpRequestInputFilter);
 
             $post = array_merge_recursive($request->getPost()->toArray(), $request->getFiles()->toArray());
             
             $form->setData($post);
-            
+        
             if ($form->isValid()) {
                 $form->getData();
                 

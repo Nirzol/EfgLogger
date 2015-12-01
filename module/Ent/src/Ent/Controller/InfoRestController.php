@@ -2,6 +2,8 @@
 
 namespace Ent\Controller;
 
+use Owa\Controller\Plugin\OwaPlugin;
+use PhpEws\EwsConnection;
 use SearchLdap\Controller\SearchLdapController;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
@@ -16,6 +18,10 @@ class InfoRestController extends AbstractRestfulController
     /* @var $searchLdapController SearchLdapController */
 
     protected $searchLdapController;
+    
+    /* @var $ews EwsConnection */
+
+    protected $ews;
 
     public function options()
     {
@@ -43,9 +49,10 @@ class InfoRestController extends AbstractRestfulController
         return $response;
     }
 
-    public function __construct(SearchLdapController $searchLdapController)
+    public function __construct(SearchLdapController $searchLdapController, EwsConnection $ews)
     {
         $this->searchLdapController = $searchLdapController;
+        $this->ews = $ews;
     }
 
     public function getList()
@@ -105,6 +112,46 @@ class InfoRestController extends AbstractRestfulController
 
         return new JsonModel(array(
             'data' => $affiliation,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
+        ));
+    }
+    
+    public function getNotifsAction() {
+        $login = null;
+        $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
+        if ($authService->hasIdentity()) {
+            $login = $authService->getIdentity()->getUserLogin();
+        }
+
+        $data = null;
+        $success = false;
+        $successMessage = '';
+        $errorMessage = '';
+        
+        /* notif mail */
+        $mail = null;
+        if (!is_null($login)) {
+            $mail = $this->searchLdapController->getMailByUid($login);
+            $ews = $this->ews;
+            
+            /* @var $owaPlugin OwaPlugin */
+            $owaPlugin = $this->OwaPlugin();
+            $number = $owaPlugin->getNotifMail($ews, $mail); 
+
+            $data = array('mail' => $number);
+            $success = true;
+            $successMessage = 'ok';
+            $errorMessage = '';
+        } else {
+            $errorMessage = 'User non authentifié';
+        }
+        
+        return new JsonModel(array(
+            'notifs' => $data,
             'success' => $success,
             'flashMessages' => array(
                 'success' => $successMessage,

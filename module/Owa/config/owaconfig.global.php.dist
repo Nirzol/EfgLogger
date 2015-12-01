@@ -2,6 +2,7 @@
 
 return array(
     'owa_config' => array(
+//        'host'                  => 'outlook.office365.com',
         'host'                  => 'owa.parisdescartes.fr',
         'version'               => 'Exchange2013',
         'username'              => '',

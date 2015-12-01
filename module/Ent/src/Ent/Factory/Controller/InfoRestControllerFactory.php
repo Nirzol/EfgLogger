@@ -3,6 +3,9 @@
 namespace Ent\Factory\Controller;
 
 use Ent\Controller\InfoRestController;
+use PhpEws\EwsConnection;
+use SearchLdap\Controller\SearchLdapController;
+use SearchLdap\Model\SearchLdap;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -20,11 +23,13 @@ class InfoRestControllerFactory implements FactoryInterface
         
         $config = $sm->get('Config');
         
-        $searchLdapModel = new \SearchLdap\Model\SearchLdap($config['searchldap_config']);
+        $searchLdapModel = new SearchLdap($config['searchldap_config']);
 
-        $searchLdapController = new \SearchLdap\Controller\SearchLdapController($searchLdapModel);
+        $searchLdapController = new SearchLdapController($searchLdapModel);
         
-        $controller = new InfoRestController($searchLdapController);
+        $ews = new EwsConnection($config['owa_config']['host'], $config['owa_config']['username'], $config['owa_config']['password'], $config['owa_config']['version']);
+                
+        $controller = new InfoRestController($searchLdapController, $ews);
 
         return $controller;
     }

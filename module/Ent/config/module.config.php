@@ -1073,6 +1073,15 @@ return array(
                             ),
                         ),
                     ),
+                    'notifs' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/notifs',
+                            'defaults' => array(
+                                'action' => 'getNotifs',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'role-rest' => array(
