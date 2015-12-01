@@ -30,7 +30,7 @@ class Owa {
     /* @var $ews EwsConnection */
     protected $ews;
     
-    public function __construct($ews) {
+    public function __construct(EwsConnection $ews) {
         $this->ews = $ews;
     }
     
