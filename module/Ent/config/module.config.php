@@ -501,6 +501,18 @@ return array(
                                             ),
                                         ),
                                     ),
+                                    'deleteProfile' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Segment::class,
+                                        'options' => array(
+                                            'route' => '/deleteProfile[/:ida]',
+                                            'defaults' => array(
+                                                'action' => 'deleteProfile',
+                                            ),
+                                            'constraints' => array(
+                                                'ida' => '[1-9][0-9]*'
+                                            ),
+                                        ),
+                                    ),
                                 ),
                             ),
                         ),

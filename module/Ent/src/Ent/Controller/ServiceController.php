@@ -12,12 +12,12 @@ use Ent\Service\AttributeDoctrineService;
 use Ent\Service\PreferenceDoctrineService;
 use Ent\Service\ServiceDoctrineService;
 use JMS\Serializer\SerializationContext;
-use JMS\Serializer\Serializer as Serializer2;
+use JMS\Serializer\Serializer;
 use Zend\Http\Request;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Serializer\Serializer;
 use Zend\View\Model\ViewModel;
+use ZfcRbac\Exception\UnauthorizedException;
 
 class ServiceController extends AbstractActionController
 {
@@ -58,7 +58,7 @@ class ServiceController extends AbstractActionController
     protected $serializer = null;
     protected $config = null;
 
-    public function __construct(ServiceDoctrineService $serviceService, PreferenceDoctrineService $preferenceService, ServiceForm $serviceForm, PreferenceForm $preferenceForm, AttributeDoctrineService $attributeService, Serializer2 $serializer, $config)
+    public function __construct(ServiceDoctrineService $serviceService, PreferenceDoctrineService $preferenceService, ServiceForm $serviceForm, PreferenceForm $preferenceForm, AttributeDoctrineService $attributeService, Serializer $serializer, $config)
     {
         $this->serviceService = $serviceService;
         $this->preferenceService = $preferenceService;
@@ -72,9 +72,9 @@ class ServiceController extends AbstractActionController
     public function listAction()
     {
         if (!$this->isGranted('list_service')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+            throw new UnauthorizedException('You are not allowed !');
         }
-        
+
         $services = $this->serviceService->getAll();
 
         return new ViewModel(array(
@@ -85,9 +85,9 @@ class ServiceController extends AbstractActionController
     public function addAction()
     {
         if (!$this->isGranted('add_service')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+            throw new UnauthorizedException('You are not allowed !');
         }
-        
+
         $attributes = $this->attributeService->getAll();
 
         $form = $this->serviceForm;
@@ -132,9 +132,9 @@ class ServiceController extends AbstractActionController
     public function showAction()
     {
         if (!$this->isGranted('show_service')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+            throw new UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $service = $this->serviceService->getById($id);
@@ -160,9 +160,9 @@ class ServiceController extends AbstractActionController
     public function updateAction()
     {
         if (!$this->isGranted('update_service')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+            throw new UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
         $form = $this->serviceForm;
         $service = $this->serviceService->getById($id, $form);
@@ -219,9 +219,9 @@ class ServiceController extends AbstractActionController
     public function deleteAction()
     {
         if (!$this->isGranted('delete_service')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+            throw new UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $this->serviceService->delete($id);
@@ -234,9 +234,9 @@ class ServiceController extends AbstractActionController
     public function updateProfileAction()
     {
         if (!$this->isGranted('update_profile')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+            throw new UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         // Get Service attribute from Preference
@@ -262,7 +262,7 @@ class ServiceController extends AbstractActionController
         $criteria->andWhere($criteria->expr()->isNull('fkPrefUser'));
         $criteria->andWhere($criteria->expr()->isNull('fkPrefService'));
         $prefProfiles = $this->preferenceService->matching($criteria);
-        
+
         // Merge ProfilAttribute and ServiceAttribute with priority for ServiceAttribute 
         /* @var $prefProfile EntPreference */
         foreach ($prefProfiles as $prefProfile) {
@@ -277,9 +277,44 @@ class ServiceController extends AbstractActionController
         $this->flashMessenger()->addSuccessMessage('Le profil a bien été mis à jour.');
 
         return $this->redirect()->toRoute('zfcadmin/service');
-        
-//        return new ViewModel(array(
-//        ));
+
+        //        return new ViewModel(array(
+        //        ));
+    }
+
+    public function deleteProfileAction()
+    {
+        if (!$this->isGranted('delete_profile')) {
+            throw new UnauthorizedException('You are not allowed !');
+        }
+
+        $id = $this->params('id');
+
+        // Get Service        
+        /* @var $service EntService */
+        $service = $this->serviceService->getById($id);
+
+        // Get All Profile Preference
+        $criteria = new Criteria();
+        $criteria->where($criteria->expr()->neq('fkPrefProfile', NULL));
+        $criteria->andWhere($criteria->expr()->isNull('fkPrefUser'));
+        $criteria->andWhere($criteria->expr()->isNull('fkPrefService'));
+        $prefProfiles = $this->preferenceService->matching($criteria);
+
+        // Delete service into profileAttribute 
+        /* @var $prefProfile EntPreference */
+        foreach ($prefProfiles as $prefProfile) {
+            $prefProfileAttribute = Json::decode($prefProfile->getPrefAttribute(), Json::TYPE_ARRAY);
+            unset($prefProfileAttribute[$service->getServiceName()]);
+            $dataPreference = array('prefAttribute' => Json::encode($prefProfileAttribute), 'fkPrefProfile' => $prefProfile->getFkPrefProfile()->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
+            $this->preferenceService->save($this->preferenceForm, $dataPreference, $prefProfile);
+        }
+
+        $this->flashMessenger()->addSuccessMessage('Le profil a bien été mis à jour.');
+
+        return $this->redirect()->toRoute('zfcadmin/service');
+//                return new ViewModel(array(
+//                ));
     }
 
 }

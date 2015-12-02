@@ -11,7 +11,9 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
  *
  * @author fandria
  */
-class OwaPlugin extends AbstractPlugin {
+class OwaPlugin extends AbstractPlugin
+{
+
     public function getNotifMail(EwsConnection $ews, $mail)
     {
         $owa = new Owa($ews);
@@ -27,4 +29,5 @@ class OwaPlugin extends AbstractPlugin {
         }
         return null;
     }
+
 }
