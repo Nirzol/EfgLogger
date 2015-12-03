@@ -42,7 +42,7 @@ class AuthController extends AbstractActionController
         }
 
         $configCas = $this->configCas;
-        
+
         // Enable debugging      
         if ($configCas['cas_debug']) {
             phpCAS::setDebug($configCas['cas_debug_file']);
@@ -54,7 +54,13 @@ class AuthController extends AbstractActionController
         // For production use set the CA certificate that is the issuer of the cert
         // on the CAS server and uncomment the line below
         //        var_dump($configCas['cas_server_ca_cert_path']);
-        phpCAS::setCasServerCACert($configCas['cas_server_ca_cert_path']);
+//        phpCAS::setCasServerCACert($configCas['cas_server_ca_cert_path']);
+        // set SSL validation for the CAS server
+        if ($configCas['cas_validation'] == 'ca') {
+            phpCAS::setCasServerCACert($configCas['cas_server_ca_cert_path']);
+        } else {
+            phpCAS::setNoCasServerValidation();
+        }
         // 
         // For quick testing you can disable SSL validation of the CAS server.
         // THIS SETTING IS NOT RECOMMENDED FOR PRODUCTION.
@@ -166,8 +172,8 @@ class AuthController extends AbstractActionController
         $configCas = $this->configCas;
         if ($configCas['cas_proxy']) {
             $urlPgtCallback = 'https://onepiece.dsi.univ-paris5.fr/api/pgtcallback';
-                phpCAS::setFixedCallbackURL($urlPgtCallback);
-                            $urlServiceUrl = 'https://onepiece.dsi.univ-paris5.fr/api/';
+            phpCAS::setFixedCallbackURL($urlPgtCallback);
+            $urlServiceUrl = 'https://onepiece.dsi.univ-paris5.fr/api/';
             phpCAS::setFixedServiceURL($urlServiceUrl);
             $_SESSION['cas_pt'][php_uname('n')] = phpCAS::retrievePT($configCas['cas_imap_name'], $err_code, $output);
             $pass = $_SESSION['cas_pt'][php_uname('n')];
@@ -195,12 +201,10 @@ class AuthController extends AbstractActionController
 //        var_dump(phpCAS::retrievePT($configCas['cas_imap_name'], $err_code, $output));
         var_dump(phpCAS::serviceMail('{imap-i.infr.univ-paris5.fr}INBOX', 'https://onepiece.dsi.univ-paris5.fr/api/', 0, $err_code, $err_msg, $pt));
 //        exit();
-        
 //            $service = phpCAS::getProxiedService(PHPCAS_PROXIED_SERVICE_IMAP);
 //            $service->setServiceUrl('https://onepiece.dsi.univ-paris5.fr/api/');
 //            $service->setMailbox('{imap-i.infr.univ-paris5.fr}INBOX');
 //            $service->setOptions(0);     
-        
 //        $service->open();
 //        var_dump(fgets($tt, 1024));
 //        $sss = "https://castest.univ-paris5.fr/cas/proxyValidate?service=http://onepiece.dsi.univ-paris5.fr/api/&ticket=" . $pass;
@@ -253,7 +257,6 @@ class AuthController extends AbstractActionController
 
                 // Manage the session only the first time
                 phpCAS::proxy($configCas['cas_version'], $configCas['cas_hostname'], $configCas['cas_port'], $configCas['cas_path'], true); //!isset($_SESSION['session_inited'])
-
                 // set URL for PGT callback
                 //                $url = $this->url()->fromRoute('pgtcallback', array(), array('force_canonical' => true), true);
 //                $urlPgtCallback = 'https://ent-dev.univ-paris5.fr/api/pgtcallback';
@@ -280,22 +283,19 @@ class AuthController extends AbstractActionController
             // SLO callback
 //             phpCAS::setPostAuthenticateCallback("handleCasLogin", $old_session);
 //            phpCAS::setSingleSignoutCallback(array($this, "handleSingleLogout"));
-          
 //            // set service URL for authorization with CAS server
 //            $urlServiceUrl = 'https://ent-dev.univ-paris5.fr/api/proxylogin';
 //            $urlServiceUrl = 'https://onepiece.dsi.univ-paris5.fr/api/proxylogin';
             $urlServiceUrl = 'https://onepiece.dsi.univ-paris5.fr/api/';
             phpCAS::setFixedServiceURL($urlServiceUrl);
-            
+
 //        phpCAS::setServerProxyValidateURL('castest.univ-paris5.fr/cas/proxyValidate');     
-         
             // set SSL validation for the CAS server
 //            if ($configCas['cas_validation'] == 'ca') {
 //                phpCAS::setCasServerCACert($configCas['cas_server_ca_cert_path']);
 //            } else {
-                phpCAS::setNoCasServerValidation();
+            phpCAS::setNoCasServerValidation();
 //            }
-
             // set login and logout URLs of the CAS server
             phpCAS::setServerLoginURL($configCas['cas_login_url']);
             phpCAS::setServerLogoutURL($configCas['cas_logout_url']);
@@ -314,10 +314,10 @@ class AuthController extends AbstractActionController
     {
         // initialize CAS client
         $this->cas_init();
-        
+
         // Handle SignleLogout
         phpCAS::handleLogoutRequests(false);
-        
+
         // retrieve and store PGT if present
         phpCAS::forceAuthentication();
 
@@ -333,88 +333,72 @@ class AuthController extends AbstractActionController
 //        exit;
 //        return new ViewModel();
     }
-    
+
     public function authenticate2()
     {
-        if ($this->authService->hasIdentity()) {
-            // if already login, redirect to index page 
-            return $this->redirect()->toRoute('home');
-        }
-
         $configCas = $this->configCas;
-        
-        // Enable debugging      
+
         if ($configCas['cas_debug']) {
             phpCAS::setDebug($configCas['cas_debug_file']);
         }
 
-        // Initialize phpCAS
-        phpCAS::proxy($configCas['cas_version'], $configCas['cas_hostname'], $configCas['cas_port'], $configCas['cas_path'], true);
-phpCAS::setPGTStorageFile($configCas['cas_pgt_dir']);
-        // For production use set the CA certificate that is the issuer of the cert
-        // on the CAS server and uncomment the line below
-        //        var_dump($configCas['cas_server_ca_cert_path']);
-        phpCAS::setCasServerCACert($configCas['cas_server_ca_cert_path']);
-        // 
-        // For quick testing you can disable SSL validation of the CAS server.
-        // THIS SETTING IS NOT RECOMMENDED FOR PRODUCTION.
-        // VALIDATING THE CAS SERVER IS CRUCIAL TO THE SECURITY OF THE CAS PROTOCOL!
-        //\phpCAS::setFixedServiceURL(trim("http://" . 'servauth.univ-paris5.fr', "/"));
-        //\phpCAS::setCacheTimesForAuthRecheck(1);
-        //        phpCAS::setNoCasServerValidation();
-        // set the language to french
-        //        phpCAS::setLang(PHPCAS_LANG_FRENCH);
-        //  \phpCAS::setNoClearTicketsFromUrl();
-        //  \phpCAS::setExtraCurlOption(CURLOPT_SSLVERSION,3); 
-        // \phpCAS::setExtraCurlOption(CURLOPT_VERBOSE, TRUE);
+        phpCAS::proxy($configCas['cas_version'], 'castest.univ-paris5.fr', $configCas['cas_port'], $configCas['cas_path'], true);
+        phpCAS::setPGTStorageFile($configCas['cas_pgt_dir']);
+        phpCAS::setNoCasServerValidation();
 
-        if (phpCAS::isAuthenticated()) {
-            $adapter = $this->authService->getAdapter();
+//        $urlServiceUrl = 'https://onepiece.dsi.univ-paris5.fr/api/';
+//            phpCAS::setFixedServiceURL($urlServiceUrl);
 
-            // setCredential doit recevoir le MDP 
-            // mais vu qu'on utilise CAS le mdp est VIDE !!!!
-            $adapter->setIdentityValue(phpCAS::getUser());
-            $adapter->setCredentialValue('');
-
-            //test si la personne est bien dans la BD
-            $authResult = $this->authService->authenticate();
-
-            if ($authResult->isValid()) {
-                //                // set id comme identifiant de session
-                //                $user_id = $authAdapter->getResultRowObject('user_id')->user_id;
-                //                $username = $authAdapter->getResultRowObject('username')->username;
-                //                //$authService->getStorage()->write($user_id);  
-                //                $roleUser = $this->serviceLocator->get('Application\Provider\Identity\casZendDb');
-                //                $authService->getStorage()->write(array(
-                //                    'user_id' => $user_id,
-                //                    'username' => $username,
-                //                ));
-                //                $roleUser = $roleUser->getIdentityRoles();
-                //                $authService->getStorage()->write(array(
-                //                    'user_id' => $user_id,
-                //                    'username' => $username,
-                //                    'role' => $roleUser[0],
-                //                ));
-                //                $identity = $authResult->getIdentity();
-                $this->authService->getStorage()->write($authResult->getIdentity());
-                var_dump(phpCAS::serviceMail('{imap-i.infr.univ-paris5.fr}INBOX', 'https://onepiece.dsi.univ-paris5.fr/api/', 0, $err_code, $err_msg, $pt));
-                $_SESSION['cas_pt'][php_uname('n')] = phpCAS::retrievePT($configCas['cas_imap_name'], $err_code, $output);
-            $pass = $_SESSION['cas_pt'][php_uname('n')];
-                return $pass;
-            } else {
-                $container = new Container('noAuth');
-                $container->login = $authResult->getIdentity();
-                $container->loginMessage = $authResult->getMessages();
-                return $this->redirect()->toRoute($configCas['no_account_route']);
-            }
-            // Retour vers l'index
-//            return $this->redirect()->toRoute($configCas['cas_redirect_route_after_login']);
-        } else {
-            // hey, authenticate
+        $auth = phpCAS::isAuthenticated();
+        if (!$auth) {
             phpCAS::forceAuthentication();
-            die();
         }
-//        return $this->redirect()->toRoute('home');
+
+        $_SESSION['PT'] = phpCAS::retrievePT($configCas['cas_imap_name'], $err_code, $output);
+        $pass = $_SESSION['PT'];
+        // procedure pour obtenir ou reobtenir un PT
+        // force l'authentification si pas authentifié
+
+        var_dump($pass);
+
+        // CONNEXION IMAP avec PT
+        if (!empty($_GET['ok'])) {
+//            phpCAS::proxy($configCas['cas_version'], 'castest.univ-paris5.fr', $configCas['cas_port'], $configCas['cas_path'], true);
+//            phpCAS::setPGTStorageFile($configCas['cas_pgt_dir']);
+//            phpCAS::setNoCasServerValidation();
+            $auth = phpCAS::isAuthenticated();
+            if ($auth) {
+                $USER = phpCAS::getUser();
+                $CREDENTIAL = $_SESSION['PT'];
+                var_dump($USER, $CREDENTIAL);
+            } else {
+                var_dump("Erreur vous devez deja avoir une session CAS (PT)");
+            }
+        }
+
+        // SI ON A UN USER ET MDP ON TENTE UNE CONNEXION IMAP
+        if (!empty($USER) && !empty($CREDENTIAL)) {
+            echo "EXE !!!";
+            $messa = "";
+            $mbox = @imap_open("{imap-i.infr.univ-paris5.fr}INBOX", $USER, $CREDENTIAL)
+                    or
+                    die(var_dump(imap_errors()));
+
+//            $this->inbox = imap_open("{server:993/imap/ssl/novalidate-cert}$inbox", 
+//                           $username, $password, NULL, 1, 
+//                           array('DISABLE_AUTHENTICATOR' => 'PLAIN')) or 
+//                   die(var_dump(imap_errors()));
+
+            $messa = " - PT : $CREDENTIAL";
+
+            if (!$mbox) {
+                $err = "Erreur d'ouverture de connexion IMAP.<BR>AVEC :<BR> - USER : $USER$messa<BR>";
+            } else {
+                $msg = "Ouverture de connexion IMAP OK.<BR>AVEC :<BR> - USER : $USER$messa<BR>";
+            }
+
+            var_dump($err, $messa);
+        }
     }
 
 }
