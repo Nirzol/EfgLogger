@@ -112,9 +112,11 @@ class AuthController extends AbstractActionController
             // Retour vers l'index
             return $this->redirect()->toRoute($configCas['cas_redirect_route_after_login']);
         } else {
-            // hey, authenticate
-            phpCAS::forceAuthentication();
-            die();
+            if(!phpCAS::checkAuthentication()){
+                // hey, authenticate
+                phpCAS::forceAuthentication();
+//                die();
+            }
         }
         return $this->redirect()->toRoute('home');
     }
