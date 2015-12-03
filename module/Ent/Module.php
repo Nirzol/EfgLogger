@@ -28,6 +28,9 @@ class Module implements ConfigProviderInterface, BootstrapListenerInterface //Au
 
     public function onBootstrap(EventInterface $e)
     {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL & ~E_NOTICE);
         $sm = $e->getApplication()->getServiceManager();
         $translator = $sm->get('MvcTranslator');
         AbstractValidator::setDefaultTranslator(new \Zend\Mvc\I18n\Translator($translator));
