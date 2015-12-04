@@ -137,21 +137,26 @@ class InfoRestController extends AbstractRestfulController
         if (!is_null($login)) {
             $mailHost = $this->searchLdapController->getMailHostByUid($login);
             
-            if (strcmp($mailHost, 'mataram.parisdescartes.fr') !== 0) {
+            if (!is_null($mailHost)) {
             
-                $mail = $this->searchLdapController->getMailByUid($login);
-                $ews = $this->ews;
+                if (strcmp($mailHost, 'mataram.parisdescartes.fr') !== 0) {
 
-                /* @var $owaPlugin OwaPlugin */
-                $owaPlugin = $this->OwaPlugin();
-                $number = $owaPlugin->getNotifMail($ews, $mail); 
+                    $mail = $this->searchLdapController->getMailByUid($login);
+                    $ews = $this->ews;
 
-                $data = array('mail' => $number);
-                $success = true;
-                $successMessage = 'ok';
-                $errorMessage = '';
-            } else {
-                $errorMessage = 'User uses mataram';
+                    /* @var $owaPlugin OwaPlugin */
+                    $owaPlugin = $this->OwaPlugin();
+                    $number = $owaPlugin->getNotifMail($ews, $mail); 
+
+                    $data = array('mail' => $number);
+                    $success = true;
+                    $successMessage = 'ok';
+                    $errorMessage = '';
+                }  else {
+                    $errorMessage = 'User uses mataram';
+                }
+            }else {
+                $errorMessage = 'User no mailhost';
             }
         } else {
             $errorMessage = 'User non authentifié';
