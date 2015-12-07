@@ -12,12 +12,14 @@ class IndexController extends AbstractActionController
 
     public function indexAction()
     {
+
+
 //        $sm = $this->getServiceLocator();
 //        $config = $sm->get('Config');
 //
 //        $testCas = new \EfgCasAuth\Controller\AuthController($sm->get('Zend\Authentication\AuthenticationService'), $config['cas']);
 //
-////        $pass = $testCas->getPublicTicket();
+//        $pass = $testCas->getPublicTicket();
 //        $pass = $testCas->authenticate2();
 //        var_dump($pass)   ;  
 //        $testCas->simple();
@@ -26,7 +28,7 @@ class IndexController extends AbstractActionController
 //        
 //        
 //        $this->mySockConnect();
-//        $this->getQuotaroot();
+//        $this->getQuotaroot($pass);
 //         $aze = split("-", $pass);
         //$passnew = $aze[0] .'-'. $aze[1] .'-'. $aze[2];
         //var_dump($passnew);
@@ -45,9 +47,6 @@ class IndexController extends AbstractActionController
 //        ));
 //        var_dump($mail);
 //        var_dump($mail->countMessages());
-        
-        
-        
 //        $folder = $mail->getFolders()->Journal;
 //        $mail->selectFolder($folder);
 //        var_dump($mail->selectFolder('INBOX'));
@@ -143,7 +142,7 @@ class IndexController extends AbstractActionController
 //        return array( $versions, $bdVersionEo);
     }
 
-    function getQuotaroot()
+    function getQuotaroot($pass)
     {
 //        if(!$socket = @fsockopen("imap-i.infr.univ-paris5.fr", 143);
 //        return false;
@@ -164,7 +163,6 @@ class IndexController extends AbstractActionController
         $password = $_SESSION['cas_pt'][php_uname('n')];
 //        fputs($socket, "a001 " . $password . "\r\n");
 //        var_dump(fgets($socket, 1024));
-
 //        $user = 'egrondin';
 //        $authc = 'https://onepiece.dsi.univ-paris5.fr/api/';
 //        $pass = $password;
@@ -176,9 +174,6 @@ class IndexController extends AbstractActionController
 //
 //        $this->execute("AUTHENTICATE PLAIN", array($reply), 
 //                self::COMMAND_LASTLINE | self::COMMAND_CAPABILITY | self::COMMAND_ANONYMIZED);
-        
-        
-
         // Send data to server
 //        echo "Writing data...";
 //        fwrite($socket, "a001 CAPABILITY\r\n");
@@ -199,7 +194,7 @@ class IndexController extends AbstractActionController
 
 
         $username = 'egrondin';
-        $password = $_SESSION['cas_pt'][php_uname('n')];
+        $password = $pass;
 //        $username = 'eric-grondin@parisdescartes.fr';
 //        $password = '753descartes159!';
         fputs($socket, "a001 LOGIN " . $username . " " . $password . "\r\n");
