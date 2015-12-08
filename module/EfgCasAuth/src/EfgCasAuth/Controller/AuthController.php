@@ -99,7 +99,11 @@ class AuthController extends AbstractActionController
             if ($authResult->isValid()) {
                 $this->authService->getStorage()->write($authResult->getIdentity());
                 // Retour vers l'index
-                $redirectTo = $this->redirect()->toUrl($this->request->getQuery('redirectTo'));
+                
+                $redirectTo = $this->redirect()->toRoute('home');
+                if($this->request->getQuery('redirectTo') !== null){
+                    $redirectTo = $this->redirect()->toUrl($this->request->getQuery('redirectTo'));
+                }
                 if ($configCas['cas_redirect_route_after_login'] && !empty($configCas['cas_redirect_route_after_login'])) {
                     $redirectTo = $this->redirect()->toRoute($configCas['cas_redirect_route_after_login']);
                 }
