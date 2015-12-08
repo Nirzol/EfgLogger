@@ -12,6 +12,7 @@ return array(
         'cas_server_ca_cert_path' => dirname(dirname(__DIR__)) . '/data/certificat_P5_cas.pem',
 //        'cas_server_ca_cert_path' => dirname(dirname(__DIR__)) . '/data/certificat_P5_castest.pem',
         'cas_proxy' => false,
+//        'cas_proxy' => true,
         'cas_imap_name' => 'imap://imap-i.infr.univ-paris5.fr', //'imap.univ-paris5.fr:993',
         'cas_imap_password' => '',
         'cas_pgt_dir' => dirname(dirname(__DIR__)) . '/data/',
@@ -20,7 +21,7 @@ return array(
         'cas_validation' => 'ca',
         'cas_login_url' => '',
         'cas_logout_url' => '',
-        'cas_redirect_route_after_login' => 'home',
+        'cas_redirect_route_after_login' => '', //let blank for current route, put a ZF2 route to redirect ex: home
     ),
     'get_form' => array(
         'user_form' => 'Ent\Form\UserForm',        

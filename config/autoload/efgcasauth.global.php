@@ -21,7 +21,7 @@ return array(
         'cas_validation' => 'ca',
         'cas_login_url' => '',
         'cas_logout_url' => '',
-        'cas_redirect_route_after_login' => '', //let blank for current route
+        'cas_redirect_route_after_login' => '', //let blank for current route, put a ZF2 route to redirect ex: home
     ),
     'get_form' => array(
         'user_form' => 'Ent\Form\UserForm',        
