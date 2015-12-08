@@ -148,7 +148,7 @@ class InfoRestController extends AbstractRestfulController
                     $owaPlugin = $this->OwaPlugin();
                     $number = $owaPlugin->getNotifMail($ews, $mail); 
 
-                    $data = array('mail' => $number);
+                    $data['mail'] = $number;
                     $success = true;
                     $successMessage = 'ok';
                     $errorMessage = '';
@@ -161,7 +161,7 @@ class InfoRestController extends AbstractRestfulController
         } else {
             $errorMessage = 'User non authentifié';
         }
-        
+                
         return new JsonModel(array(
             'notifs' => $data,
             'success' => $success,
