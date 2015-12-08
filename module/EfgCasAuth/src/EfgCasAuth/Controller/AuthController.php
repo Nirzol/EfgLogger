@@ -34,9 +34,9 @@ class AuthController extends AbstractActionController
     public function loginAction()
     {
         //if already login, redirect to index page 
-        if ($this->authService->hasIdentity()) {
-            return $this->redirect()->toRoute('home');
-        }
+//        if ($this->authService->hasIdentity()) {
+//            return $this->redirect()->toRoute('home');
+//        }
         return $this->authenticate();
     }
 
@@ -99,13 +99,13 @@ class AuthController extends AbstractActionController
             if ($authResult->isValid()) {
                 $this->authService->getStorage()->write($authResult->getIdentity());
                 // Retour vers l'index
-                
-                $redirectTo = $this->redirect()->toRoute('home');
-                if($this->request->getQuery('redirectTo') !== null){
-                    $redirectTo = $this->redirect()->toUrl($this->request->getQuery('redirectTo'));
+
+                $redirectTo = '/';
+                if ($this->request->getQuery('redirectTo') !== null) {
+                    $redirectTo = $this->request->getQuery('redirectTo');
                 }
                 if ($configCas['cas_redirect_route_after_login'] && !empty($configCas['cas_redirect_route_after_login'])) {
-                    $redirectTo = $this->redirect()->toRoute($configCas['cas_redirect_route_after_login']);
+                    $redirectTo = $configCas['cas_redirect_route_after_login'];
                 }
             } else {
                 $container = new Container('noAuth');
@@ -118,8 +118,12 @@ class AuthController extends AbstractActionController
             phpCAS::forceAuthentication();
             die();
         }
-
-        return $redirectTo;
+//        var_dump($redirectTo);
+//        if($redirectTo) {
+            return $this->redirect()->toUrl($redirectTo);
+//        } else {
+//            return $this->redirect()->toRoute($redirectTo);
+//        }
     }
 
     public function logoutAction()
@@ -140,14 +144,21 @@ class AuthController extends AbstractActionController
 
         // Initialize phpCAS
         phpCAS::client($configCas['cas_version'], $configCas['cas_hostname'], $configCas['cas_port'], $configCas['cas_path'], true);
-        phpCAS::setCasServerCACert($configCas['cas_server_ca_cert_path']);
+        
+        if ($configCas['cas_validation'] == 'ca') {
+            phpCAS::setCasServerCACert($configCas['cas_server_ca_cert_path']);
+        } else {
+            phpCAS::setNoCasServerValidation();
+        }
         //        phpCAS::setNoCasServerValidation();
+
+        phpCAS::handleLogoutRequests(false);
 
         $url = $this->url()->fromRoute('home', array(), array('force_canonical' => true));
 
         phpCAS::logout(array('url' => $url, 'service' => $url));
 
-        return $this->redirect()->toRoute('home');
+//        return $this->redirect()->toRoute('home');
     }
 
     public function getPublicTicket()
