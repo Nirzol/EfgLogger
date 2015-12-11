@@ -23,9 +23,9 @@ return array(
         'cas_logout_url' => '',
         'cas_redirect_route_after_login' => '', //let blank for current route, put a ZF2 route to redirect ex: home
     ),
-    'get_form' => array(
-        'user_form' => 'Ent\Form\UserForm',        
-    ),
+//    'get_form' => array(
+//        'user_form' => 'Ent\Form\UserForm',        
+//    ),
     'doctrine' => array(
         'user_doctrine_orm_service_factory' => 'Ent\Service\UserDoctrineORM',
         'authentication' => array(
