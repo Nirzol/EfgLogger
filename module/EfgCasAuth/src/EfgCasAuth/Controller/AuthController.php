@@ -112,7 +112,7 @@ class AuthController extends AbstractActionController
             die();
         }
         
-        return $this->redirect()->toUrl($redirectTo);
+//        return $this->redirect()->toUrl($redirectTo);
     }
 
     public function logoutAction()
