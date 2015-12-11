@@ -106,18 +106,19 @@ class UserController extends AbstractActionController
         $config = $this->config;
 
         if ($container->login) {
-            // Check primary affiliation to redirect if user is a student
-            $affiliation = $this->searchLdapController->getPrimaryAffiliationByUid($container->login);
-            if ($affiliation === 'student') { // === optimisation est + rapide que strcmp
-                return $this->redirect()->toUrl($config['student_redirect_url']);
-            }
-
-            $data = $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
-                'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => array($config['profile_default_id']));
-
             // Test if user already in database, if not insert it !
             $user = $this->userService->findBy(array('userLogin' => $container->login));
             if (!$user) {
+                // Check primary affiliation to redirect if user is a student
+                $affiliation = $this->searchLdapController->getPrimaryAffiliationByUid($container->login);
+                if ($affiliation === 'student') { // === optimisation est + rapide que strcmp
+                    return $this->redirect()->toUrl($config['student_redirect_url']);
+                }
+
+                $data = $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
+                'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => array($config['profile_default_id']));
+
+            
                 $form = $this->userForm;
 
                 $user = $this->userService->insert($form, $data);
