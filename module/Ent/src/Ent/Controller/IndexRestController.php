@@ -57,9 +57,11 @@ class IndexRestController extends AbstractRestfulController
     {
         $is_logged = false;
 
+        $data = null;
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
             $is_logged = true;
+            $data['isLogged'] = true;
 
             // si l'utilisateur n'a pas ete logge, le logger dans la base
             $container = new Container('entLogger');
@@ -84,13 +86,28 @@ class IndexRestController extends AbstractRestfulController
 
                 $this->logService->insert($this->logForm, $dataAssoc);
             }
+            $data['passPhrase'] = 'ngent';
         } else {
             $is_logged = false;
+            $data['isLogged'] = false;
         }
-
+        
+        $success = true;
+        $successMessage = 'ok';
+        $errorMessage = '';
+        
         return new JsonModel(array(
-            'is_logged' => $is_logged
+            'data' => $data,
+            'success' => $success,
+            'flashMessages' => array(
+                'success' => $successMessage,
+                'error' => $errorMessage,
+            ),
         ));
+
+//        return new JsonModel(array(
+//            'is_logged' => $is_logged
+//        ));
     }
 
 //    /**
