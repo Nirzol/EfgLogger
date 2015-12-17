@@ -19,7 +19,10 @@
         <th><?= $this->translate('Description') ?></th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
-        <th>&nbsp;</th>        
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>       
     </tr>
     <?php foreach ($listActions as $action) : ?>
         <tr>
@@ -33,13 +36,22 @@
                 <?= $this->escapeHtml($action->getActionDescription()) ?>
             </td>
             <td>
+                <a href="<?= $this->url('zfcadmin/action/show/delete', ['id' => $this->escapeUrl($action->getActionId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td>
                 <a href="<?= $this->url('zfcadmin/action/show', ['id' => $this->escapeUrl($action->getActionId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
             </td>
             <td>
                 <a href="<?= $this->url('zfcadmin/action/show/update', ['id' => $this->escapeUrl($action->getActionId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/action/show/delete', ['id' => $this->escapeUrl($action->getActionId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
         </tr>
     <?php endforeach; ?>
