@@ -224,6 +224,8 @@ class ServiceController extends AbstractActionController
         }
 
         $id = $this->params('id');
+        
+        $this->deleteIntoProfile($id);
 
         $this->serviceService->delete($id);
 
@@ -290,10 +292,40 @@ class ServiceController extends AbstractActionController
         }
 
         $id = $this->params('id');
+        
+        $this->deleteIntoProfile($id);
 
+//        // Get Service        
+//        /* @var $service EntService */
+//        $service = $this->serviceService->getById($id);
+//
+//        // Get All Profile Preference
+//        $criteria = new Criteria();
+//        $criteria->where($criteria->expr()->neq('fkPrefProfile', NULL));
+//        $criteria->andWhere($criteria->expr()->isNull('fkPrefUser'));
+//        $criteria->andWhere($criteria->expr()->isNull('fkPrefService'));
+//        $prefProfiles = $this->preferenceService->matching($criteria);
+//
+//        // Delete service into profileAttribute 
+//        /* @var $prefProfile EntPreference */
+//        foreach ($prefProfiles as $prefProfile) {
+//            $prefProfileAttribute = Json::decode($prefProfile->getPrefAttribute(), Json::TYPE_ARRAY);
+//            unset($prefProfileAttribute[$service->getServiceName()]);
+//            $dataPreference = array('prefAttribute' => Json::encode($prefProfileAttribute), 'fkPrefProfile' => $prefProfile->getFkPrefProfile()->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
+//            $this->preferenceService->save($this->preferenceForm, $dataPreference, $prefProfile);
+//        }
+
+        $this->flashMessenger()->addSuccessMessage('Le profil a bien été mis à jour.');
+
+        return $this->redirect()->toRoute('zfcadmin/service');
+//                return new ViewModel(array(
+//                ));
+    }
+    
+    private function deleteIntoProfile($idService){
         // Get Service        
         /* @var $service EntService */
-        $service = $this->serviceService->getById($id);
+        $service = $this->serviceService->getById($idService);
 
         // Get All Profile Preference
         $criteria = new Criteria();
@@ -310,12 +342,6 @@ class ServiceController extends AbstractActionController
             $dataPreference = array('prefAttribute' => Json::encode($prefProfileAttribute), 'fkPrefProfile' => $prefProfile->getFkPrefProfile()->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
             $this->preferenceService->save($this->preferenceForm, $dataPreference, $prefProfile);
         }
-
-        $this->flashMessenger()->addSuccessMessage('Le profil a bien été mis à jour.');
-
-        return $this->redirect()->toRoute('zfcadmin/service');
-//                return new ViewModel(array(
-//                ));
     }
 
 }
