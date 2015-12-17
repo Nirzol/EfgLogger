@@ -62,7 +62,7 @@ class IndexRestController extends AbstractRestfulController
         if ($authService->hasIdentity()) {
             $is_logged = true;
             $data['isLogged'] = true;
-
+            
             // si l'utilisateur n'a pas ete logge, le logger dans la base
             $container = new Container('entLogger');
 
@@ -86,7 +86,12 @@ class IndexRestController extends AbstractRestfulController
 
                 $this->logService->insert($this->logForm, $dataAssoc);
             }
-            $data['passPhrase'] = 'ngent';
+            
+            if (!isset($_SESSION['passPhrase'])) {
+                $_SESSION['passPhrase'] = rand();
+            }
+            
+            $data['passPhrase'] = $_SESSION['passPhrase'];
         } else {
             $is_logged = false;
             $data['isLogged'] = false;
