@@ -95,7 +95,7 @@ class AuthController extends AbstractActionController
 
                 $redirectTo = $this->url()->fromRoute('home', array(), array('force_canonical' => true));
                 if ($this->request->getQuery('redirectTo') !== null) {
-                    $redirectTo = urldecode($this->request->getQuery('redirectTo'));
+                    $redirectTo = $this->request->getQuery('redirectTo');
                 }
                 if ($configCas['cas_redirect_route_after_login'] && !empty($configCas['cas_redirect_route_after_login'])) {
                     $redirectTo = $this->url()->fromRoute($configCas['cas_redirect_route_after_login'], array(), array('force_canonical' => true));
