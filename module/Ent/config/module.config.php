@@ -1162,6 +1162,7 @@ return array(
             'Ent\Service\VersionDoctrineORM' => 'Ent\Factory\Service\VersionDoctrineORMServiceFactory',
             'Ent\Service\PermissionDoctrineORM' => 'Ent\Factory\Service\PermissionDoctrineORMServiceFactory',
             'Ent\Service\HelpRequestDoctrineORM' => 'Ent\Factory\Service\HelpRequestDoctrineORMServiceFactory',
+            'Ent\Service\LoveDoctrineORM' => 'Ent\Factory\Service\LoveDoctrineORMServiceFactory',
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'

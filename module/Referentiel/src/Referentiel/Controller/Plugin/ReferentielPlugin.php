@@ -2,8 +2,10 @@
 
 namespace Referentiel\Controller\Plugin;
 
+use Exception;
 use Referentiel\Model\Encryption;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
+use Zend\Soap\Client;
 
 /**
  * Description of ReferentielPlugin
@@ -21,34 +23,18 @@ class ReferentielPlugin extends AbstractPlugin {
         $credential = array($pieces[0], $pieces[1]);
         return $credential;
     }
+    
+    public function getAccountFromRef($fromRef) {
+        $client = new Client($fromRef);
+        try {
+            if (!is_null($client)) {
+                $pwd = $client->getParametre('love');
 
-
-//    public function getOWAServiceAccount($configRef, $config) {
-//        $dataFromRef = $this->getAccountFromRef($configRef);
-//        
-//        if (!is_null($dataFromRef)) {
-//            $code = $config.$dataFromRef;
-//            
-//            $decode = Encryption::decode($code);
-//            $pieces = explode('/', $decode);
-//
-//            $credential = array($pieces[0], $pieces[1]);
-//            return $credential;
-//        }
-//        return null;
-//    }
-//    
-//    private function getAccountFromRef($fromRef) {
-//        $client = new Client($fromRef);
-//        try {
-//            if (!is_null($client)) {
-//                $pwd = $client->getParametre('owa');
-//
-//                return $pwd;
-//            }
-//        } catch (Exception $exc) {
-//            return null;
-////                echo $exc->getTraceAsString();
-//        }
-//    }
+                return $pwd;
+            }
+        } catch (Exception $exc) {
+            return null;
+//                echo $exc->getTraceAsString();
+        }
+    }
 }

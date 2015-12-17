@@ -2,8 +2,10 @@
 
 namespace Ent\Controller;
 
+use Ent\Service\LoveDoctrineService;
 use Owa\Controller\Plugin\OwaPlugin;
 use PhpEws\EwsConnection;
+use Referentiel\Controller\Plugin\ReferentielPlugin;
 use SearchLdap\Controller\SearchLdapController;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
@@ -22,6 +24,14 @@ class InfoRestController extends AbstractRestfulController
     /* @var $ews EwsConnection */
 
     protected $ews;
+    
+    /* @var $loveService LoveDoctrineService */
+
+    protected $loveService;
+    
+    protected $referentielWsdl;
+    
+    protected $owaConfig;
 
     public function options()
     {
@@ -49,10 +59,12 @@ class InfoRestController extends AbstractRestfulController
         return $response;
     }
 
-    public function __construct(SearchLdapController $searchLdapController, EwsConnection $ews)
+    public function __construct(SearchLdapController $searchLdapController, LoveDoctrineService $loveService, $referentielWsdl, $owaConfig)
     {
         $this->searchLdapController = $searchLdapController;
-        $this->ews = $ews;
+        $this->loveService = $loveService;
+        $this->referentielWsdl = $referentielWsdl;
+        $this->owaConfig = $owaConfig;
     }
 
     public function getList()
@@ -142,16 +154,32 @@ class InfoRestController extends AbstractRestfulController
                 if (strcmp($mailHost, 'mataram.parisdescartes.fr') !== 0) {
 
                     $mail = $this->searchLdapController->getMailByUid($login);
-                    $ews = $this->ews;
+                    
+                    /* @var $referentielPlugin ReferentielPlugin */
+                    $referentielPlugin = new ReferentielPlugin();
+                                        
+                    $pOwa = $referentielPlugin->getAccountFromRef($this->referentielWsdl);   
+                    $love = $this->loveService->getAll();
+                    $lOwa = '';
+                    foreach ($love as $value) {
+                        $lOwa = $value->getLoveLove();
+                    }
+                    if (!is_null($pOwa)) {                 
+                        $accountOwa = $referentielPlugin->getOwaAccount($lOwa, $pOwa);       
 
-                    /* @var $owaPlugin OwaPlugin */
-                    $owaPlugin = $this->OwaPlugin();
-                    $number = $owaPlugin->getNotifMail($ews, $mail); 
+                        $ews = new EwsConnection($this->owaConfig['host'], $accountOwa[0], $accountOwa[1], $this->owaConfig['version']);
 
-                    $data['mail'] = $number;
-                    $success = true;
-                    $successMessage = 'ok';
-                    $errorMessage = '';
+                        /* @var $owaPlugin OwaPlugin */
+                        $owaPlugin = $this->OwaPlugin();
+                        $number = $owaPlugin->getNotifMail($ews, $mail); 
+
+                        $data['mail'] = $number;
+                        $success = true;
+                        $successMessage = 'ok';
+                        $errorMessage = '';
+                    } else {
+                        $errorMessage = 'Referentiel error';
+                    }
                 }  else {
                     $errorMessage = 'User uses mataram';
                 }
