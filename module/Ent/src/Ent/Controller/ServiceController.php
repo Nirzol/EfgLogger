@@ -172,7 +172,7 @@ class ServiceController extends AbstractActionController
         if ($this->request->isPost()) {
 
             $serviceGetPost = $this->request->getPost();
-            
+
             // Update le service
             /* @var $service EntService */
             $service = $this->serviceService->save($form, $serviceGetPost, $service);
@@ -224,7 +224,7 @@ class ServiceController extends AbstractActionController
         }
 
         $id = $this->params('id');
-        
+
         $this->deleteIntoProfile($id);
 
         $this->serviceService->delete($id);
@@ -266,23 +266,31 @@ class ServiceController extends AbstractActionController
         $criteria->andWhere($criteria->expr()->isNull('fkPrefService'));
         $prefProfiles = $this->preferenceService->matching($criteria);
 
+        $keyNameServiceToUpdate = $prefService->getFkPrefService()->getServiceName();
+
         // Merge ProfilAttribute and ServiceAttribute with priority for ServiceAttribute 
         /* @var $prefProfile EntPreference */
         foreach ($prefProfiles as $prefProfile) {
             $prefProfileAttribute = Json::decode($prefProfile->getPrefAttribute(), Json::TYPE_ARRAY);
-            $tmp = array_replace_recursive($prefProfileAttribute, $prefServiceAttribute);
-            if ($tmp != $prefProfileAttribute) {
-                $dataPreference = array('prefAttribute' => Json::encode($tmp), 'fkPrefProfile' => $prefProfile->getFkPrefProfile()->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
-                $this->preferenceService->save($this->preferenceForm, $dataPreference, $prefProfile);
+//            $tmp = array_replace_recursive($prefProfileAttribute, $prefServiceAttribute);
+//            if ($tmp != $prefProfileAttribute) {
+//                $dataPreference = array('prefAttribute' => Json::encode($tmp), 'fkPrefProfile' => $prefProfile->getFkPrefProfile()->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
+//                $this->preferenceService->save($this->preferenceForm, $dataPreference, $prefProfile);
+//            }
+
+//            var_dump($prefProfileAttribute[$keyNameServiceToUpdate], $prefServiceAttribute[$keyNameServiceToUpdate]);
+            if($prefProfileAttribute[$keyNameServiceToUpdate] != $prefServiceAttribute[$keyNameServiceToUpdate]){
+                $prefProfileAttribute[$keyNameServiceToUpdate] = $prefServiceAttribute[$keyNameServiceToUpdate];
+                $dataPreference = array('prefAttribute' => Json::encode($prefProfileAttribute), 'fkPrefProfile' => $prefProfile->getFkPrefProfile()->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
+                $this->preferenceService->save($this->preferenceForm, $dataPreference, $prefProfile);                
             }
         }
 
         $this->flashMessenger()->addSuccessMessage('Le profil a bien été mis à jour.');
 
         return $this->redirect()->toRoute('zfcadmin/service');
-
-        //        return new ViewModel(array(
-        //        ));
+                return new ViewModel(array(
+                ));
     }
 
     public function deleteProfileAction()
@@ -292,7 +300,7 @@ class ServiceController extends AbstractActionController
         }
 
         $id = $this->params('id');
-        
+
         $this->deleteIntoProfile($id);
 
 //        // Get Service        
@@ -321,8 +329,9 @@ class ServiceController extends AbstractActionController
 //                return new ViewModel(array(
 //                ));
     }
-    
-    private function deleteIntoProfile($idService){
+
+    private function deleteIntoProfile($idService)
+    {
         // Get Service        
         /* @var $service EntService */
         $service = $this->serviceService->getById($idService);
