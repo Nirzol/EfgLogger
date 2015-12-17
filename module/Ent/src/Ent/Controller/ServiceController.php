@@ -172,6 +172,10 @@ class ServiceController extends AbstractActionController
         if ($this->request->isPost()) {
 
             $serviceGetPost = $this->request->getPost();
+            
+            // Update le service
+            /* @var $service EntService */
+            $service = $this->serviceService->save($form, $serviceGetPost, $service);
 
             /* @var $entPlugin EntPlugin */
             $entPlugin = $this->EntPlugin();
@@ -192,9 +196,6 @@ class ServiceController extends AbstractActionController
             //                $entPlugin = $this->EntPlugin();
             //                $prefAttribute = $entPlugin->preparePrefAttribute($attributeFilterPost, $attributeKeyFilterPost, $this->attributeService, $this->serializer);
             //            }
-            // Update le service
-            /* @var $service EntService */
-            $service = $this->serviceService->save($form, $serviceGetPost, $service);
             if ($service) {
                 if (isset($prefAttribute) && !empty($prefAttribute)) {
                     $formPreference = $this->preferenceForm;
