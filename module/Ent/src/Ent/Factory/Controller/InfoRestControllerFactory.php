@@ -4,6 +4,7 @@ namespace Ent\Factory\Controller;
 
 use Ent\Controller\InfoRestController;
 use PhpEws\EwsConnection;
+use Referentiel\Controller\Plugin\ReferentielPlugin;
 use SearchLdap\Controller\SearchLdapController;
 use SearchLdap\Model\SearchLdap;
 use Zend\Mvc\Controller\ControllerManager;
@@ -27,7 +28,11 @@ class InfoRestControllerFactory implements FactoryInterface
 
         $searchLdapController = new SearchLdapController($searchLdapModel);
         
-        $ews = new EwsConnection($config['owa_config']['host'], $config['owa_config']['username'], $config['owa_config']['password'], $config['owa_config']['version']);
+        /* @var $referentielPlugin ReferentielPlugin */
+        $referentielPlugin = new ReferentielPlugin();
+        $accountOwa = $referentielPlugin->getOwaAccount($config['owa_config']['username'], $config['owa_config']['password']);
+        
+        $ews = new EwsConnection($config['owa_config']['host'], $accountOwa[0], $accountOwa[1], $config['owa_config']['version']);
                 
         $controller = new InfoRestController($searchLdapController, $ews);
 
