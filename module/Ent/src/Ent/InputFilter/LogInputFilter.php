@@ -71,7 +71,7 @@ class LogInputFilter extends InputFilter
                     'options' => array(
                         'encoding' => 'UTF-8',
                         'min' => 3,
-                        'max' => 40,
+                        'max' => 80,
                     ),
                 ),
             ),
