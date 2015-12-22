@@ -47,7 +47,7 @@ class EntLog extends Ent
     /**
      * @var string
      *
-     * @ORM\Column(name="log_session", type="string", length=40, nullable=false)
+     * @ORM\Column(name="log_session", type="string", length=80, nullable=false)
      */
     private $logSession;
 
