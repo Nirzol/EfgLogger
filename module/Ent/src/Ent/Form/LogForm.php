@@ -85,51 +85,75 @@ class LogForm extends Form
         ));
 
         $this->add(array(
-            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
             'name' => 'fkLogUser',
-            'attributes' => array(
-                'id' => 'selectLogUser',
-            ),
             'options' => array(
-                'label' => 'Log user : ',
-                'object_manager' => $this->entityManager,
-                'empty_option' => '---SELECT USER---',
-                'target_class' => 'Ent\Entity\EntUser',
-                'property' => 'userLogin',
-                'is_method' => true,
+                'label' => 'fkLogUser : ',
             ),
+            'attributes' => array(
+                'type' => 'text',
+            ),
+//            'type' => '\Zend\Form\Element\Select',
+////            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+//            'name' => 'fkLogUser',
+//            'attributes' => array(
+//                'id' => 'selectLogUser',
+//            ),
+//            'options' => array(
+//                'label' => 'Log user : ',
+////                'object_manager' => $this->entityManager,
+////                'empty_option' => '---SELECT USER---',
+////                'target_class' => 'Ent\Entity\EntUser',
+////                'property' => 'userLogin',
+////                'is_method' => true,
+//            ),
         ));
 
         $this->add(array(
-            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
             'name' => 'fkLogAction',
-            'attributes' => array(
-                'id' => 'selectLogAction',
-            ),
             'options' => array(
-                'label' => 'Log action : ',
-                'object_manager' => $this->entityManager,
-                'empty_option' => '---SELECT ACTION---',
-                'target_class' => 'Ent\Entity\EntAction',
-                'property' => 'actionName',
-                'is_method' => true,
+                'label' => 'fkLogUser : ',
             ),
+            'attributes' => array(
+                'type' => 'text',
+            ),
+//            'type' => '\Zend\Form\Element\Select',
+////            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+//            'name' => 'fkLogAction',
+//            'attributes' => array(
+//                'id' => 'selectLogAction',
+//            ),
+//            'options' => array(
+//                'label' => 'Log action : ',
+//                'object_manager' => $this->entityManager,
+//                'empty_option' => '---SELECT ACTION---',
+//                'target_class' => 'Ent\Entity\EntAction',
+//                'property' => 'actionName',
+//                'is_method' => true,
+//            ),
         ));
 
         $this->add(array(
-            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
             'name' => 'fkLogModule',
-            'attributes' => array(
-                'id' => 'selectLogModule',
-            ),
             'options' => array(
-                'label' => 'Log module : ',
-                'object_manager' => $this->entityManager,
-                'empty_option' => '---SELECT MODULE---',
-                'target_class' => 'Ent\Entity\EntModule',
-                'property' => 'moduleName',
-                'is_method' => true,
+                'label' => 'fkLogModule : ',
             ),
+            'attributes' => array(
+                'type' => 'text',
+            ),
+//            'type' => '\Zend\Form\Element\Select',
+////            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+//            'name' => 'fkLogModule',
+//            'attributes' => array(
+//                'id' => 'selectLogModule',
+//            ),
+//            'options' => array(
+//                'label' => 'Log module : ',
+////                'object_manager' => $this->entityManager,
+////                'empty_option' => '---SELECT MODULE---',
+////                'target_class' => 'Ent\Entity\EntModule',
+////                'property' => 'moduleName',
+////                'is_method' => true,
+//            ),
         ));
     }
 

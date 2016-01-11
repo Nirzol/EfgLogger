@@ -115,7 +115,7 @@ class UserController extends AbstractActionController
                     return $this->redirect()->toUrl($config['student_redirect_url']);
                 }
 
-                $data = $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
+                $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
                 'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => array($config['profile_default_id']));
 
             
