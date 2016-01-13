@@ -52,6 +52,13 @@ class EntProfile extends Ent
      * @ORM\Column(name="profile_description", type="text", nullable=true)
      */
     private $profileDescription;
+    
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="profile_priority", type="integer", nullable=true)
+     */
+    private $profilePriority;
 
     /**
      * @var \DateTime
@@ -197,6 +204,30 @@ class EntProfile extends Ent
     public function getProfileDescription()
     {
         return $this->profileDescription;
+    }
+    
+    /**
+     * Set profilePriority
+     *
+     * @param integer $profilePriority
+     *
+     * @return EntProfile
+     */
+    public function setProfilePriority($profilePriority)
+    {
+        $this->profilePriority = $profilePriority;
+
+        return $this;
+    }
+
+    /**
+     * Get profilePriority
+     *
+     * @return integer
+     */
+    public function getProfilePriority()
+    {
+        return $this->profilePriority;
     }
 
     /**
