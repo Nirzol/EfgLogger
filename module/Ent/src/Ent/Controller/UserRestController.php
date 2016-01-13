@@ -426,13 +426,29 @@ class UserRestController extends AbstractRestfulController
             if ($user) {
                 $success = true;
                 $successMessage = 'L\'user a bien été trouvé.';
-                $profiles = $user->getFkUpProfile();
+                $FkUpProfile = $user->getFkUpProfile();
+                $profiles = $FkUpProfile->toArray();
+                
+                //sort by priority value
+                usort($profiles, function($a, $b) {
+                    return $a->getProfilePriority() > $b->getProfilePriority();
+                });
+                                
                 $preferences = null;
                 foreach ($profiles as $profile) {
                     /* @var $profile EntProfile */
                     $preference = $this->preferenceService->findOneBy(array('fkPrefProfile' => $profile->getProfileId()));
                     /* @var $preference EntPreference */
-                    $preferences[] = Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT);
+//                    $preferences[] = Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT);
+                    $preferences[] = json_decode(json_encode(Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT)), true);
+                }
+//                $preferences[0] = $this->array_merge_recursive_simple($preferences[0], $preferences[1]);
+//                $preferences[0] = $this->array_merge_recursive_distinct($preferences[0], $preferences[1]);
+//                $preferences[0] = array_merge_recursive($preferences[0], $preferences[1]);
+//                echo count($preferences);
+                    for ($i = 1 ; $i < count($preferences) ; $i++) {
+                    $preferences[0] = $this->array_merge_recursive_simple($preferences[0], $preferences[$i]);
+                    $preferences[0] = $this->array_merge_recursive_simple($preferences[0], $preferences[$i]);
                 }
                 $data = $preferences;                
             } else {
@@ -449,5 +465,53 @@ class UserRestController extends AbstractRestfulController
                 'error' => $errorMessage,
             ),
         ));
+    }
+    
+    function array_merge_recursive_simple() {
+
+        if (func_num_args() < 2) {
+            trigger_error(__FUNCTION__ .' needs two or more array arguments', E_USER_WARNING);
+            return;
+        }
+        $arrays = func_get_args();
+        $merged = array();
+        while ($arrays) {
+            $array = array_shift($arrays);
+            if (!is_array($array)) {
+                trigger_error(__FUNCTION__ .' encountered a non array argument', E_USER_WARNING);
+                return;
+            }
+            if (!$array)
+                continue;
+            foreach ($array as $key => $value)
+                if (is_string($key))
+                    if (is_array($value) && array_key_exists($key, $merged) && is_array($merged[$key]))
+                        $merged[$key] = call_user_func(__FUNCTION__, $merged[$key], $value);
+                    else
+                        $merged[$key] = $value;
+                else
+                    $merged[] = $value;
+        }
+        return $merged;
+    }
+
+
+    function array_merge_recursive_distinct ( array &$array1, array &$array2 )
+    {
+      $merged = $array1;
+
+      foreach ( $array2 as $key => &$value )
+      {
+        if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
+        {
+          $merged [$key] = array_merge_recursive_distinct ( $merged [$key], $value );
+        }
+        else
+        {
+          $merged [$key] = $value;
+        }
+      }
+
+      return $merged;
     }
 }
