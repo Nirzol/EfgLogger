@@ -105,6 +105,9 @@ class RoleController extends AbstractActionController
         $role = $this->roleService->getById($id, $form);
 
         if ($this->request->isPost()) {
+            if($this->request->getPost()->get('permissions') == null){
+                $this->request->getPost()->set('permissions', '');
+            }
             $user = $this->roleService->save($form, $this->request->getPost(), $role);
 
             if ($user) {

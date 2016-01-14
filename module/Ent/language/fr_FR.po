@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EntPersonnelsZF2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-25 16:04+0200\n"
-"PO-Revision-Date: 2015-08-25 18:10+0200\n"
+"POT-Creation-Date: 2015-12-17 17:53+0100\n"
+"PO-Revision-Date: 2015-12-17 17:53+0100\n"
 "Last-Translator: Eric Grondin\n"
 "Language-Team: Dev Team <dev@disi.parisdescartes.fr>\n"
 "Language: fr_FR\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: translate;_;setLabel;setValue;setLegend;_refresh\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.6\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -37,195 +37,695 @@ msgstr ""
 msgid "Le contact a bien été supprimé."
 msgstr ""
 
-#: src/Ent/Form/ActionForm.php:16
-msgid "Nom de l'action : "
+#: src/Ent/Form/HelpRequestForm.php:41
+msgid "Votre message"
 msgstr ""
 
-#: src/Ent/Form/ActionForm.php:20
-msgid "Libellé de l'action  : "
+#: src/Ent/Form/HelpRequestForm.php:46
+msgid "Copie d'écran"
 msgstr ""
 
-#: src/Ent/Form/ActionForm.php:24
-msgid "Description de l'action  : "
+#: src/Ent/Form/HelpRequestForm.php:52
+msgid "Adresse e-mail alternative"
 msgstr ""
 
-#: src/Ent/Form/AttributeForm.php:19
-msgid "Nom de l'attribut : "
+#: src/Ent/Form/VersionForm.php:31
+msgid "Version : "
 msgstr ""
 
-#: src/Ent/Form/AttributeForm.php:23
-msgid "Libellé de l'attribut : "
+#: src/Ent/Form/VersionForm.php:35
+msgid "Commentaire : "
 msgstr ""
 
-#: src/Ent/Form/AttributeForm.php:27
-msgid "Description de l'attribut :"
+#: view/ent/action/add.phtml:1
+msgid "Ajout d'une action"
 msgstr ""
 
-#: src/Ent/Form/ModuleForm.php:16
-msgid "Nom du module : "
-msgstr ""
-
-#: src/Ent/Form/ModuleForm.php:20
-msgid "Libellé du module : "
-msgstr ""
-
-#: src/Ent/Form/ModuleForm.php:24
-msgid "Description du module : "
-msgstr ""
-
-#: src/Ent/Form/PreferenceForm.php:18
-msgid "Préférence de l'attribut : "
-msgstr ""
-
-#: src/Ent/Form/ProfileForm.php:28
-msgid "Profile Ldap : "
-msgstr ""
-
-#: src/Ent/Form/ProfileForm.php:32
-msgid "Nom du profile : "
-msgstr ""
-
-#: src/Ent/Form/ProfileForm.php:36
-msgid "Libellé du profile : "
-msgstr ""
-
-#: src/Ent/Form/ProfileForm.php:40
-msgid "Description du profile : "
-msgstr ""
-
-#: src/Ent/Form/StatusForm.php:16
-msgid "Nom du status : "
-msgstr ""
-
-#: src/Ent/Form/StatusForm.php:20
-msgid "Libellé du status : "
-msgstr ""
-
-#: src/Ent/Form/StatusForm.php:24
-msgid "Description du status : "
-msgstr ""
-
-#: src/Ent/Form/UserForm.php:22 view/ent/user/show.phtml:5
-msgid "Login :"
-msgstr "Mon login"
-
-#: view/ent/contact/add.phtml:1
-msgid "Ajouter un contact"
-msgstr ""
-
-#: view/ent/contact/add.phtml:100 view/ent/contact/modify.phtml:100
-#: view/ent/service/add.phtml:65 view/ent/service/modify.phtml:65
-#: view/ent/user/add.phtml:41
+#: view/ent/action/add.phtml:33 view/ent/attribute/add.phtml:33
+#: view/ent/contact/add.phtml:101 view/ent/log/add.phtml:102
+#: view/ent/log/update.phtml:103 view/ent/module/add.phtml:33
+#: view/ent/permission/add.phtml:16 view/ent/preference/add.phtml:59
+#: view/ent/profile/add.phtml:144 view/ent/role/add.phtml:51
+#: view/ent/service/add.phtml:112 view/ent/status/add.phtml:33
+#: view/ent/status/update.phtml:34 view/ent/user/add.phtml:58
+#: view/layout/layout.phtml:51 view/layout/layout.phtml:87
+#: view/layout/layout.phtml:94
 msgid "Ajouter"
 msgstr ""
 
-#: view/ent/contact/list.phtml:1 view/ent/contact/list.phtml:3
-#: view/ent/user/list.phtml:1 view/ent/user/list.phtml:3
-msgid "Liste des contacts"
+#: view/ent/action/add.phtml:34 view/ent/action/update.phtml:35
+#: view/ent/attribute/add.phtml:34 view/ent/attribute/update.phtml:35
+#: view/ent/contact/add.phtml:102 view/ent/contact/update.phtml:103
+#: view/ent/log/add.phtml:103 view/ent/log/update.phtml:104
+#: view/ent/module/add.phtml:34 view/ent/module/update.phtml:35
+#: view/ent/permission/add.phtml:17 view/ent/permission/update.phtml:18
+#: view/ent/preference/add.phtml:60 view/ent/preference/update.phtml:65
+#: view/ent/profile/add.phtml:145 view/ent/profile/update.phtml:144
+#: view/ent/role/add.phtml:52 view/ent/role/update.phtml:48
+#: view/ent/status/add.phtml:34 view/ent/status/update.phtml:35
+#: view/ent/user/add.phtml:59 view/ent/user/update.phtml:60
+msgid "Annuler"
 msgstr ""
 
-#: view/ent/contact/list.phtml:16 view/ent/service/list.phtml:16
-#: view/ent/user/list.phtml:16
-msgid "Détails"
+#: view/ent/action/list.phtml:1 view/ent/action/list.phtml:3
+msgid "Liste des actions"
 msgstr ""
 
-#: view/ent/contact/list.phtml:19 view/ent/service/list.phtml:19
-#: view/ent/user/list.phtml:19 view/ent/user/modify.phtml:42
-msgid "Modifier"
+#: view/ent/action/list.phtml:6
+msgid "Ajouter une nouvelle action"
 msgstr ""
 
-#: view/ent/contact/list.phtml:22 view/ent/service/list.phtml:22
-#: view/ent/user/list.phtml:22
+#: view/ent/action/list.phtml:17
+msgid "Nom de l'action"
+msgstr ""
+
+#: view/ent/action/list.phtml:18 view/ent/attribute/list.phtml:18
+#: view/ent/module/list.phtml:18 view/ent/status/list.phtml:18
+msgid "Libellé"
+msgstr ""
+
+#: view/ent/action/list.phtml:19 view/ent/attribute/list.phtml:19
+#: view/ent/module/list.phtml:19 view/ent/status/list.phtml:19
+msgid "Description"
+msgstr ""
+
+#: view/ent/action/list.phtml:39 view/ent/attribute/list.phtml:42
+#: view/ent/contact/list.phtml:34 view/ent/log/list.phtml:98
+#: view/ent/module/list.phtml:42 view/ent/permission/list.phtml:34
+#: view/ent/preference/list.phtml:79 view/ent/role/list.phtml:34
+#: view/ent/service/list.phtml:41 view/ent/status/list.phtml:42
+#: view/ent/user/list.phtml:43
 msgid "Supprimer"
 msgstr ""
 
-#: view/ent/contact/modify.phtml:1
-msgid "Modifier un contact"
+#: view/ent/action/list.phtml:51 view/ent/attribute/list.phtml:36
+#: view/ent/contact/list.phtml:28 view/ent/log/list.phtml:92
+#: view/ent/module/list.phtml:36 view/ent/permission/list.phtml:28
+#: view/ent/preference/list.phtml:73 view/ent/role/list.phtml:28
+#: view/ent/service/list.phtml:56 view/ent/status/list.phtml:36
+#: view/ent/user/list.phtml:37
+msgid "Détails"
 msgstr ""
 
-#: view/ent/contact/show.phtml:2 view/ent/user/show.phtml:2
-msgid "Détails d'un contact"
+#: view/ent/action/list.phtml:54 view/ent/action/update.phtml:34
+#: view/ent/attribute/list.phtml:39 view/ent/attribute/update.phtml:34
+#: view/ent/contact/list.phtml:31 view/ent/contact/update.phtml:102
+#: view/ent/log/list.phtml:95 view/ent/module/list.phtml:39
+#: view/ent/module/update.phtml:34 view/ent/permission/list.phtml:31
+#: view/ent/permission/update.phtml:17 view/ent/preference/list.phtml:76
+#: view/ent/preference/update.phtml:64 view/ent/profile/update.phtml:143
+#: view/ent/role/list.phtml:31 view/ent/role/update.phtml:47
+#: view/ent/service/list.phtml:59 view/ent/service/update.phtml:94
+#: view/ent/status/list.phtml:39 view/ent/user/list.phtml:40
+#: view/ent/user/update.phtml:59
+msgid "Modifier"
 msgstr ""
 
-#: view/ent/contact/show.phtml:5 view/ent/service/show.phtml:5
-msgid "Nom :"
+#: view/ent/action/show.phtml:1 view/ent/action/show.phtml:3
+msgid "Détails d'une action"
 msgstr ""
 
-#: view/ent/contact/show.phtml:9 view/ent/service/show.phtml:9
-msgid "Libelle :"
+#: view/ent/action/show.phtml:5
+msgid "Nom de l'action :"
 msgstr ""
 
-#: view/ent/contact/show.phtml:13 view/ent/service/show.phtml:13
-msgid "Description :"
+#: view/ent/action/show.phtml:8
+msgid "Libellé de l'action :"
 msgstr ""
 
-#: view/ent/contact/show.phtml:17
-msgid "Service :"
+#: view/ent/action/show.phtml:11
+msgid "Description de l'action :"
 msgstr ""
 
-#: view/ent/contact/show.phtml:21
-msgid "Mailto :"
-msgstr ""
-
-#: view/ent/contact/show.phtml:25 view/ent/service/show.phtml:17
-#: view/ent/user/show.phtml:18
+#: view/ent/action/show.phtml:15 view/ent/attribute/show.phtml:15
+#: view/ent/contact/show.phtml:26 view/ent/module/show.phtml:15
+#: view/ent/preference/show.phtml:33 view/ent/profile/show.phtml:19
+#: view/ent/role/show.phtml:10 view/ent/service/show.phtml:17
+#: view/ent/status/show.phtml:15 view/ent/user/show.phtml:19
 msgid "Dernière mise à jour :"
 msgstr ""
 
-#: view/ent/contact/show.phtml:34
-msgid "Structure :"
+#: view/ent/action/show.phtml:21 view/ent/attribute/show.phtml:21
+#: view/ent/contact/show.phtml:32 view/ent/module/show.phtml:21
+#: view/ent/preference/show.phtml:38 view/ent/profile/show.phtml:24
+#: view/ent/service/show.phtml:22 view/ent/status/show.phtml:21
+#: view/ent/user/show.phtml:25
+msgid "Aucune mise à jour"
+msgstr ""
+
+#: view/ent/action/show.phtml:26 view/ent/attribute/show.phtml:26
+#: view/ent/contact/show.phtml:63 view/ent/log/show.phtml:67
+#: view/ent/module/show.phtml:26 view/ent/permission/show.phtml:9
+#: view/ent/preference/show.phtml:42 view/ent/profile/show.phtml:54
+#: view/ent/role/show.phtml:40 view/ent/service/show.phtml:72
+#: view/ent/status/show.phtml:26 view/ent/user/show.phtml:61
+msgid "Retour"
+msgstr ""
+
+#: view/ent/action/update.phtml:1 view/ent/action/update.phtml:3
+msgid "Modifier une action"
+msgstr ""
+
+#: view/ent/attribute/add.phtml:1
+msgid "Ajout d'un attribut"
+msgstr ""
+
+#: view/ent/attribute/list.phtml:1 view/ent/attribute/list.phtml:3
+msgid "Liste des attributs"
+msgstr ""
+
+#: view/ent/attribute/list.phtml:6
+msgid "Ajouter un nouvel attribut"
+msgstr ""
+
+#: view/ent/attribute/list.phtml:17
+msgid "Nom de l'attribut"
+msgstr ""
+
+#: view/ent/attribute/show.phtml:1 view/ent/attribute/show.phtml:3
+#: view/ent/permission/show.phtml:1
+msgid "Détails d'un attribut"
+msgstr ""
+
+#: view/ent/attribute/show.phtml:5
+msgid "Nom du attribute :"
+msgstr ""
+
+#: view/ent/attribute/show.phtml:8
+msgid "Libellé du attribute :"
+msgstr ""
+
+#: view/ent/attribute/show.phtml:11
+msgid "Description du attribute :"
+msgstr ""
+
+#: view/ent/attribute/update.phtml:1 view/ent/attribute/update.phtml:3
+msgid "Modifier un attribut"
+msgstr ""
+
+#: view/ent/contact/add.phtml:1 view/ent/contact/add.phtml:2
+msgid "Ajouter un contact"
+msgstr ""
+
+#: view/ent/contact/list.phtml:1 view/ent/contact/list.phtml:3
+msgid "Liste des contacts"
+msgstr ""
+
+#: view/ent/contact/list.phtml:6
+msgid "Ajouter un nouveau contact"
+msgstr ""
+
+#: view/ent/contact/list.phtml:17
+msgid "Nom du contact"
+msgstr ""
+
+#: view/ent/contact/show.phtml:1 view/ent/contact/show.phtml:3
+msgid "Détails d'un contact"
+msgstr ""
+
+#: view/ent/contact/show.phtml:6 view/ent/service/show.phtml:5
+msgid "Nom :"
+msgstr ""
+
+#: view/ent/contact/show.phtml:10 view/ent/service/show.phtml:9
+msgid "Libelle :"
+msgstr ""
+
+#: view/ent/contact/show.phtml:14 view/ent/service/show.phtml:13
+msgid "Description :"
+msgstr ""
+
+#: view/ent/contact/show.phtml:18 view/ent/preference/show.phtml:16
+msgid "Service :"
+msgstr ""
+
+#: view/ent/contact/show.phtml:22
+msgid "Mailto :"
 msgstr ""
 
 #: view/ent/contact/show.phtml:38
+msgid "Structure :"
+msgstr ""
+
+#: view/ent/contact/show.phtml:42
 msgid "Services :"
 msgstr ""
 
-#: view/ent/contact/show.phtml:49
+#: view/ent/contact/show.phtml:53
 msgid "Logins :"
 msgstr ""
 
-#: view/ent/service/add.phtml:1
+#: view/ent/contact/update.phtml:1 view/ent/contact/update.phtml:3
+msgid "Modifier un contact"
+msgstr ""
+
+#: view/ent/log/add.phtml:1
+msgid "Ajout d'un log"
+msgstr ""
+
+#: view/ent/log/list.phtml:1 view/ent/log/list.phtml:3
+msgid "Liste des logs"
+msgstr ""
+
+#: view/ent/log/list.phtml:6
+msgid "Ajouter un log"
+msgstr ""
+
+#: view/ent/log/list.phtml:18
+msgid "Log login"
+msgstr ""
+
+#: view/ent/log/list.phtml:19
+msgid "Log online"
+msgstr ""
+
+#: view/ent/log/list.phtml:20
+msgid "Log Offline"
+msgstr ""
+
+#: view/ent/log/list.phtml:21
+msgid "Log Session"
+msgstr ""
+
+#: view/ent/log/list.phtml:22
+msgid "Log Ip"
+msgstr ""
+
+#: view/ent/log/list.phtml:23
+msgid "Log Useragent"
+msgstr ""
+
+#: view/ent/log/list.phtml:24
+msgid "Log datetime"
+msgstr ""
+
+#: view/ent/log/list.phtml:25
+msgid "Log User"
+msgstr ""
+
+#: view/ent/log/list.phtml:26
+msgid "Log Action"
+msgstr ""
+
+#: view/ent/log/list.phtml:27
+msgid "Log Module"
+msgstr ""
+
+#: view/ent/log/list.phtml:42 view/ent/log/show.phtml:13
+msgid "Aucune date de Online"
+msgstr ""
+
+#: view/ent/log/list.phtml:51 view/ent/log/show.phtml:23
+msgid "Aucune date de Offline"
+msgstr ""
+
+#: view/ent/log/list.phtml:69 view/ent/log/show.phtml:42
+msgid "Aucun user lié"
+msgstr ""
+
+#: view/ent/log/list.phtml:78 view/ent/log/show.phtml:52
+msgid "Aucune action lié"
+msgstr ""
+
+#: view/ent/log/list.phtml:87 view/ent/log/show.phtml:62
+msgid "Aucun module lié"
+msgstr ""
+
+#: view/ent/log/show.phtml:1 view/ent/log/show.phtml:3
+msgid "Détails d'un log"
+msgstr ""
+
+#: view/ent/log/show.phtml:5
+msgid "Log login :"
+msgstr ""
+
+#: view/ent/log/show.phtml:8
+msgid "Log Online :"
+msgstr ""
+
+#: view/ent/log/show.phtml:18
+msgid "Log Offline :"
+msgstr ""
+
+#: view/ent/log/show.phtml:28
+msgid "Log Session :"
+msgstr ""
+
+#: view/ent/log/show.phtml:31
+msgid "Log Ip :"
+msgstr ""
+
+#: view/ent/log/show.phtml:34
+msgid "Log User Agent :"
+msgstr ""
+
+#: view/ent/log/show.phtml:37 view/ent/log/show.phtml:47
+#: view/ent/log/show.phtml:57
+msgid "Log User Login :"
+msgstr ""
+
+#: view/ent/log/update.phtml:1 view/ent/log/update.phtml:3
+msgid "Modifier un log"
+msgstr ""
+
+#: view/ent/module/add.phtml:1
+msgid "Ajout d'un module"
+msgstr ""
+
+#: view/ent/module/list.phtml:1 view/ent/module/list.phtml:3
+msgid "Liste des modules"
+msgstr ""
+
+#: view/ent/module/list.phtml:6
+msgid "Ajouter un nouvel module"
+msgstr ""
+
+#: view/ent/module/list.phtml:17
+msgid "Nom du module"
+msgstr ""
+
+#: view/ent/module/show.phtml:1 view/ent/module/show.phtml:3
+msgid "Détails d'un module"
+msgstr ""
+
+#: view/ent/module/show.phtml:5
+msgid "Nom du module :"
+msgstr ""
+
+#: view/ent/module/show.phtml:8
+msgid "Libellé du module :"
+msgstr ""
+
+#: view/ent/module/show.phtml:11
+msgid "Description du module :"
+msgstr ""
+
+#: view/ent/module/update.phtml:1 view/ent/module/update.phtml:3
+msgid "Modifier un module"
+msgstr ""
+
+#: view/ent/permission/add.phtml:1
+msgid "Ajout une permission"
+msgstr ""
+
+#: view/ent/permission/add.phtml:2 view/ent/permission/list.phtml:6
+msgid "Ajouter une permission"
+msgstr ""
+
+#: view/ent/permission/list.phtml:1 view/ent/permission/list.phtml:3
+msgid "Liste des permissions"
+msgstr ""
+
+#: view/ent/permission/list.phtml:17
+msgid "Nom de la permission"
+msgstr ""
+
+#: view/ent/permission/show.phtml:3
+msgid "Détails d'une permission"
+msgstr ""
+
+#: view/ent/permission/show.phtml:6
+msgid "Permission :"
+msgstr ""
+
+#: view/ent/permission/update.phtml:1 view/ent/permission/update.phtml:3
+msgid "Modifier une permission"
+msgstr ""
+
+#: view/ent/preference/add.phtml:1 view/ent/preference/add.phtml:2
+msgid "Ajout d'une préférence"
+msgstr ""
+
+#: view/ent/preference/list.phtml:1 view/ent/preference/list.phtml:3
+msgid "Liste des préférences"
+msgstr ""
+
+#: view/ent/preference/list.phtml:6
+msgid "Ajouter une nouvelle préférence"
+msgstr ""
+
+#: view/ent/preference/list.phtml:17
+msgid "Attribut de la préférence"
+msgstr ""
+
+#: view/ent/preference/list.phtml:18 view/layout/layout.phtml:48
+#: view/layout/layout.phtml:50
+msgid "User"
+msgstr ""
+
+#: view/ent/preference/list.phtml:19 view/layout/layout.phtml:57
+msgid "Service"
+msgstr ""
+
+#: view/ent/preference/list.phtml:20 view/layout/layout.phtml:84
+#: view/layout/layout.phtml:86
+msgid "Profile"
+msgstr ""
+
+#: view/ent/preference/list.phtml:21 view/layout/layout.phtml:65
+msgid "Status"
+msgstr ""
+
+#: view/ent/preference/show.phtml:1 view/ent/preference/show.phtml:2
+msgid "Détails d'une préférence"
+msgstr ""
+
+#: view/ent/preference/show.phtml:5
+msgid "Attribut de la préférence :"
+msgstr ""
+
+#: view/ent/preference/show.phtml:10
+msgid "User :"
+msgstr ""
+
+#: view/ent/preference/show.phtml:22 view/ent/user/show.phtml:31
+#: view/ent/user/show.phtml:48
+msgid "Status :"
+msgstr ""
+
+#: view/ent/preference/show.phtml:28
+msgid "Profil :"
+msgstr ""
+
+#: view/ent/preference/update.phtml:1 view/ent/preference/update.phtml:2
+msgid "Modifier une préférence"
+msgstr ""
+
+#: view/ent/profile/add.phtml:1
+msgid "Ajouter profile"
+msgstr ""
+
+#: view/ent/profile/add.phtml:64 view/ent/profile/update.phtml:66
+msgid "Attribut pour "
+msgstr ""
+
+#: view/ent/profile/list.phtml:1 view/ent/profile/list.phtml:3
+msgid "Liste des profiles"
+msgstr ""
+
+#: view/ent/profile/list.phtml:6
+msgid "Ajouter un nouveau profile"
+msgstr ""
+
+#: view/ent/profile/list.phtml:17
+msgid "Nom du profile"
+msgstr ""
+
+#: view/ent/profile/show.phtml:1 view/ent/profile/show.phtml:3
+msgid "Détails du profile"
+msgstr ""
+
+#: view/ent/profile/show.phtml:6
+msgid "Nom du profile :"
+msgstr ""
+
+#: view/ent/profile/show.phtml:9
+msgid "Profile LDAP :"
+msgstr ""
+
+#: view/ent/profile/show.phtml:12
+msgid "Libellé du profile :"
+msgstr ""
+
+#: view/ent/profile/show.phtml:15
+msgid "Description du profile :"
+msgstr ""
+
+#: view/ent/profile/show.phtml:29 view/ent/service/show.phtml:40
+msgid "Préférence :<br />"
+msgstr ""
+
+#: view/ent/profile/show.phtml:38 view/ent/service/show.phtml:49
+#: view/layout/layout.phtml:58
+msgid "Attribute"
+msgstr ""
+
+#: view/ent/profile/show.phtml:39 view/ent/service/show.phtml:50
+msgid "Value"
+msgstr ""
+
+#: view/ent/profile/update.phtml:1 view/ent/profile/update.phtml:3
+msgid "Modifier un profile"
+msgstr ""
+
+#: view/ent/role/add.phtml:1 view/ent/role/add.phtml:2
+msgid "Ajouter un rôle"
+msgstr ""
+
+#: view/ent/role/list.phtml:1 view/ent/role/list.phtml:3
+msgid "Liste des rôles"
+msgstr ""
+
+#: view/ent/role/list.phtml:6
+msgid "Ajouter une nouveau role"
+msgstr ""
+
+#: view/ent/role/list.phtml:17
+msgid "Nom du role"
+msgstr ""
+
+#: view/ent/role/show.phtml:1 view/ent/role/show.phtml:3
+msgid "Détails d'un role"
+msgstr ""
+
+#: view/ent/role/show.phtml:6
+msgid "Role :"
+msgstr ""
+
+#: view/ent/role/show.phtml:19
+msgid "Rôles enfant :"
+msgstr ""
+
+#: view/ent/role/show.phtml:30
+msgid "Permissions :"
+msgstr ""
+
+#: view/ent/role/update.phtml:1 view/ent/role/update.phtml:3
+msgid "Modifier un role"
+msgstr ""
+
+#: view/ent/service/add.phtml:1 view/ent/service/add.phtml:2
 msgid "Ajouter un service"
+msgstr ""
+
+#: view/ent/service/add.phtml:35
+msgid "Attributs :"
 msgstr ""
 
 #: view/ent/service/list.phtml:1 view/ent/service/list.phtml:3
 msgid "Liste des services"
 msgstr ""
 
-#: view/ent/service/modify.phtml:1
-msgid "Modifier un service"
+#: view/ent/service/list.phtml:17
+msgid "Service Name"
 msgstr ""
 
-#: view/ent/service/show.phtml:2
+#: view/ent/service/list.phtml:18
+msgid "Service Libelle"
+msgstr ""
+
+#: view/ent/service/list.phtml:19
+msgid "Service Description"
+msgstr ""
+
+#: view/ent/service/list.phtml:44
+msgid "Delete into Profil"
+msgstr ""
+
+#: view/ent/service/list.phtml:62 view/ent/service/show.phtml:60
+msgid "Update Profil"
+msgstr ""
+
+#: view/ent/service/show.phtml:1 view/ent/service/show.phtml:2
 msgid "Détails d'un service"
 msgstr ""
 
-#: view/ent/service/show.phtml:26
-msgid "Contact :"
+#: view/ent/service/show.phtml:28
+msgid "Attribut :"
 msgstr ""
 
-#: view/ent/service/show.phtml:37
-msgid "Attributs :"
+#: view/ent/service/update.phtml:1 view/ent/service/update.phtml:2
+msgid "Modifier un service"
 msgstr ""
 
-#: view/ent/user/add.phtml:1
+#: view/ent/status/add.phtml:1
+msgid "Ajout d'un status"
+msgstr ""
+
+#: view/ent/status/list.phtml:1 view/ent/status/list.phtml:3
+msgid "Liste des status"
+msgstr ""
+
+#: view/ent/status/list.phtml:6
+msgid "Ajouter un nouveau status"
+msgstr ""
+
+#: view/ent/status/list.phtml:17
+msgid "Nom du status"
+msgstr ""
+
+#: view/ent/status/show.phtml:1 view/ent/status/show.phtml:3
+msgid "Détails d'un status"
+msgstr ""
+
+#: view/ent/status/show.phtml:5
+msgid "Nom du status :"
+msgstr ""
+
+#: view/ent/status/show.phtml:8
+msgid "Libellé du status :"
+msgstr ""
+
+#: view/ent/status/show.phtml:11
+msgid "Description du status :"
+msgstr ""
+
+#: view/ent/status/update.phtml:1 view/ent/status/update.phtml:3
+msgid "Modifier un status"
+msgstr ""
+
+#: view/ent/user/add.phtml:1 view/ent/user/add.phtml:2
 msgid "Ajouter un user"
 msgstr ""
 
-#: view/ent/user/modify.phtml:1
-msgid "Modifier un user"
+#: view/ent/user/list.phtml:1 view/ent/user/list.phtml:3
+msgid "Liste des users"
 msgstr ""
 
-#: view/ent/user/show.phtml:9
+#: view/ent/user/list.phtml:6
+msgid "Ajouter un nouvel user"
+msgstr ""
+
+#: view/ent/user/list.phtml:15
+msgid "Search for... ou faible..."
+msgstr ""
+
+#: view/ent/user/list.phtml:16
+msgid "Magic !"
+msgstr ""
+
+#: view/ent/user/list.phtml:24
+msgid "Login"
+msgstr ""
+
+#: view/ent/user/show.phtml:1 view/ent/user/show.phtml:3
+msgid "Détails d'un user"
+msgstr ""
+
+#: view/ent/user/show.phtml:6
+msgid "Login :"
+msgstr "Mon login"
+
+#: view/ent/user/show.phtml:10
 msgid "Dernière connexion :"
 msgstr ""
 
-#: view/ent/user/show.phtml:27
-msgid "Status :"
+#: view/ent/user/show.phtml:35
+msgid "Rôle :"
 msgstr ""
 
-#: view/ent/user/show.phtml:31
-msgid "Rôle :"
+#: view/ent/user/update.phtml:1 view/ent/user/update.phtml:3
+msgid "Modifier un user"
 msgstr ""
 
 #: view/error/404.phtml:1
@@ -291,6 +791,54 @@ msgstr "Aucune exception disponible"
 #: view/error/index.phtml:1
 msgid "An error occurred"
 msgstr "Une erreur est survenue"
+
+#: view/layout/layout.phtml:41 view/layout/layout.phtml:43
+msgid "Index"
+msgstr ""
+
+#: view/layout/layout.phtml:55
+msgid "Service / Attribute"
+msgstr ""
+
+#: view/layout/layout.phtml:62
+msgid "Preference / Status"
+msgstr ""
+
+#: view/layout/layout.phtml:64
+msgid "Preference"
+msgstr ""
+
+#: view/layout/layout.phtml:69
+msgid "Log / Module / Action"
+msgstr ""
+
+#: view/layout/layout.phtml:71
+msgid "Log"
+msgstr ""
+
+#: view/layout/layout.phtml:72
+msgid "Module"
+msgstr ""
+
+#: view/layout/layout.phtml:73
+msgid "Action"
+msgstr ""
+
+#: view/layout/layout.phtml:77
+msgid "Role / Permission"
+msgstr ""
+
+#: view/layout/layout.phtml:79
+msgid "Role"
+msgstr ""
+
+#: view/layout/layout.phtml:80
+msgid "Permission"
+msgstr ""
+
+#: view/layout/layout.phtml:91 view/layout/layout.phtml:93
+msgid "Contact"
+msgstr ""
 
 #~ msgid "Logina :"
 #~ msgstr "Pol"
