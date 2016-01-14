@@ -100,10 +100,10 @@ class ServiceRestController extends AbstractRestfulController
         if ($results) {
             $data = Json::decode($this->serializer->serialize($results, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
-            $successMessage = 'Les users ont bien été trouvés.';
+            $successMessage = 'Les services ont bien été trouvés.';
         } else {
             $success = false;
-            $errorMessage = 'Aucun user dans la base de données.';
+            $errorMessage = 'Aucun service dans la base de données.';
         }
 
         return new JsonModel(array(
@@ -127,10 +127,10 @@ class ServiceRestController extends AbstractRestfulController
         if ($result) {
             $data = Json::decode($this->serializer->serialize($result, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_OBJECT);
             $success = true;
-            $successMessage = 'L\'user a bien été trouvé.';
+            $successMessage = 'Le service a bien été trouvé.';
         } else {
             $success = false;
-            $errorMessage = 'Aucun user dans la base de données.';
+            $errorMessage = 'Aucun service dans la base de données.';
         }
 
         return new JsonModel(array(
