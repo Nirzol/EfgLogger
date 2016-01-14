@@ -136,6 +136,10 @@ class UserController extends AbstractActionController
                     }
                 }
                 
+                if (is_null($profiles)) {
+                    return $this->redirect()->toUrl($_SERVER['SERVER_NAME'].'/noaccess.html');
+                }
+                
                 $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
                 'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => $profiles);
 
