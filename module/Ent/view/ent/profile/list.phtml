@@ -15,6 +15,7 @@
 <table class="table table-striped">  
     <tr>
         <th><?= $this->translate('Nom du profile') ?></th>
+        <th><?= $this->translate('Label du profile') ?></th>
         <th><?= $this->translate('Priorité du profile') ?></th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -24,6 +25,9 @@
         <tr>
             <td>
                 <?= $this->escapeHtml($profile->getProfileName()) ?>
+            </td>
+            <td>
+                <?= $this->escapeHtml($profile->getProfileLibelle()) ?>
             </td>
             <td>
                 <?= $this->escapeHtml($profile->getProfilePriority()) ?>
