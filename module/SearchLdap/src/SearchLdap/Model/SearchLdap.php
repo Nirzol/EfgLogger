@@ -83,7 +83,7 @@ class SearchLdap {
         
         $ldap->disconnect();
         
-        return (count($searchResult) > 0 ? $searchResult : 0);
+        return (count($searchResult) > 0 ? $searchResult[0] : 0);
     }
     
     public function getPrimaryAffiliationByUid($uid) {

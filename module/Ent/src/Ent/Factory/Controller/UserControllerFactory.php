@@ -18,6 +18,8 @@ class UserControllerFactory implements FactoryInterface
         $sm = $serviceLocator->getServiceLocator();
 
         $userService = $sm->get('Ent\Service\UserDoctrineORM');
+        
+        $profileService = $sm->get('Ent\Service\ProfileDoctrineORM');
 
         $config = $sm->get('config');
 
@@ -27,7 +29,7 @@ class UserControllerFactory implements FactoryInterface
 
         $searchLdapController = new SearchLdapController($searchLdapModel);
 
-        $controller = new UserController($userService, $userForm, $config['user-add-base'], $searchLdapController);
+        $controller = new UserController($userService, $profileService, $userForm, $config['user-add-base'], $searchLdapController);
 
         return $controller;
     }

@@ -3,12 +3,14 @@
 namespace Ent\Controller;
 
 use Ent\Form\UserForm;
+use Ent\Service\ProfileDoctrineService;
 use Ent\Service\UserDoctrineService;
 use SearchLdap\Controller\SearchLdapController;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 use Zend\XmlRpc\Request;
+use ZfcRbac\Exception\UnauthorizedException;
 
 class UserController extends AbstractActionController
 {
@@ -24,6 +26,12 @@ class UserController extends AbstractActionController
      * @var UserDoctrineService
      */
     protected $userService = null;
+    
+    /**
+     * 
+     * @var ProfileDoctrineService
+     */
+    protected $profileService = null;
 
     /**
      * 
@@ -38,9 +46,10 @@ class UserController extends AbstractActionController
      */
     protected $searchLdapController = null;
 
-    public function __construct(UserDoctrineService $userService, UserForm $userForm, $config, SearchLdapController $searchLdapController)
+    public function __construct(UserDoctrineService $userService, ProfileDoctrineService $profileService, UserForm $userForm, $config, SearchLdapController $searchLdapController)
     {
         $this->userService = $userService;
+        $this->profileService = $profileService;
         $this->userForm = $userForm;
         $this->config = $config;
         $this->searchLdapController = $searchLdapController;
@@ -49,7 +58,7 @@ class UserController extends AbstractActionController
     public function listAction()
     {
         if (!$this->isGranted('list_user')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+            throw new UnauthorizedException('You are not allowed !');
         }
 //        $user = $this->userService->findBy(array('userLogin' => 'ss'));
 //        var_dump(!$user);
@@ -70,7 +79,7 @@ class UserController extends AbstractActionController
     public function addAction()
     {
         if (!$this->isGranted('add_user')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+            throw new UnauthorizedException('You are not allowed !');
         }
 
         $form = $this->userForm;
@@ -110,13 +119,25 @@ class UserController extends AbstractActionController
             $user = $this->userService->findBy(array('userLogin' => $container->login));
             if (!$user) {
                 // Check primary affiliation to redirect if user is a student
-                $affiliation = $this->searchLdapController->getPrimaryAffiliationByUid($container->login);
-                if ($affiliation === 'student') { // === optimisation est + rapide que strcmp
+                $ldapUser = $this->searchLdapController->getUser($container->login);
+                if (in_array("student", $ldapUser['edupersonaffiliation'])) {
                     return $this->redirect()->toUrl($config['student_redirect_url']);
                 }
-
+                
+                $profiles = null;
+                $dbProfiles = $this->profileService->getAllIdAndName();
+                
+                foreach ($dbProfiles as $dbProfile) {
+                    $aDbProfileName = explode("_", $dbProfile["profileName"]);
+                    $profileAttribute = $aDbProfileName[0];
+                    $profileValue = $aDbProfileName[1];
+                    if (in_array($profileValue, $ldapUser[$profileAttribute])) {
+                        $profiles[] = $dbProfile["profileId"];
+                    }
+                }
+                
                 $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
-                'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => array($config['profile_default_id']));
+                'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => $profiles);
 
             
                 $form = $this->userForm;
@@ -138,11 +159,11 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute('login');
         }
     }
-
+    
     public function showAction()
     {
         if (!$this->isGranted('show_user')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+            throw new UnauthorizedException('You are not allowed !');
         }
 
         $id = $this->params('id');
@@ -161,7 +182,7 @@ class UserController extends AbstractActionController
     public function updateAction()
     {
         if (!$this->isGranted('update_user')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+            throw new UnauthorizedException('You are not allowed !');
         }
 
         $id = $this->params('id');
@@ -186,7 +207,7 @@ class UserController extends AbstractActionController
     public function deleteAction()
     {
         if (!$this->isGranted('delete_user')) {
-            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+            throw new UnauthorizedException('You are not allowed !');
         }
         $id = $this->params('id');
 

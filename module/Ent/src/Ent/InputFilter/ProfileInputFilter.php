@@ -92,6 +92,17 @@ class ProfileInputFilter extends InputFilter
             'validators' => array(
             ),
         ));
+        // Filtre pour profilePriority
+        $this->add(array(
+            'name' => 'profilePriority',
+            'required' => false,
+            'filters' => array(
+                array('name' => 'StripTags'),
+                array('name' => 'StringTrim'),
+            ),
+            'validators' => array(
+            ),
+        ));
         
         $this->add(array(
             'name' => 'fkPsService',

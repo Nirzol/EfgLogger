@@ -15,6 +15,7 @@
 <table class="table table-striped">  
     <tr>
         <th><?= $this->translate('Nom du profile') ?></th>
+        <th><?= $this->translate('Priorité du profile') ?></th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>        
@@ -23,6 +24,9 @@
         <tr>
             <td>
                 <?= $this->escapeHtml($profile->getProfileName()) ?>
+            </td>
+            <td>
+                <?= $this->escapeHtml($profile->getProfilePriority()) ?>
             </td>
             <td>
                 <a href="<?= $this->url('zfcadmin/profile/show', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-primary btn-xs">Détails</a>

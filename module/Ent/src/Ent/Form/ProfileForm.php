@@ -68,6 +68,16 @@ class ProfileForm extends Form
                 'type' => 'text',
             ),
         ));
+        
+        $this->add(array(
+            'name' => 'profilePriority',
+            'options' => array(
+                'label' => 'Priorité du profile : ',
+            ),
+            'attributes' => array(
+                'type' => 'text',
+            ),
+        ));
 
         $this->add(array(
             'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox',
