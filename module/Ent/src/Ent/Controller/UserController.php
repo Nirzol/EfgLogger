@@ -124,32 +124,39 @@ class UserController extends AbstractActionController
                     return $this->redirect()->toUrl($config['student_redirect_url']);
                 }
                 
-                $profiles = null;
-                $dbProfiles = $this->profileService->getAllIdAndName();
+                if (in_array("staff", $ldapUser['edupersonprimaryaffiliation']) || in_array("teacher", $ldapUser['edupersonprimaryaffiliation']) || in_array("faculty", $ldapUser['edupersonprimaryaffiliation'])) {
                 
-                foreach ($dbProfiles as $dbProfile) {
-                    $aDbProfileName = explode("_", $dbProfile["profileName"]);
-                    $profileAttribute = $aDbProfileName[0];
-                    $profileValue = $aDbProfileName[1];
-                    if (in_array($profileValue, $ldapUser[$profileAttribute])) {
-                        $profiles[] = $dbProfile["profileId"];
+                    $profiles = null;
+                    $dbProfiles = $this->profileService->getAllIdAndName();
+
+                    foreach ($dbProfiles as $dbProfile) {
+                        $aDbProfileName = explode("_", $dbProfile["profileName"]);
+                        $profileAttribute = $aDbProfileName[0];
+                        $profileValue = $aDbProfileName[1];
+                        if (in_array($profileValue, $ldapUser[$profileAttribute])) {
+                            $profiles[] = $dbProfile["profileId"];
+                        }
                     }
-                }
-                
-                if (is_null($profiles)) {
-                    return $this->redirect()->toUrl($_SERVER['SERVER_NAME'].'/noaccess.html');
-                }
-                
-                $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
-                'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => $profiles);
 
-            
-                $form = $this->userForm;
+                    if (is_null($profiles)) {
+                        $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+                        return $this->redirect()->toUrl($protocol.$_SERVER['SERVER_NAME'].'/noaccess.html');
+                    }
 
-                $user = $this->userService->insert($form, $data);
-                if (!$user) {
-                    //TODO handle exception
-                    return $this->notFoundAction();  //A tester ???? ou autre....
+                    $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
+                    'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => $profiles);
+
+
+                    $form = $this->userForm;
+
+                    $user = $this->userService->insert($form, $data);
+                    if (!$user) {
+                        //TODO handle exception
+                        return $this->notFoundAction();  //A tester ???? ou autre....
+                    }
+                } else {
+                    $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+                    return $this->redirect()->toUrl($protocol.$_SERVER['SERVER_NAME'].'/noaccess.html');
                 }
             }
 
