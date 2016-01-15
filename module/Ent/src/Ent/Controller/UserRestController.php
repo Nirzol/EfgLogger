@@ -439,17 +439,9 @@ class UserRestController extends AbstractRestfulController
                     /* @var $profile EntProfile */
                     $preference = $this->preferenceService->findOneBy(array('fkPrefProfile' => $profile->getProfileId()));
                     /* @var $preference EntPreference */
-//                    $preferences[] = Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT);
-                    $preferences[] = json_decode(json_encode(Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT)), true);
+                    $preferences[] = Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT);
                 }
-//                $preferences[0] = $this->array_merge_recursive_simple($preferences[0], $preferences[1]);
-//                $preferences[0] = $this->array_merge_recursive_distinct($preferences[0], $preferences[1]);
-//                $preferences[0] = array_merge_recursive($preferences[0], $preferences[1]);
-//                echo count($preferences);
-                    for ($i = 1 ; $i < count($preferences) ; $i++) {
-                    $preferences[0] = $this->array_merge_recursive_simple($preferences[0], $preferences[$i]);
-                    $preferences[0] = $this->array_merge_recursive_simple($preferences[0], $preferences[$i]);
-                }
+                
                 $data = $preferences;                
             } else {
                 $success = false;
