@@ -11,8 +11,13 @@
         <?= $this->translate($m) ?>  
     </div>  
 <?php endforeach; ?>
+<div class="input-group col-lg-3 pull-right">
+    <input id="filterTable" type="text" class="form-control" placeholder="<?= $this->translate('Where\'s Wally?') ?>">
+    <span class="input-group-addon"><?= $this->translate('Catch him !') ?></span> 
+</div>
 
 <table class="table table-striped">
+    <thead>
     <tr>
         <th><?= $this->translate('Service Name') ?></th>
         <th><?= $this->translate('Service Libelle') ?></th>
@@ -26,6 +31,8 @@
         <th>&nbsp;</th>
         <th>&nbsp;</th>
     </tr>
+    </thead>
+    <tbody  class="searchable">
     <?php foreach ($services as $service) : ?>
         <tr>
             <td>
@@ -63,4 +70,5 @@
             </td>
         </tr>
     <?php endforeach; ?>
+    </tbody>
 </table>
