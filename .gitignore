@@ -32,3 +32,4 @@ application.config.old
 /data/DigiCertAssuredIDRootCA
 /data/DigiCertAssuredIDRootCA.pem
 /data/certificat_P5_castest.der
+/public/noaccess.html
