@@ -28,7 +28,7 @@ class HelpRequestForm extends Form
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
             'name' => 'contactDescription',
             'options' => array(
-                'label' => 'Votre problème concerne : ',
+                'label' => 'Votre demande concerne : ',
                 'object_manager' => $this->entityManager,
                 'target_class' => 'Ent\Entity\EntContact',
                 'empty_option' => '---Sélectionnez un type de problème---',
@@ -43,7 +43,7 @@ class HelpRequestForm extends Form
 
         // File input
         $file = new File('image-file');
-        $file->setLabel('Copie d\'écran');
+        $file->setLabel('Attachez une piéce jointe ou une copie d\'écran');
         $file->setAttribute('id', 'image-file');
         $file->setAttribute('multiple', true);
         $this->add($file);
