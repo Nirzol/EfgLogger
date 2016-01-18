@@ -45,7 +45,7 @@ class HelpRequestInputFilter extends InputFilter {
             'image/jpeg', 
             'text/plain', 
             'application/pdf', 
-            'application/powerpoint', 
+            'application/vnd.ms-powerpoint', 
             'application/mspowerpoint'));
         $fileInput->getValidatorChain()->attach($validatorType);
         
