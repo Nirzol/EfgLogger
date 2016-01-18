@@ -88,9 +88,9 @@ class HelpRequestController extends AbstractActionController {
                 $filePaths = $_FILES['image-file']['tmp_name'];
                 $fileNames = $_FILES['image-file']['name'];
 
-                $senderMail = $infoUser[0]['mail'][0];
-                $senderName = $infoUser[0]['displayname'][0];
-                $senderService = $infoUser[0]['ou'][0];
+                $senderMail = $infoUser['mail'][0];
+                $senderName = $infoUser['displayname'][0];
+                $senderService = $infoUser['ou'][0];
                 //$senderPhone = $infoUser[0]['telephonenumber'][0];
                 
                 $id = (int) $request->getPost('contactDescription');
