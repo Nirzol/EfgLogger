@@ -71,6 +71,20 @@ class UserForm extends Form
                 'is_method' => true,
             ),
         ));
+        
+        $this->add(array(
+            'type' => '\Zend\Form\Element\DateTime',
+            'name' => 'userLastConnection',
+            'options' => array(
+                'label' => 'Last connection',
+                'format' => 'Y-m-d H:i:s'
+            ),
+            'attributes' => array(
+//                'min' => '2010-01-01T00:00:00Z',
+//                'max' => '2020-01-01T00:00:00Z',
+                'step' => 'any', // minutes; default step interval is 1 min
+            )
+        ));
     }
 
 }

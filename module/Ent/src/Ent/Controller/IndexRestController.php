@@ -38,6 +38,12 @@ class IndexRestController extends AbstractRestfulController
      * @var UserDoctrineService
      */
     protected $userService;
+    
+    /**
+     *
+     * @var UserForm
+     */
+    protected $userForm;
 
     /**
      *
@@ -45,11 +51,12 @@ class IndexRestController extends AbstractRestfulController
      */
     protected $actionService;
 
-    public function __construct(LogDoctrineService $logService, LogForm $logForm, UserDoctrineService $userService, ActionDoctrineService $actionService)
+    public function __construct(LogDoctrineService $logService, LogForm $logForm, UserDoctrineService $userService, \Ent\Form\UserForm $userForm, ActionDoctrineService $actionService)
     {
         $this->logService = $logService;
         $this->logForm = $logForm;
         $this->userService = $userService;
+        $this->userForm = $userForm;
         $this->actionService = $actionService;
     }
 
@@ -62,7 +69,7 @@ class IndexRestController extends AbstractRestfulController
         if ($authService->hasIdentity()) {
             $is_logged = true;
             $data['isLogged'] = true;
-            
+                        
             // si l'utilisateur n'a pas ete logge, le logger dans la base
             $container = new Container('entLogger');
 
@@ -85,6 +92,27 @@ class IndexRestController extends AbstractRestfulController
                 $dataAssoc = $entPlugin->prepareLogData($user, true, $action->getActionId());
 
                 $this->logService->insert($this->logForm, $dataAssoc);
+                
+                 $lastConnection = $user->getUserLastConnection();
+                 
+                 $_SESSION['lastConnection'] = $lastConnection;
+                
+                $profiles = null;
+                
+                foreach ($user->getFkUpProfile() as $profile) {
+                    $profiles[] = $profile->getProfileId();
+                }
+                
+                $roles = null;
+                
+                foreach ($user->getFkUrRole() as $role) {
+                    $roles[] = $role->getId();
+                }
+                                
+                $updateLastConnection = array('userLogin' => $user->getUserLogin(), 'userStatus' => (int)$user->getUserStatus(),
+                    'fkUrRole' => $roles, 'fkUpProfile' => $profiles, 'userLastConnection' => date("Y-m-d H:i:s"));
+                                                                                
+                $this->userService->save($this->userForm, $updateLastConnection, $user);
             }
             
             if (!isset($_SESSION['passPhrase'])) {
@@ -92,6 +120,10 @@ class IndexRestController extends AbstractRestfulController
             }
             
             $data['passPhrase'] = $_SESSION['passPhrase'];
+            
+            $data['lastConnection'] = $_SESSION['lastConnection'];
+            
+            error_log("session: ".json_encode($_SESSION['lastConnection']));
         } else {
             $is_logged = false;
             $data['isLogged'] = false;

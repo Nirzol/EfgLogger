@@ -45,6 +45,15 @@ class UserInputFilter extends InputFilter
             'validators' => array(
             ),
         ));
+        
+        $this->add(array(
+            'name' => 'userLastConnection',
+            'required' => false,
+            'filters' => array(
+            ),
+            'validators' => array(
+            ),
+        ));
     }
 
     public function appendEditValidator($id)

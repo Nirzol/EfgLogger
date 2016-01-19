@@ -24,13 +24,15 @@ class IndexRestControllerFactory implements FactoryInterface
         $actionService = $sm->get('Ent\Service\ActionDoctrineORM');
         
         $logForm = $sm->get('FormElementManager')->get('Ent\Form\LogForm');
+        
+        $userForm = $sm->get('FormElementManager')->get('Ent\Form\UserForm');
 
         /* @var $serviceLocator ObjectManager */
         $om = $sm->get('Doctrine\ORM\EntityManager');
 
         $hydrator = new DoctrineObject($om);
 
-        $controller = new IndexRestController($logService, $logForm, $userService, $actionService);
+        $controller = new IndexRestController($logService, $logForm, $userService, $userForm, $actionService);
 
         return $controller;
     }
