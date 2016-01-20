@@ -145,5 +145,21 @@ class EntPlugin extends AbstractPlugin
 
         return array_filter($source);
     }
+    
+
+    public function checkMaxInputVars()
+    {
+        $max_input_vars = ini_get('max_input_vars');
+        # Value of the configuration option as a string, or an empty string for null values, or FALSE if the configuration option doesn't exist
+        if ($max_input_vars == FALSE)
+            return FALSE;
+
+        $php_input = substr_count(file_get_contents('php://input'), '&');
+        $post = count($_POST, COUNT_RECURSIVE);
+
+//    echo $php_input . '<br/>', $post. '<br/>', $max_input_vars. '<br/>';
+
+        return $php_input > $post;
+    }
 
 }

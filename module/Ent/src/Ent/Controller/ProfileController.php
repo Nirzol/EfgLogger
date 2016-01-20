@@ -84,7 +84,7 @@ class ProfileController extends AbstractActionController
         if (!$this->isGranted('list_profile')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $listProfiles = $this->profileService->getAll();
 
         return new ViewModel(array(
@@ -97,7 +97,7 @@ class ProfileController extends AbstractActionController
         if (!$this->isGranted('add_profile')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $attributes = $this->attributeService->getAll();
         $services = $this->serviceService->getAll();
 
@@ -125,19 +125,26 @@ class ProfileController extends AbstractActionController
             /* @var $entPlugin EntPlugin */
             $entPlugin = $this->EntPlugin();
 
-            $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], $serviceGetPost['fkPsService'], $this->serviceService, $this->attributeService, $this->serializer);
-
-            $profile = $this->profileService->insert($form, $this->request->getPost());
-            if ($profile) {
-                if (isset($prefAttribute) && !empty($prefAttribute)) {
-                    $formPreference = $this->preferenceForm;
-                    //Update la prefrence du service
-                    $dataPreference = array('prefAttribute' => Json::encode($prefAttribute), 'fkPrefProfile' => $profile->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
-                    $this->preferenceService->insert($formPreference, $dataPreference);
-                }
-                $this->flashMessenger()->addSuccessMessage('Le profile a bien été ajouté.');
-
+            if ($entPlugin->checkMaxInputVars() || count($_POST, COUNT_RECURSIVE) >= ini_get("max_input_vars")) {
+                error_log(date("Y-m-d H:i:s") . ' : POST has been truncated.');
+                $this->flashMessenger()->addSuccessMessage('CANCEL : POST has been truncated. $_POST > max_input_vars ' . ini_get("max_input_vars"));
                 return $this->redirect()->toRoute('zfcadmin/profile');
+            } else {
+
+                $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], $serviceGetPost['fkPsService'], $this->serviceService, $this->attributeService, $this->serializer);
+
+                $profile = $this->profileService->insert($form, $this->request->getPost());
+                if ($profile) {
+                    if (isset($prefAttribute) && !empty($prefAttribute)) {
+                        $formPreference = $this->preferenceForm;
+                        //Update la prefrence du service
+                        $dataPreference = array('prefAttribute' => Json::encode($prefAttribute), 'fkPrefProfile' => $profile->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
+                        $this->preferenceService->insert($formPreference, $dataPreference);
+                    }
+                    $this->flashMessenger()->addSuccessMessage('Le profile a bien été ajouté.');
+
+                    return $this->redirect()->toRoute('zfcadmin/profile');
+                }
             }
         }
 
@@ -155,7 +162,7 @@ class ProfileController extends AbstractActionController
         if (!$this->isGranted('show_profile')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $profile = $this->profileService->getById($id);
@@ -183,7 +190,7 @@ class ProfileController extends AbstractActionController
         if (!$this->isGranted('update_profile')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
         $form = $this->profileForm;
         /* @var $profile \Ent\Entity\EntProfile */
@@ -215,7 +222,7 @@ class ProfileController extends AbstractActionController
         $serviceMultiCheckbox = $form->get('fkPsService');
         $result = array();
         // Ajout de l'attribut pour faire fonctionner le modal
-        foreach ($serviceMultiCheckbox->getValueOptions() as $value) {           
+        foreach ($serviceMultiCheckbox->getValueOptions() as $value) {
             // Construction de l'attribut pour le modal
             $test = "if(this.checked){ $('#serviceIdModal" . $value['value'] . "').modal(); }";
             $value['attributes'] = array('onChange' => $test);
@@ -228,24 +235,34 @@ class ProfileController extends AbstractActionController
         if ($this->request->isPost()) {
             $serviceGetPost = $this->request->getPost();
 
+//var_dump($serviceGetPost);
+//            var_dump(count($_POST, COUNT_RECURSIVE));
+//var_dump(ini_get('max_input_vars'));
             /* @var $entPlugin EntPlugin */
             $entPlugin = $this->EntPlugin();
 
-            $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], $serviceGetPost['fkPsService'], $this->serviceService, $this->attributeService, $this->serializer);
-
-            $profile = $this->profileService->save($form, $this->request->getPost(), $profile);
-
-            if ($profile) {
-                if (isset($prefAttribute) && !empty($prefAttribute)) {
-                    $formPreference = $this->preferenceForm;
-                    //Update la prefrence du service
-                    $dataPreference = array('prefAttribute' => Json::encode($prefAttribute), 'fkPrefProfile' => $profile->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
-                    $this->preferenceService->save($formPreference, $dataPreference, $preferenceProfile);
-                }
-
-                $this->flashMessenger()->addSuccessMessage('Le profile a bien été modifié.');
-
+            if ($entPlugin->checkMaxInputVars() || count($_POST, COUNT_RECURSIVE) >= ini_get("max_input_vars")) {
+                error_log(date("Y-m-d H:i:s") . ' : POST has been truncated.');
+                $this->flashMessenger()->addSuccessMessage('CANCEL : POST has been truncated. $_POST > max_input_vars ' . ini_get("max_input_vars"));
                 return $this->redirect()->toRoute('zfcadmin/profile');
+            } else {
+
+                $prefAttribute = $entPlugin->preparePrefAttributePerService($serviceGetPost['serviceAttributes'], $serviceGetPost['fkPsService'], $this->serviceService, $this->attributeService, $this->serializer);
+
+                $profile = $this->profileService->save($form, $this->request->getPost(), $profile);
+
+                if ($profile) {
+                    if (isset($prefAttribute) && !empty($prefAttribute)) {
+                        $formPreference = $this->preferenceForm;
+                        //Update la prefrence du service
+                        $dataPreference = array('prefAttribute' => Json::encode($prefAttribute), 'fkPrefProfile' => $profile->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
+                        $this->preferenceService->save($formPreference, $dataPreference, $preferenceProfile);
+                    }
+
+                    $this->flashMessenger()->addSuccessMessage('Le profile a bien été modifié.');
+
+                    return $this->redirect()->toRoute('zfcadmin/profile');
+                }
             }
         }
 
@@ -262,7 +279,7 @@ class ProfileController extends AbstractActionController
         if (!$this->isGranted('delete_profile')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $this->profileService->delete($id);
