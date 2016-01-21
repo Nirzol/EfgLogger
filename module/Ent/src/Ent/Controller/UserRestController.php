@@ -9,6 +9,7 @@ use Ent\Service\PreferenceDoctrineService;
 use Ent\Service\UserDoctrineService;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
+use SearchLdap\Controller\SearchLdapController;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
@@ -39,6 +40,12 @@ class UserRestController extends AbstractRestfulController
      * @var Serializer
      */
     protected $serializer;
+    
+    /**
+     * 
+     * @var SearchLdapController
+     */
+    protected $searchLdapController = null;
 
 //    public function options()
 //    {
@@ -66,12 +73,13 @@ class UserRestController extends AbstractRestfulController
 //        return $response;
 //    }
 
-    public function __construct(UserDoctrineService $userService, UserForm $userForm, PreferenceDoctrineService $preferenceService, Serializer $serializer)
+    public function __construct(UserDoctrineService $userService, UserForm $userForm, PreferenceDoctrineService $preferenceService, Serializer $serializer, SearchLdapController $searchLdapController)
     {
         $this->userService = $userService;
         $this->userForm = $userForm;
         $this->serializer = $serializer;
         $this->preferenceService = $preferenceService;
+        $this->searchLdapController = $searchLdapController;
     }
 
     public function getList()
@@ -424,6 +432,8 @@ class UserRestController extends AbstractRestfulController
             
             /* we get the profile of the user at this time*/
             if ($user) {
+                $ldapUser = $this->searchLdapController->getUser($login);
+                $mailHost = $ldapUser['mailhost'][0];
                 $success = true;
                 $successMessage = 'L\'user a bien été trouvé.';
                 $FkUpProfile = $user->getFkUpProfile();
@@ -441,8 +451,8 @@ class UserRestController extends AbstractRestfulController
                     /* @var $preference EntPreference */
                     $preferences[] = Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT);
                 }
-                
-                $data = $preferences;                
+                $data[] = $mailHost;
+                $data[] = $preferences;                
             } else {
                 $success = false;
                 $errorMessage = 'L\'user n\'existe pas dans la base.';
