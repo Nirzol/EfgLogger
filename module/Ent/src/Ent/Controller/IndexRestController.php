@@ -123,7 +123,7 @@ class IndexRestController extends AbstractRestfulController
             
             $data['lastConnection'] = $_SESSION['lastConnection'];
             
-            error_log("session: ".json_encode($_SESSION['lastConnection']));
+//            error_log("session: ".json_encode($_SESSION['lastConnection']));
         } else {
             $is_logged = false;
             $data['isLogged'] = false;
