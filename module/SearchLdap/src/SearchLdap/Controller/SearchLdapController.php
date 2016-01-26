@@ -75,6 +75,8 @@ class SearchLdapController extends AbstractRestfulController {
         
         $search = $ldap->searchUser($slug);
         
+//        $search = $ldap->getUserInfo($slug);
+        
         return $search;
     }
     

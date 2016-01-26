@@ -2,12 +2,11 @@
 
 namespace Ent\Controller;
 
-use Ent\Service\HelpRequestDoctrineService;
-use Ent\Service\ContactDoctrineService;
 use Ent\Form\HelpRequestForm;
 use Ent\InputFilter\HelpRequestInputFilter;
+use Ent\Service\ContactDoctrineService;
+use Ent\Service\HelpRequestDoctrineService;
 use SearchLdap\Controller\SearchLdapController;
-use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 /**
@@ -46,7 +45,7 @@ class HelpRequestRestController extends AbstractRestfulController
      *
      * @var SearchLdapController
      */
-    protected $searchLdapController;
+//    protected $searchLdapController;
     
     public function options()
     {
@@ -74,12 +73,13 @@ class HelpRequestRestController extends AbstractRestfulController
         return $response;
     }
     
-    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter , SearchLdapController $searchLdapController) {
+//    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter , SearchLdapController $searchLdapController) {
+    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter) {
         $this->contactService = $contactService;
         $this->helpRequestService = $helpRequestService;
         $this->helpRequestForm = $helpRequestForm;
         $this->helpRequestInputFilter = $helpRequestInputFilter;
-        $this->searchLdapController = $searchLdapController;
+//        $this->searchLdapController = $searchLdapController;
     }
 
     public function getList() {

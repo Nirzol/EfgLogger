@@ -23,17 +23,18 @@ class HelpRequestControllerFactory implements FactoryInterface
         
         $helpRequestInputFilter = $sm->get('InputFilterManager')->get('Ent\InputFilter\HelpRequestInputFilter');
         
-        $config = $sm->get('Config');
+//        $config = $sm->get('Config');
         
-        $searchLdapModel = new \SearchLdap\Model\SearchLdap($config['searchldap_config']);
+//        $searchLdapModel = new \SearchLdap\Model\SearchLdap($config['searchldap_config']);
 
-        $searchLdapController = new \SearchLdap\Controller\SearchLdapController($searchLdapModel);
+//        $searchLdapController = new \SearchLdap\Controller\SearchLdapController($searchLdapModel);
         
         $contactService = $sm->get('Ent\Service\ContactDoctrineORM');
         
         $helpRequestService = $sm->get('Ent\Service\HelpRequestDoctrineORM');
         
-        $controller = new HelpRequestController($contactService, $helpRequestService, $helpRequestForm, $helpRequestInputFilter, $searchLdapController);
+//        $controller = new HelpRequestController($contactService, $helpRequestService, $helpRequestForm, $helpRequestInputFilter, $searchLdapController);
+        $controller = new HelpRequestController($contactService, $helpRequestService, $helpRequestForm, $helpRequestInputFilter);
 
         return $controller;
     }

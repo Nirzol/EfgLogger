@@ -19,8 +19,10 @@ class SearchLdapModelFactory implements FactoryInterface
         $sm = $serviceLocator->getServiceLocator();
 
         $config = $sm->get('Config');
+        $ldap = new \Zend\Ldap\Ldap($config['searchldap_config']);
 
-        $searchLdapModel = new SearchLdap($config['searchldap_config']);
+//        $searchLdapModel = new SearchLdap($config['searchldap_config']);
+        $searchLdapModel = new SearchLdap($config['searchldap_config'], $ldap);
 
         return $searchLdapModel;
     }

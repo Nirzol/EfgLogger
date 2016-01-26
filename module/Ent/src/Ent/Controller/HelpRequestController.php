@@ -2,11 +2,11 @@
 
 namespace Ent\Controller;
 
-use Ent\Form\HelpRequestForm;
 use Ent\Entity\EntContact;
-use Ent\Service\HelpRequestDoctrineService;
-use Ent\Service\ContactDoctrineService;
+use Ent\Form\HelpRequestForm;
 use Ent\InputFilter\HelpRequestInputFilter;
+use Ent\Service\ContactDoctrineService;
+use Ent\Service\HelpRequestDoctrineService;
 use SearchLdap\Controller\SearchLdapController;
 use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -46,14 +46,15 @@ class HelpRequestController extends AbstractActionController {
      *
      * @var SearchLdapController
      */
-    protected $searchLdapController;
+//    protected $searchLdapController;
 
-    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter, SearchLdapController $searchLdapController) {
+//    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter, SearchLdapController $searchLdapController) {
+    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter) {
         $this->contactService = $contactService;
         $this->helpRequestService = $helpRequestService;
         $this->helpRequestForm = $helpRequestForm;
         $this->helpRequestInputFilter = $helpRequestInputFilter;
-        $this->searchLdapController = $searchLdapController;
+//        $this->searchLdapController = $searchLdapController;
     }
 
     public function indexAction() {
@@ -67,7 +68,8 @@ class HelpRequestController extends AbstractActionController {
 
         if ($authService->hasIdentity()) {
             $user = $authService->getIdentity()->getUserLogin();
-            $infoUser = $this->searchLdapController->getUser($user);
+//            $infoUser = $this->searchLdapController->getUser($user);
+            $infoUser = $this->SearchLdapPlugin()->getUserInfo($user);
         }
 
         $request = $this->request;

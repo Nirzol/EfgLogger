@@ -19,18 +19,15 @@ class InfoRestController extends AbstractRestfulController
 {
     /* @var $searchLdapController SearchLdapController */
 
-    protected $searchLdapController;
-    
+//    protected $searchLdapController;
+
     /* @var $ews EwsConnection */
 
     protected $ews;
-    
-    /* @var $loveService LoveDoctrineService */
 
+    /* @var $loveService LoveDoctrineService */
     protected $loveService;
-    
     protected $referentielWsdl;
-    
     protected $owaConfig;
 
     public function options()
@@ -59,9 +56,10 @@ class InfoRestController extends AbstractRestfulController
         return $response;
     }
 
-    public function __construct(SearchLdapController $searchLdapController, LoveDoctrineService $loveService, $referentielWsdl, $owaConfig)
+//    public function __construct(SearchLdapController $searchLdapController, LoveDoctrineService $loveService, $referentielWsdl, $owaConfig)
+    public function __construct(LoveDoctrineService $loveService, $referentielWsdl, $owaConfig)
     {
-        $this->searchLdapController = $searchLdapController;
+//        $this->searchLdapController = $searchLdapController;
         $this->loveService = $loveService;
         $this->referentielWsdl = $referentielWsdl;
         $this->owaConfig = $owaConfig;
@@ -78,7 +76,8 @@ class InfoRestController extends AbstractRestfulController
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
             $user = $authService->getIdentity()->getUserLogin();
-            $infoUser = $this->searchLdapController->getUser($user);
+//            $infoUser = $this->searchLdapController->getUser($user);
+            $infoUser = $this->SearchLdapPlugin()->getUserInfo($user);
             $success = true;
             $successMessage = 'Les infos ont bien été trouvées';
         } else {
@@ -111,7 +110,8 @@ class InfoRestController extends AbstractRestfulController
         $affiliation = null;
 
         if (!is_null($login)) {
-            $affiliation = $this->searchLdapController->getMailHostByUid($login);
+//            $affiliation = $this->searchLdapController->getMailHostByUid($login);
+            $affiliation = $this->SearchLdapPlugin()->getMailHostByUid($login);
         }
 
         if (!is_null($affiliation)) {
@@ -131,8 +131,9 @@ class InfoRestController extends AbstractRestfulController
             ),
         ));
     }
-    
-    public function getNotifsAction() {
+
+    public function getNotifsAction()
+    {
         $login = null;
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
@@ -143,35 +144,37 @@ class InfoRestController extends AbstractRestfulController
         $success = false;
         $successMessage = '';
         $errorMessage = '';
-        
+
         /* notif mail */
         $mail = null;
         if (!is_null($login)) {
-            $mailHost = $this->searchLdapController->getMailHostByUid($login);
-            
+//            $mailHost = $this->searchLdapController->getMailHostByUid($login);
+            $mailHost = $this->SearchLdapPlugin()->getMailHostByUid($login);
+
             if (!is_null($mailHost)) {
-            
+
                 if (strcmp($mailHost, 'mataram.parisdescartes.fr') !== 0) {
 
-                    $mail = $this->searchLdapController->getMailByUid($login);
-                    
+//                    $mail = $this->searchLdapController->getMailByUid($login);
+                    $mail = $this->SearchLdapPlugin()->getMailByUid($login);
+
                     /* @var $referentielPlugin ReferentielPlugin */
                     $referentielPlugin = new ReferentielPlugin();
-                                        
-                    $pOwa = $referentielPlugin->getAccountFromRef($this->referentielWsdl);   
+
+                    $pOwa = $referentielPlugin->getAccountFromRef($this->referentielWsdl);
                     $love = $this->loveService->getAll();
                     $lOwa = '';
                     foreach ($love as $value) {
                         $lOwa = $value->getLoveLove();
                     }
-                    if (!is_null($pOwa)) {                 
-                        $accountOwa = $referentielPlugin->getOwaAccount($lOwa, $pOwa);       
+                    if (!is_null($pOwa)) {
+                        $accountOwa = $referentielPlugin->getOwaAccount($lOwa, $pOwa);
 
                         $ews = new EwsConnection($this->owaConfig['host'], $accountOwa[0], $accountOwa[1], $this->owaConfig['version']);
 
                         /* @var $owaPlugin OwaPlugin */
                         $owaPlugin = $this->OwaPlugin();
-                        $number = $owaPlugin->getNotifMail($ews, $mail); 
+                        $number = $owaPlugin->getNotifMail($ews, $mail);
 
                         $data['mail'] = $number;
                         $success = true;
@@ -180,16 +183,16 @@ class InfoRestController extends AbstractRestfulController
                     } else {
                         $errorMessage = 'Referentiel error';
                     }
-                }  else {
+                } else {
                     $errorMessage = 'User uses mataram';
                 }
-            }else {
+            } else {
                 $errorMessage = 'User no mailhost';
             }
         } else {
             $errorMessage = 'User non authentifié';
         }
-                
+
         return new JsonModel(array(
             'notifs' => $data,
             'success' => $success,

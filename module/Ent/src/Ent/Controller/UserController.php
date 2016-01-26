@@ -26,7 +26,7 @@ class UserController extends AbstractActionController
      * @var UserDoctrineService
      */
     protected $userService = null;
-    
+
     /**
      * 
      * @var ProfileDoctrineService
@@ -44,15 +44,15 @@ class UserController extends AbstractActionController
      * 
      * @var SearchLdapController
      */
-    protected $searchLdapController = null;
-
-    public function __construct(UserDoctrineService $userService, ProfileDoctrineService $profileService, UserForm $userForm, $config, SearchLdapController $searchLdapController)
+//    protected $searchLdapController = null;
+//    public function __construct(UserDoctrineService $userService, ProfileDoctrineService $profileService, UserForm $userForm, $config, SearchLdapController $searchLdapController)
+    public function __construct(UserDoctrineService $userService, ProfileDoctrineService $profileService, UserForm $userForm, $config)
     {
         $this->userService = $userService;
         $this->profileService = $profileService;
         $this->userForm = $userForm;
         $this->config = $config;
-        $this->searchLdapController = $searchLdapController;
+//        $this->searchLdapController = $searchLdapController;
     }
 
     public function listAction()
@@ -119,13 +119,14 @@ class UserController extends AbstractActionController
             $user = $this->userService->findBy(array('userLogin' => $container->login));
             if (!$user) {
                 // Check primary affiliation to redirect if user is a student
-                $ldapUser = $this->searchLdapController->getUser($container->login);
+//                $ldapUser = $this->searchLdapController->getUser($container->login);
+                $ldapUser = $this->SearchLdapPlugin()->getUserInfo($container->login);
                 if (in_array("student", $ldapUser['edupersonaffiliation'])) {
                     return $this->redirect()->toUrl($config['student_redirect_url']);
                 }
-                
+
                 if (in_array("staff", $ldapUser['edupersonprimaryaffiliation']) || in_array("teacher", $ldapUser['edupersonprimaryaffiliation']) || in_array("faculty", $ldapUser['edupersonprimaryaffiliation'])) {
-                
+
                     $profiles = null;
                     $dbProfiles = $this->profileService->getAllIdAndName();
 
@@ -139,12 +140,12 @@ class UserController extends AbstractActionController
                     }
 
                     if (is_null($profiles)) {
-                        $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
-                        return $this->redirect()->toUrl($protocol.$_SERVER['SERVER_NAME'].'/noaccess.html');
+                        $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
+                        return $this->redirect()->toUrl($protocol . $_SERVER['SERVER_NAME'] . '/noaccess.html');
                     }
 
                     $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
-                    'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => $profiles);
+                        'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => $profiles);
 
 
                     $form = $this->userForm;
@@ -155,8 +156,8 @@ class UserController extends AbstractActionController
                         return $this->notFoundAction();  //A tester ???? ou autre....
                     }
                 } else {
-                    $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
-                    return $this->redirect()->toUrl($protocol.$_SERVER['SERVER_NAME'].'/noaccess.html');
+                    $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
+                    return $this->redirect()->toUrl($protocol . $_SERVER['SERVER_NAME'] . '/noaccess.html');
                 }
             }
 
@@ -170,7 +171,7 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute('login');
         }
     }
-    
+
     public function showAction()
     {
         if (!$this->isGranted('show_user')) {
