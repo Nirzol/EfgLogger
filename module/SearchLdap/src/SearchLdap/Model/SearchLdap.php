@@ -58,6 +58,7 @@ class SearchLdap {
 //        return $ldap;
 //    }
           
+
 //    public function searchUser($searchValue) {
 ////        $ldap = $this->ldapConnect();
 //        $filter = "";
@@ -113,6 +114,44 @@ class SearchLdap {
 //        
 //        return (count($searchResult) > 0 ? $searchResult[0] : 0);
 //    }
+
+//    public function searchUser($searchValue) {
+//        $ldap = $this->ldapConnect();
+//        $filter = "";
+//        $nomPrenom = "";
+//        $count = "";
+//        $searchValues = [];
+//        // Recherche avec un filtre LDAP
+//        if((strpos($searchValue, "(") !== false) && (strpos($searchValue, "(") == 0 )) {
+//            $filter = $searchValue;
+//        } elseif((strpos($searchValue, "@parisdescartes.fr") || strpos($searchValue, "@etu.parisdescartes.fr")) !== false){
+//            // Recherche avec une adresse email
+//            $filter = "(mail=". $searchValue.")";
+//        } elseif(strpos($searchValue, " ") !== false){
+//            // Recherche avec un nom prénom ou prénom nom           
+//            $filter = "(|(cn=".$searchValue.")(displayName=".$searchValue."))";
+//        } else if(strpos($searchValue, "&") !== false) {
+//            // Recherche avec filtre Personnel ou Etudiant
+//            $searchValues = preg_split("/&/", $searchValue);
+//            
+//            if ($searchValues[1] === 'Personnel') {
+//                // Pour le filtre Personnel, on recherche les personnes dont l'edupersonprimaryaffiliation est égale à staff ou faculty 
+//                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."))(|(edupersonprimaryaffiliation=staff)(edupersonprimaryaffiliation=faculty)))";
+//            } else if ($searchValues[1] === 'Etudiant') {
+//                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."))(edupersonprimaryaffiliation=student))";
+//            }
+//        } else {
+//            // Recherche avec un uid ou un nom
+//            $filter = "(uid=" . $searchValue . ")";
+//        }
+//        
+//        $searchResult = $ldap->searchEntries($filter);
+//        
+//        $ldap->disconnect();
+//        
+//        return (count($searchResult) > 0 ? $searchResult[0] : 0);
+//    }
+
     
     public function getPrimaryAffiliationByUid($uid) {
         $ldap = $this->ldapConnect();
