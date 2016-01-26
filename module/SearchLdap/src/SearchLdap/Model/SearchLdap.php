@@ -43,27 +43,8 @@ class SearchLdap {
             // Recherche avec une adresse email
             $filter = "(mail=". $searchValue.")";
         } elseif(strpos($searchValue, " ") !== false){
-            // Recherche avec un nom prénom ou prénom nom
-            $nomPrenom = explode(" ", $searchValue);
-            $count = count($nomPrenom);
-            
-            // Recherche avec le cn
-            $filterCn = "cn=";
-            
-            // Recherche avec le displayname
-            $filterDn = "displayname=";
-            
-            for($i = 0; $i < $count; $i++) {
-                if($i < $count-1) {
-                    $filterCn .= "$nomPrenom[$i]"." ";
-                    $filterDn .= "$nomPrenom[$i]"." ";
-                } else {
-                    $filterCn .= "$nomPrenom[$i]";
-                    $filterDn .= "$nomPrenom[$i]";
-                }
-            }
-            
-            $filter = "(|($filterCn)($filterDn))";
+            // Recherche avec un nom prénom ou prénom nom           
+            $filter = "(|(cn=".$searchValue.")(displayName=".$searchValue."))";
         } else if(strpos($searchValue, "&") !== false) {
             // Recherche avec filtre Personnel ou Etudiant
             $searchValues = preg_split("/&/", $searchValue);
