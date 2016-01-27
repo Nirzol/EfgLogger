@@ -124,9 +124,9 @@ class UserController extends AbstractActionController
                 if (in_array("student", $ldapUser['edupersonaffiliation'])) {
                     return $this->redirect()->toUrl($config['student_redirect_url']);
                 }
-
-                if (in_array("staff", $ldapUser['edupersonprimaryaffiliation']) || in_array("teacher", $ldapUser['edupersonprimaryaffiliation']) || in_array("faculty", $ldapUser['edupersonprimaryaffiliation'])) {
-
+                
+                if (in_array("staff", $ldapUser['edupersonprimaryaffiliation']) || in_array("teacher", $ldapUser['edupersonprimaryaffiliation']) || in_array("faculty", $ldapUser['edupersonprimaryaffiliation']) || in_array("affiliate", $ldapUser['edupersonprimaryaffiliation'])) {
+                
                     $profiles = null;
                     $dbProfiles = $this->profileService->getAllIdAndName();
 
