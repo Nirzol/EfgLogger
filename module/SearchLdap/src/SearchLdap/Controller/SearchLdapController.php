@@ -70,37 +70,37 @@ class SearchLdapController extends AbstractRestfulController {
         ));
     }
     
-    public function getUser($slug) {
+    public function getUser($uid) {
         $ldap = $this->searchLdapModel;
         
-        $search = $ldap->searchUser($slug);
+        $search = $ldap->getUserInfo($uid);
         
 //        $search = $ldap->getUserInfo($slug);
         
         return $search;
     }
     
-    public function getPrimaryAffiliationByUid($slug) {
-        $ldap = $this->searchLdapModel;
-        
-        $search = $ldap->getPrimaryAffiliationByUid($slug);
-        
-        return $search;
-    }
+//    public function getPrimaryAffiliationByUid($slug) {
+//        $ldap = $this->searchLdapModel;
+//        
+//        $search = $ldap->getPrimaryAffiliationByUid($slug);
+//        
+//        return $search;
+//    }
     
-    public function getMailHostByUid($slug) {
-        $ldap = $this->searchLdapModel;
-        
-        $search = $ldap->getMailHostByUid($slug);
-        
-        return $search;
-    }
+//    public function getMailHostByUid($slug) {
+//        $ldap = $this->searchLdapModel;
+//        
+//        $search = $ldap->getMailHostByUid($slug);
+//        
+//        return $search;
+//    }
     
-    public function getMailByUid($slug) {
-        $ldap = $this->searchLdapModel;
-        
-        $search = $ldap->getMailByUid($slug);
-        
-        return $search;
-    }
+//    public function getMailByUid($slug) {
+//        $ldap = $this->searchLdapModel;
+//        
+//        $search = $ldap->getMailByUid($slug);
+//        
+//        return $search;
+//    }
 }

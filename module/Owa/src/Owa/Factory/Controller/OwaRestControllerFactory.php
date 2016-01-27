@@ -14,24 +14,26 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author fandria
  */
-class OwaRestControllerFactory implements FactoryInterface {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+class OwaRestControllerFactory implements FactoryInterface
+{
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
-        
-        $config = $sm->get('config');
-        
-        $ews = new EwsConnection($config['owa_config']['host'], $config['owa_config']['username'], $config['owa_config']['password'], $config['owa_config']['version']);
-        
-        $owa = new Owa($ews);
-        
-        $searchLdapModel = new \SearchLdap\Model\SearchLdap($config['searchldap_config']);
 
-        $searchLdapController = new \SearchLdap\Controller\SearchLdapController($searchLdapModel);
-        
+        $config = $sm->get('config');
+
+        $ews = new EwsConnection($config['owa_config']['host'], $config['owa_config']['username'], $config['owa_config']['password'], $config['owa_config']['version']);
+
+        $owa = new Owa($ews);
+
+//        $searchLdapModel = new \SearchLdap\Model\SearchLdap($config['searchldap_config']);
+//        $searchLdapController = new \SearchLdap\Controller\SearchLdapController($searchLdapModel);
 //        $serviceOwa = $sm->get('Owa\Model\Owa');
-        
-        $owaRestController = new OwaRestController($searchLdapController, $owa);
+//        $owaRestController = new OwaRestController($searchLdapController, $owa);
+        $owaRestController = new OwaRestController($owa);
         return $owaRestController;
     }
+
 }

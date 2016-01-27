@@ -17,7 +17,8 @@ class SearchLdap {
     }
 
     /**
-     * For Global search one or many user(s)
+     * For Global search : one or many user(s)
+     * Filter by cn, givenname,sn,uid,displayname,mail
      * 
      * @param string $itemToSearch
      * @return array
@@ -33,7 +34,9 @@ class SearchLdap {
     }
 
     /**
-     * For specific search : one user. Filter By uid
+     * For specific search : one unique user. 
+     * Filter By uid.
+     * Return all attribute + memberOf !
      * 
      * @param string $uid
      * @return array
@@ -153,47 +156,47 @@ class SearchLdap {
 //    }
 
     
-    public function getPrimaryAffiliationByUid($uid) {
-        $ldap = $this->ldapConnect();
-        
-        $filter = "(uid=" . $uid . ")";
-        
-        $searchResult = $ldap->searchEntries($filter);
-        if (!empty($searchResult)) {
-            $ldap->disconnect();
-            return ($searchResult[0]['edupersonprimaryaffiliation']) ? $searchResult[0]['edupersonprimaryaffiliation'][0] : null;
-        }
-        
-        return null;
-        
-    }
+//    public function getPrimaryAffiliationByUid($uid) {
+//        $ldap = $this->ldapConnect();
+//        
+//        $filter = "(uid=" . $uid . ")";
+//        
+//        $searchResult = $ldap->searchEntries($filter);
+//        if (!empty($searchResult)) {
+//            $ldap->disconnect();
+//            return ($searchResult[0]['edupersonprimaryaffiliation']) ? $searchResult[0]['edupersonprimaryaffiliation'][0] : null;
+//        }
+//        
+//        return null;
+//        
+//    }
     
-    public function getMailHostByUid($uid) {
-        $ldap = $this->ldapConnect();
-        
-        $filter = "(uid=" . $uid . ")";
-        
-        $searchResult = $ldap->searchEntries($filter);
-        if (!empty($searchResult)) {
-            $ldap->disconnect();
-            return ($searchResult[0]['mailhost']) ? $searchResult[0]['mailhost'][0] : null;
-        }
-        
-        return null;
-        
-    }
-    
-    public function getMailByUid($uid) {
-        $ldap = $this->ldapConnect();
-        
-        $filter = "(uid=" . $uid . ")";
-        
-        $searchResult = $ldap->searchEntries($filter);
-        if (!empty($searchResult)) {
-            $ldap->disconnect();
-            return ($searchResult[0]['mail']) ? $searchResult[0]['mail'][0] : null;
-        }
-        
-        return null;
-    } 
+//    public function getMailHostByUid($uid) {
+//        $ldap = $this->ldapConnect();
+//        
+//        $filter = "(uid=" . $uid . ")";
+//        
+//        $searchResult = $ldap->searchEntries($filter);
+//        if (!empty($searchResult)) {
+//            $ldap->disconnect();
+//            return ($searchResult[0]['mailhost']) ? $searchResult[0]['mailhost'][0] : null;
+//        }
+//        
+//        return null;
+//        
+//    }
+//    
+//    public function getMailByUid($uid) {
+//        $ldap = $this->ldapConnect();
+//        
+//        $filter = "(uid=" . $uid . ")";
+//        
+//        $searchResult = $ldap->searchEntries($filter);
+//        if (!empty($searchResult)) {
+//            $ldap->disconnect();
+//            return ($searchResult[0]['mail']) ? $searchResult[0]['mail'][0] : null;
+//        }
+//        
+//        return null;
+//    } 
 }

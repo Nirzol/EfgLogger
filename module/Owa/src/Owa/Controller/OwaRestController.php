@@ -20,10 +20,11 @@ class OwaRestController extends AbstractRestfulController {
     /* @var $searchLdapController SearchLdapController */
     protected $searchLdapController;
 
-    public function __construct(SearchLdapController $searchLdapController, Owa $owa)
+//    public function __construct(SearchLdapController $searchLdapController, Owa $owa)
+    public function __construct(Owa $owa)
     {
         $this->owa = $owa;
-        $this->searchLdapController = $searchLdapController;
+//        $this->searchLdapController = $searchLdapController;
     }
 
     public function getList()
@@ -58,7 +59,8 @@ class OwaRestController extends AbstractRestfulController {
         
         $mail = null;
         if (!is_null($login)) {
-            $mail = $this->searchLdapController->getMailByUid($login);
+//            $mail = $this->searchLdapController->getMailByUid($login);
+            $mail = $this->SearchLdapPlugin()->getMailByUid($login);
             $owa = $this->owa;
             if (!is_null($owa)) {
                 $owa->setImpersonation($mail);
