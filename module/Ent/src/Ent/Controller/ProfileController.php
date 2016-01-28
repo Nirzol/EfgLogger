@@ -127,7 +127,7 @@ class ProfileController extends AbstractActionController
 
             if ($entPlugin->checkMaxInputVars() || count($_POST, COUNT_RECURSIVE) >= ini_get("max_input_vars")) {
                 error_log(date("Y-m-d H:i:s") . ' : POST has been truncated.');
-                $this->flashMessenger()->addSuccessMessage('CANCEL : POST has been truncated. $_POST > max_input_vars ' . ini_get("max_input_vars"));
+                $this->flashMessenger()->addSuccessMessage('CANCEL : POST has been truncated. $_POST '.count($_POST, COUNT_RECURSIVE).' > max_input_vars ' . ini_get("max_input_vars"));
                 return $this->redirect()->toRoute('zfcadmin/profile');
             } else {
 
@@ -243,7 +243,7 @@ class ProfileController extends AbstractActionController
 
             if ($entPlugin->checkMaxInputVars() || count($_POST, COUNT_RECURSIVE) >= ini_get("max_input_vars")) {
                 error_log(date("Y-m-d H:i:s") . ' : POST has been truncated.');
-                $this->flashMessenger()->addSuccessMessage('CANCEL : POST has been truncated. $_POST > max_input_vars ' . ini_get("max_input_vars"));
+                $this->flashMessenger()->addSuccessMessage('CANCEL : POST has been truncated. $_POST '.count($_POST, COUNT_RECURSIVE).' > max_input_vars ' . ini_get("max_input_vars"));
                 return $this->redirect()->toRoute('zfcadmin/profile');
             } else {
 
