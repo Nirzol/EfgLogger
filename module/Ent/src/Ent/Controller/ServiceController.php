@@ -275,15 +275,16 @@ class ServiceController extends AbstractActionController
         /* @var $prefProfile EntPreference */
         foreach ($prefProfiles as $prefProfile) {
             $prefProfileAttribute = Json::decode($prefProfile->getPrefAttribute(), Json::TYPE_ARRAY);
-
-            if ($prefProfileAttribute[$keyNameServiceToUpdate] !== $prefServiceAttribute[$keyNameServiceToUpdate]) {
-                if ($serviceAttributeDataToUpdate !== '') {
-                    $prefProfileAttribute[$keyNameServiceToUpdate]['serviceAttributeData'][$keyServiceAttributeDataToUpdate] = $serviceAttributeDataToUpdate;
-                } else {
-                    $prefProfileAttribute[$keyNameServiceToUpdate] = $prefServiceAttribute[$keyNameServiceToUpdate];
+            if (array_key_exists($keyNameServiceToUpdate, $prefProfileAttribute)) {
+                if ($prefProfileAttribute[$keyNameServiceToUpdate] !== $prefServiceAttribute[$keyNameServiceToUpdate]) {
+                    if ($serviceAttributeDataToUpdate !== '') {
+                        $prefProfileAttribute[$keyNameServiceToUpdate]['serviceAttributeData'][$keyServiceAttributeDataToUpdate] = $serviceAttributeDataToUpdate;
+                    } else {
+                        $prefProfileAttribute[$keyNameServiceToUpdate] = $prefServiceAttribute[$keyNameServiceToUpdate];
+                    }
+                    $dataPreference = array('prefAttribute' => Json::encode($prefProfileAttribute), 'fkPrefProfile' => $prefProfile->getFkPrefProfile()->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
+                    $this->preferenceService->save($this->preferenceForm, $dataPreference, $prefProfile);
                 }
-                $dataPreference = array('prefAttribute' => Json::encode($prefProfileAttribute), 'fkPrefProfile' => $prefProfile->getFkPrefProfile()->getProfileId(), 'fkPrefStatus' => $this->config['default_status']);
-                $this->preferenceService->save($this->preferenceForm, $dataPreference, $prefProfile);
             }
         }
 
