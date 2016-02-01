@@ -103,7 +103,7 @@ class ProfileController extends AbstractActionController
 
         /* @var $preference EntPreference */
 //        $preference = $this->preferenceService->findOneBy(array('fkPrefService' => 'notnull', 'fkPrefUser' => null, 'fkPrefProfile' => null));
-        $preferences = $this->preferenceService->findBy(array('fkPrefUser' => null, 'fkPrefProfile' => null));
+        $preferenceServices = $this->preferenceService->findBy(array('fkPrefUser' => null, 'fkPrefProfile' => null));
 
         $form = $this->profileForm;
 
@@ -151,7 +151,8 @@ class ProfileController extends AbstractActionController
         return new ViewModel(array(
             'attributes' => $attributes,
             'services' => $services,
-            'preferences' => $preferences,
+            'preferences' => $preferenceServices,
+            'preferenceServices' => $preferenceServices,
 //            'preferenceAttribute' => Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT),
             'form' => $form->prepare(),
         ));

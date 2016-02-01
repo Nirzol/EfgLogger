@@ -64,80 +64,101 @@
 </div>
 
 <?php
-foreach ($services as $service) {
-    ?>
-    <div class="modal fade" id="<?php echo 'serviceIdModal' . $service->getServiceId(); ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel"><?= $this->translate('Attribut pour ') . $service->getServiceName() ?></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <?php
-                            $i = 0;
-                            $formAttribute = '';
-                            foreach ($attributes as $attribute) {
-                                $getServiceAttributes = 'serviceAttributes[' . $service->getServiceId() . '][' . $attribute->getAttributeId() . ']';
-                                $valueAttribute = '';
-                                if (isset($_POST['serviceAttributes']) && !empty($_POST['serviceAttributes'])) {
-                                    $valueAttribute = $_POST['serviceAttributes'][$service->getServiceId()][$attribute->getAttributeId()];
-                                } else if ($preferences) {
-                                    foreach ($preferences as $preference) {
-                                        if ($preference->getFkPrefService()->getServiceId() === $service->getServiceId()) {
-                                            $preferenceAttribute = json_decode($preference->getPrefAttribute());
-                                            foreach ($preferenceAttribute as $value) {
-                                                foreach ($value->{'serviceAttributeData'} as $att) {
-                                                    if ($att->{'attributeId'} === $attribute->getAttributeId()) {
-                                                        $valueAttribute = $att->{'attributeValue'};
-                                                        break;
-                                                    }
-                                                }
+if ($attributes) {
+    $attributesArray = array();
+    foreach ($attributes as $attribute) {
+        /* @var $attribute Ent\Entity\EntAttribute */
+        $attributesArray[] = array(
+            'attributeId' => $attribute->getAttributeId(),
+            'attributeName' => $attribute->getAttributeName(),
+            'attributeLibelle' => $attribute->getAttributeLibelle(),
+//            'attributeLastUpdate' => $attribute->getAttributeLastUpdate(),
+            'attributeValue' => '',
+        );
+//        break;
+    }
+//    var_dump($attributesArray);
+    if ($preferenceServices) {
+        foreach ($preferenceServices as $preferenceService) {
+            // On le transforme en Array
+            $preferenceServiceAttributeToArray = json_decode($preferenceService->getPrefAttribute(), true);
+//            var_dump($preferenceService->getPrefAttribute());
+//            break;
+//            exit();
+            // On récupère le premier element (il doit en avoir qu'un seul !
+            $preferenceServiceAttribute = reset($preferenceServiceAttributeToArray);
+//        var_dump($preferenceServiceAttribute);break;
+            $serviceId = $preferenceServiceAttribute['serviceData']['serviceId'];
+            ?>
+            <div class="modal fade" id="<?php echo 'serviceIdModal' . $serviceId; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><?= $this->translate('Attribut pour ') . $preferenceServiceAttribute['serviceData']['serviceName'] ?></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <?php
+                                    $i = 0;
+                                    $formAttribute = '';
+//                                    var_dump($preferenceServiceAttribute['serviceAttributeData']);
+                                    $attributesArrayReplace = array_replace($attributesArray, $preferenceServiceAttribute['serviceAttributeData']);
+//                                    var_dump($attributesArrayReplace);
+                                    foreach ($attributesArrayReplace as $serviceAttributeData) {
+
+                                        $getServiceAttributes = 'serviceAttributes[' . $serviceId . '][' . $serviceAttributeData['attributeId'] . ']';
+                                        $valueAttribute = '';
+                                        if (isset($_POST['serviceAttributes']) && !empty($_POST['serviceAttributes'])) {
+                                            $valueAttribute = $_POST['serviceAttributes'][$serviceId][$serviceAttributeData['attributeId']];
+                                        } else {
+                                            if (isset($serviceAttributeData['attributeValue'])) {
+                                                $valueAttribute = $serviceAttributeData['attributeValue'];
                                             }
                                         }
-                                    }
-                                }
-                                $i++;
-                                if ($i === 1) {
-                                    ?>
-                                    <div class="row">
-                                    <?php }
-                                    ?>
-                                    <div class="col-md-4">
-                                        <div class="form-group<?php if ($form->get($getServiceAttributes)->getMessages()) echo ' has-error'; ?>">
-                                            <div class="col-xs-12">
-                                                <?= $this->formLabel($form->get($getServiceAttributes)->setLabelAttributes(['class' => 'control-label'])) ?>
-                                                <?= $this->formText($form->get($getServiceAttributes)->setAttribute('class', 'form-control')->setValue($valueAttribute)) ?>
-                                                <div id="helpBlock" class="help-block">
-                                                    <?= $this->formElementErrors($form->get($getServiceAttributes)) ?>           
+                                        $i++;
+                                        if ($i === 1) {
+                                            ?>
+                                            <div class="row">
+                                            <?php }
+                                            ?>
+                                            <div class="col-md-4">
+                                                <div class="form-group<?php if ($form->get($getServiceAttributes)->getMessages()) echo ' has-error'; ?>">
+                                                    <div class="col-xs-12">
+                                                        <?= $this->formLabel($form->get($getServiceAttributes)->setLabelAttributes(['class' => 'control-label'])) ?>
+                                                        <?= $this->formText($form->get($getServiceAttributes)->setAttribute('class', 'form-control')->setValue($valueAttribute)) ?>
+                                                        <div id="helpBlock" class="help-block">
+                                                            <?= $this->formElementErrors($form->get($getServiceAttributes)) ?>           
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </div>  
+                                            <?php
+                                            if ($i === 3) {
+                                                $i = 0;
+                                                ?>
                                             </div>
-                                        </div>
-                                    </div>  
-                                    <?php
-                                    if ($i === 3) {
-                                        $i = 0;
-                                        ?>
-                                    </div>
-                                    <?php
-                                }
-                            }
-                            if ($i !== 3) {
-                                echo '</div>';
-                            }
-                            ?>
+                                            <?php
+                                        }
+                                    }
+                                    if ($i !== 3) {
+                                        echo '</div>';
+                                    }
+                                    ?>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
             </div>
-        </div>
-    </div>
-    <?php
+            <?php
+        }
+    }
 }
 ?>
 
