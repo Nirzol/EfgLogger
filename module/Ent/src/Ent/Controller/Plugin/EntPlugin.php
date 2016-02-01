@@ -157,9 +157,9 @@ class EntPlugin extends AbstractPlugin
         $php_input = substr_count(file_get_contents('php://input'), '&');
         $post = count($_POST, COUNT_RECURSIVE);
 
-//    echo $php_input . '<br/>', $post. '<br/>', $max_input_vars. '<br/>';
+        error_log($php_input . ' | ', $post. ' | ', $max_input_vars. ' | ');
 
-        return $php_input > $post;
+        return $php_input > $max_input_vars;
     }
 
 }
