@@ -123,6 +123,8 @@ class IndexRestController extends AbstractRestfulController
             
             $data['lastConnection'] = $_SESSION['lastConnection'];
             
+            $data['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+            
 //            error_log("session: ".json_encode($_SESSION['lastConnection']));
         } else {
             $is_logged = false;
