@@ -38,7 +38,7 @@ class IndexRestController extends AbstractRestfulController
      * @var UserDoctrineService
      */
     protected $userService;
-    
+
     /**
      *
      * @var UserForm
@@ -69,7 +69,7 @@ class IndexRestController extends AbstractRestfulController
         if ($authService->hasIdentity()) {
             $is_logged = true;
             $data['isLogged'] = true;
-                        
+
             // si l'utilisateur n'a pas ete logge, le logger dans la base
             $container = new Container('entLogger');
 
@@ -92,49 +92,64 @@ class IndexRestController extends AbstractRestfulController
                 $dataAssoc = $entPlugin->prepareLogData($user, true, $action->getActionId());
 
                 $this->logService->insert($this->logForm, $dataAssoc);
+
+//                $lastConnection = $user->getUserLastConnection();
+//                $_SESSION['lastConnection'] = $lastConnection;
                 
-                 $lastConnection = $user->getUserLastConnection();
-                 
-                 $_SESSION['lastConnection'] = $lastConnection;
-                
+                $container->lastConnection = $user->getUserLastConnection();
+
                 $profiles = null;
-                
+
                 foreach ($user->getFkUpProfile() as $profile) {
                     $profiles[] = $profile->getProfileId();
                 }
-                
+
                 $roles = null;
-                
+
                 foreach ($user->getFkUrRole() as $role) {
                     $roles[] = $role->getId();
                 }
-                                
-                $updateLastConnection = array('userLogin' => $user->getUserLogin(), 'userStatus' => (int)$user->getUserStatus(),
+                $updateLastConnection = array('userLogin' => $user->getUserLogin(), 'userStatus' => (int) $user->getUserStatus(),
                     'fkUrRole' => $roles, 'fkUpProfile' => $profiles, 'userLastConnection' => date("Y-m-d H:i:s"));
-                                                                                
+
+                $updateLastConnection = array('userLogin' => $user->getUserLogin(), 'userLastConnection' => date("Y-m-d H:i:s"));
+
                 $this->userService->save($this->userForm, $updateLastConnection, $user);
             }
-            
+
             if (!isset($_SESSION['passPhrase'])) {
                 $_SESSION['passPhrase'] = rand();
             }
-            
             $data['passPhrase'] = $_SESSION['passPhrase'];
+//            $data['lastConnection'] = $_SESSION['lastConnection'];
             
-            $data['lastConnection'] = $_SESSION['lastConnection'];
-            
+            if (!isset($container->passPhrase)) {
+                $container->passPhrase = rand();
+            }
+            $data['passPhrase'] = $container->passPhrase;
+            $data['lastConnection'] = $container->lastConnection;
+
             $data['ipAddress'] = $_SERVER['REMOTE_ADDR'];
-            
+
 //            error_log("session: ".json_encode($_SESSION['lastConnection']));
+            error_log("session: ".json_encode($container->lastConnection));
+
+//            $success = true;
+//            $successMessage = 'ok';
+//            $errorMessage = '';
         } else {
             $is_logged = false;
             $data['isLogged'] = false;
+
+//            $success = false;
+//            $successMessage = '';
+//            $errorMessage = 'Not logged';
         }
-        
-        $success = true;
-        $successMessage = 'ok';
-        $errorMessage = '';
-        
+
+            $success = true;
+            $successMessage = 'ok';
+            $errorMessage = '';
+
         return new JsonModel(array(
             'data' => $data,
             'success' => $success,

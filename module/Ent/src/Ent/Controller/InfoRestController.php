@@ -135,12 +135,14 @@ class InfoRestController extends AbstractRestfulController
     public function getNotifsAction()
     {
         $login = null;
-//        $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
-        if ($this->efgCasAuthPlugin()->hasIdentity()) {
-            $login = $this->efgCasAuthPlugin()->getIdentity()->getUserLogin();
+        $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
+        if ($authService->hasIdentity()) {
+            $login = $authService->getIdentity()->getUserLogin();
         }
-        
-//        error_log($this->efgCasAuthPlugin()->getIdentity()->getUserLogin());
+
+//        if ($this->efgCasAuthPlugin()->hasIdentity()) {
+//            $login = $this->efgCasAuthPlugin()->getIdentity()->getUserLogin();
+//        }
 
         $data = null;
         $success = false;
@@ -156,6 +158,7 @@ class InfoRestController extends AbstractRestfulController
             if (!is_null($mailHost)) {
 
                 if (strcmp($mailHost, 'mataram.parisdescartes.fr') !== 0) {
+//                if ($mailHost === $this->owaConfig['mataram']) {
 
 //                    $mail = $this->searchLdapController->getMailByUid($login);
                     $mail = $this->SearchLdapPlugin()->getMailByUid($login);

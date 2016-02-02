@@ -45,7 +45,7 @@ class UserInputFilter extends InputFilter
             'validators' => array(
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'userLastConnection',
             'required' => false,
@@ -77,6 +77,25 @@ class UserInputFilter extends InputFilter
                     )
                 )
         );
+
+        $this->add(array(
+            'name' => 'userStatus',
+            'required' => false,
+            'filters' => array(
+            ),
+            'validators' => array(
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'fkUrRole',
+            'required' => false,
+        ));
+
+        $this->add(array(
+            'name' => 'fkUpProfile',
+            'required' => false,
+        ));
         return $this;
     }
 
