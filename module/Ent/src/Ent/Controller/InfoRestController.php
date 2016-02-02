@@ -164,7 +164,7 @@ class InfoRestController extends AbstractRestfulController
                     $mail = $this->SearchLdapPlugin()->getMailByUid($login);
 
                     /* @var $referentielPlugin ReferentielPlugin */
-                    $referentielPlugin = new ReferentielPlugin();
+                    $referentielPlugin = $this->ReferentielPlugin();
 
                     $pOwa = $referentielPlugin->getAccountFromRef($this->referentielWsdl);
                     $love = $this->loveService->getAll();
