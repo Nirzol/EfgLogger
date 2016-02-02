@@ -132,7 +132,7 @@ class IndexRestController extends AbstractRestfulController
             $data['ipAddress'] = $_SERVER['REMOTE_ADDR'];
 
 //            error_log("session: ".json_encode($_SESSION['lastConnection']));
-            error_log("session: ".json_encode($container->lastConnection));
+//            error_log("session: ".json_encode($container->lastConnection));
 
 //            $success = true;
 //            $successMessage = 'ok';
