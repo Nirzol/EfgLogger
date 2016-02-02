@@ -98,29 +98,29 @@ class IndexRestController extends AbstractRestfulController
                 
                 $container->lastConnection = $user->getUserLastConnection();
 
-                $profiles = null;
-
-                foreach ($user->getFkUpProfile() as $profile) {
-                    $profiles[] = $profile->getProfileId();
-                }
-
-                $roles = null;
-
-                foreach ($user->getFkUrRole() as $role) {
-                    $roles[] = $role->getId();
-                }
-                $updateLastConnection = array('userLogin' => $user->getUserLogin(), 'userStatus' => (int) $user->getUserStatus(),
-                    'fkUrRole' => $roles, 'fkUpProfile' => $profiles, 'userLastConnection' => date("Y-m-d H:i:s"));
+//                $profiles = null;
+//
+//                foreach ($user->getFkUpProfile() as $profile) {
+//                    $profiles[] = $profile->getProfileId();
+//                }
+//
+//                $roles = null;
+//
+//                foreach ($user->getFkUrRole() as $role) {
+//                    $roles[] = $role->getId();
+//                }
+//                $updateLastConnection = array('userLogin' => $user->getUserLogin(), 'userStatus' => (int) $user->getUserStatus(),
+//                    'fkUrRole' => $roles, 'fkUpProfile' => $profiles, 'userLastConnection' => date("Y-m-d H:i:s"));
 
                 $updateLastConnection = array('userLogin' => $user->getUserLogin(), 'userLastConnection' => date("Y-m-d H:i:s"));
 
                 $this->userService->save($this->userForm, $updateLastConnection, $user);
             }
 
-            if (!isset($_SESSION['passPhrase'])) {
-                $_SESSION['passPhrase'] = rand();
-            }
-            $data['passPhrase'] = $_SESSION['passPhrase'];
+//            if (!isset($_SESSION['passPhrase'])) {
+//                $_SESSION['passPhrase'] = rand();
+//            }
+//            $data['passPhrase'] = $_SESSION['passPhrase'];
 //            $data['lastConnection'] = $_SESSION['lastConnection'];
             
             if (!isset($container->passPhrase)) {
