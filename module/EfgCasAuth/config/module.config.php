@@ -6,6 +6,11 @@ return array(
             'EfgCasAuth\Controller\Auth' => 'EfgCasAuth\Factory\Controller\AuthControllerFactory',
         ),
     ),
+    'controller_plugins' => array(
+        'factories' => array(
+            'efgCasAuthPlugin' => 'EfgCasAuth\Factory\Controller\Plugin\EfgCasAuthPluginFactory',
+        ),
+    ),
     'router' => array(
         'routes' => array(
             'login' => array(

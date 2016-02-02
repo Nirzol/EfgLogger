@@ -135,10 +135,12 @@ class InfoRestController extends AbstractRestfulController
     public function getNotifsAction()
     {
         $login = null;
-        $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
-        if ($authService->hasIdentity()) {
-            $login = $authService->getIdentity()->getUserLogin();
+//        $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
+        if ($this->efgCasAuthPlugin()->hasIdentity()) {
+            $login = $this->efgCasAuthPlugin()->getIdentity()->getUserLogin();
         }
+        
+//        error_log($this->efgCasAuthPlugin()->getIdentity()->getUserLogin());
 
         $data = null;
         $success = false;

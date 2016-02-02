@@ -110,7 +110,7 @@ class ProfileController extends AbstractActionController
         /* @var $serviceMultiCheckbox MultiCheckbox */
         $serviceMultiCheckbox = $form->get('fkPsService');
         $result = array();
-        // Ajout de l'attribut pour faire foncitonner le modal
+        // Ajout de l'attribut pour faire fonctionner le modal
         foreach ($serviceMultiCheckbox->getValueOptions() as $value) {
 //            $value['attributes'] = array('data-toggle' => 'modal', 'data-target' => '#serviceIdModal' . $value['value']);
             $test = "if(this.checked){ $('#serviceIdModal" . $value['value'] . "').modal(); }";
