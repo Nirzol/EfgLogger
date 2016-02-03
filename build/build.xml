@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TestJenkins" default="ci" basedir="">
+    <property name="source" value="src" />
+
+    <target name="ci"
+        description="Tâche principale d'intégration continue"
+        depends="clean,qa"
+    />
+
+    <target name="clean" description="Vide les répertoires d'artefacts">
+        <delete dir="${project.basedir}/build/api" />
+        <delete dir="${project.basedir}/build/code-browser" />
+        <delete dir="${project.basedir}/build/coverage" />
+        <delete dir="${project.basedir}/build/logs" />
+        <delete dir="${project.basedir}/build/pdepend" />
+
+        <mkdir dir="${project.basedir}/build/api" />
+        <mkdir dir="${project.basedir}/build/code-browser" />
+        <mkdir dir="${project.basedir}/build/coverage" />
+        <mkdir dir="${project.basedir}/build/logs" />
+        <mkdir dir="${project.basedir}/build/pdepend" />
+    </target>
+
+    <target name="qa" description="Lance les outils d'analyse">
+        <phingcall target="pdepend" />
+        <phingcall target="phpmd" />
+        <phingcall target="phpcpd" />
+        <phingcall target="phploc" />
+        <phingcall target="phpcs" />
+<!--        <phingcall target="phpunit" />-->
+        <phingcall target="phpcb" />
+        <phingcall target="phpdoc" />
+    </target>
+    
+    <target name="pdepend">
+        <phpdepend file="${project.basedir}">
+            <logger type="jdepend-xml" outfile="${project.basedir}/build/logs/jdepend.xml" />
+            <logger type="jdepend-chart" outfile="${project.basedir}/build/pdepend/dependencies.svg" />
+            <logger type="overview-pyramid" outfile="${project.basedir}/build/pdepend/overview-pyramid.svg" />
+        </phpdepend>
+    </target>
+    
+    <target name="phpmd">
+        <phpmd file="${project.basedir}">
+            <formatter type="xml" outfile="${project.basedir}/build/logs/phpmd.xml" />
+        </phpmd>
+    </target>
+    
+<!--   <target name="phpcpd">
+        <phpcpd file="${project.basedir}">
+            <formatter type="pmd" outfile="${project.basedir}/build/logs/pmd-cpd.xml"/>
+        </phpcpd>
+    </target> -->
+    <target name="phpcpd">
+        <echo msg="PHP phpcpd Duplicate code analyser..." />
+        <exec logoutput="true" command="phpcpd --exclude='*/build/*,*/classes/CAS/*,*/classes/PHPMailer/*,*/classes/CASP13/*,*/php-ews/*,*/tcpdf/*' --log-pmd='${project.basedir}/build/logs/pmd-cpd.xml' ${project.basedir} " escape="false" />
+    </target>
+    
+    <target name="phploc">
+        <exec logoutput="true" dir="${project.basedir}" command="phploc --log-csv '${project.basedir}/build/logs/phploc.csv' '${project.basedir}'" escape="false" />
+    </target>
+<!--
+    <target name="phpcs">
+        <phpcodesniffer standard="Zend">
+            <fileset dir="${project.basedir}">
+                <include name="**/*.php"/>
+            </fileset>
+            <formatter type="checkstyle" outfile="${project.basedir}/build/logs/checkstyle.xml"/>
+        </phpcodesniffer>
+        <phpcodesniffer
+            standard="Zend"
+            showSniffs="true"
+            showWarnings="true">
+            <fileset dir="${project.basedir}">
+              <include name="**/*.php"/>
+            </fileset>
+            <formatter type="default" usefile="false"/>
+            <formatter type="checkstyle" outfile="${project.basedir}/build/logs/checkstyle.xml"/>
+        </phpcodesniffer>
+    </target>-->
+    
+    <target name="phpcs">
+        <echo msg="PHP CodeSniffer..." />
+        <exec logoutput="true" command="phpcs -n -v --ignore=*/build/*,*/classes/CAS/*,*/classes/PHPMailer/*,*/classes/CASP13/*,*/php-ews/*,*/tcpdf/* --standard=/home/develop/ruleset.xml --extensions=php,phtml --report=checkstyle --report-file=${project.basedir}/build/logs/checkstyle.xml ${project.basedir}" escape="false" />
+    </target>
+    
+    <target name="phpunit">
+        <exec logoutput="true" dir="${project.basedir}/build/test" command="phpunit" escape="false" />
+    </target>
+    
+    <target name="phpcb">
+        <exec logoutput="true" command="phpcb --log '${project.basedir}/build/logs' --source '${project.basedir}' --output '${project.basedir}/build/code-browser'" escape="false" />
+    </target>
+    
+    <target name="phpdoc">
+        <phpdoc title="API Documentation"
+                destdir="${project.basedir}/build/api"
+                sourcecode="false"
+                output="HTML:Smarty:PHP">
+            <fileset dir="${project.basedir}">
+                <include name="**/*.php"/>
+                <exclude name="*classes/Office365.class.php"/>
+                <exclude name="*classes/CAS/*"/>
+                <exclude name="*classes/PHPMailer/*"/>                
+                <exclude name="*classes/PHPMailer/test/*"/>
+                <exclude name="*classes/CASP13/*"/>
+                <exclude name="*classes/tcpdf/*"/>
+                <exclude name="*applications/msdnaa/doelms.php"/>
+                <exclude name="*build/*"/>
+            </fileset>
+            <projdocfileset dir=".">
+                <include name="README"/>
+                <include name="INSTALL"/>
+                <include name="CHANGELOG"/>
+            </projdocfileset>
+        </phpdoc>
+    </target>
+</project>
