@@ -51,6 +51,16 @@ class ServiceForm extends Form
             ),
         ));
 
+        $this->add(array(
+            'name' => 'serviceKeywords',
+            'options' => array(
+                'label' => 'Mots clés : ',
+            ),
+            'attributes' => array(
+                'type' => 'text'
+            ),
+        ));
+
 //        $this->add(array(
 //            'type' => '\DoctrineModule\Form\Element\ObjectMultiCheckbox',
 //            'name' => 'fkCsContact',

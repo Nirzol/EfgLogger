@@ -22,7 +22,7 @@
         <th><?= $this->translate('Service Name') ?></th>
         <th><?= $this->translate('Service Libelle') ?></th>
         <th><?= $this->translate('Service Description') ?></th>
-        <th>&nbsp;</th>
+        <th><?= $this->translate('Mots clés') ?></th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -45,13 +45,13 @@
                 <?= $this->escapeHtml($service->getServiceDescription()) ?>
             </td>
             <td>
+                <?= $this->escapeHtml($service->getServiceKeywords()) ?>
+            </td>
+            <td>
                 <a href="<?= $this->url('zfcadmin/service/show/delete', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
             </td>
             <td>
                 <a href="<?= $this->url('zfcadmin/service/show/deleteProfile', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-info btn-xs"><?= $this->translate('Delete into Profil') ?></a>
-            </td>
-            <td>
-                &nbsp;
             </td>
             <td>
                 &nbsp;

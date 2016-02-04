@@ -47,6 +47,13 @@ class EntService extends Ent
     private $serviceDescription;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="service_keywords", type="text", nullable=true)
+     */
+    private $serviceKeywords;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="service_last_update", type="datetime", nullable=true)
@@ -176,6 +183,30 @@ class EntService extends Ent
     public function getServiceDescription()
     {
         return $this->serviceDescription;
+    }
+
+    /**
+     * Set serviceKeywords
+     *
+     * @param string $serviceKeywords
+     *
+     * @return EntService
+     */
+    public function setServiceKeywords($serviceKeywords)
+    {
+        $this->serviceKeywords = $serviceKeywords;
+
+        return $this;
+    }
+
+    /**
+     * Get serviceKeywords
+     *
+     * @return string
+     */
+    public function getServiceKeywords()
+    {
+        return $this->serviceKeywords;
     }
 
     /**

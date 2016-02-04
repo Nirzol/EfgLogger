@@ -31,6 +31,16 @@
     </div>
 </div>
 
+<div class="form-group<?php if ($form->get('serviceKeywords')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('serviceKeywords')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?= $this->formText($form->get('serviceKeywords')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('serviceKeywords')) ?>           
+    </div>
+</div>
+
 <div class="form-group">
     <label class="col-sm-2 control-label">Attributs : </label>
     <div class="col-sm-10">
