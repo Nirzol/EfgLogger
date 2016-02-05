@@ -24,11 +24,14 @@ class EntList extends Ent
     private $listId;
 
     /**
-     * @var string
+     * @var \Ent\Entity\EntListtype
      *
-     * @ORM\Column(name="list_type", type="string", length=45, nullable=false)
+     * @ORM\ManyToOne(targetEntity="Ent\Entity\EntListtype")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="fk_list_type_id", referencedColumnName="listtype_id")
+     * })
      */
-    private $listType;
+    private $fkListType;
 
     /**
      * @var string
@@ -69,27 +72,27 @@ class EntList extends Ent
     }
 
     /**
-     * Set listType
+     * Set fkListType
      *
-     * @param string $listType
+     * @param \Ent\Entity\EntListtype $fkListType
      *
      * @return EntList
      */
-    public function setListType($listType)
+    public function setFkListType(\Ent\Entity\EntListtype $fkListType = null)
     {
-        $this->listType = $listType;
+        $this->fkListType = $fkListType;
 
         return $this;
     }
 
     /**
-     * Get listType
+     * Get fkListType
      *
-     * @return string
+     * @return \Ent\Entity\EntListtype
      */
-    public function getListType()
+    public function getFkListType()
     {
-        return $this->listType;
+        return $this->fkListType;
     }
 
     /**
