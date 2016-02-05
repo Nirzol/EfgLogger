@@ -63,6 +63,16 @@ class EntAttribute extends Ent
     private $fkSaService;
 
     /**
+     * @var \Ent\Entity\EntList
+     *
+     * @ORM\ManyToOne(targetEntity="Ent\Entity\EntList")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="fk_attribute_list_id", referencedColumnName="list_id")
+     * })
+     */
+    private $fkAttributeList;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -232,6 +242,30 @@ class EntAttribute extends Ent
     public function getFkSaService()
     {
         return $this->fkSaService;
+    }
+
+    /**
+     * Set fkAttributeList
+     *
+     * @param \Ent\Entity\EntList $fkAttributeList
+     *
+     * @return EntAttribute
+     */
+    public function setFkAttributeList(\Ent\Entity\EntList $fkAttributeList = null)
+    {
+        $this->fkAttributeList = $fkAttributeList;
+
+        return $this;
+    }
+
+    /**
+     * Get fkAttributeList
+     *
+     * @return \Ent\Entity\EntList
+     */
+    public function getFkAttributeList()
+    {
+        return $this->fkAttributeList;
     }
 
     /**
