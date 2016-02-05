@@ -14,10 +14,6 @@
 </p>
 
 <p>
-    <?= $this->translate('Mots clés :') ?> <?= $this->escapeHtml($service->getServiceKeywords()) ?>
-</p>
-
-<p>
     <?= $this->translate('Dernière mise à jour :') ?> 
     <?php
     if ($service->getServiceLastUpdate() != null) {
