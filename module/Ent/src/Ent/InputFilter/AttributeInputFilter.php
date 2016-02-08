@@ -69,6 +69,16 @@ class AttributeInputFilter extends InputFilter
             'validators' => array(
             ),
         ));
+
+        // Filtre pour attributeList
+        $this->add(array(
+            'name' => 'fkAttributeListtype',
+            'required' => false,
+            'filters' => array(
+            ),
+            'validators' => array(
+            ),
+        ));
     }
 
     public function appendEditValidator($id)

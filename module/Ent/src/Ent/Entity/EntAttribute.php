@@ -63,14 +63,14 @@ class EntAttribute extends Ent
     private $fkSaService;
 
     /**
-     * @var \Ent\Entity\EntList
+     * @var \Ent\Entity\EntListtype
      *
-     * @ORM\ManyToOne(targetEntity="Ent\Entity\EntList")
+     * @ORM\ManyToOne(targetEntity="Ent\Entity\EntListtype")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fk_attribute_list_id", referencedColumnName="list_id")
+     *   @ORM\JoinColumn(name="fk_attribute_listtype_id", referencedColumnName="listtype_id")
      * })
      */
-    private $fkAttributeList;
+    private $fkAttributeListtype;
 
     /**
      * Constructor
@@ -245,27 +245,27 @@ class EntAttribute extends Ent
     }
 
     /**
-     * Set fkAttributeList
+     * Set fkAttributeListtype
      *
-     * @param \Ent\Entity\EntList $fkAttributeList
+     * @param \Ent\Entity\EntList $fkAttributeListtype
      *
      * @return EntAttribute
      */
-    public function setFkAttributeList(\Ent\Entity\EntList $fkAttributeList = null)
+    public function setFkAttributeListtype(\Ent\Entity\EntList $fkAttributeListtype = null)
     {
-        $this->fkAttributeList = $fkAttributeList;
+        $this->fkAttributeListtype = $fkAttributeListtype;
 
         return $this;
     }
 
     /**
-     * Get fkAttributeList
+     * Get fkAttributeListtype
      *
      * @return \Ent\Entity\EntList
      */
-    public function getFkAttributeList()
+    public function getFkAttributeListtype()
     {
-        return $this->fkAttributeList;
+        return $this->fkAttributeListtype;
     }
 
     /**

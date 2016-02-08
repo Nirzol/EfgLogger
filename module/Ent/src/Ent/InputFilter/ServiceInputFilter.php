@@ -77,7 +77,7 @@ class ServiceInputFilter extends InputFilter
 //                ),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'fkSaAttribute',
             'required' => false,
@@ -86,12 +86,23 @@ class ServiceInputFilter extends InputFilter
             'validators' => array(
             ),
         ));
+        
+        $attributes = $this->entityManager->getRepository('\Ent\Entity\EntAttribute')->findAll();
+        foreach ($attributes as $attribute) {
+            $this->add(array(
+                'name' => 'serviceAttributes[' . $attribute->getAttributeId() . ']',
+                'required' => false,
+                'filters' => array(
+                ),
+                'validators' => array(
+                ),
+            ));
+        }
 
 //        $this->add(array(
 //            'name' => 'fkCsContact',
 //            'required' => false,
 //        ));
-
 //        $attributes = $this->entityManager->getRepository('\Ent\Entity\EntAttribute')->findAll();
 //        foreach ($attributes as $attribute) {
 //            $this->add(array(

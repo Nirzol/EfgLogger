@@ -45,6 +45,22 @@ class AttributeForm extends Form
                 'type' => 'textarea',
             ),
         ));
+
+        $this->add(array(
+            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+            'name' => 'fkAttributeListtype',
+            'attributes' => array(
+                'id' => 'selectAttributeListtype',
+            ),
+            'options' => array(
+                'label' => 'Mettre une catégorie si l\'attrbiut doit être une liste déroulante  : ',
+                'object_manager' => $this->entityManager,
+                'empty_option' => '---Pas de liste déroulante---',
+                'target_class' => 'Ent\Entity\EntListtype',
+                'property' => 'listtypeLibelle',
+                'is_method' => true,
+            ),
+        ));
     }
 
 }

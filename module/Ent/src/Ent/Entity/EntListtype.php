@@ -3,6 +3,8 @@
 namespace Ent\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * EntListtype
@@ -20,6 +22,8 @@ class EntListtype extends Ent
      * @ORM\Column(name="listtype_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @MaxDepth(1)
+     * @Groups({"listtype"})
      */
     private $listtypeId;
 
@@ -27,6 +31,8 @@ class EntListtype extends Ent
      * @var string
      *
      * @ORM\Column(name="listtype_name", type="string", length=250, nullable=false, unique=true)
+     * @MaxDepth(1)
+     * @Groups({"listtype"})
      */
     private $listtypeName;
 
@@ -34,6 +40,8 @@ class EntListtype extends Ent
      * @var string
      *
      * @ORM\Column(name="listtype_libelle", type="string", length=250, nullable=true)
+     * @MaxDepth(1)
+     * @Groups({"listtype"})
      */
     private $listtypeLibelle;
 
@@ -41,6 +49,8 @@ class EntListtype extends Ent
      * @var string
      *
      * @ORM\Column(name="listtype_description", type="text", nullable=true)
+     * @MaxDepth(1)
+     * @Groups({"listtype"})
      */
     private $listtypeDescription;
 
@@ -48,6 +58,8 @@ class EntListtype extends Ent
      * @var \DateTime
      *
      * @ORM\Column(name="listtype_last_update", type="datetime", nullable=true)
+     * @MaxDepth(1)
+     * @Groups({"listtype"})
      */
     private $listtypeLastUpdate;
 

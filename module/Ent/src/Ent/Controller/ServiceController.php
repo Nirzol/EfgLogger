@@ -94,7 +94,7 @@ class ServiceController extends AbstractActionController
 
         if ($this->request->isPost()) {
             $serviceGetPost = $this->request->getPost();
-
+            var_dump($serviceGetPost);
             /* @var $entPlugin EntPlugin */
             $entPlugin = $this->EntPlugin();
 

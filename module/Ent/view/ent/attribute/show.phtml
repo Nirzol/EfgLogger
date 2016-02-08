@@ -10,14 +10,24 @@
 <p>
     <?= $this->translate('Description du attribute :') ?> <?php echo $this->escapeHtml($attribute->getAttributeDescription()) ?>
 </p>
+<p>
+    <?= $this->translate('Liste de l\'attribut :') ?> 
+    <?php
+    if ($attribute->getFkAttributeListtype()) {
+        echo $this->escapeHtml($attribute->getFkAttributeListtype()->getListLibelle());
+    }
+    else{
+        echo $this->translate('Pas de liste attachée');
+    }
+    ?>
+</p>
 
 <p>
     <?= $this->translate('Dernière mise à jour :') ?> 
     <?php
     if ($attribute->getAttributeLastUpdate() != null) {
         echo $attribute->getAttributeLastUpdate()->format('d-m-Y H:i:s');
-    }
-    else {
+    } else {
         echo $this->translate('Aucune mise à jour');
     }
     ?>

@@ -85,6 +85,9 @@ class EntPlugin extends AbstractPlugin
 //            $prefAttributeData[$i] = Json::decode($serializer->serialize($attributeData, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_ARRAY);
 //            $prefAttributeData[$i]['attribute_value'] = $attributeValueFilterPost[$i];
 //            $attributeData['attribute_value'] = $attributeValueFilterPost[$i];
+            if(isset($attributesDataArray[$key]['fkAttributeListtype'])){
+                $attributesDataArray[$key]['attributeValueLibelle'] = $this->getController()->ListPlugin()->getListLibelle($attributeValueFilterPost[$i]);
+            }
             $attributesDataArray[$key]['attributeValue'] = $attributeValueFilterPost[$i];
             $i++;
         }

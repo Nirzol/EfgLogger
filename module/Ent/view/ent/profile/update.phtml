@@ -115,7 +115,13 @@ foreach ($services as $service) {
                                         <div class="form-group<?php if ($form->get($getServiceAttributes)->getMessages()) echo ' has-error'; ?>">
                                             <div class="col-xs-12">
                                                 <?= $this->formLabel($form->get($getServiceAttributes)->setLabelAttributes(['class' => 'control-label'])) ?>
-                                                <?= $this->formText($form->get($getServiceAttributes)->setAttribute('class', 'form-control')->setValue($valueAttribute)) ?>
+                                                        <?php                                         
+                                                        if ($attribute->getFkAttributeListtype()) {
+                                                            echo $this->formSelect($form->get($getServiceAttributes)->setAttribute('class', '')->setValue($valueAttribute));
+                                                        } else {
+                                                            echo $this->formText($form->get($getServiceAttributes)->setAttribute('class', 'form-control')->setValue($valueAttribute));
+                                                        }
+                                                        ?>
                                                 <div id="helpBlock" class="help-block">
                                                     <?= $this->formElementErrors($form->get($getServiceAttributes)) ?>           
                                                 </div>
@@ -130,7 +136,7 @@ foreach ($services as $service) {
                                     <?php
                                 }
                             }
-                            if ($i !== 3) {
+                            if ($i >= 3) {
                                 echo '</div>';
                             }
                             ?>

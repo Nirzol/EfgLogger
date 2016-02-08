@@ -103,7 +103,7 @@ class ProfileInputFilter extends InputFilter
             'validators' => array(
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'fkPsService',
             'required' => true,
@@ -112,6 +112,22 @@ class ProfileInputFilter extends InputFilter
             'validators' => array(
             ),
         ));
+
+        $attributes = $this->entityManager->getRepository('\Ent\Entity\EntAttribute')->findAll();
+        $services = $this->entityManager->getRepository('\Ent\Entity\EntService')->findAll();
+        /* @var $service EntService */
+        foreach ($services as $service) {
+            foreach ($attributes as $attribute) {
+                $this->add(array(
+                    'name' => 'serviceAttributes[' . $service->getServiceId() . '][' . $attribute->getAttributeId() . ']',
+                    'required' => false,
+                    'filters' => array(
+                    ),
+                    'validators' => array(
+                    ),
+                ));
+            }
+        }
     }
 
     public function appendEditValidator($id)

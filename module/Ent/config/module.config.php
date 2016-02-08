@@ -44,7 +44,10 @@ return array(
     'controller_plugins' => array(
         'invokables' => array(
             'EntPlugin' => 'Ent\Controller\Plugin\EntPlugin',
-        )
+        ),
+        'factories' => array(
+            'ListPlugin' => \Ent\Factory\Controller\Plugin\ListPluginFactory::class,
+        ),
     ),
     'form_elements' => array(
         'factories' => array(
@@ -1163,6 +1166,7 @@ return array(
             'Ent\Service\PermissionDoctrineORM' => 'Ent\Factory\Service\PermissionDoctrineORMServiceFactory',
             'Ent\Service\HelpRequestDoctrineORM' => 'Ent\Factory\Service\HelpRequestDoctrineORMServiceFactory',
             'Ent\Service\LoveDoctrineORM' => 'Ent\Factory\Service\LoveDoctrineORMServiceFactory',
+            'Ent\Service\ListDoctrineORM' => 'Ent\Factory\Service\ListDoctrineORMServiceFactory',
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'
