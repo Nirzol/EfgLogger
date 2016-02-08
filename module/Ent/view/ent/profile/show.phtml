@@ -44,7 +44,11 @@ if ($preferenceAttribute) {
             <?php
             foreach ($service->{'serviceAttributeData'} as $attribute) {
                 echo '<tr><td class="success">' . $attribute->{'attributeName'} . '</td>';
-                echo '<td>' . $attribute->{'attributeValue'} . '</td>';
+                if (($attribute->{'attributeValueLibelle'})) {
+                    echo '<td>' . $attribute->{'attributeValueLibelle'} . '</td>';
+                } else {
+                    echo '<td>' . $attribute->{'attributeValue'} . '</td>';
+                }
             }
         }
         ?>
