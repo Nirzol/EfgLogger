@@ -247,11 +247,11 @@ class EntAttribute extends Ent
     /**
      * Set fkAttributeListtype
      *
-     * @param \Ent\Entity\EntList $fkAttributeListtype
+     * @param \Ent\Entity\EntListtype $fkAttributeListtype
      *
      * @return EntAttribute
      */
-    public function setFkAttributeListtype(\Ent\Entity\EntList $fkAttributeListtype = null)
+    public function setFkAttributeListtype(\Ent\Entity\EntListtype $fkAttributeListtype = null)
     {
         $this->fkAttributeListtype = $fkAttributeListtype;
 
