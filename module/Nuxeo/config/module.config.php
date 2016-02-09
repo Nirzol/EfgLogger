@@ -1,6 +1,11 @@
 <?php
 
 return array(
+    'controllers' => array(
+        'invokables' => array(            
+            'Nuxeo\Controller\Nuxeo' => '\Nuxeo\Controller\NuxeoController'
+        )
+    ),
     'router' => array(
         'routes' => array(
             'nuxeo' => array(
@@ -15,11 +20,6 @@ return array(
                     ),
                 ),
             )
-        )
-    ),
-    'controllers' => array(
-        'invokables' => array(            
-            'Nuxeo\Controller\Nuxeo' => '\Nuxeo\Controller\NuxeoController'
         )
     ),
     'view_manager' => array(

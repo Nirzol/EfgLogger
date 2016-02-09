@@ -71,7 +71,9 @@
             "Ent\\": "module/Ent/src/Ent",
             "EfgCasAuth\\": "module/EfgCasAuth/src/EfgCasAuth",
             "SearchLdap\\": "module/SearchLdap/src/SearchLdap",
-            "Owa\\": "module/Owa/src/Owa"
+            "Owa\\": "module/Owa/src/Owa",
+            "Nuxeo\\": "module/Nuxeo/src/Nuxeo",
+            "Referentiel\\": "module/Referentiel/src/Referentiel"
         }
     }
 }
