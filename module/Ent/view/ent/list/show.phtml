@@ -1,3 +1,24 @@
-Module: Ent
-Controller: List
-Action: show
+<?php $this->headTitle($this->translate('Détails d\'un item de la liste')); ?>
+
+<h2><?= $this->translate('Détails d\'un item de la liste') ?></h2>
+
+<p>
+    <?= $this->translate('Label :') ?> <?= $this->escapeHtml($list->getListLibelle()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Type :') ?> <?= $this->escapeHtml($list->getFkListType()->getListtypeLibelle()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Dernière mise à jour :') ?> 
+    <?php
+    if ($list->getListLastUpdate() != null) {
+        echo $list->getListLastUpdate()->format('d-m-Y H:i:s');
+    } else {
+        echo $this->translate('Aucune mise à jour');
+    }
+    ?>
+</p>
+
+<a class="btn btn-danger" href="<?php echo $this->url('zfcadmin/list'); ?>"><?= $this->translate('Retour') ?></a>

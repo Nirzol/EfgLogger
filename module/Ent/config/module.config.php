@@ -39,6 +39,8 @@ return array(
             'Ent\Controller\HelpRequest' => 'Ent\Factory\Controller\HelpRequestControllerFactory',
             'Ent\Controller\HelpRequestRest' => 'Ent\Factory\Controller\HelpRequestRestControllerFactory',
             'Ent\Controller\IndexRest' => 'Ent\Factory\Controller\IndexRestControllerFactory',
+            'Ent\Controller\List' => 'Ent\Factory\Controller\ListControllerFactory',
+            'Ent\Controller\Listtype' => 'Ent\Factory\Controller\ListtypeControllerFactory',
         ),
     ),
     'controller_plugins' => array(
@@ -65,6 +67,8 @@ return array(
             'Ent\Form\LogForm' => 'Ent\Factory\Form\LogFormFactory',
             'Ent\Form\ModuleForm' => 'Ent\Factory\Form\ModuleFormFactory',
             'Ent\Form\ProfileForm' => 'Ent\Factory\Form\ProfileFormFactory',
+            'Ent\Form\ListForm' => 'Ent\Factory\Form\ListFormFactory',
+//            'Ent\Form\ListtypeForm' => 'Ent\Factory\Form\ListtypeFormFactory',
         ),
     ),
     'router' => array(
@@ -795,6 +799,116 @@ return array(
                             ),
                         ),
                     ),
+                    'list' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/list',
+                            'defaults' => array(
+                                'controller' => 'Ent\Controller\List',
+                                'action' => 'list',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'add' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/add',
+                                    'defaults' => array(
+                                        'action' => 'add',
+                                    ),
+                                ),
+                            ),
+                            'show' => array(
+                                'type' => \Zend\Mvc\Router\Http\Segment::class,
+                                'options' => array(
+                                    'route' => '/:id',
+                                    'defaults' => array(
+                                        'action' => 'show',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[1-9][0-9]*',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' => array(
+                                    'delete' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/delete',
+                                            'defaults' => array(
+                                                'action' => 'delete',
+                                            ),
+                                        ),
+                                    ),
+                                    'update' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/update',
+                                            'defaults' => array(
+                                                'action' => 'update',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                    'listtype' => array(
+                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                        'options' => array(
+                            'route' => '/listtype',
+                            'defaults' => array(
+                                'controller' => 'Ent\Controller\Listtype',
+                                'action' => 'list',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'add' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'options' => array(
+                                    'route' => '/add',
+                                    'defaults' => array(
+                                        'action' => 'add',
+                                    ),
+                                ),
+                            ),
+                            'show' => array(
+                                'type' => \Zend\Mvc\Router\Http\Segment::class,
+                                'options' => array(
+                                    'route' => '/:id',
+                                    'defaults' => array(
+                                        'action' => 'show',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[1-9][0-9]*',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' => array(
+                                    'delete' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/delete',
+                                            'defaults' => array(
+                                                'action' => 'delete',
+                                            ),
+                                        ),
+                                    ),
+                                    'update' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/update',
+                                            'defaults' => array(
+                                                'action' => 'update',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'version' => array(
@@ -1167,6 +1281,7 @@ return array(
             'Ent\Service\HelpRequestDoctrineORM' => 'Ent\Factory\Service\HelpRequestDoctrineORMServiceFactory',
             'Ent\Service\LoveDoctrineORM' => 'Ent\Factory\Service\LoveDoctrineORMServiceFactory',
             'Ent\Service\ListDoctrineORM' => 'Ent\Factory\Service\ListDoctrineORMServiceFactory',
+            'Ent\Service\ListtypeDoctrineORM' => 'Ent\Factory\Service\ListtypeDoctrineORMServiceFactory',
         ),
         'aliases' => array(
 //            'AddressBook\Service\Contact' => 'AddressBook\Service\ContactFake'

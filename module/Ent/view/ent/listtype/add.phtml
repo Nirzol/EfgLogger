@@ -1,0 +1,41 @@
+<?php $this->headTitle($this->translate('Ajouter un type de liste')); ?>
+<h2><?= $this->translate('Ajouter un type de liste') ?></h2>
+<?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
+<div class="form-group<?php if ($form->get('listtypeName')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('listtypeName')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?= $this->formText($form->get('listtypeName')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('listtypeName')) ?>           
+    </div>
+</div>
+
+<div class="form-group<?php if ($form->get('listtypeLibelle')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('listtypeLibelle')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?= $this->formText($form->get('listtypeLibelle')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('listtypeLibelle')) ?>           
+    </div>
+</div>
+
+<div class="form-group<?php if ($form->get('listtypeDescription')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('listtypeDescription')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <?= $this->formText($form->get('listtypeDescription')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('listtypeDescription')) ?>           
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary"><?= $this->translate('Ajouter') ?></button>
+        <a class="btn btn-danger" href="<?php echo $this->url('zfcadmin/list'); ?>"><?= $this->translate('Annuler') ?></a>
+    </div>
+</div>
+<?=
+$this->form()->closeTag()?>

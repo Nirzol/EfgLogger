@@ -1,0 +1,28 @@
+<?php $this->headTitle($this->translate('Détails d\'un type de liste')); ?>
+
+<h2><?= $this->translate('Détails d\'un type de liste') ?></h2>
+
+<p>
+    <?= $this->translate('Name :') ?> <?= $this->escapeHtml($listtype->getListtypeName()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Label :') ?> <?= $this->escapeHtml($listtype->getListtypeLibelle()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Description :') ?> <?= $this->escapeHtml($listtype->getListtypeDescription()) ?>
+</p>
+
+<p>
+    <?= $this->translate('Dernière mise à jour :') ?> 
+    <?php
+    if ($listtype->getListtypeLastUpdate() != null) {
+        echo $listtype->getListtypeLastUpdate()->format('d-m-Y H:i:s');
+    } else {
+        echo $this->translate('Aucune mise à jour');
+    }
+    ?>
+</p>
+
+<a class="btn btn-danger" href="<?php echo $this->url('zfcadmin/listtype'); ?>"><?= $this->translate('Retour') ?></a>

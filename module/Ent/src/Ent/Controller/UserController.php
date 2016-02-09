@@ -40,11 +40,6 @@ class UserController extends AbstractActionController
     protected $userForm = null;
     protected $config = null;
 
-    /**
-     * 
-     * @var SearchLdapController
-     */
-//    protected $searchLdapController = null;
 //    public function __construct(UserDoctrineService $userService, ProfileDoctrineService $profileService, UserForm $userForm, $config, SearchLdapController $searchLdapController)
     public function __construct(UserDoctrineService $userService, ProfileDoctrineService $profileService, UserForm $userForm, $config)
     {

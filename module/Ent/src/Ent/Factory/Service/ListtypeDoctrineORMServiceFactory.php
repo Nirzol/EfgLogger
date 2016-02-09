@@ -4,13 +4,13 @@ namespace Ent\Factory\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
-use Ent\Entity\EntList;
-use Ent\InputFilter\ListInputFilter;
-use Ent\Service\ListDoctrineService;
+use Ent\Entity\EntListtype;
+use Ent\InputFilter\ListtypeInputFilter;
+use Ent\Service\ListtypeDoctrineService;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ListDoctrineORMServiceFactory implements FactoryInterface
+class ListtypeDoctrineORMServiceFactory implements FactoryInterface
 {
 
     public function createService(ServiceLocatorInterface $serviceLocator)
@@ -18,15 +18,15 @@ class ListDoctrineORMServiceFactory implements FactoryInterface
         /* @var $serviceLocator ObjectManager */
         $om = $serviceLocator->get('Doctrine\ORM\EntityManager');
 
-        $list = new EntList();
+        $listtype = new EntListtype();
 
         $hydrator = new DoctrineObject($om);
 
-        $listInputFilter = new ListInputFilter();
+        $listtypeInputFilter = new ListtypeInputFilter();
 
         $authorizationService = $serviceLocator->get('\ZfcRbac\Service\AuthorizationService');
 
-        $service = new ListDoctrineService($om, $list, $hydrator, $listInputFilter, $authorizationService);
+        $service = new ListtypeDoctrineService($om, $listtype, $hydrator, $listtypeInputFilter, $authorizationService);
 
         return $service;
     }
