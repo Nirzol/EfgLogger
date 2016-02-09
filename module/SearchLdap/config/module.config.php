@@ -6,6 +6,7 @@ return array(
 //        ),
         'factories' => array(
             'SearchLdap\Controller\SearchLdapController' => SearchLdap\Factory\Controller\SearchLdapFactory::class,
+            'SearchLdap\Controller\LdapSearchController' => SearchLdap\Factory\Controller\LdapSearchFactory::class,
         ),
     ),
     'controller_plugins' => array(
@@ -30,9 +31,22 @@ return array(
                     ),
                 ),
             ),
+            'ldap-search' => array(
+                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                'options' => array(
+                    'route' => '/api/ldap-search',
+                    'defaults' => array(
+                        'controller' => 'SearchLdap\Controller\LdapSearchController',
+                        'action' => 'search'
+                    ),
+                ),
+            ),
         ),
     ),
     'view_manager' => array(
+        'template_path_stack' => array(
+            __DIR__ . '/../view',
+        ),
         'strategies' => array(
             'ViewJsonStrategy'
         ),
