@@ -78,7 +78,7 @@ $this->headTitle($title);
         </tr>
         <tr>
             <?php if(isset($user['edupersonaffiliation'][0])): ?>
-            <td>eduPersonPersonAffiliation</td>            
+            <td>eduPersonAffiliation</td>            
             <td>
                 <?php foreach ($user['edupersonaffiliation'] as $personAffiliation): ?>
                 <?php echo $personAffiliation; ?><br>
