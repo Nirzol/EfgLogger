@@ -62,7 +62,12 @@ class LdapSearchController extends AbstractActionController {
                 $search = $this->request->getPost('searchValue');
                 
                 if (!empty($search)) {
-                    $result = $this->searchLdapModel->searchUser($search);
+                    
+                    if((strpos($search, "(") !== false) && (strpos($search, "(") == 0 )) {
+                        $result = $this->searchLdapModel->searchFilter($search);
+                    } else {
+                       $result = $this->searchLdapModel->searchUser($search);
+                    }
 
                     if (empty($result)) {
                         $message = 'Aucune personne trouvée';
