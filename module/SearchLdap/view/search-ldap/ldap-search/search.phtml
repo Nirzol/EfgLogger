@@ -2,12 +2,26 @@
 $title = 'Recherche Utilisateur';
 $this->headTitle($title);
 ?>
-<h1><?php echo $this->escapeHtml($title); ?></h1>
+<h2><?php echo $this->escapeHtml($title); ?></h2>
 <?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')); ?>
-<?= $this->formRow($form->get('searchValue')); ?>
-<?= '<br />'; ?>
-<?= $this->formSubmit($form->get('submit')); ?>
-<?= $this->form()->closeTag; ?>
+<div class="form-group<?php if ($form->get('searchValue')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('searchValue')->setLabelAttributes(['class' => 'col-sm-3 control-label'])) ?>
+    <div class="col-sm-9">
+        <?= $this->formText($form->get('searchValue')->setAttribute('class', 'form-control')) ?>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-3 col-sm-10">
+        <?= $this->formElementErrors($form->get('searchValue')) ?>           
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary"><?= $this->translate('Chercher') ?></button>
+    </div>
+</div>
+<?php //echo $this->formRow($form->get('searchValue')); ?>
+<?php //echo '<br />'; ?>
+<?php //echo $this->formSubmit($form->get('submit')); ?>
+<?php echo $this->form()->closeTag; ?>
 <br>
 <?php if(!empty($message)) : ?>
 <br>
@@ -16,8 +30,7 @@ $this->headTitle($title);
 </div>
 <?php endif; ?>
 <?php if(!empty($result)) : ?>
-<br />
-<span><?php echo count($result); ?> utilisateur(s) trouvé(s) : </span>
+<span class="col-sm-offset-3"><?php echo count($result); ?> utilisateur(s) trouvé(s) : </span>
 <select id="users_list">
     <?php foreach ($result as $users) : ?>
     <option value="<?php echo $users['uid'][0]; ?>"><?php echo $users['uid'][0]." (".$users['displayname'][0].")"?></option>
@@ -26,7 +39,7 @@ $this->headTitle($title);
 <br />
 <br>
 <?php foreach ($result as $user): ?>
-<table id ="<?php echo$user['uid'][0]; ?>" class="table table-striped">
+<table id ="<?php echo$user['uid'][0]; ?>" class="table table-striped col-sm-offset-3">
     <tbody>
         <tr>
             <?php if(isset($user['supanncivilite'][0])): ?>
