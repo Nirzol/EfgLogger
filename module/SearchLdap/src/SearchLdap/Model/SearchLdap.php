@@ -53,6 +53,23 @@ class SearchLdap {
         return $searchResult[0];        
     }
     
+    /**
+     * For filter ldap search : filter ldap syntax
+     * Filter by ldap syntax
+     * 
+     * @param string $filterSyntax
+     * @return array
+     */
+    public function searchFilter($filterSyntax) {
+        $filter = $filterSyntax;
+        
+        $searchResult = $this->ldap->searchEntries($filter);
+        
+        $this->ldap->disconnect();
+        
+        return $searchResult;
+    }
+    
 //    private function ldapConnect() {
 //        $options = $this->searchLdapConfig;
 //        
