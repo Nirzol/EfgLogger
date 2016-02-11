@@ -18,7 +18,7 @@ class LdapSearchForm extends Form {
             'name' => 'searchValue',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Nom, login ou mail : ',
+                'label' => 'Nom, login, mail ou (filtre ldap) : ',
             ),
         ));
         
