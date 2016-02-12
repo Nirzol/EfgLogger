@@ -415,7 +415,7 @@ class UserRestController extends AbstractRestfulController
 //        return $attributes;
 //    }
     
-    public function getServicesAction() {
+    public function getServicesAction() {    
         $login = null;
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
@@ -459,7 +459,9 @@ class UserRestController extends AbstractRestfulController
                 $success = false;
                 $errorMessage = 'L\'user n\'existe pas dans la base.';
             }
-        }
+        } else {
+            $errorMessage = 'Le login est null';
+        } 
         
         return new JsonModel(array(
             'data' => $data,
