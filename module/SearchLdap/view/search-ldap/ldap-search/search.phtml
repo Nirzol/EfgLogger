@@ -22,11 +22,11 @@ $this->headTitle($title);
 <?php //echo '<br />'; ?>
 <?php //echo $this->formSubmit($form->get('submit')); ?>
 <?php echo $this->form()->closeTag; ?>
-<br>
 <?php if(!empty($message)) : ?>
 <br>
-<div>
-    <?= $message; ?>
+<div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong><?= $message; ?></strong>
 </div>
 <?php endif; ?>
 <?php if(!empty($result)) : ?>
