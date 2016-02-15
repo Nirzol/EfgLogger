@@ -130,6 +130,8 @@ class IndexRestController extends AbstractRestfulController
             $data['lastConnection'] = $container->lastConnection;
 
             $data['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+            
+            $container->getManager()->getStorage()->clear('entLogger');
 
 //            error_log("session: ".json_encode($_SESSION['lastConnection']));
 //            error_log("session: ".json_encode($container->lastConnection));

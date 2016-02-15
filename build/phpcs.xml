@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ruleset name="ENT PHPCS Zend Standard">
+    <description>Coding standard based on Zend with some additions.</description>
+
+     <!-- Include the whole Zend standard -->
+    <rule ref="Zend"/>
+</ruleset>
