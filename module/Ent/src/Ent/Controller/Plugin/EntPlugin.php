@@ -85,7 +85,7 @@ class EntPlugin extends AbstractPlugin
 //            $prefAttributeData[$i] = Json::decode($serializer->serialize($attributeData, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_ARRAY);
 //            $prefAttributeData[$i]['attribute_value'] = $attributeValueFilterPost[$i];
 //            $attributeData['attribute_value'] = $attributeValueFilterPost[$i];
-            if(isset($attributesDataArray[$key]['fkAttributeListtype'])){
+            if (isset($attributesDataArray[$key]['fkAttributeListtype'])) {
                 $attributesDataArray[$key]['attributeValueLibelle'] = $this->getController()->ListPlugin()->getListLibelle($attributeValueFilterPost[$i]);
             }
             $attributesDataArray[$key]['attributeValue'] = $attributeValueFilterPost[$i];
@@ -148,7 +148,6 @@ class EntPlugin extends AbstractPlugin
 
         return array_filter($source);
     }
-    
 
     public function checkMaxInputVars()
     {
@@ -160,9 +159,38 @@ class EntPlugin extends AbstractPlugin
         $php_input = substr_count(file_get_contents('php://input'), '&');
         $post = count($_POST, COUNT_RECURSIVE);
 
-        error_log($php_input . ' | ', $post. ' | ', $max_input_vars. ' | ');
+        error_log($php_input . ' | ', $post . ' | ', $max_input_vars . ' | ');
 
         return $php_input > $max_input_vars;
+    }
+
+    /**
+     * This function retrieves IDs from Profil Entity Matching LDAP attributes
+     * 
+     * @param string $userLogin
+     * @return array or false
+     */
+    public function getProfilIdMatchingUserLdap($userLogin, $profiles)
+    {
+        $ldapUser = $this->getController()->SearchLdapPlugin()->getUserInfo($userLogin);
+
+        if (in_array("student", $ldapUser['edupersonaffiliation'])) {
+            return false;
+        }
+        
+        $idProfiles = null;
+        /* @var $profile \Ent\Entity\EntProfile */
+        foreach ($profiles as $profile) {
+            $aProfileName = explode("_", $profile->getProfileName());
+            $profileAttribute = $aProfileName[0];
+            $profileValue = $aProfileName[1];
+            if ($ldapUser[$profileAttribute] != null && isset($ldapUser[$profileAttribute]) && in_array($profileValue, $ldapUser[$profileAttribute])) {
+                $idProfiles[] = $profile->getProfileId();
+            }
+        }
+
+
+        return $idProfiles;
     }
 
 }

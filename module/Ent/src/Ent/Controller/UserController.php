@@ -103,6 +103,69 @@ class UserController extends AbstractActionController
      * 
      * @return void
      */
+//    public function addAutoAction2()
+//    {
+//        $container = new Container('noAuth');
+//
+//        $config = $this->config;
+//
+//        if ($container->login) {
+//            // Test if user already in database, if not insert it !
+//            $user = $this->userService->findBy(array('userLogin' => $container->login));
+//            if (!$user) {
+//                // Check primary affiliation to redirect if user is a student
+////                $ldapUser = $this->searchLdapController->getUser($container->login);
+//                $ldapUser = $this->SearchLdapPlugin()->getUserInfo($container->login);
+//                if (in_array("student", $ldapUser['edupersonaffiliation'])) {
+//                    return $this->redirect()->toUrl($config['student_redirect_url']);
+//                }
+//                
+//                if (in_array("staff", $ldapUser['edupersonprimaryaffiliation']) || in_array("teacher", $ldapUser['edupersonprimaryaffiliation']) || in_array("faculty", $ldapUser['edupersonprimaryaffiliation']) || in_array("affiliate", $ldapUser['edupersonprimaryaffiliation'])) {
+//                
+//                    $profiles = null;
+//                    $dbProfiles = $this->profileService->getAllIdAndName();
+//
+//                    foreach ($dbProfiles as $dbProfile) {
+//                        $aDbProfileName = explode("_", $dbProfile["profileName"]);
+//                        $profileAttribute = $aDbProfileName[0];
+//                        $profileValue = $aDbProfileName[1];
+//                        if (in_array($profileValue, $ldapUser[$profileAttribute])) {
+//                            $profiles[] = $dbProfile["profileId"];
+//                        }
+//                    }
+//
+//                    if (is_null($profiles)) {
+//                        $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
+//                        return $this->redirect()->toUrl($protocol . $_SERVER['SERVER_NAME'] . '/noaccess.html');
+//                    }
+//
+//                    $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
+//                        'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => $profiles);
+//
+//
+//                    $form = $this->userForm;
+//
+//                    $user = $this->userService->insert($form, $data);
+//                    if (!$user) {
+//                        //TODO handle exception
+//                        return $this->notFoundAction();  //A tester ???? ou autre....
+//                    }
+//                } else {
+//                    $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
+//                    return $this->redirect()->toUrl($protocol . $_SERVER['SERVER_NAME'] . '/noaccess.html');
+//                }
+//            }
+//
+//            // Don't need to keep this container because zf2 identity will be ok after redirect to login.
+//            $container->getManager()->getStorage()->clear('noAuth');
+//
+//            return $this->redirect()->toRoute('login');
+//        } else {
+//            error_log("Le container dans UserController est vide");
+////            return $this->notFoundAction();
+//            return $this->redirect()->toRoute('login');
+//        }
+//    }
     public function addAutoAction()
     {
         $container = new Container('noAuth');
@@ -113,46 +176,31 @@ class UserController extends AbstractActionController
             // Test if user already in database, if not insert it !
             $user = $this->userService->findBy(array('userLogin' => $container->login));
             if (!$user) {
-                // Check primary affiliation to redirect if user is a student
-//                $ldapUser = $this->searchLdapController->getUser($container->login);
-                $ldapUser = $this->SearchLdapPlugin()->getUserInfo($container->login);
-                if (in_array("student", $ldapUser['edupersonaffiliation'])) {
-                    return $this->redirect()->toUrl($config['student_redirect_url']);
-                }
-                
-                if (in_array("staff", $ldapUser['edupersonprimaryaffiliation']) || in_array("teacher", $ldapUser['edupersonprimaryaffiliation']) || in_array("faculty", $ldapUser['edupersonprimaryaffiliation']) || in_array("affiliate", $ldapUser['edupersonprimaryaffiliation'])) {
-                
-                    $profiles = null;
-                    $dbProfiles = $this->profileService->getAllIdAndName();
+                $profiles = $this->profileService->getAll();
 
-                    foreach ($dbProfiles as $dbProfile) {
-                        $aDbProfileName = explode("_", $dbProfile["profileName"]);
-                        $profileAttribute = $aDbProfileName[0];
-                        $profileValue = $aDbProfileName[1];
-                        if (in_array($profileValue, $ldapUser[$profileAttribute])) {
-                            $profiles[] = $dbProfile["profileId"];
-                        }
-                    }
-
-                    if (is_null($profiles)) {
-                        $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
-                        return $this->redirect()->toUrl($protocol . $_SERVER['SERVER_NAME'] . '/noaccess.html');
-                    }
-
-                    $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
-                        'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => $profiles);
-
-
-                    $form = $this->userForm;
-
-                    $user = $this->userService->insert($form, $data);
-                    if (!$user) {
-                        //TODO handle exception
-                        return $this->notFoundAction();  //A tester ???? ou autre....
-                    }
-                } else {
+                if (!$profiles) {
                     $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
                     return $this->redirect()->toUrl($protocol . $_SERVER['SERVER_NAME'] . '/noaccess.html');
+                }
+
+                $idProfile = $this->entPlugin()->getProfilIdMatchingUserLdap($container->login, $profiles);
+
+                // if false = student --- if null = pas d'access
+                if ($idProfile === null) {
+                    $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
+                    return $this->redirect()->toUrl($protocol . $_SERVER['SERVER_NAME'] . '/noaccess.html');
+                } else if (!$idProfile) {
+                    return $this->redirect()->toUrl($config['student_redirect_url']);
+                }
+
+                $data = array('userLogin' => $container->login, 'userStatus' => $config['status_default_id'],
+                    'fkUrRole' => array($config['role_default_id']), 'fkUpProfile' => $idProfile);
+
+                $form = $this->userForm;
+                $user = $this->userService->insert($form, $data);
+                if (!$user) {
+                    //TODO handle exception
+                    return $this->notFoundAction();  //A tester ???? ou autre....
                 }
             }
 

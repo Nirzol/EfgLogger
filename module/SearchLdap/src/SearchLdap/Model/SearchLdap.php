@@ -48,6 +48,10 @@ class SearchLdap {
         
         $searchResult = $this->ldap->searchEntries($filter, null, 1, $justethese);
         
+        foreach ($searchResult[0]['memberof'] as $key => $value) {
+            $searchResult[0]['memberof'][$key] = $this->getIdCN($value);
+        }
+        
         $this->ldap->disconnect();
         
         return $searchResult[0];        
@@ -68,6 +72,32 @@ class SearchLdap {
         $this->ldap->disconnect();
         
         return $searchResult;
+    }
+    
+    /**
+     * This function retrieves and returns CN from given DN
+     * 
+     * @param string $dn
+     * @return string
+     */
+    private function getCN($dn) {
+        preg_match('/[^,]*/', $dn, $match, PREG_OFFSET_CAPTURE, 3);
+//        var_dump($match);
+        return $match[0][0];
+    }
+    
+    /**
+     * This function retrieves and returns l'ID from given CN
+     * 
+     * @param string $cn
+     * @return string
+     */
+    private function getIdCN($dn){
+//        preg_match('#^(?:.*\[)(.*?)\]#', $dn, $match, PREG_OFFSET_CAPTURE);
+        preg_match('#\[(.+)\]#', $dn, $match);
+        
+//        var_dump($match);
+        return $match[1];
     }
     
 //    private function ldapConnect() {
