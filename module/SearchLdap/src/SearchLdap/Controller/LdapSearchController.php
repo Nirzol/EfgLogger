@@ -4,6 +4,7 @@ namespace SearchLdap\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\Ldap\Exception\LdapException;
 use SearchLdap\Model\SearchLdap;
 use Zend\Http\Request;
 use SearchLdap\Form\LdapSearchForm;
@@ -51,7 +52,7 @@ class LdapSearchController extends AbstractActionController {
         $form = $this->searchLdapForm;
 
         $request = $this->request;
-
+               
         if ($request->isPost()) {
             $filter = $this->searchLdapFilter;
 
@@ -64,16 +65,20 @@ class LdapSearchController extends AbstractActionController {
                 if (!empty($search)) {
                     
                     if((strpos($search, "(") !== false) && (strpos($search, "(") == 0 )) {
-                        $result = $this->searchLdapModel->searchFilter($search);
+                        try {
+                            $result = $this->searchLdapModel->searchFilter($search);
+                        } catch (LdapException $zle) {
+                            //$message = $zle->getMessage();
+                        }                        
                     } else {
                        $result = $this->searchLdapModel->searchUser($search);
                     }
-
+                    
                     if (empty($result)) {
-                        $message = 'Aucune personne trouvée';
-                    }
+                        $message = 'Aucune personne trouvée';                        
+                    }                  
                 }
-            }
+            }           
         }
 
         return new ViewModel(array(
