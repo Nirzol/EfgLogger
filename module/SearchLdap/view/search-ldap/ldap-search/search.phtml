@@ -74,7 +74,11 @@ $this->headTitle($title);
         <tr>
             <?php if(isset($user['eeallowedservices'][0])): ?>
             <td>eeAllowedServices</td>            
-            <td><?php echo $user['eeallowedservices'][0]; ?></td>
+            <td>
+                <?php foreach ($user['eeallowedservices'] as $eeAllowedServices): ?>
+                <?php echo $eeAllowedServices; ?><br>
+                <?php endforeach; ?>
+            </td>
             <?php endif; ?>
         </tr>
         <tr>
