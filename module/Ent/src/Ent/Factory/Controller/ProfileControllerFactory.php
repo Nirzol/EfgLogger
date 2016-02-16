@@ -32,11 +32,15 @@ class ProfileControllerFactory implements FactoryInterface
 
         $preferenceService = $sm->get('Ent\Service\PreferenceDoctrineORM');
 
+        $userService = $sm->get('Ent\Service\UserDoctrineORM');
+
+        $userForm = $sm->get('FormElementManager')->get('Ent\Form\UserForm');
+
         $config = $sm->get('config');
 
         $serializer = $sm->get('jms_serializer.serializer');
 
-        $controller = new ProfileController($profileService, $profileForm, $preferenceForm, $attributeService, $serviceService, $preferenceService, $serializer, $config['preference_config']);
+        $controller = new ProfileController($profileService, $profileForm, $preferenceForm, $attributeService, $serviceService, $preferenceService, $userService, $userForm, $serializer, $config['preference_config']);
 
         return $controller;
     }

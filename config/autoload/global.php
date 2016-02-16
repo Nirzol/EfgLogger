@@ -32,6 +32,7 @@ return array(
     
     'preference_config' => array(
         'default_status' => 1,
+        'default_role' => 3,
     ),
     
 //    'service_manager' => array(

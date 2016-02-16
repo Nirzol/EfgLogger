@@ -4,15 +4,16 @@ namespace SearchLdap\Model;
 
 use Zend\Ldap\Ldap;
 
-class SearchLdap {
-    
+class SearchLdap
+{
     /* @var $ldap \Zend\Ldap\Ldap */
+
     protected $ldap;
-    
     protected $searchLdapConfig;
-    
+
     // Connexion LDAP direct into Factory
-    public function __construct($ldap) {
+    public function __construct($ldap)
+    {
         $this->ldap = $ldap;
     }
 
@@ -23,13 +24,14 @@ class SearchLdap {
      * @param string $itemToSearch
      * @return array
      */
-    public function searchUser($itemToSearch){
-        $filter = '(|(cn=*'.$itemToSearch.'*)(givenname=*'.$itemToSearch.'*)(sn=*'.$itemToSearch.'*)(uid=*'.$itemToSearch.'*)(displayname=*'.$itemToSearch.'*)(mail=*'.$itemToSearch.'*))';
-        
+    public function searchUser($itemToSearch)
+    {
+        $filter = '(|(cn=*' . $itemToSearch . '*)(givenname=*' . $itemToSearch . '*)(sn=*' . $itemToSearch . '*)(uid=*' . $itemToSearch . '*)(displayname=*' . $itemToSearch . '*)(mail=*' . $itemToSearch . '*))';
+
         $searchResult = $this->ldap->searchEntries($filter);
-        
+
         $this->ldap->disconnect();
-        
+
         return $searchResult;
     }
 
@@ -41,22 +43,25 @@ class SearchLdap {
      * @param string $uid
      * @return array
      */
-    public function getUserInfo($uid){
-        $filter = '(uid='.$uid.')';
-        
+    public function getUserInfo($uid)
+    {
+        $filter = '(uid=' . $uid . ')';
+
         $justethese = array('memberOf', '*');
-        
+
         $searchResult = $this->ldap->searchEntries($filter, null, 1, $justethese);
-        
-        foreach ($searchResult[0]['memberof'] as $key => $value) {
-            $searchResult[0]['memberof'][$key] = $this->getIdCN($value);
+
+        if($searchResult[0]['memberof']) {
+            foreach ($searchResult[0]['memberof'] as $key => $value) {
+                $searchResult[0]['memberof'][$key] = $this->getIdCN($value);
+            }
         }
-        
+
         $this->ldap->disconnect();
-        
-        return $searchResult[0];        
+
+        return $searchResult[0];
     }
-    
+
     /**
      * For filter ldap search : filter ldap syntax
      * Filter by ldap syntax
@@ -64,42 +69,45 @@ class SearchLdap {
      * @param string $filterSyntax
      * @return array
      */
-    public function searchFilter($filterSyntax) {
+    public function searchFilter($filterSyntax)
+    {
         $filter = $filterSyntax;
-        
+
         $searchResult = $this->ldap->searchEntries($filter);
-        
+
         $this->ldap->disconnect();
-        
+
         return $searchResult;
     }
-    
+
     /**
      * This function retrieves and returns CN from given DN
      * 
      * @param string $dn
      * @return string
      */
-    private function getCN($dn) {
+    private function getCN($dn)
+    {
         preg_match('/[^,]*/', $dn, $match, PREG_OFFSET_CAPTURE, 3);
 //        var_dump($match);
         return $match[0][0];
     }
-    
+
     /**
      * This function retrieves and returns l'ID from given CN
      * 
      * @param string $cn
      * @return string
      */
-    private function getIdCN($dn){
+    private function getIdCN($dn)
+    {
 //        preg_match('#^(?:.*\[)(.*?)\]#', $dn, $match, PREG_OFFSET_CAPTURE);
         preg_match('#\[(.+)\]#', $dn, $match);
-        
+
 //        var_dump($match);
         return $match[1];
     }
-    
+
 //    private function ldapConnect() {
 //        $options = $this->searchLdapConfig;
 //        
@@ -107,8 +115,6 @@ class SearchLdap {
 //        
 //        return $ldap;
 //    }
-          
-
 //    public function searchUser($searchValue) {
 ////        $ldap = $this->ldapConnect();
 //        $filter = "";
@@ -164,7 +170,6 @@ class SearchLdap {
 //        
 //        return (count($searchResult) > 0 ? $searchResult[0] : 0);
 //    }
-
 //    public function searchUser($searchValue) {
 //        $ldap = $this->ldapConnect();
 //        $filter = "";
@@ -201,8 +206,6 @@ class SearchLdap {
 //        
 //        return (count($searchResult) > 0 ? $searchResult[0] : 0);
 //    }
-
-    
 //    public function getPrimaryAffiliationByUid($uid) {
 //        $ldap = $this->ldapConnect();
 //        
@@ -217,7 +220,6 @@ class SearchLdap {
 //        return null;
 //        
 //    }
-    
 //    public function getMailHostByUid($uid) {
 //        $ldap = $this->ldapConnect();
 //        

@@ -61,6 +61,7 @@ class UserInputFilter extends InputFilter
         $this->add(
                 array(
                     'name' => 'userLogin',
+                    'required' => false,
                     'validators' => array(
                         array(
                             'name' => 'Ent\Validator\NoOtherEntityExists',
