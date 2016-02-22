@@ -71,9 +71,8 @@ class SearchLdap
      */
     public function searchFilter($filterSyntax)
     {
-        $filter = $filterSyntax;
 
-        $searchResult = $this->ldap->searchEntries($filter);
+        $searchResult = $this->ldap->searchEntries($filterSyntax);
 
         $this->ldap->disconnect();
 
