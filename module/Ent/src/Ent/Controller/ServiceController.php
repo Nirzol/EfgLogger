@@ -207,7 +207,7 @@ class ServiceController extends AbstractActionController
                 }
                 $this->flashMessenger()->addSuccessMessage('Le service a bien été updaté.');
 
-//                return $this->redirect()->toRoute('zfcadmin/service');
+                return $this->redirect()->toRoute('zfcadmin/service');
             }
         }
 
