@@ -94,7 +94,7 @@ class ServiceController extends AbstractActionController
 
         if ($this->request->isPost()) {
             $serviceGetPost = $this->request->getPost();
-            var_dump($serviceGetPost);
+//            var_dump($serviceGetPost);
             /* @var $entPlugin EntPlugin */
             $entPlugin = $this->EntPlugin();
 
@@ -102,6 +102,7 @@ class ServiceController extends AbstractActionController
 
             // Insert le service
             /* @var $service EntService */
+            $serviceGetPost['fkSaAttribute'] = array_filter(array_keys($serviceGetPost['serviceAttributes']));
             $service = $this->serviceService->insert($form, $serviceGetPost);
 
             if ($service) {
@@ -175,6 +176,7 @@ class ServiceController extends AbstractActionController
 
             // Update le service
             /* @var $service EntService */
+            $serviceGetPost['fkSaAttribute'] = array_filter(array_keys($serviceGetPost['serviceAttributes']));
             $service = $this->serviceService->save($form, $serviceGetPost, $service);
 
             /* @var $entPlugin EntPlugin */
@@ -205,7 +207,7 @@ class ServiceController extends AbstractActionController
                 }
                 $this->flashMessenger()->addSuccessMessage('Le service a bien été updaté.');
 
-                return $this->redirect()->toRoute('zfcadmin/service');
+//                return $this->redirect()->toRoute('zfcadmin/service');
             }
         }
 
