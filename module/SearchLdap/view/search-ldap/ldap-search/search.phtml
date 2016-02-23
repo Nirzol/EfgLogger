@@ -13,6 +13,28 @@ $this->headTitle($title);
         <?= $this->formElementErrors($form->get('searchValue')) ?>           
     </div>
 </div>
+<div class="form-group<?php if ($form->get('userTypeStaff')->getMessages()) echo ' has-error'; ?>"> 
+    <?= $this->formLabel($form->get('userTypeStaff')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <div class="checkbox">
+            <?= $this->formCheckbox($form->get('userTypeStaff')) ?>
+        </div>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('userTypeStaff')) ?>           
+    </div>
+</div>
+<div class="form-group<?php if ($form->get('userTypeStudent')->getMessages()) echo ' has-error'; ?>"> 
+    <?= $this->formLabel($form->get('userTypeStudent')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
+    <div class="col-sm-10">
+        <div class="checkbox">
+            <?= $this->formCheckbox($form->get('userTypeStudent')) ?>
+        </div>
+    </div>
+    <div id="helpBlock" class="help-block col-sm-offset-2 col-sm-10">
+        <?= $this->formElementErrors($form->get('userTypeStudent')) ?>           
+    </div>
+</div>
 <div class="form-group">
     <div class="col-sm-offset-3 col-sm-9">
         <button type="submit" class="btn btn-primary"><?= $this->translate('Chercher') ?></button>
