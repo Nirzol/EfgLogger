@@ -14,7 +14,7 @@
     <?= $this->translate('Liste de l\'attribut :') ?> 
     <?php
     if ($attribute->getFkAttributeListtype()) {
-        echo $this->escapeHtml($attribute->getFkAttributeListtype()->getListLibelle());
+        echo $this->escapeHtml($attribute->getFkAttributeListtype()->getListtypeLibelle());
     }
     else{
         echo $this->translate('Pas de liste attachée');
