@@ -24,6 +24,7 @@
             <th><?= $this->translate('Login') ?></th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
+            <th>&nbsp;</th> 
             <th>&nbsp;</th>        
         </tr>
     </thead>
@@ -32,6 +33,9 @@
             <tr>
                 <td>
                     <?= $this->escapeHtml($user->getUserLogin()) ?>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/profile/show/profiling', ['id' => $this->escapeUrl($user->getUserId())]); ?>" class="btn btn-warning btn-xs"><?= $this->translate('Mettre à jour les profils de l\'user') ?></a>
                 </td>
                 <td>
                     <a href="<?= $this->url('zfcadmin/user/show', ['id' => $this->escapeUrl($user->getUserId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>

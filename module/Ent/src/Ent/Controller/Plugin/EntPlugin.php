@@ -177,7 +177,7 @@ class EntPlugin extends AbstractPlugin
         if (in_array("student", $ldapUser['edupersonaffiliation'])) {
             return false;
         }
-        
+
         $idProfiles = null;
         /* @var $profile \Ent\Entity\EntProfile */
         foreach ($profiles as $profile) {
@@ -188,9 +188,21 @@ class EntPlugin extends AbstractPlugin
                 $idProfiles[] = $profile->getProfileId();
             }
         }
-
-
         return $idProfiles;
+    }
+
+    public function updateUserProfile(Array $users, Array $profiles, \Ent\Form\UserForm $userForm, \Ent\Service\UserDoctrineService $userService)
+    {
+        /* @var $user EntUser */
+        foreach ($users as $user) {
+            $idProfile = $this->getProfilIdMatchingUserLdap($user->getUserLogin(), $profiles);
+            // if false = student --- if null = pas d'access
+            if ($idProfile !== null && $idProfile) {
+                $data = array('fkUpProfile' => $idProfile);
+
+                $userService->save($userForm, $data, $user);
+            }
+        }
     }
 
 }

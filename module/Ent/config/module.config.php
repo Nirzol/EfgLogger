@@ -285,6 +285,15 @@ return array(
                                             ),
                                         ),
                                     ),
+                                    'profiling' => array(
+                                        'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                        'options' => array(
+                                            'route' => '/profiling',
+                                            'defaults' => array(
+                                                'action' => 'profiling',
+                                            ),
+                                        ),
+                                    ),
                                 ),
                             ),
                         ),

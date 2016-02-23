@@ -311,23 +311,36 @@ class ProfileController extends AbstractActionController
             return $this->redirect()->toRoute('zfcadmin/profile');
         }
 
-        $users = $this->userService->getAll();
-
-        $config = $this->config;
-
-        /* @var $user EntUser */
-        foreach ($users as $user) {$form = null;
-            $idProfile = $this->entPlugin()->getProfilIdMatchingUserLdap($user->getUserLogin(), $profiles);
-            // if false = student --- if null = pas d'access
-            if ($idProfile !== null && $idProfile) {
-                $data = array('fkUpProfile' => $idProfile);
-
-                $form = $this->userForm;
-                $this->userService->save($form, $data, $user);
-            }
+        $id = (int) $this->params('id');
+        if (!$id) {
+            $users = $this->userService->getAll();
+            $message = 'Les users ont bien été updater';
+            $toRoute = 'zfcadmin/profile';
+        }
+        else{
+            $users = $this->userService->findBy(array('userId' => $id));         
+            $message = 'L\'user '.$users[0]->getUserLogin().' a bien été updater';
+            $toRoute = 'zfcadmin/user';
         }
 
-        return $this->redirect()->toRoute('zfcadmin/profile');
+//        $config = $this->config;
+
+        /* @var $user EntUser */
+//        foreach ($users as $user) {$form = null;
+//            $idProfile = $this->entPlugin()->getProfilIdMatchingUserLdap($user->getUserLogin(), $profiles);
+//            // if false = student --- if null = pas d'access
+//            if ($idProfile !== null && $idProfile) {
+//                $data = array('fkUpProfile' => $idProfile);
+//
+//                $form = $this->userForm;
+//                $this->userService->save($form, $data, $user);
+//            }
+//        }
+        $this->entPlugin()->updateUserProfile($users, $profiles, $this->userForm, $this->userService);
+
+        $this->flashMessenger()->addSuccessMessage($message);
+
+        return $this->redirect()->toRoute($toRoute);
     }
 
 }
