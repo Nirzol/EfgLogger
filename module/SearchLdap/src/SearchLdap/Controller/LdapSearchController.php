@@ -62,6 +62,10 @@ class LdapSearchController extends AbstractActionController {
             if ($form->isValid()) {
                 $search = $this->request->getPost('searchValue');
                 
+                $userTypeStaff = $this->request->getPost('userTypeStaff');
+                
+                $userTypeStudent = $this->request->getPost('userTypeStudent');
+                
                 if (!empty($search)) {
                     
                     if((strpos($search, "(") !== false) && (strpos($search, "(") == 0 )) {
@@ -71,7 +75,13 @@ class LdapSearchController extends AbstractActionController {
                             //$message = $zle->getMessage();
                         }                        
                     } else {
-                       $result = $this->searchLdapModel->searchUser($search);
+                        if($userTypeStaff == '1' && $userTypeStudent == '0') {
+                            $result = $this->searchLdapModel->searchUserStaff($search);
+                        } elseif($userTypeStaff == '0' && $userTypeStudent == '1') {
+                            $result = $this->searchLdapModel->searchUserStudent($search);
+                        } else {
+                            $result = $this->searchLdapModel->searchUser($search);
+                        }                       
                     }
                     
                     if (empty($result)) {

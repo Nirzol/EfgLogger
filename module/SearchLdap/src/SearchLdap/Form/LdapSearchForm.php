@@ -31,5 +31,27 @@ class LdapSearchForm extends Form {
                 'class' => 'btn btn-primary'
             ),
         ));
+        
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Checkbox',
+            'name' => 'userTypeStaff',
+            'options' => array(
+                'label' => 'Personnel : ',
+                'use_hidden_element' => true,
+                'checked_value' => '1',
+                'unchecked_value' => '0'
+            ),
+        ));
+        
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Checkbox',
+            'name' => 'userTypeStudent',
+            'options' => array(
+                'label' => 'Etudiant : ',
+                'use_hidden_element' => true,
+                'checked_value' => '1',
+                'unchecked_value' => '0'
+            ),
+        ));
     }
 }
