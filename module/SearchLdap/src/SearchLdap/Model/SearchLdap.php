@@ -34,6 +34,28 @@ class SearchLdap
 
         return $searchResult;
     }
+    
+    public function searchUserStaff($itemToSearch)
+    {
+        $filter = '(&(|(cn=*' . $itemToSearch . '*)(givenname=*' . $itemToSearch . '*)(sn=*' . $itemToSearch . '*)(uid=*' . $itemToSearch . '*)(displayname=*' . $itemToSearch . '*)(mail=*' . $itemToSearch . '*))(|(edupersonprimaryaffiliation=staff)(edupersonprimaryaffiliation=teacher)(edupersonprimaryaffiliation=faculty)))';
+
+        $searchResult = $this->ldap->searchEntries($filter);
+
+        $this->ldap->disconnect();
+
+        return $searchResult;
+    }
+    
+    public function searchUserStudent($itemToSearch)
+    {
+        $filter = '(&(|(cn=*' . $itemToSearch . '*)(givenname=*' . $itemToSearch . '*)(sn=*' . $itemToSearch . '*)(uid=*' . $itemToSearch . '*)(displayname=*' . $itemToSearch . '*)(mail=*' . $itemToSearch . '*))(edupersonprimaryaffiliation=student))';
+
+        $searchResult = $this->ldap->searchEntries($filter);
+
+        $this->ldap->disconnect();
+
+        return $searchResult;
+    }
 
     /**
      * For specific search : one unique user. 
