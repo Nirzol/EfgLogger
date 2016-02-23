@@ -1,6 +1,6 @@
 <?php $this->headTitle($this->translate('Liste des users')); ?>
 
-<h1><?= $this->translate('Liste des users') ?></h1>
+<h1><?php echo $this->translate('Liste des users') . ' : ' . count($users) ?></h1>
 
 <p>
     <a href="<?= $this->url('zfcadmin/user/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouvel user') ?></a>
