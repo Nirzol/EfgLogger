@@ -194,7 +194,12 @@ class EntPlugin extends AbstractPlugin
     public function updateUserProfile(Array $users, Array $profiles, \Ent\Form\UserForm $userForm, \Ent\Service\UserDoctrineService $userService)
     {
         /* @var $user EntUser */
+        error_log(date('i:s'));
+        $maxExecutionTime = ini_get('max_execution_time');
+        set_time_limit(0);
+        $i;
         foreach ($users as $user) {
+            $i++;
             $idProfile = $this->getProfilIdMatchingUserLdap($user->getUserLogin(), $profiles);
             // if false = student --- if null = pas d'access
             if ($idProfile !== null && $idProfile) {
@@ -202,7 +207,10 @@ class EntPlugin extends AbstractPlugin
 
                 $userService->save($userForm, $data, $user);
             }
+            error_log($i);
         }
+        error_log(date('i:s'));
+        set_time_limit($maxExecutionTime);
     }
 
 }
