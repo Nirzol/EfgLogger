@@ -41,6 +41,12 @@ class IndexRestController extends AbstractRestfulController
 
     /**
      *
+     * @var \Ent\Service\ProfileDoctrineService
+     */
+    protected $profileService;
+
+    /**
+     *
      * @var UserForm
      */
     protected $userForm;
@@ -51,13 +57,14 @@ class IndexRestController extends AbstractRestfulController
      */
     protected $actionService;
 
-    public function __construct(LogDoctrineService $logService, LogForm $logForm, UserDoctrineService $userService, \Ent\Form\UserForm $userForm, ActionDoctrineService $actionService)
+    public function __construct(LogDoctrineService $logService, LogForm $logForm, UserDoctrineService $userService, \Ent\Form\UserForm $userForm, ActionDoctrineService $actionService, \Ent\Service\ProfileDoctrineService $profileService)
     {
         $this->logService = $logService;
         $this->logForm = $logForm;
         $this->userService = $userService;
         $this->userForm = $userForm;
         $this->actionService = $actionService;
+        $this->profileService = $profileService;
     }
 
     public function getList()
@@ -92,6 +99,10 @@ class IndexRestController extends AbstractRestfulController
                 $dataAssoc = $entPlugin->prepareLogData($user, true, $action->getActionId());
 
                 $this->logService->insert($this->logForm, $dataAssoc);
+                
+                $profiles = $this->profileService->getAll();
+                $users = array($user);
+                $this->entPlugin()->updateUserProfile($users, $profiles, $this->userForm, $this->userService);
 
 //                $lastConnection = $user->getUserLastConnection();
 //                $_SESSION['lastConnection'] = $lastConnection;

@@ -5,7 +5,7 @@
 <p>
     <a href="<?= $this->url('zfcadmin/profile/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un nouveau profile') ?></a>
 
-    <a href="<?= $this->url('zfcadmin/profile/profiling', array('action' => 'profiling')); ?>" class="btn btn-warning btn-xs"><?= $this->translate('Mettre à jour les profils des users - peut être très long !!!') ?></a>
+    <!--<a href="<?= $this->url('zfcadmin/profile/profiling', array('action' => 'profiling')); ?>" class="btn btn-warning btn-xs"><?= $this->translate('Mettre à jour les profils des users - peut être très long !!!') ?></a>-->
 </p>
 
 <?php foreach ($this->flashMessenger()->getSuccessMessages() as $m): ?>
@@ -21,7 +21,8 @@
         <th><?= $this->translate('Priorité du profile') ?></th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
-        <th>&nbsp;</th>        
+        <th>&nbsp;</th>   
+        <!--<th>&nbsp;</th>-->     
     </tr>
     <?php foreach ($listProfiles as $profile) : ?>
         <tr>
@@ -34,14 +35,17 @@
             <td>
                 <?= $this->escapeHtml($profile->getProfilePriority()) ?>
             </td>
+<!--            <td>
+                <a href="<?= $this->url('zfcadmin/profile/profiling', ['idd' => $this->escapeUrl($profile->getProfileId())]); ?>" class="btn btn-warning btn-xs"><?= $this->translate('Mettre à jour les profils des users - peut être très long !!!') ?></a>
+            </td>-->
             <td>
-                <a href="<?= $this->url('zfcadmin/profile/show', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
+                <a href="<?= $this->url('zfcadmin/profile/show', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails');?></a>
             </td>
             <td>
-                <a href="<?= $this->url('zfcadmin/profile/show/update', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
+                <a href="<?= $this->url('zfcadmin/profile/show/update', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier');?></a>
             </td>
             <td>
-                <a href="<?= $this->url('zfcadmin/profile/show/delete', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
+                <a href="<?= $this->url('zfcadmin/profile/show/delete', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer');?></a>
             </td>
         </tr>
     <?php endforeach; ?>

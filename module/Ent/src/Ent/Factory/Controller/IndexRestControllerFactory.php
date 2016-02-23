@@ -23,6 +23,8 @@ class IndexRestControllerFactory implements FactoryInterface
         
         $actionService = $sm->get('Ent\Service\ActionDoctrineORM');
         
+        $profileService = $sm->get('Ent\Service\ProfileDoctrineORM');
+        
         $logForm = $sm->get('FormElementManager')->get('Ent\Form\LogForm');
         
         $userForm = $sm->get('FormElementManager')->get('Ent\Form\UserForm');
@@ -30,9 +32,9 @@ class IndexRestControllerFactory implements FactoryInterface
         /* @var $serviceLocator ObjectManager */
         $om = $sm->get('Doctrine\ORM\EntityManager');
 
-        $hydrator = new DoctrineObject($om);
+//        $hydrator = new DoctrineObject($om);
 
-        $controller = new IndexRestController($logService, $logForm, $userService, $userForm, $actionService);
+        $controller = new IndexRestController($logService, $logForm, $userService, $userForm, $actionService, $profileService);
 
         return $controller;
     }

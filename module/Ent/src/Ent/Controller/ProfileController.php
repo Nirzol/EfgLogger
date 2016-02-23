@@ -305,7 +305,13 @@ class ProfileController extends AbstractActionController
             throw new UnauthorizedException('You are not allowed profiling_profile !');
         }
 
-        $profiles = $this->profileService->getAll();
+        $idd = (int) $this->params('idd');
+        if (!$idd) {
+            $profiles = $this->profileService->getAll();
+        } else {
+            $profiles = $this->profileService->findBy(array('profileId' => $idd));
+        }
+
         if (!$profiles) {
             $this->flashMessenger()->addSuccessMessage('Aucun profil existant');
             return $this->redirect()->toRoute('zfcadmin/profile');
@@ -316,10 +322,9 @@ class ProfileController extends AbstractActionController
             $users = $this->userService->getAll();
             $message = 'Les users ont bien été updater';
             $toRoute = 'zfcadmin/profile';
-        }
-        else{
-            $users = $this->userService->findBy(array('userId' => $id));         
-            $message = 'L\'user '.$users[0]->getUserLogin().' a bien été updater';
+        } else {
+            $users = $this->userService->findBy(array('userId' => $id));
+            $message = 'L\'user ' . $users[0]->getUserLogin() . ' a bien été updater';
             $toRoute = 'zfcadmin/user';
         }
 

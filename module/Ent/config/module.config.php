@@ -246,9 +246,12 @@ return array(
                                 ),
                             ),
                             'profiling' => array(
-                                'type' => \Zend\Mvc\Router\Http\Literal::class,
+                                'type' => \Zend\Mvc\Router\Http\Segment::class,
                                 'options' => array(
-                                    'route' => '/profiling',
+                                    'route' => '/profiling[/:idd]',
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
                                     'defaults' => array(
                                         'action' => 'profiling',
                                     ),
