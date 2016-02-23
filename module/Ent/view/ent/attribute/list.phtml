@@ -11,8 +11,12 @@
         <?= $this->translate($m) ?>
     </div>  
 <?php endforeach; ?> 
-
+<div class="input-group col-lg-4 pull-right">
+    <input id="filterTable" type="text" class="form-control" placeholder="<?= $this->translate('Would you like my attribute on your property ?') ?>">
+    <span class="input-group-addon"><?= $this->translate('Get it !') ?></span>
+</div>
 <table class="table table-striped">  
+    <thead>
     <tr>
         <th><?=$this->translate('Nom de l\'attribut')?></th>
         <th><?=$this->translate('Libellé')?></th>
@@ -21,6 +25,8 @@
         <th>&nbsp;</th>
         <th>&nbsp;</th>        
     </tr>
+    </thead>
+    <tbody  class="searchable">
     <?php foreach ($listAttributes as $attribute) : ?>
         <tr>
             <td>
@@ -43,4 +49,5 @@
             </td>
         </tr>
     <?php endforeach; ?>
+    </tbody>
 </table>
