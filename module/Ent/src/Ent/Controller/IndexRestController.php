@@ -100,6 +100,7 @@ class IndexRestController extends AbstractRestfulController
 
                 $this->logService->insert($this->logForm, $dataAssoc);
                 
+                // Update user profile 
                 $profiles = $this->profileService->getAll();
                 $users = array($user);
                 $this->entPlugin()->updateUserProfile($users, $profiles, $this->userForm, $this->userService);

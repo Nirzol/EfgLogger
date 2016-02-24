@@ -80,18 +80,19 @@ class EntPlugin extends AbstractPlugin
         $attributesDataArray = Json::decode($serializer->serialize($attributesData, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_ARRAY);
 
         foreach ($attributesDataArray as $key => $attributeData) {
+            $attributesDataArray[$attributeData['attributeName']] = $attributesDataArray[$key];
+            unset($attributesDataArray[$key]);
             /* @var $attributeData EntAttribute */
 //            $prefAttributeData[$i] = $attributeData->toArray($this->hydrator);
 //            $prefAttributeData[$i] = Json::decode($serializer->serialize($attributeData, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_ARRAY);
 //            $prefAttributeData[$i]['attribute_value'] = $attributeValueFilterPost[$i];
 //            $attributeData['attribute_value'] = $attributeValueFilterPost[$i];
-            if (isset($attributesDataArray[$key]['fkAttributeListtype'])) {
-                $attributesDataArray[$key]['attributeValueLibelle'] = $this->getController()->ListPlugin()->getListLibelle($attributeValueFilterPost[$i]);
+            if (isset($attributesDataArray[$attributeData['attributeName']]['fkAttributeListtype'])) {
+                $attributesDataArray[$attributeData['attributeName']]['attributeValueLibelle'] = $this->getController()->ListPlugin()->getListLibelle($attributeValueFilterPost[$i]);
             }
-            $attributesDataArray[$key]['attributeValue'] = $attributeValueFilterPost[$i];
+            $attributesDataArray[$attributeData['attributeName']]['attributeValue'] = $attributeValueFilterPost[$i];
             $i++;
         }
-
         return $attributesDataArray;
     }
 
@@ -194,12 +195,12 @@ class EntPlugin extends AbstractPlugin
     public function updateUserProfile(Array $users, Array $profiles, \Ent\Form\UserForm $userForm, \Ent\Service\UserDoctrineService $userService)
     {
         /* @var $user EntUser */
-        error_log(date('i:s'));
-        $maxExecutionTime = ini_get('max_execution_time');
-        set_time_limit(0);
-        $i;
+//        error_log(date('i:s'));
+//        $maxExecutionTime = ini_get('max_execution_time');
+//        set_time_limit(0);
+//        $i;
         foreach ($users as $user) {
-            $i++;
+//            $i++;
             $idProfile = $this->getProfilIdMatchingUserLdap($user->getUserLogin(), $profiles);
             // if false = student --- if null = pas d'access
             if ($idProfile !== null && $idProfile) {
@@ -207,10 +208,10 @@ class EntPlugin extends AbstractPlugin
 
                 $userService->save($userForm, $data, $user);
             }
-            error_log($i);
+//            error_log($i);
         }
-        error_log(date('i:s'));
-        set_time_limit($maxExecutionTime);
+//        error_log(date('i:s'));
+//        set_time_limit($maxExecutionTime);
     }
 
 }

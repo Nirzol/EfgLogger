@@ -109,11 +109,12 @@ class ProfileController extends AbstractActionController
         }
 
         $attributes = $this->attributeService->getAll();
+//        $attributes = $this->attributeService->findBy(array(), array('attributeName' => 'ASC'));
         //        $services = $this->serviceService->getAll();
 
         /* @var $preference EntPreference */
         //        $preference = $this->preferenceService->findOneBy(array('fkPrefService' => 'notnull', 'fkPrefUser' => null, 'fkPrefProfile' => null));
-        $preferenceServices = $this->preferenceService->findBy(array('fkPrefUser' => null, 'fkPrefProfile' => null));
+        $preferenceServices = $this->preferenceService->findBy(array('fkPrefUser' => null, 'fkPrefProfile' => null), array('fkPrefService' => 'ASC'));
 
         $form = $this->profileForm;
 
