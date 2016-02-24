@@ -129,16 +129,16 @@ class IndexRestController extends AbstractRestfulController
                 $this->userService->save($this->userForm, $updateLastConnection, $user);
             }
 
-//            if (!isset($_SESSION['passPhrase'])) {
-//                $_SESSION['passPhrase'] = rand();
-//            }
-//            $data['passPhrase'] = $_SESSION['passPhrase'];
+            if (!isset($_SESSION['passPhrase'])) {
+                $_SESSION['passPhrase'] = rand();
+            }
+            $data['passPhrase'] = $_SESSION['passPhrase'];
 //            $data['lastConnection'] = $_SESSION['lastConnection'];
             
-            if (!isset($container->passPhrase)) {
-                $container->passPhrase = rand();
-            }
-            $data['passPhrase'] = $container->passPhrase;
+//            if (!isset($container->passPhrase)) {
+//                $container->passPhrase = rand();
+//            }
+//            $data['passPhrase'] = $container->passPhrase;
             $data['lastConnection'] = $container->lastConnection;
 
             $data['ipAddress'] = $_SERVER['REMOTE_ADDR'];
