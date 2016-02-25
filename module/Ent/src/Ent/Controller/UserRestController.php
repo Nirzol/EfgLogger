@@ -415,7 +415,8 @@ class UserRestController extends AbstractRestfulController
 //        return $attributes;
 //    }
     
-    public function getServicesAction() {    
+    public function getServicesAction() {
+     error_log('hello');
         $login = null;
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
@@ -438,6 +439,7 @@ class UserRestController extends AbstractRestfulController
                 $mailHost = $ldapUser['mailhost'][0];
                 $success = true;
                 $successMessage = 'L\'user a bien été trouvé.';
+                /* @var $user \Ent\Entity\EntUser */
                 $FkUpProfile = $user->getFkUpProfile();
                 $profiles = $FkUpProfile->toArray();
                 
@@ -450,9 +452,13 @@ class UserRestController extends AbstractRestfulController
                 foreach ($profiles as $profile) {
                     /* @var $profile EntProfile */
                     $preference = $this->preferenceService->findOneBy(array('fkPrefProfile' => $profile->getProfileId()));
+//                    $preference = $this->preferenceService->queryFindOneBy('c.profileId = ' .$profile->getProfileId());
+                    
                     /* @var $preference EntPreference */
                     $preferences[] = Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT);
+//                    $preferences[] = Json::decode($preference['prefAttribute'], Json::TYPE_OBJECT);
                 }
+                
                 $data[] = $mailHost;
                 $data[] = $preferences;                
             } else {
@@ -462,7 +468,8 @@ class UserRestController extends AbstractRestfulController
         } else {
             $errorMessage = 'Le login est null';
         } 
-        
+          
+     error_log('bye');
         return new JsonModel(array(
             'data' => $data,
             'success' => $success,
