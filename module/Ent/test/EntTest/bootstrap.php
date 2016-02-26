@@ -1,5 +1,5 @@
 <?php
 
-chdir(__DIR__.'/../../..');
+//chdir(__DIR__.'/../../..');
 
-require 'init_autoloader.php';
+require '../../../../init_autoloader.php';
