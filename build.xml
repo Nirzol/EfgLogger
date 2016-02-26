@@ -69,10 +69,10 @@
                 <include name="**/*.php"/>
                 <modified/>
             </fileset>
-            <fileset dir="${basedir}/tests">
+<!--            <fileset dir="${basedir}/tests">
                 <include name="**/*.php"/>
                 <modified/>
-            </fileset>
+            </fileset>-->
         </apply>
         <property name="lint.done" value="true"/>
     </target>
@@ -80,7 +80,7 @@
         <exec executable="${phploc}" taskname="phploc">
             <arg value="--count-tests"/>
             <arg path="${basedir}"/>
-            <arg path="${basedir}/tests"/>
+            <!--<arg path="${basedir}/tests"/>-->
         </exec>
         <property name="phploc.done" value="true"/>
     </target>
@@ -92,7 +92,7 @@
             <arg value="--log-xml"/>
             <arg path="${basedir}/build/logs/phploc.xml"/>
             <arg path="${basedir}"/>
-            <arg path="${basedir}/tests"/>
+            <!--<arg path="${basedir}/tests"/>-->
         </exec>
         <property name="phploc.done" value="true"/>
     </target>
@@ -129,7 +129,7 @@
             <arg value="--extensions=php"/>
             <arg value="--ignore=autoload.php"/>
             <arg path="${basedir}"/>
-            <arg path="${basedir}/tests"/>
+            <!--<arg path="${basedir}/tests"/>-->
         </exec>
         <property name="phpcs.done" value="true"/>
     </target>
@@ -141,7 +141,7 @@
             <arg value="--extensions=php"/>
             <arg value="--ignore=autoload.php"/>
             <arg path="${basedir}"/>
-            <arg path="${basedir}/tests"/>
+            <!--<arg path="${basedir}/tests"/>-->
         </exec>
         <property name="phpcs.done" value="true"/>
     </target>
