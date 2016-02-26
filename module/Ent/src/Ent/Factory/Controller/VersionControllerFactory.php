@@ -18,18 +18,19 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author sebbar
  */
-class VersionControllerFactory  implements FactoryInterface {
-    
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+class VersionControllerFactory implements FactoryInterface
+{
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
-        
+
         $service = $sm->get('Ent\Service\Version');
-        
+
         $controller = new VersionController($service);
-        
+
         return $controller;
     }
-    
 
 }

@@ -1,9 +1,9 @@
 <?php
 
 namespace Ent\Entity;
+
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\Groups;
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -73,7 +73,7 @@ class EntService extends Ent
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="fk_sa_attribute_id", referencedColumnName="attribute_id")
      *   }
-     * )     
+     * )
      * @Groups({"fkSaAttribute"})
      */
     private $fkSaAttribute = [];

@@ -9,48 +9,48 @@ use Ent\Service\HelpRequestDoctrineService;
 use SearchLdap\Controller\SearchLdapController;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
+
 /**
  * Description of HelpRequestRestController
  *
  * @author mdjimbi
  */
-
 class HelpRequestRestController extends AbstractRestfulController
 {
-    
+
     /**
      * @var HelpRequestDoctrineService
      */
     protected $helpRequestService;
-    
+
     /**
      *
      * @var ContactDoctrineService
      */
     protected $contactService;
-    
+
     /**
      *
      * @var HelpRequestForm
      */
     protected $helpRequestForm;
-    
+
     /**
      *
      * @var HelpRequestInputFilter
      */
     protected $helpRequestInputFilter;
-    
+
     /**
      *
      * @var SearchLdapController
      */
 //    protected $searchLdapController;
-    
+
     public function options()
     {
         $response = $this->getResponse();
-        $headers  = $response->getHeaders();
+        $headers = $response->getHeaders();
 
         if ($this->params()->fromRoute('id', false)) {
             // Allow viewing, partial updating, replacement, and deletion
@@ -60,7 +60,7 @@ class HelpRequestRestController extends AbstractRestfulController
                 'PATCH',
                 'PUT',
                 'DELETE',
-            )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+            )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
             return $response;
         }
 
@@ -68,13 +68,14 @@ class HelpRequestRestController extends AbstractRestfulController
         $headers->addHeaderLine('Allow', implode(',', array(
             'GET',
             'POST',
-        )))->addHeaderLine('Content-Type','application/json; charset=utf-8');
+        )))->addHeaderLine('Content-Type', 'application/json; charset=utf-8');
 
         return $response;
     }
-    
+
 //    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter , SearchLdapController $searchLdapController) {
-    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter) {
+    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter)
+    {
         $this->contactService = $contactService;
         $this->helpRequestService = $helpRequestService;
         $this->helpRequestForm = $helpRequestForm;
@@ -82,31 +83,34 @@ class HelpRequestRestController extends AbstractRestfulController
 //        $this->searchLdapController = $searchLdapController;
     }
 
-    public function getList() {
+    public function getList()
+    {
         $data = 0;
 
         return new JsonModel(array(
             'data' => $data
         ));
     }
-    
-    public function get($slug) {
-        
+
+    public function get($slug)
+    {
+
         return new JsonModel(array(
             'data' => $slug
         ));
     }
-    
-    public function create($data) {
-        
+
+    public function create($data)
+    {
+
         if ($data) {
-            
+
             $form = $this->helpRequestForm;
             $form->setInputFilter($this->helpRequestInputFilter);
-            
+
             $form->setData($data);
-            
-            if($form->isValid()) {
+
+            if ($form->isValid()) {
                 $form->getData();
                 $subject = $data['subject'];
                 $message = $data['messageplus'];
@@ -118,11 +122,11 @@ class HelpRequestRestController extends AbstractRestfulController
                 // On compte le nombre fichiers à envoyer
                 $countFiles = count($_FILES);
 
-                if(count($_FILES) > 0) {
+                if (count($_FILES) > 0) {
                     // Si on a un ou plusieurs fichiers à envoyer
-                    for($i = 0; $i < $countFiles; $i++) {
-                        $filePaths[] = $_FILES['file'.$i]['tmp_name'];
-                        $fileNames[] = $_FILES['file'.$i]['name'];
+                    for ($i = 0; $i < $countFiles; $i++) {
+                        $filePaths[] = $_FILES['file' . $i]['tmp_name'];
+                        $fileNames[] = $_FILES['file' . $i]['name'];
                     }
                     $transport = $this->helpRequestService->sendWithImage($message, $filePaths, $fileNames, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
                 } else {
@@ -144,10 +148,8 @@ class HelpRequestRestController extends AbstractRestfulController
             } else {
                 $error = $form->getMessages();
             }
-            
-            
         }
-               
+
         return new JsonModel(array(
             'success' => false,
             'error' => $error,
@@ -155,9 +157,10 @@ class HelpRequestRestController extends AbstractRestfulController
                 'error' => 'Le mail de demande d\'aide n\'a pas été envoyé.',
             ),
         ));
-        
+
 //        return new JsonModel(array(
 //            'data' => $data
 //        ));
     }
+
 }

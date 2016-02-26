@@ -25,16 +25,19 @@ use PhpEws\EwsConnection;
  *
  * @author fandria
  */
-class Owa {
-    
+class Owa
+{
     /* @var $ews EwsConnection */
+
     protected $ews;
-    
-    public function __construct(EwsConnection $ews) {
+
+    public function __construct(EwsConnection $ews)
+    {
         $this->ews = $ews;
     }
-    
-    public function setImpersonation($mail) {
+
+    public function setImpersonation($mail)
+    {
         // Configure impersonation
         $ews = $this->ews;
         $ei = new ExchangeImpersonationType();
@@ -43,9 +46,10 @@ class Owa {
         $ei->ConnectingSID = $sid;
         $ews->setImpersonation($ei);
     }
-    
-    public function getUnreadMails() {
-        
+
+    public function getUnreadMails()
+    {
+
         $request = new FindItemType();
         $itemProperties = new ItemResponseShapeType();
         $itemProperties->BaseShape = DefaultShapeNamesType::ID_ONLY;
@@ -91,15 +95,16 @@ class Owa {
             return null;
         }
     }
-    
-    public function getAllMails() {
+
+    public function getAllMails()
+    {
         $request = new FindItemType();
 
         $request->ItemShape = new ItemResponseShapeType();
         $request->ItemShape->BaseShape = DefaultShapeNamesType::DEFAULT_PROPERTIES;
 
         $request->Traversal = ItemQueryTraversalType::SHALLOW;
-        
+
         $request->ParentFolderIds = new NonEmptyArrayOfBaseFolderIdsType();
         $request->ParentFolderIds->DistinguishedFolderId = new DistinguishedFolderIdType();
         $request->ParentFolderIds->DistinguishedFolderId->Id = DistinguishedFolderIdNameType::INBOX;
@@ -112,8 +117,9 @@ class Owa {
             return null;
         }
     }
-    
-    public function getNumberOfUnread($response) {
+
+    public function getNumberOfUnread($response)
+    {
         $numberOfUnreadMail = 0;
 
         if (isset($response->ResponseMessages->FindItemResponseMessage->RootFolder->TotalItemsInView)) {
@@ -122,7 +128,7 @@ class Owa {
 
         return $numberOfUnreadMail;
     }
-    
+
 //    public function getCalendarEvents() {
 //        // Set init class
 //        $request = new FindItemType();

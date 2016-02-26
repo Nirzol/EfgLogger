@@ -2,53 +2,54 @@
 
 /**
  * Description of RequestConfig
- * 
+ *
  * L'ensemble des requetes NXQL a executer
- * 
+ *
  * @author sebbar
  */
 
 namespace Nuxeo\Service;
 
-class NXQLRequestConfig {
+class NXQLRequestConfig
+{
+
     private $nxqlGeneric = "SELECT * FROM Document WHERE ecm:mixinType != 'HiddenInNavigation' AND ecm:isProxy = 0 AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'";
-    
 //    private $usernameizedKeys = array( "type", "contributor", "ancestor", "path", "tag", 'permission');
-    
+
     private $nxqlClause = array(
-        'descartes_file_note'   => " AND ecm:primaryType IN ('DescartesFile', 'DescartesNote')",
-        'folder'                => " AND ecm:primaryType = 'Folder'",
-        'file_note'             => " AND ecm:primaryType IN ('File', 'Note')",
-        "contributor"           => " AND dc:contributors = ?",
-        "path"                  => " AND ecm:path STARTSWITH '?'",
-        "ancestor"              => " AND ecm:ancestorId = ?",
-        "tag"                   => " AND ecm:tag/* = ?",
-        'permission'            => " AND ecm:acl/*/permission"
+        'descartes_file_note' => " AND ecm:primaryType IN ('DescartesFile', 'DescartesNote')",
+        'folder' => " AND ecm:primaryType = 'Folder'",
+        'file_note' => " AND ecm:primaryType IN ('File', 'Note')",
+        "contributor" => " AND dc:contributors = ?",
+        "path" => " AND ecm:path STARTSWITH '?'",
+        "ancestor" => " AND ecm:ancestorId = ?",
+        "tag" => " AND ecm:tag/* = ?",
+        'permission' => " AND ecm:acl/*/permission"
     );
-    
     private $nxqlOrder = array(
-        "modified"      => " ORDER BY dc:modified",
-        'title'         => " ORDER BY dc:title",
+        "modified" => " ORDER BY dc:modified",
+        'title' => " ORDER BY dc:title",
     );
-    
-    public function getRequest($paramArray) {
-        
+
+    public function getRequest($paramArray)
+    {
+
         $nxqlQuery = NULL;
 //        var_dump($paramArray);
-        
-        if ( !is_null($paramArray) && (count($paramArray) > 0)) {
-            
+
+        if (!is_null($paramArray) && (count($paramArray) > 0)) {
+
             // Requete generique
             $nxqlQuery = $this->nxqlGeneric;
-            
+
             foreach ($paramArray as $key => $value) {
-                
+
                 switch ($key) {
-                    case  "type":
+                    case "type":
                         // $keys["type"] = "file_note", "decarte_file_note" or "folder"
                         $nxqlQuery = $nxqlQuery . $this->nxqlClause[$value];
                         break;
-                    
+
                     case "author":
                     case "path":
                     case "ancestor":
@@ -56,7 +57,7 @@ class NXQLRequestConfig {
                     case "tag":
                         $nxqlQuery = $nxqlQuery . str_replace("?", "'" . $value . "'", $this->nxqlClause[$key]);
                         break;
-                    
+
                     default:
                         break;
                 }
@@ -67,7 +68,7 @@ class NXQLRequestConfig {
             return $nxqlQuery;
         }
     }
-    
+
     /**
      * 
      * @param type $username
@@ -78,22 +79,23 @@ class NXQLRequestConfig {
      *          la requete NXQL des documents pour :
      *                  $username, $path exclusive $ancestor, meta tag $tag
      */
-    public function getDocumentsRequest($username, $path=NULL, $tag=NULL, $ancestor=NULL) {
+    public function getDocumentsRequest($username, $path = NULL, $tag = NULL, $ancestor = NULL)
+    {
 
         $paramArray = array();
-        
-        if( isset($username)) {
+
+        if (isset($username)) {
             $paramArray["contributor"] = $username;
         }
-        
+
         // "path" est exclusive a "ancestor" (soit l'un soit l'autre)
-        if ( isset($path) && ($path !== NULL)) {
+        if (isset($path) && ($path !== NULL)) {
             $paramArray["path"] = $path;
-        } elseif (isset ($ancestor)) {
+        } elseif (isset($ancestor)) {
             $paramArray["ancestor"] = $ancestor;
         }
-        
-        if( isset($tag)) {
+
+        if (isset($tag)) {
             $paramArray["tag"] = $tag;
         }
 
@@ -107,18 +109,18 @@ class NXQLRequestConfig {
      * @return type String :
      *      La requete pour les Foldes dans un pere ou-exclusive un ancetre 
      */
-    public function getFoldersRequest($path, $ancestor=NULL) {
+    public function getFoldersRequest($path, $ancestor = NULL)
+    {
 
         $paramArray = array();
 
-        if( isset($path) && $path !== NULL) {
+        if (isset($path) && $path !== NULL) {
             $paramArray["path"] = $path;
         } elseif (isset($ancestor) && $ancestor !== NULL) {
             $paramArray["ancestor"] = $path;
         }
-        
+
         return $this->getRequest($paramArray);
     }
-    
-    
+
 }

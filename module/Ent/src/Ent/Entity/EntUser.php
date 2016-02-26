@@ -95,7 +95,7 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="fk_ur_role_id", referencedColumnName="id")
      *   }
-     * )  
+     * )
      */
     private $fkUrRole = [];
 
@@ -162,7 +162,7 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
      *
      * @return string
      */
-    function getUserPassword()
+    public function getUserPassword()
     {
         return $this->userPassword;
     }
@@ -174,7 +174,7 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
      *
      * @return EntUser
      */
-    function setUserPassword($userPassword)
+    public function setUserPassword($userPassword)
     {
         $this->userPassword = $userPassword;
     }
@@ -432,7 +432,7 @@ class EntUser extends Ent implements \ZfcRbac\Identity\IdentityInterface
     {
         return $this->getFkUrRole()->toArray();
     }
-    
+
     /**
      * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
      *

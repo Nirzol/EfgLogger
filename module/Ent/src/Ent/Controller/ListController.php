@@ -12,13 +12,13 @@ class ListController extends AbstractActionController
 {
 
     /**
-     * 
+     *
      * @var ListDoctrineService
      */
     protected $listService = null;
 
     /**
-     * 
+     *
      * @var ListForm
      */
     protected $listForm = null;

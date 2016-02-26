@@ -28,25 +28,23 @@ class UserRestController extends AbstractRestfulController
      * @var UserForm
      */
     protected $userForm;
-    
+
     /**
      *
      * @var PreferenceDoctrineService
      */
     protected $preferenceService;
-    
 
     /**
      * @var Serializer
      */
     protected $serializer;
-    
+
     /**
-     * 
+     *
      * @var SearchLdapController
      */
 //    protected $searchLdapController = null;
-
 //    public function options()
 //    {
 //        $response = $this->getResponse();
@@ -72,7 +70,6 @@ class UserRestController extends AbstractRestfulController
 //
 //        return $response;
 //    }
-
 //    public function __construct(UserDoctrineService $userService, UserForm $userForm, PreferenceDoctrineService $preferenceService, Serializer $serializer, SearchLdapController $searchLdapController)
     public function __construct(UserDoctrineService $userService, UserForm $userForm, PreferenceDoctrineService $preferenceService, Serializer $serializer)
     {
@@ -414,15 +411,16 @@ class UserRestController extends AbstractRestfulController
 //        }
 //        return $attributes;
 //    }
-    
-    public function getServicesAction() {
-     error_log('hello');
+
+    public function getServicesAction()
+    {
+        error_log('hello');
         $login = null;
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
             $login = $authService->getIdentity()->getUserLogin();
         }
-        
+
         $success = false;
         $successMessage = '';
         $errorMessage = '';
@@ -431,8 +429,8 @@ class UserRestController extends AbstractRestfulController
         $profiles = null;
         if (!is_null($login)) {
             $user = $this->userService->findOneBy(array('userLogin' => $login));
-            
-            /* we get the profile of the user at this time*/
+
+            /* we get the profile of the user at this time */
             if ($user) {
 //                $ldapUser = $this->searchLdapController->getUser($login);
                 $ldapUser = $this->SearchLdapPlugin()->getUserInfo($login);
@@ -442,34 +440,34 @@ class UserRestController extends AbstractRestfulController
                 /* @var $user \Ent\Entity\EntUser */
                 $FkUpProfile = $user->getFkUpProfile();
                 $profiles = $FkUpProfile->toArray();
-                
+
                 //sort by priority value
-                usort($profiles, function($a, $b) {
+                usort($profiles, function ($a, $b) {
                     return $a->getProfilePriority() > $b->getProfilePriority();
                 });
-                                
+
                 $preferences = null;
                 foreach ($profiles as $profile) {
                     /* @var $profile EntProfile */
                     $preference = $this->preferenceService->findOneBy(array('fkPrefProfile' => $profile->getProfileId()));
 //                    $preference = $this->preferenceService->queryFindOneBy('c.profileId = ' .$profile->getProfileId());
-                    
+
                     /* @var $preference EntPreference */
                     $preferences[] = Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT);
 //                    $preferences[] = Json::decode($preference['prefAttribute'], Json::TYPE_OBJECT);
                 }
-                
+
                 $data[] = $mailHost;
-                $data[] = $preferences;                
+                $data[] = $preferences;
             } else {
                 $success = false;
                 $errorMessage = 'L\'user n\'existe pas dans la base.';
             }
         } else {
             $errorMessage = 'Le login est null';
-        } 
-          
-     error_log('bye');
+        }
+
+        error_log('bye');
         return new JsonModel(array(
             'data' => $data,
             'success' => $success,
@@ -479,4 +477,5 @@ class UserRestController extends AbstractRestfulController
             ),
         ));
     }
+
 }

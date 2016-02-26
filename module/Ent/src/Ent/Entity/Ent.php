@@ -21,7 +21,7 @@ class Ent
                     }
                     $resultArray[$key] = $this->subExctract($value, $hydrator, $owner);
                 }
-            } 
+            }
 //            else if (\is_object($value) && !($value instanceof DateTime) && $value instanceof \Doctrine\ORM\Proxy\Proxy) {
 //                //TODO
 //                if ($proxy) {
@@ -71,28 +71,28 @@ class Ent
 
         $result = '';
 
-        if (($this->getLogDatetime()) && ($this->getLogDatetime() != NULL)) {
+        if (($this->getLogDatetime()) && ($this->getLogDatetime() != null)) {
             $result = $result . ' ' . $this->getLogDatetime()->format('Y-m-d H:i:s');
         }
-        if (($this->getLogLogin()) && ($this->getLogLogin() != NULL)) {
+        if (($this->getLogLogin()) && ($this->getLogLogin() != null)) {
             $result = $result . ' ' . $this->getLogLogin();
         }
-        if (($this->getLogSession()) && ($this->getLogSession() != NULL)) {
+        if (($this->getLogSession()) && ($this->getLogSession() != null)) {
             $result = $result . ' ' . $this->getLogSession();
         }
-        if (($this->getLogIp()) && ($this->getLogIp() != NULL)) {
+        if (($this->getLogIp()) && ($this->getLogIp() != null)) {
             $result = $result . ' ' . $this->getLogIp();
         }
-        if (($this->getLogOnline()) && ($this->getLogOnline() != NULL)) {
+        if (($this->getLogOnline()) && ($this->getLogOnline() != null)) {
             $result = $result . ' ' . $this->getLogOnline()->format('Y-m-d H:i:s');
         }
-        if (($this->getLogUseragent()) && ($this->getLogUseragent() != NULL)) {
+        if (($this->getLogUseragent()) && ($this->getLogUseragent() != null)) {
             $result = $result . ' ' . $this->getLogUseragent();
         }
-        if (($this->getFkLogModule()) && ($this->getFkLogModule() != NULL)) {
+        if (($this->getFkLogModule()) && ($this->getFkLogModule() != null)) {
             $result = $result . ' ' . $this->getFkLogModule()->getModuleName();
         }
-        if (($this->getFkLogAction()) && ($this->getFkLogAction() != NULL)) {
+        if (($this->getFkLogAction()) && ($this->getFkLogAction() != null)) {
             $result = $result . ' ' . $this->getFkLogAction()->getActionName();
         }
         if ($this->getVersion()) {

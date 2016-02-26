@@ -1,13 +1,13 @@
 <?php
 
 // Modify with your own configuration
-return array(  
+return array(
     'cas' => array(
         'cas_version' => '2.0',//'CAS_VERSION_2_0',
-	'cas_hostname' => 'servauth.univ-paris5.fr',
+        'cas_hostname' => 'servauth.univ-paris5.fr',
 //	'cas_hostname' => 'castest.univ-paris5.fr',
-	'cas_port' => 443,
-	'cas_path' => '/cas',
+        'cas_port' => 443,
+        'cas_path' => '/cas',
         'no_account_route' => 'zfcadmin/user/add-auto',
         'cas_server_ca_cert_path' => dirname(dirname(__DIR__)) . '/data/certificat_P5_cas.pem',
 //        'cas_server_ca_cert_path' => dirname(dirname(__DIR__)) . '/data/certificat_P5_castest.pem',
@@ -44,5 +44,5 @@ return array(
 //                },
             ),
         ),
-    ), 
+    ),
 );

@@ -35,7 +35,8 @@ class EntPlugin extends AbstractPlugin
             $logOnline = date("Y-m-d H:i:s");
             $logOffline = '';
         }
-        $userIp = $_SERVER["REMOTE_ADDR"]; //$remote = new \Zend\Http\PhpEnvironment\RemoteAddress(); $remote->getIpAddress()
+        //$remote = new \Zend\Http\PhpEnvironment\RemoteAddress(); $remote->getIpAddress()
+        $userIp = $_SERVER["REMOTE_ADDR"];
         $userAgent = $_SERVER["HTTP_USER_AGENT"];
 
         $container = new Container('entLogger');
@@ -57,7 +58,7 @@ class EntPlugin extends AbstractPlugin
 
     /**
      * Prepare 'prefAttribute' to be insert into EntPreference
-     * 
+     *
      * @param array $attributeFilterPost
      * @param array $attributeKeyFilterPost
      * @return array
@@ -65,7 +66,7 @@ class EntPlugin extends AbstractPlugin
     public function preparePrefAttribute(array $attributeFilterPost, array $attributeKeyFilterPost, AttributeDoctrineService $attributeService, Serializer $serializer)
     {
         // Création du JSON
-        // Trie croissant du tableau et trie croissant de la requete findby sur attributeID, 
+        // Trie croissant du tableau et trie croissant de la requete findby sur attributeID,
         // pour être sur que les champs correspondent lors du merge
         ksort($attributeFilterPost);
         // On ne garde que les valeurs du array pour pouvoir merge avec le array de la requete
@@ -99,12 +100,12 @@ class EntPlugin extends AbstractPlugin
     public function preparePrefAttributePerService($serviceGetPostAttributes, $serviceGetPostServices, \Ent\Service\ServiceDoctrineService $service, AttributeDoctrineService $attributeService, Serializer $serializer)
     {
         // Filtre du array Attribute pour enlever les valeurs vides/null
-        $attributeFilterPost = $this->array_filter_recursive($serviceGetPostAttributes);
+        $attributeFilterPost = $this->arrayFilterRecursive($serviceGetPostAttributes);
 
         $prefAttribute = array();
 
         if ($serviceGetPostServices != null && !($serviceGetPostServices instanceof \Ent\Entity\EntService)) {
-            // on ne garde que les cases cochees. 
+            // on ne garde que les cases cochees.
             $attributeFilterPost = array_intersect_key($attributeFilterPost, array_flip($serviceGetPostServices));
 
             if (isset($attributeFilterPost) && !empty($attributeFilterPost)) {
@@ -134,16 +135,21 @@ class EntPlugin extends AbstractPlugin
             // Récupère les key qui sont en fait les attributeId
             $attributeKeyFilterPost = array_keys($attributeFilterPost);
 
-            $prefAttribute[$key]['serviceAttributeData'] = $this->preparePrefAttribute($attributeFilterPost, $attributeKeyFilterPost, $attributeService, $serializer);
+            $prefAttribute[$key]['serviceAttributeData'] = $this->preparePrefAttribute(
+                $attributeFilterPost,
+                $attributeKeyFilterPost,
+                $attributeService,
+                $serializer
+            );
         }
         return $prefAttribute;
     }
 
-    function array_filter_recursive(Array $source)
+    private function arrayFilterRecursive(array $source)
     {
         foreach ($source as $key => $value) {
             if (is_array($value)) {
-                $source[$key] = $this->array_filter_recursive($value);
+                $source[$key] = $this->arrayFilterRecursive($value);
             }
         }
 
@@ -153,9 +159,11 @@ class EntPlugin extends AbstractPlugin
     public function checkMaxInputVars()
     {
         $max_input_vars = ini_get('max_input_vars');
-        # Value of the configuration option as a string, or an empty string for null values, or FALSE if the configuration option doesn't exist
-        if ($max_input_vars == FALSE)
-            return FALSE;
+        // Value of the configuration option as a string, or an empty string for null values,
+        // or FALSE if the configuration option doesn't exist
+        if ($max_input_vars == false) {
+            return false;
+        }
 
         $php_input = substr_count(file_get_contents('php://input'), '&');
         $post = count($_POST, COUNT_RECURSIVE);
@@ -167,7 +175,7 @@ class EntPlugin extends AbstractPlugin
 
     /**
      * This function retrieves IDs from Profil Entity Matching LDAP attributes
-     * 
+     *
      * @param string $userLogin
      * @return array or false
      */
@@ -192,7 +200,7 @@ class EntPlugin extends AbstractPlugin
         return $idProfiles;
     }
 
-    public function updateUserProfile(Array $users, Array $profiles, \Ent\Form\UserForm $userForm, \Ent\Service\UserDoctrineService $userService)
+    public function updateUserProfile(array $users, array $profiles, \Ent\Form\UserForm $userForm, \Ent\Service\UserDoctrineService $userService)
     {
         /* @var $user EntUser */
 //        error_log(date('i:s'));

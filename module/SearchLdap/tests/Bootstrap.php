@@ -11,13 +11,15 @@ use RuntimeException;
 error_reporting(E_ALL | E_STRICT);
 chdir(__DIR__);
 
-class Bootstrap {
+class Bootstrap
+{
 
     protected static $serviceManager;
     protected static $config;
     protected static $bootstrap;
 
-    public static function init() {
+    public static function init()
+    {
         // Load the user-defined test configuration file, if it exists; otherwise, load
         if (is_readable(__DIR__ . '/TestConfig.php')) {
             $testConfig = include __DIR__ . '/TestConfig.php';
@@ -58,15 +60,18 @@ class Bootstrap {
         static::$config = $config;
     }
 
-    public static function getServiceManager() {
+    public static function getServiceManager()
+    {
         return static::$serviceManager;
     }
 
-    public static function getConfig() {
+    public static function getConfig()
+    {
         return static::$config;
     }
 
-    protected static function initAutoloader() {
+    protected static function initAutoloader()
+    {
         $vendorPath = static::findParentPath('vendor');
 
         if (is_readable($vendorPath . '/autoload.php')) {
@@ -91,13 +96,15 @@ class Bootstrap {
         ));
     }
 
-    protected static function findParentPath($path) {
+    protected static function findParentPath($path)
+    {
         $dir = __DIR__;
         $previousDir = '.';
         while (!is_dir($dir . '/' . $path)) {
             $dir = dirname($dir);
-            if ($previousDir === $dir)
+            if ($previousDir === $dir) {
                 return false;
+            }
             $previousDir = $dir;
         }
         return $dir . '/' . $path;

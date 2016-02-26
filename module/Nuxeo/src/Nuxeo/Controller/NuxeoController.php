@@ -10,9 +10,9 @@ use Nuxeo\Model\NuxeoDocuments;
 
 /**
  * Les requetes doivent avoir ce format :
- *      /nuxeo/id=idRequest 
+ *      /nuxeo/id=idRequest
  * ou idRequest est l'index de la requette dans la classe Nuxeo\Controller\NXQLRequestConfig
- * 
+ *
  */
 class NuxeoController extends AbstractRestfulController
 {
@@ -23,31 +23,31 @@ class NuxeoController extends AbstractRestfulController
     private $nuxeoAdminUsername = "Administrator";
 //    private $nuxeoAdminPassword = "plusfortdetous";
     private $nuxeoAdminPassword = "Administrator";
-
 //    private $username = "sduhamel";  // Current ENT user
     private $username = "Administrator";  // Current ENT user
-    
+
     /**
      *  Action GET requests without resource Id : on lance toutes les requetes du tableau de bord
-     *  
+     *
      * @return JsonModel
      */
+
     public function getList()
-    {   
+    {
         $documentsArray = array();
-        
+
         // A initialiser avec les id des requettes
         $idArray = array(1, 2);
-        
+
         foreach ($idArray as $id) {
             $tmpArray = $this->getRequestDocuments($id);
 
-            if ( !is_null($tmpArray) && (count($tmpArray) > 0)) {
+            if (!is_null($tmpArray) && (count($tmpArray) > 0)) {
                 // Il faut un merge intelligent pour ne pas dupliquer les elements
                 $documentsArray = array_merge($documentsArray, $tmpArray);
             }
         }
-        
+
         return new JsonModel($documentsArray);
     }
 
@@ -60,31 +60,31 @@ class NuxeoController extends AbstractRestfulController
     {
         $requestId = $this->params('id');
         error_log("Request Id = " . $requestId);
-        error_log(print_r($requestId, TRUE));    
+        error_log(print_r($requestId, true));
 
-        if ( !isset($requestId)) {
+        if (!isset($requestId)) {
             return (new JsonModel(array("Error" => "parameter id manquant.")));
         }
-        
+
         // Check nuxeo url is on
         /*
-        if (filter_var($this->nuxeoAutomationUrl, FILTER_VALIDATE_URL) !== false) {
-            return (new JsonModel(array("Error" => "Nuxeo server is down: " . $this->nuxeoAutomationUrl)));
-        }
-        */
-        
+          if (filter_var($this->nuxeoAutomationUrl, FILTER_VALIDATE_URL) !== false) {
+          return (new JsonModel(array("Error" => "Nuxeo server is down: " . $this->nuxeoAutomationUrl)));
+          }
+         */
+
         $documentsArray = $this->getRequestDocuments($id);
 
         return (new JsonModel($documentsArray));
-        
     }
 
-    public function getRequestDocuments($requestId) {
-        
+    public function getRequestDocuments($requestId)
+    {
+
         $nxqlQuery = null;
-        
+
         $requests = new NXQLRequestConfig();
-        
+
         switch ($requestId) {
             case 1:
                 $nxqlQuery = $requests->getDocumentsRequest($this->username);
@@ -93,11 +93,10 @@ class NuxeoController extends AbstractRestfulController
                 $nxqlQuery = $requests->getDocumentsRequest($this->username);
                 break;
         }
-        
+
         error_log("nxqlQuery = " . $nxqlQuery);
-        
-        $session = new NuxeoSession($this->nuxeoAutomationUrl, 
-                $this->nuxeoAdminUsername, $this->nuxeoAdminPassword,"Content-Type: application/json+nxrequest");
+
+        $session = new NuxeoSession($this->nuxeoAutomationUrl, $this->nuxeoAdminUsername, $this->nuxeoAdminPassword, "Content-Type: application/json+nxrequest");
 
         /**
          * @var NuxeoRequest
@@ -110,18 +109,18 @@ class NuxeoController extends AbstractRestfulController
         $answer = $nuxeoRequest->set('params', 'query', $nxqlQuery);
 
         /**
-         * @var NuxeoDocuments 
+         * @var NuxeoDocuments
          */
         $nuxeoDocuments = $answer->sendRequest();
 //            var_dump($answer);
         // $documentsArray = $answer->getDocumentList();
-        
+
         $documentsArray = null;
-        if ( isset($nuxeoDocuments) && ($nuxeoDocuments != null) && ($nuxeoDocuments instanceof NuxeoDocuments)) {
+        if (isset($nuxeoDocuments) && ($nuxeoDocuments != null) && ($nuxeoDocuments instanceof NuxeoDocuments)) {
             $documentsArray = $nuxeoDocuments->objectsToArray();
         }
-        
+
         return $documentsArray;
     }
-}
 
+}

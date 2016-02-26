@@ -12,19 +12,19 @@ class RoleController extends AbstractActionController
 {
 
     /**
-     * 
+     *
      * @var Request
      */
     protected $request = null;
 
     /**
-     * 
+     *
      * @var RoleDoctrineService
      */
     protected $roleService = null;
 
     /**
-     * 
+     *
      * @var RoleForm
      */
     protected $roleForm = null;
@@ -40,7 +40,7 @@ class RoleController extends AbstractActionController
         if (!$this->isGranted('list_role')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $roles = $this->roleService->getAll();
 
         return new ViewModel(array(
@@ -53,7 +53,7 @@ class RoleController extends AbstractActionController
         if (!$this->isGranted('add_role')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $form = $this->roleForm;
         $form->initParams(0); // Permet de gérer parent/child
 
@@ -79,7 +79,7 @@ class RoleController extends AbstractActionController
         if (!$this->isGranted('show_role')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $role = $this->roleService->getById($id);
@@ -98,14 +98,14 @@ class RoleController extends AbstractActionController
         if (!$this->isGranted('update_role')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
         $form = $this->roleForm;
         $form->initParams($id); // Pour gérer parent/child
         $role = $this->roleService->getById($id, $form);
 
         if ($this->request->isPost()) {
-            if($this->request->getPost()->get('permissions') == null){
+            if ($this->request->getPost()->get('permissions') == null) {
                 $this->request->getPost()->set('permissions', '');
             }
             $user = $this->roleService->save($form, $this->request->getPost(), $role);
@@ -127,7 +127,7 @@ class RoleController extends AbstractActionController
         if (!$this->isGranted('delete_role')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $this->roleService->delete($id);

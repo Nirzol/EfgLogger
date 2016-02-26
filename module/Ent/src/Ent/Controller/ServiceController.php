@@ -251,14 +251,14 @@ class ServiceController extends AbstractActionController
 
         // Get All Profile Preference
         $criteria = new Criteria();
-        $criteria->where($criteria->expr()->neq('fkPrefProfile', NULL));
+        $criteria->where($criteria->expr()->neq('fkPrefProfile', null));
         $criteria->andWhere($criteria->expr()->isNull('fkPrefUser'));
         $criteria->andWhere($criteria->expr()->isNull('fkPrefService'));
         $prefProfiles = $this->preferenceService->matching($criteria);
 
         $keyNameServiceToUpdate = $prefService->getFkPrefService()->getServiceName();
 
-        // Update one attribute. 
+        // Update one attribute.
         $serviceAttributeDataToUpdate = '';
         $keyServiceAttributeDataToUpdate = -1;
         if ($this->params('ida')) {
@@ -273,7 +273,7 @@ class ServiceController extends AbstractActionController
             }
         }
 
-        // Merge ProfilAttribute and ServiceAttribute with priority for ServiceAttribute 
+        // Merge ProfilAttribute and ServiceAttribute with priority for ServiceAttribute
         /* @var $prefProfile EntPreference */
         foreach ($prefProfiles as $prefProfile) {
             $prefProfileAttribute = Json::decode($prefProfile->getPrefAttribute(), Json::TYPE_ARRAY);
@@ -336,18 +336,18 @@ class ServiceController extends AbstractActionController
 
     private function deleteIntoProfile($idService)
     {
-        // Get Service        
+        // Get Service
         /* @var $service EntService */
         $service = $this->serviceService->getById($idService);
 
         // Get All Profile Preference
         $criteria = new Criteria();
-        $criteria->where($criteria->expr()->neq('fkPrefProfile', NULL));
+        $criteria->where($criteria->expr()->neq('fkPrefProfile', null));
         $criteria->andWhere($criteria->expr()->isNull('fkPrefUser'));
         $criteria->andWhere($criteria->expr()->isNull('fkPrefService'));
         $prefProfiles = $this->preferenceService->matching($criteria);
 
-        // Delete service into profileAttribute 
+        // Delete service into profileAttribute
         /* @var $prefProfile EntPreference */
         foreach ($prefProfiles as $prefProfile) {
             $prefProfileAttribute = Json::decode($prefProfile->getPrefAttribute(), Json::TYPE_ARRAY);
