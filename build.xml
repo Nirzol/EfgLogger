@@ -27,8 +27,7 @@
      <property name="phpmd"   value="${basedir}/vendor/bin/phpmd"/>
      <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/> 
     -->
-    <!--<target name="full-build" depends="prepare,static-analysis,phpunit,phpdox,-check-failure" description="Performs static analysis, runs the tests, and generates project documentation"/>-->
-    <target name="full-build" depends="prepare,static-analysis,phpdox" description="Performs static analysis, runs the tests, and generates project documentation"/>
+    <target name="full-build" depends="prepare,static-analysis,phpunit,phpdox,-check-failure" description="Performs static analysis, runs the tests, and generates project documentation"/>
     <target name="full-build-parallel" depends="prepare,static-analysis-parallel,phpunit,phpdox,-check-failure" description="Performs static analysis (executing the tools in parallel), runs the tests, and generates project documentation"/>
     <target name="quick-build" depends="prepare,lint,phpunit-no-coverage" description="Performs a lint check and runs the tests (without generating code coverage reports)"/>
     <target name="static-analysis" depends="lint,phploc-ci,pdepend,phpmd-ci,phpcs-ci,phpcpd-ci" description="Performs static analysis"/>
@@ -70,10 +69,10 @@
                 <include name="**/*.php"/>
                 <modified/>
             </fileset>
-<!--            <fileset dir="${basedir}/tests">
+            <fileset dir="${basedir}/module/Ent/test">
                 <include name="**/*.php"/>
                 <modified/>
-            </fileset>-->
+            </fileset>
         </apply>
         <property name="lint.done" value="true"/>
     </target>
@@ -81,7 +80,7 @@
         <exec executable="${phploc}" taskname="phploc">
             <arg value="--count-tests"/>
             <arg path="${basedir}"/>
-            <!--<arg path="${basedir}/tests"/>-->
+            <arg path="${basedir}/module/Ent/test"/>
         </exec>
         <property name="phploc.done" value="true"/>
     </target>
@@ -93,7 +92,7 @@
             <arg value="--log-xml"/>
             <arg path="${basedir}/build/logs/phploc.xml"/>
             <arg path="${basedir}"/>
-            <!--<arg path="${basedir}/tests"/>-->
+            <arg path="${basedir}/module/Ent/test"/>
         </exec>
         <property name="phploc.done" value="true"/>
     </target>
@@ -130,7 +129,7 @@
             <arg value="--extensions=php"/>
             <arg value="--ignore=autoload.php"/>
             <arg path="${basedir}"/>
-            <!--<arg path="${basedir}/tests"/>-->
+            <arg path="${basedir}/module/Ent/test"/>
         </exec>
         <property name="phpcs.done" value="true"/>
     </target>
@@ -142,7 +141,7 @@
             <arg value="--extensions=php"/>
             <arg value="--ignore=autoload.php"/>
             <arg path="${basedir}"/>
-            <!--<arg path="${basedir}/tests"/>-->
+            <arg path="${basedir}/module/Ent/test"/>
         </exec>
         <property name="phpcs.done" value="true"/>
     </target>
