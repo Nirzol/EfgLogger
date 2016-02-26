@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="../module/Ent/test/EntTest/bootstrap.php"
+<phpunit bootstrap="../init_autoloader.php"
          backupGlobals="false"
          backupStaticAttributes="false"
          strict="true"
