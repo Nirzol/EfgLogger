@@ -52,7 +52,7 @@ return array(
         ),
     ),
     'service_manager' => array(
-        'factories' => array( 
+        'factories' => array(
             'SearchLdap\Model\SearchLdap' => SearchLdap\Factory\Model\SearchLdapModelFactory::class,
         ),
     ),

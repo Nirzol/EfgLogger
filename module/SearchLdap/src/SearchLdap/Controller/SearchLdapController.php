@@ -7,79 +7,87 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
-class SearchLdapController extends AbstractRestfulController {
-    
+class SearchLdapController extends AbstractRestfulController
+{
+
     // methode liste, ex : "/search"
     protected $collectionMethod = array('GET');
-    
     // methode unitaire, ex : "/search/mdjimbi"
     protected $ressourceMethod = array('GET', 'POST', 'PUT', 'DELETE');
-    
+
     /* @var $searchLdapModel SearchLdap */
     protected $searchLdapModel;
 
-    public function __construct(SearchLdap $searchLdapModel) {
+    public function __construct(SearchLdap $searchLdapModel)
+    {
         $this->searchLdapModel = $searchLdapModel;
     }
 
-    public function setEventManager(EventManagerInterface $events) {
+    public function setEventManager(EventManagerInterface $events)
+    {
         parent::setEventManager($events);
         $events->attach('dispatch', array($this, 'checkMethod'), 10);
     }
 
-    protected function _getMethod() {
+    protected function _getMethod()
+    {
         if ($this->params()->fromRoute('slug', false)) {
             return $this->ressourceMethod;
         }
         return $this->collectionMethod;
     }
 
-    public function checkMethod($e) {
+    public function checkMethod($e)
+    {
         $this->setIdentifierName('slug');
-        if (in_array($e->getRequest()->getMethod(), $this->_getMethod())) {            
+        if (in_array($e->getRequest()->getMethod(), $this->_getMethod())) {
             return;
         }
-        
+
         $response = $this->getResponse();
         $response->setStatusCode(405);
         return $response;
     }
 
-    public function options() {
+    public function options()
+    {
         $response = $this->getResponse();
         $response->getHeaders()
                 ->addHeaderLine('Allow', implode(',', $this->_getMethod()));
         return $response;
     }
 
-    public function getList() {
+    public function getList()
+    {
         $data = 0;
 
         return new JsonModel(array(
             'data' => $data
         ));
     }
-    
-    public function get($slug) {
+
+    public function get($slug)
+    {
         $ldap = $this->searchLdapModel;
-        
+
         $search = $ldap->searchUser($slug);
-        
+
         return new JsonModel(array(
             'data' => $search
         ));
     }
-    
-    public function getUser($uid) {
+
+    public function getUser($uid)
+    {
         $ldap = $this->searchLdapModel;
-        
+
         $search = $ldap->getUserInfo($uid);
-        
+
 //        $search = $ldap->getUserInfo($slug);
-        
+
         return $search;
     }
-    
+
 //    public function getPrimaryAffiliationByUid($slug) {
 //        $ldap = $this->searchLdapModel;
 //        
@@ -87,7 +95,6 @@ class SearchLdapController extends AbstractRestfulController {
 //        
 //        return $search;
 //    }
-    
 //    public function getMailHostByUid($slug) {
 //        $ldap = $this->searchLdapModel;
 //        
@@ -95,7 +102,6 @@ class SearchLdapController extends AbstractRestfulController {
 //        
 //        return $search;
 //    }
-    
 //    public function getMailByUid($slug) {
 //        $ldap = $this->searchLdapModel;
 //        

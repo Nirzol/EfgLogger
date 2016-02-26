@@ -20,7 +20,7 @@ class SearchLdap
     /**
      * For Global search : one or many user(s)
      * Filter by cn, givenname,sn,uid,displayname,mail
-     * 
+     *
      * @param string $itemToSearch
      * @return array
      */
@@ -34,7 +34,7 @@ class SearchLdap
 
         return $searchResult;
     }
-    
+
     public function searchUserStaff($itemToSearch)
     {
         $filter = '(&(|(cn=*' . $itemToSearch . '*)(givenname=*' . $itemToSearch . '*)(sn=*' . $itemToSearch . '*)(uid=*' . $itemToSearch . '*)(displayname=*' . $itemToSearch . '*)(mail=*' . $itemToSearch . '*))(|(edupersonprimaryaffiliation=staff)(edupersonprimaryaffiliation=teacher)(edupersonprimaryaffiliation=faculty)))';
@@ -45,7 +45,7 @@ class SearchLdap
 
         return $searchResult;
     }
-    
+
     public function searchUserStudent($itemToSearch)
     {
         $filter = '(&(|(cn=*' . $itemToSearch . '*)(givenname=*' . $itemToSearch . '*)(sn=*' . $itemToSearch . '*)(uid=*' . $itemToSearch . '*)(displayname=*' . $itemToSearch . '*)(mail=*' . $itemToSearch . '*))(edupersonprimaryaffiliation=student))';
@@ -58,10 +58,10 @@ class SearchLdap
     }
 
     /**
-     * For specific search : one unique user. 
+     * For specific search : one unique user.
      * Filter By uid.
      * Return all attribute + memberOf !
-     * 
+     *
      * @param string $uid
      * @return array
      */
@@ -73,7 +73,7 @@ class SearchLdap
 
         $searchResult = $this->ldap->searchEntries($filter, null, 1, $justethese);
 
-        if($searchResult[0]['memberof']) {
+        if ($searchResult[0]['memberof']) {
             foreach ($searchResult[0]['memberof'] as $key => $value) {
                 $searchResult[0]['memberof'][$key] = $this->getIdCN($value);
             }
@@ -103,7 +103,7 @@ class SearchLdap
 
     /**
      * This function retrieves and returns CN from given DN
-     * 
+     *
      * @param string $dn
      * @return string
      */
@@ -116,7 +116,7 @@ class SearchLdap
 
     /**
      * This function retrieves and returns l'ID from given CN
-     * 
+     *
      * @param string $cn
      * @return string
      */

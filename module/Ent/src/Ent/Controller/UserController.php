@@ -16,25 +16,25 @@ class UserController extends AbstractActionController
 {
 
     /**
-     * 
+     *
      * @var Request
      */
     protected $request = null;
 
     /**
-     * 
+     *
      * @var UserDoctrineService
      */
     protected $userService = null;
 
     /**
-     * 
+     *
      * @var ProfileDoctrineService
      */
     protected $profileService = null;
 
     /**
-     * 
+     *
      * @var UserForm
      */
     protected $userForm = null;
@@ -100,7 +100,7 @@ class UserController extends AbstractActionController
 
     /**
      * Add and check user if not exist in database after login
-     * 
+     *
      * @return void
      */
 //    public function addAutoAction2()
