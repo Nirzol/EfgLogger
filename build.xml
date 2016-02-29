@@ -79,9 +79,7 @@
     </target>
     <target name="phploc" unless="phploc.done" description="Measure project size using PHPLOC and print human readable output. Intended for usage on the command line.">
         <exec executable="${phploc}" taskname="phploc">
-            <arg value="--count-tests"/>           
-            <arg value="--exclude"/>
-            <arg value="${basedir}/vendor/"/>
+            <arg value="--count-tests"/>
             <arg path="${basedir}"/>
             <arg path="${basedir}/module/Ent/test"/>
         </exec>
@@ -89,6 +87,8 @@
     </target>
     <target name="phploc-ci" unless="phploc.done" depends="prepare" description="Measure project size using PHPLOC and log result in CSV and XML format. Intended for usage within a continuous integration environment.">
         <exec executable="${phploc}" taskname="phploc">
+            <arg value="--exclude"/>
+            <arg value="${basedir}/vendor/"/>
             <arg value="--count-tests"/>
             <arg value="--log-csv"/>
             <arg path="${basedir}/build/logs/phploc.csv"/>
@@ -124,6 +124,8 @@
             <arg path="${basedir}/build/phpmd.xml"/>
             <arg value="--reportfile"/>
             <arg path="${basedir}/build/logs/pmd.xml"/>
+            <arg value="--exclude" />
+            <arg value="vendor" />
         </exec>
         <property name="phpmd.done" value="true"/>
     </target>
