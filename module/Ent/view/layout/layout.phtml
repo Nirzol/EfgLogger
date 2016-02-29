@@ -9,9 +9,11 @@
         <!-- Le styles -->
         <?php
         echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/images/favicon.ico'))
+        // DEBUT-CSS
                 ->prependStylesheet($this->basePath('styles/style.css'))
                 ->prependStylesheet($this->basePath('lib/css/bootstrap-theme.min.css'))
                 ->prependStylesheet($this->basePath('lib/css/bootstrap.min.css'))
+        // FIN-CSS                
         ?>
         <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">-->
         <?= $this->headLink() ?>
@@ -115,11 +117,13 @@
         <!-- Scripts -->
         <?php
         echo $this->headScript()
+        // DEBUT-headScript
                 ->prependFile($this->basePath('scripts/front-end.js'))
                 ->prependFile($this->basePath('lib/js/bootstrap.min.js'))
                 ->prependFile($this->basePath('lib/js/jquery.min.js'))
                 ->prependFile($this->basePath('lib/js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
                 ->prependFile($this->basePath('lib/js/html5shiv.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
+        // FIN-headScript                 
         ;
         ?>
 <!--        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
