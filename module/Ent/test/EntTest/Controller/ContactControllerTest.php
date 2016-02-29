@@ -2,17 +2,23 @@
 
 namespace EntTest\Controller;
 
+use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
+
 /**
  * Description of ContactControllerTest
  *
  * @author fandria
  */
-class ContactControllerTest extends AbstractControllerTestCase{
-    protected function setUp() {
+class ContactControllerTest extends AbstractControllerTestCase
+{
+
+    protected function setUp()
+    {
         $this->setApplicationConfig(require 'config/application.config.php');
     }
 
-    public function testListActionIsAccessible() {
+    public function testListActionIsAccessible()
+    {
         $this->dispatch('/contact');
 
         $this->assertResponseStatusCode(200);
@@ -21,7 +27,7 @@ class ContactControllerTest extends AbstractControllerTestCase{
         $this->assertActionName('list');
         $this->assertMatchedRouteName('contact');
     }
-    
+
     public function testGetListIsAccessible()
     {
         $this->dispatch('/contact-rest');
@@ -42,4 +48,5 @@ class ContactControllerTest extends AbstractControllerTestCase{
         $this->assertControllerName('ent\controller\contactrest');
         $this->assertActionName('get');
     }
+
 }

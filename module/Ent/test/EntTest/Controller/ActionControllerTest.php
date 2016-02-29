@@ -11,11 +11,14 @@ use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
  */
 class ActionControllerTest extends AbstractControllerTestCase
 {
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->setApplicationConfig(require 'config/application.config.php');
     }
 
-    public function testListActionIsAccessible() {
+    public function testListActionIsAccessible()
+    {
         $this->dispatch('/action');
 
         $this->assertResponseStatusCode(200);
@@ -25,7 +28,8 @@ class ActionControllerTest extends AbstractControllerTestCase
         $this->assertMatchedRouteName('action');
     }
 
-    public function testGetListIsAccessible() {
+    public function testGetListIsAccessible()
+    {
         $this->dispatch('/action-rest');
 
         $this->assertResponseStatusCode(200);
@@ -35,7 +39,8 @@ class ActionControllerTest extends AbstractControllerTestCase
         $this->assertMatchedRouteName('action-rest');
     }
 
-    public function testGetIsAccessible() {
+    public function testGetIsAccessible()
+    {
         $this->dispatch('/action-rest/3', 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -44,13 +49,14 @@ class ActionControllerTest extends AbstractControllerTestCase
         $this->assertActionName('get');
     }
 
-    public function testUpdateIsAccessible() {
+    public function testUpdateIsAccessible()
+    {
 
         $this->dispatch('/action-rest/3', 'PUT', array(
-            'actionName' => 'action name test update', 
+            'actionName' => 'action name test update',
             'actionLibelle' => 'action libelle test update',
             'actionDescription' => 'action description test update'
-            ));
+        ));
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');

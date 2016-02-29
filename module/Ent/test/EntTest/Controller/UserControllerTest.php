@@ -2,8 +2,11 @@
 
 namespace EntTest\Controller;
 
-class UserControllerTest extends \Zend\Test\PHPUnit\Controller\AbstractControllerTestCase
+use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
+
+class UserControllerTest extends AbstractControllerTestCase
 {
+
     protected function setUp()
     {
         $this->setApplicationConfig(require 'config/application.config.php');
@@ -23,9 +26,10 @@ class UserControllerTest extends \Zend\Test\PHPUnit\Controller\AbstractControlle
         $this->assertActionName('list');
         $this->assertMatchedRouteName('user');
     }
-    
+
     // REST getList
-    public function testGetListIsAccessible() {
+    public function testGetListIsAccessible()
+    {
         $this->dispatch('/user-rest');
 
         $this->assertResponseStatusCode(200);
@@ -77,9 +81,9 @@ class UserControllerTest extends \Zend\Test\PHPUnit\Controller\AbstractControlle
 ////        $this->assertQueryCount('p', 2);
 //        $this->assertContains('bobama', $this->getResponse()->getContent());
 //    }
-    
     // REST get
-    public function testGetIsAccessible() {
+    public function testGetIsAccessible()
+    {
         $this->dispatch('/user-rest/2', 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -87,7 +91,7 @@ class UserControllerTest extends \Zend\Test\PHPUnit\Controller\AbstractControlle
         $this->assertControllerName('ent\controller\userRest');
         $this->assertActionName('get');
     }
-    
+
     // REST create
 //    public function testCreateIsAccessible() {
 //        
@@ -100,16 +104,18 @@ class UserControllerTest extends \Zend\Test\PHPUnit\Controller\AbstractControlle
 //    }
 //    
     // REST update
-    public function testUpdateIsAccessible() {
-        
+    public function testUpdateIsAccessible()
+    {
+
         $this->dispatch('/user-rest/36', 'PUT', array('userLogin' => 'testUserRestUpdate', 'userStatus' => '1', 'fkUrRole' => '1'));
-        
+
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
         $this->assertControllerName('ent\controller\userrest');
         $this->assertActionName('update');
         $this->assertContains('true', $this->getResponse()->getContent());
     }
+
 //    
 //    // REST delete
 //    public function testDeleteIsAccessible() {

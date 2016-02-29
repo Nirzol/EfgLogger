@@ -2,17 +2,23 @@
 
 namespace EntTest\Controller;
 
+use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
+
 /**
  * Description of ServiceControllerTest
  *
  * @author fandria
  */
-class ServiceControllerTest extends AbstractControllerTestCase {
-    protected function setUp() {
+class ServiceControllerTest extends AbstractControllerTestCase
+{
+
+    protected function setUp()
+    {
         $this->setApplicationConfig(require 'config/application.config.php');
     }
 
-    public function testListActionIsAccessible() {
+    public function testListActionIsAccessible()
+    {
         $this->dispatch('/service');
 
         $this->assertResponseStatusCode(200);
@@ -42,4 +48,5 @@ class ServiceControllerTest extends AbstractControllerTestCase {
         $this->assertControllerName('ent\controller\servicerest');
         $this->assertActionName('get');
     }
+
 }

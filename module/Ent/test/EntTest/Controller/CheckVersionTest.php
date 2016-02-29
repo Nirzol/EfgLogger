@@ -4,25 +4,29 @@ namespace EntTest\Controller;
 
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
-class CheckVersionTest extends AbstractControllerTestCase {
+class CheckVersionTest extends AbstractControllerTestCase
+{
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->setApplicationConfig(require 'config/application.config.php');
     }
 
-    /********************************************
+    /*     * ******************************************
      * 
      * Test du controlleur VersionRestController
      * 
      */
-    
-    public function getVersionConfig() {
+
+    public function getVersionConfig()
+    {
         $conf = include __DIR__ . '/../../../../../config/autoload/global.php';
         return $conf['versions'];
     }
-    
-    public function testModuleVersionIsMatchingDataBaseVersion() {
-        
+
+    public function testModuleVersionIsMatchingDataBaseVersion()
+    {
+
         // Utilisation du controlleur VersionRest
         $this->dispatch('/api/version-rest');
 
@@ -36,11 +40,11 @@ class CheckVersionTest extends AbstractControllerTestCase {
         $versions = json_decode($json, TRUE);
         $lastVersionArray = end($versions['data']);
         $lastVersion = $lastVersionArray['version'];
-        
+
         // Version du module Ent dans le fichier de config
         $conf = $this->getVersionConfig();
         $bdVersionRequired = $conf['dependencies']['data-base-version'];
-        
+
         // Test du matching
         $this->assertEquals($bdVersionRequired, $lastVersion);
     }
