@@ -79,7 +79,9 @@
     </target>
     <target name="phploc" unless="phploc.done" description="Measure project size using PHPLOC and print human readable output. Intended for usage on the command line.">
         <exec executable="${phploc}" taskname="phploc">
-            <arg value="--count-tests"/>
+            <arg value="--count-tests"/>           
+            <arg value="--exclude"/>
+            <arg value="${basedir}/vendor/"/>
             <arg path="${basedir}"/>
             <arg path="${basedir}/module/Ent/test"/>
         </exec>
@@ -102,6 +104,7 @@
             <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml"/>
             <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg"/>
             <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg"/>
+            <arg value="--ignore=vendor"/>
             <arg path="${basedir}"/>
         </exec>
         <property name="pdepend.done" value="true"/>
@@ -140,7 +143,7 @@
             <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
             <arg value="--standard=PSR2"/>
             <arg value="--extensions=php"/>
-            <arg value="--ignore=autoload.php"/>
+            <arg value="--ignore=autoload.php,vendor"/>
             <arg path="${basedir}"/>
             <arg path="${basedir}/module/Ent/test"/>
         </exec>
@@ -155,6 +158,8 @@
     <target name="phpcpd-ci" unless="phpcpd.done" depends="prepare" description="Find duplicate code using PHPCPD and log result in XML format. Intended for usage within a continuous integration environment.">
         <exec executable="${phpcpd}" taskname="phpcpd">
             <arg value="--log-pmd"/>
+            <arg value="--exclude"/>
+            <arg value="${basedir}/vendor/"/>
             <arg path="${basedir}/build/logs/pmd-cpd.xml"/>
             <arg path="${basedir}"/>
         </exec>
