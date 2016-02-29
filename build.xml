@@ -166,7 +166,7 @@
             <arg value="--prefer-dist" />
             <arg value="--no-progress" />
 
-            <env key="SYMFONY_ENV" value="test"/>
+            <env key="APPLICATION_ENV" value="test"/>
         </exec>
     </target>
     <target name="phpunit" unless="phpunit.done" depends="prepare" description="Run unit tests with PHPUnit">
