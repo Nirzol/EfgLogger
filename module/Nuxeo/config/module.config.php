@@ -2,7 +2,7 @@
 
 return array(
     'controllers' => array(
-        'invokables' => array(            
+        'invokables' => array(
             'Nuxeo\Controller\Nuxeo' => '\Nuxeo\Controller\NuxeoController'
         )
     ),

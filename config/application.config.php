@@ -7,13 +7,10 @@ $modules = array(
 //        'Application',
     'ZfcAdmin',
     'Ent',
-//        'ZendDeveloperTools',
-//        'BjyProfiler',
     'DoctrineModule',
     'DoctrineORMModule',
     'EfgCasAuth',
     'SearchLdap',
-    'Nuxeo',
     'ZfcRbac',
     'JMSSerializerModule',
     'Owa',
@@ -22,6 +19,7 @@ $modules = array(
 if ($env == 'development') {
     $modules[] = 'ZendDeveloperTools';
     $modules[] = 'BjyProfiler';
+    $modules[] = 'Nuxeo';
 }
 
 return array(
