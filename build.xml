@@ -27,7 +27,7 @@
      <property name="phpmd"   value="${basedir}/vendor/bin/phpmd"/>
      <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/> 
     -->
-    <target name="full-build" depends="prepare,static-analysis,phpunit,phpdox,-check-failure" description="Performs static analysis, runs the tests, and generates project documentation"/>
+    <target name="full-build" depends="prepare,static-analysis,composer,phpunit,phpdox,-check-failure" description="Performs static analysis, runs the tests, and generates project documentation"/>
     <target name="full-build-parallel" depends="prepare,static-analysis-parallel,phpunit,phpdox,-check-failure" description="Performs static analysis (executing the tools in parallel), runs the tests, and generates project documentation"/>
     <target name="quick-build" depends="prepare,lint,phpunit-no-coverage" description="Performs a lint check and runs the tests (without generating code coverage reports)"/>
     <target name="static-analysis" depends="lint,phploc-ci,pdepend,phpmd-ci,phpcs-ci,phpcpd-ci" description="Performs static analysis"/>
@@ -158,6 +158,16 @@
             <arg path="${basedir}"/>
         </exec>
         <property name="phpcpd.done" value="true"/>
+    </target>
+    <target name="composer" description="Installing composer dependencies">
+        <exec executable="composer" failonerror="true">
+            <arg value="install" />
+            <arg value="--no-dev" />
+            <arg value="--prefer-dist" />
+            <arg value="--no-progress" />
+
+            <env key="SYMFONY_ENV" value="test"/>
+        </exec>
     </target>
     <target name="phpunit" unless="phpunit.done" depends="prepare" description="Run unit tests with PHPUnit">
         <exec executable="${phpunit}" resultproperty="result.phpunit" taskname="phpunit">
