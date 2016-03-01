@@ -41,11 +41,11 @@ class ActionControllerTest extends AbstractControllerTestCase
 
     protected function mockLogin()
     {
-//        $userSessionModel = new UserSessionModel();
-//        $userSessionModel->setUserId(1);
-//        $userSessionModel->setName('Tester');
+        $userSessionModel = new \Ent\Entity\EntUser();
+        $userSessionModel->setUserId(16);
+        $userSessionModel->setUserLogin('egrondin');
 
-        $userSessionModel = true;
+//        $userSessionModel = true;
 
         $authService = $this->getMock('Zend\Authentication\AuthenticationService');
         $authService->expects($this->any())
