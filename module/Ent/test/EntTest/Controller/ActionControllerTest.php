@@ -28,8 +28,8 @@ class ActionControllerTest extends AbstractControllerTestCase
     {
         $this->setApplicationConfig(require 'config/application.config.php');
         
-//        $this->authenticationService = $this->getMock('Zend\Authentication\AuthenticationService');
-//        $this->identityProvider = new \ZfcRbac\Identity\AuthenticationIdentityProvider($this->authenticationService);
+        $this->authenticationService = $this->getMock('Zend\Authentication\AuthenticationService');
+        $this->identityProvider = new \ZfcRbac\Identity\AuthenticationIdentityProvider($this->authenticationService);
         
 //        $this->mockLogin();
         
