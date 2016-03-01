@@ -25,13 +25,23 @@ class ActionControllerTest extends AbstractControllerTestCase
 
     protected function setUp()
     {
-        $this->setApplicationConfig(require 'config/application.config.php');
+//        $this->setApplicationConfig(require 'config/application.config.php');
+        
+        $this->setApplicationConfig(
+            include '/Users/egrondin/workspace/EntPersonnels/config/application.config.php'
+        );
+        
+//                $authorizationService = $this->getMock('ZfcRbac\Service\AuthorizationServiceInterface');
+//        $authorizationService->expects($this->any())
+//                ->method('isGranted')
+//                ->with('list_action')
+//                ->will($this->returnValue(true));
+//        $this->getApplicationServiceLocator()->setService('ZfcRbac\Service\AuthorizationServiceInterface', $authorizationService);
+        
+        parent::setUp();
 
 //        $this->authenticationService = $this->getMock('Zend\Authentication\AuthenticationService');
 //        $this->identityProvider = new \ZfcRbac\Identity\AuthenticationIdentityProvider($this->authenticationService);
-
-
-
 //        $authorizationService = $this->getMock('ZfcRbac\Service\AuthorizationServiceInterface');
 //        $authorizationService->expects($this->any())
 //                             ->method('isGranted')
@@ -55,26 +65,41 @@ class ActionControllerTest extends AbstractControllerTestCase
 //        $authService->expects($this->any())
 //                ->method('hasIdentity')
 //                ->will($this->returnValue(true));
-
+//        
 //        $authorizationService = $this->getMock('ZfcRbac\Service\AuthorizationServiceInterface');
 //        $authorizationService->expects($this->any())
 //                ->method('isGranted')
 //                ->with('list_action')
 //                ->will($this->returnValue(true));
-
+//        
 //        $this->getApplicationServiceLocator()->setAllowOverride(true);
 //        $this->getApplicationServiceLocator()->setService('Zend\Authentication\AuthenticationService', $authService);
 //        $this->getApplicationServiceLocator()->setService('ZfcRbac\Service\AuthorizationServiceInterface', $authorizationService);
-
 //        $roleService = $this->getApplicationServiceLocator()->get('ZfcRbac\Service\RoleService');
 //        new \ZfcRbac\Service\RoleService();
     }
 
     public function testListActionIsAccessible()
     {
-//        $this->mockLogin();
+//        $authorizationService = $this->getMock('ZfcRbac\Service\AuthorizationServiceInterface');
+//        $authorizationService->expects($this->any())
+//                ->method('isGranted')
+//                ->with('list_action')
+//                ->will($this->returnValue(true));
+//        $this->getApplicationServiceLocator()->setService('ZfcRbac\Service\AuthorizationServiceInterface', $authorizationService);
         
-        
+//        $actionServiceMock = $this->getMockBuilder('\Ent\Service\ActionDoctrineService')
+//                ->disableOriginalConstructor()
+//                ->getMock();
+//
+//        $actionServiceMock->expects($this->once())
+//                ->method('getAll')
+//                ->will($this->returnValue(array()));
+//
+//        $serviceManager = $this->getApplicationServiceLocator();
+//        $serviceManager->setAllowOverride(true);
+//        $serviceManager->setService('\Ent\Service\ActionDoctrineService', $actionServiceMock);
+
 
         $this->dispatch('/api/action');
 
