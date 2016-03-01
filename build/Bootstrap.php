@@ -9,6 +9,7 @@ use RuntimeException;
 
 error_reporting(E_ALL | E_STRICT);
 ini_set('memory_limit', '-1');
+ini_set('xdebug.max_nesting_level', '1000');
 chdir(__DIR__);
 
 /**
