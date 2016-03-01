@@ -37,7 +37,7 @@ class SearchLdap
 
     public function searchUserStaff($itemToSearch)
     {
-        $filter = '(&(|(cn=*' . $itemToSearch . '*)(givenname=*' . $itemToSearch . '*)(sn=*' . $itemToSearch . '*)(uid=*' . $itemToSearch . '*)(displayname=*' . $itemToSearch . '*)(mail=*' . $itemToSearch . '*))(|(edupersonprimaryaffiliation=staff)(edupersonprimaryaffiliation=teacher)(edupersonprimaryaffiliation=faculty)))';
+        $filter = '(&(|(cn=*' . $itemToSearch . '*)(givenname=*' . $itemToSearch . '*)(sn=*' . $itemToSearch . '*)(uid=*' . $itemToSearch . '*)(displayname=*' . $itemToSearch . '*)(mail=*' . $itemToSearch . '*))(|(edupersonprimaryaffiliation=staff)(edupersonprimaryaffiliation=teacher)(edupersonprimaryaffiliation=faculty)(edupersonprimaryaffiliation=affiliate)))';
 
         $searchResult = $this->ldap->searchEntries($filter);
 
