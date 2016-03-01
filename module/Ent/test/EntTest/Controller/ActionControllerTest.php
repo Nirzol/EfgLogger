@@ -11,61 +11,69 @@ use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
  */
 class ActionControllerTest extends AbstractControllerTestCase
 {
-    
+
     /**
      * @var \ZfcRbac\Identity\AuthenticationIdentityProvider
      */
     protected $identityProvider;
-    
+
     /**
      * @var \Zend\Authentication\AuthenticationService|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $authenticationService;
-    
     protected $traceError = true;
 
     protected function setUp()
     {
         $this->setApplicationConfig(require 'config/application.config.php');
-        
+
         $this->authenticationService = $this->getMock('Zend\Authentication\AuthenticationService');
         $this->identityProvider = new \ZfcRbac\Identity\AuthenticationIdentityProvider($this->authenticationService);
-        
-//        $this->mockLogin();
-        
+
+
+
 //        $authorizationService = $this->getMock('ZfcRbac\Service\AuthorizationServiceInterface');
 //        $authorizationService->expects($this->any())
 //                             ->method('isGranted')
 //                             ->with('list_action')
 //                             ->will($this->returnValue(true));
     }
-    
+
     protected function mockLogin()
     {
 //        $userSessionModel = new UserSessionModel();
 //        $userSessionModel->setUserId(1);
 //        $userSessionModel->setName('Tester');
-        
-//        $userSessionModel = true;
-// 
-//        $authService = $this->getMock('Zend\Authentication\AuthenticationService');
-//        $authService->expects($this->any())
-//                    ->method('getIdentity')
-//                    ->will($this->returnValue($userSessionModel));
-// 
-//        $authService->expects($this->any())
-//                    ->method('hasIdentity')
-//                    ->will($this->returnValue(true));
-// 
-//        $this->getApplicationServiceLocator()->setAllowOverride(true);
-//        $this->getApplicationServiceLocator()->setService('Zend\Authentication\AuthenticationService', $authService);
-        
+
+        $userSessionModel = true;
+
+        $authService = $this->getMock('Zend\Authentication\AuthenticationService');
+        $authService->expects($this->any())
+                ->method('getIdentity')
+                ->will($this->returnValue($userSessionModel));
+
+        $authService->expects($this->any())
+                ->method('hasIdentity')
+                ->will($this->returnValue(true));
+
+        $authorizationService = $this->getMock('ZfcRbac\Service\AuthorizationServiceInterface');
+        $authorizationService->expects($this->any())
+                ->method('isGranted')
+                ->with('list_action')
+                ->will($this->returnValue(true));
+
+        $this->getApplicationServiceLocator()->setAllowOverride(true);
+        $this->getApplicationServiceLocator()->setService('Zend\Authentication\AuthenticationService', $authService);
+        $this->getApplicationServiceLocator()->setService('ZfcRbac\Service\AuthorizationServiceInterface', $authorizationService);
+
 //        $roleService = $this->getApplicationServiceLocator()->get('ZfcRbac\Service\RoleService');
 //        new \ZfcRbac\Service\RoleService();
     }
 
     public function testListActionIsAccessible()
     {
+        $this->mockLogin();
+
         $this->dispatch('/api/action');
 
         $this->assertResponseStatusCode(200);
