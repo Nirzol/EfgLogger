@@ -53,13 +53,12 @@ class Module implements ConfigProviderInterface, BootstrapListenerInterface //Au
 
         //This strategy is used to redirect the user to another route when a user is unauthorized.
         $t->getEventManager()->attach(
-                $t->getServiceManager()->get('ZfcRbac\View\Strategy\RedirectStrategy')
+            $t->getServiceManager()->get('\ZfcRbac\View\Strategy\RedirectStrategy')
         );
-        
+
 //    $e->getTarget()
 //      ->getEventManager()
 //      ->attach(new View\Strategy\EncodeRedirectStrategy());
-
         //This strategy is used to render a template whenever a user is unauthorized.
 //        $t->getEventManager()->attach(
 //                $t->getServiceManager()->get('ZfcRbac\View\Strategy\UnauthorizedStrategy')
