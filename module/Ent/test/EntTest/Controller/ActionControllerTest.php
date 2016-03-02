@@ -22,84 +22,41 @@ class ActionControllerTest extends AbstractControllerTestCase
      */
     protected $authenticationService;
     protected $traceError = true;
+    
+    protected $serviceManager;
 
     protected function setUp()
     {
-//        $this->setApplicationConfig(require 'config/application.config.php');
-        
         $this->setApplicationConfig(
             include '/Users/egrondin/workspace/EntPersonnels/config/application.config.php'
         );
-        
-//                $authorizationService = $this->getMock('ZfcRbac\Service\AuthorizationServiceInterface');
-//        $authorizationService->expects($this->any())
-//                ->method('isGranted')
-//                ->with('list_action')
-//                ->will($this->returnValue(true));
-//        $this->getApplicationServiceLocator()->setService('ZfcRbac\Service\AuthorizationServiceInterface', $authorizationService);
-        
-        parent::setUp();
 
-//        $this->authenticationService = $this->getMock('Zend\Authentication\AuthenticationService');
-//        $this->identityProvider = new \ZfcRbac\Identity\AuthenticationIdentityProvider($this->authenticationService);
-//        $authorizationService = $this->getMock('ZfcRbac\Service\AuthorizationServiceInterface');
-//        $authorizationService->expects($this->any())
-//                             ->method('isGranted')
-//                             ->with('list_action')
-//                             ->will($this->returnValue(true));
+        parent::setUp();
     }
 
-    protected function mockLogin()
+    protected function mockAuthorizationService()
     {
-//        $userSessionModel = new \Ent\Entity\EntUser();
-//        $userSessionModel->setUserId(16);
-//        $userSessionModel->setUserLogin('egrondin');
-//
-////        $userSessionModel = true;
-//
-//        $authService = $this->getMock('Zend\Authentication\AuthenticationService');
-//        $authService->expects($this->any())
-//                ->method('getIdentity')
-//                ->will($this->returnValue($userSessionModel));
-//
-//        $authService->expects($this->any())
-//                ->method('hasIdentity')
-//                ->will($this->returnValue(true));
-//        
-//        $authorizationService = $this->getMock('ZfcRbac\Service\AuthorizationServiceInterface');
-//        $authorizationService->expects($this->any())
-//                ->method('isGranted')
-//                ->with('list_action')
-//                ->will($this->returnValue(true));
-//        
-//        $this->getApplicationServiceLocator()->setAllowOverride(true);
-//        $this->getApplicationServiceLocator()->setService('Zend\Authentication\AuthenticationService', $authService);
-//        $this->getApplicationServiceLocator()->setService('ZfcRbac\Service\AuthorizationServiceInterface', $authorizationService);
-//        $roleService = $this->getApplicationServiceLocator()->get('ZfcRbac\Service\RoleService');
-//        new \ZfcRbac\Service\RoleService();
+        $this->serviceManager = $this->getApplicationServiceLocator();
+        $this->serviceManager->setAllowOverride(true);
+
+        $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
+        $authService->expects($this->any())
+                ->method('isGranted')
+                ->will($this->returnValue(true));
+
+        $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
     }
 
     public function testListActionIsAccessible()
     {
-//        $authorizationService = $this->getMock('ZfcRbac\Service\AuthorizationServiceInterface');
-//        $authorizationService->expects($this->any())
-//                ->method('isGranted')
-//                ->with('list_action')
-//                ->will($this->returnValue(true));
-//        $this->getApplicationServiceLocator()->setService('ZfcRbac\Service\AuthorizationServiceInterface', $authorizationService);
-        
-//        $actionServiceMock = $this->getMockBuilder('\Ent\Service\ActionDoctrineService')
-//                ->disableOriginalConstructor()
-//                ->getMock();
-//
-//        $actionServiceMock->expects($this->once())
-//                ->method('getAll')
-//                ->will($this->returnValue(array()));
-//
-//        $serviceManager = $this->getApplicationServiceLocator();
-//        $serviceManager->setAllowOverride(true);
-//        $serviceManager->setService('\Ent\Service\ActionDoctrineService', $actionServiceMock);
 
+        $this->mockAuthorizationService();
+        
+        $actionService = $this->getMockBuilder(\Ent\Service\ActionDoctrineService::class)->disableOriginalConstructor()->getMock();
+        $actionService->expects($this->any())
+                ->method('getAll')
+                ->will($this->returnValue(array()));
+        $this->serviceManager->setService(\Ent\Service\ActionDoctrineService::class, $actionService);
 
         $this->dispatch('/api/action');
 
@@ -107,7 +64,7 @@ class ActionControllerTest extends AbstractControllerTestCase
         $this->assertModuleName('ent');
         $this->assertControllerName('ent\controller\action');
         $this->assertActionName('list');
-        $this->assertMatchedRouteName('action');
+        $this->assertMatchedRouteName('zfcadmin/action');
     }
 
     public function testGetListIsAccessible()
@@ -131,9 +88,8 @@ class ActionControllerTest extends AbstractControllerTestCase
         $this->assertActionName('get');
     }
 
-    public function testUpdateIsAccessible()
-    {
-
+//    public function testUpdateIsAccessible()
+//    {
 //        $this->dispatch('/api/action-rest/3', 'PUT', array(
 //            'actionName' => 'action name test update',
 //            'actionLibelle' => 'action libelle test update',
@@ -145,8 +101,7 @@ class ActionControllerTest extends AbstractControllerTestCase
 //        $this->assertControllerName('ent\controller\actionrest');
 //        $this->assertActionName('update');
 //        $this->assertContains('true', $this->getResponse()->getContent());
-    }
-
+//    }
 //    public function testDeleteIsAccessible() {
 //        $this->dispatch('/action-rest/3', 'DELETE');
 //
