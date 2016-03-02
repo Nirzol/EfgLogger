@@ -28,11 +28,13 @@ class ActionControllerTest extends AbstractControllerTestCase
 
     protected function setUp()
     {
-        $this->setApplicationConfig(
-            include '/Users/egrondin/workspace/EntPersonnels/config/application.config.php'
-        );
-
-        parent::setUp();
+//        $this->setApplicationConfig(
+//            include '/Users/egrondin/workspace/EntPersonnels/config/application.config.php'
+//        );
+//
+//        parent::setUp();
+        
+        $this->setApplicationConfig(require 'config/application.config.php');
     }
 
     protected function mockAuthorizationService()
