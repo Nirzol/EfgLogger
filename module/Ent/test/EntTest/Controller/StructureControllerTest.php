@@ -9,7 +9,9 @@ use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
  *
  * @author fandria
  */
-class StructureControllerTest extends AbstractControllerTestCase {
+class StructureControllerTest extends AbstractControllerTestCase
+{
+
     protected function setUp()
     {
         $this->setApplicationConfig(require 'config/application.config.php');
@@ -35,4 +37,5 @@ class StructureControllerTest extends AbstractControllerTestCase {
         $this->assertControllerName('ent\controller\structurerest');
         $this->assertActionName('get');
     }
+
 }

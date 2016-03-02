@@ -7,15 +7,33 @@ use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 class UserControllerTest extends AbstractControllerTestCase
 {
 
+    protected $traceError = true;
+    protected $serviceManager;
+
     protected function setUp()
     {
         $this->setApplicationConfig(require 'config/application.config.php');
     }
 
+    protected function mockAuthorizationService()
+    {
+        $this->serviceManager = $this->getApplicationServiceLocator();
+        $this->serviceManager->setAllowOverride(true);
+
+        $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
+        $authService->expects($this->any())
+                ->method('isGranted')
+                ->will($this->returnValue(true));
+
+        $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
+    }
+
     // PHP List
     public function testListActionIsAccessible()
     {
-        $this->dispatch('/user');
+        $this->mockAuthorizationService();
+        
+        $this->dispatch('/api/user');
 
 //        var_dump($this->getResponse()->getContent());
 //        var_dump($this->getApplicationServiceLocator()->get('config'));
@@ -24,13 +42,13 @@ class UserControllerTest extends AbstractControllerTestCase
         $this->assertModuleName('ent');
         $this->assertControllerName('ent\controller\user');
         $this->assertActionName('list');
-        $this->assertMatchedRouteName('user');
+        $this->assertMatchedRouteName('zfcadmin/user');
     }
 
     // REST getList
     public function testGetListIsAccessible()
     {
-        $this->dispatch('/user-rest');
+        $this->dispatch('/api/user-rest');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
@@ -44,7 +62,9 @@ class UserControllerTest extends AbstractControllerTestCase
     // Il faudrait remplir la base dans le setUp
     public function testShowActionContainsUserWithMysql()
     {
-        $this->dispatch('/user/16');
+        $this->mockAuthorizationService();
+        
+        $this->dispatch('/api/user/16');
 
         // On vérifie via un selecteur CSS (attention tous n'existent pas)
         // qu'il y a bien 3 paragraphe dans la réponse
@@ -84,7 +104,7 @@ class UserControllerTest extends AbstractControllerTestCase
     // REST get
     public function testGetIsAccessible()
     {
-        $this->dispatch('/user-rest/2', 'GET');
+        $this->dispatch('/api/user-rest/2', 'GET');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
@@ -104,17 +124,17 @@ class UserControllerTest extends AbstractControllerTestCase
 //    }
 //    
     // REST update
-    public function testUpdateIsAccessible()
-    {
-
-        $this->dispatch('/user-rest/36', 'PUT', array('userLogin' => 'testUserRestUpdate', 'userStatus' => '1', 'fkUrRole' => '1'));
-
-        $this->assertResponseStatusCode(200);
-        $this->assertModuleName('ent');
-        $this->assertControllerName('ent\controller\userrest');
-        $this->assertActionName('update');
-        $this->assertContains('true', $this->getResponse()->getContent());
-    }
+//    public function testUpdateIsAccessible()
+//    {
+//
+//        $this->dispatch('/api/user-rest/36', 'PUT', array('userLogin' => 'testUserRestUpdate', 'userStatus' => '1', 'fkUrRole' => '1'));
+//
+//        $this->assertResponseStatusCode(200);
+//        $this->assertModuleName('ent');
+//        $this->assertControllerName('ent\controller\userrest');
+//        $this->assertActionName('update');
+//        $this->assertContains('true', $this->getResponse()->getContent());
+//    }
 
 //    
 //    // REST delete

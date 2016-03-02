@@ -11,26 +11,46 @@ use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
  */
 class ContactControllerTest extends AbstractControllerTestCase
 {
+    
+    protected $traceError = true;
+    
+    protected $serviceManager;
 
     protected function setUp()
     {
         $this->setApplicationConfig(require 'config/application.config.php');
     }
 
+    protected function mockAuthorizationService()
+    {
+        $this->serviceManager = $this->getApplicationServiceLocator();
+        $this->serviceManager->setAllowOverride(true);
+
+        $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
+        $authService->expects($this->any())
+                ->method('isGranted')
+                ->will($this->returnValue(true));
+
+        $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
+    }
+
     public function testListActionIsAccessible()
     {
-        $this->dispatch('/contact');
+
+        $this->mockAuthorizationService();
+        
+        $this->dispatch('/api/contact');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
         $this->assertControllerName('ent\controller\contact');
         $this->assertActionName('list');
-        $this->assertMatchedRouteName('contact');
+        $this->assertMatchedRouteName('zfcadmin/contact');
     }
 
     public function testGetListIsAccessible()
     {
-        $this->dispatch('/contact-rest');
+        $this->dispatch('/api/contact-rest');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
@@ -41,7 +61,7 @@ class ContactControllerTest extends AbstractControllerTestCase
 
     public function testGetIsAccessible()
     {
-        $this->dispatch('/contact-rest/1', 'GET');
+        $this->dispatch('/api/contact-rest/1', 'GET');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');

@@ -15,12 +15,13 @@ class ActionControllerTest extends AbstractControllerTestCase
     /**
      * @var \ZfcRbac\Identity\AuthenticationIdentityProvider
      */
-    protected $identityProvider;
+//    protected $identityProvider;
 
     /**
      * @var \Zend\Authentication\AuthenticationService|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $authenticationService;
+//    protected $authenticationService;
+    
     protected $traceError = true;
     
     protected $serviceManager;

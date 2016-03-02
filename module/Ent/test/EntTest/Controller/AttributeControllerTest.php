@@ -11,26 +11,45 @@ use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
  */
 class AttributeControllerTest extends AbstractControllerTestCase
 {
+    protected $traceError = true;
+    
+    protected $serviceManager;
 
     protected function setUp()
     {
         $this->setApplicationConfig(require 'config/application.config.php');
     }
 
+    protected function mockAuthorizationService()
+    {
+        $this->serviceManager = $this->getApplicationServiceLocator();
+        $this->serviceManager->setAllowOverride(true);
+
+        $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
+        $authService->expects($this->any())
+                ->method('isGranted')
+                ->will($this->returnValue(true));
+
+        $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
+    }
+
     public function testListActionIsAccessible()
     {
-        $this->dispatch('/attribute');
+
+        $this->mockAuthorizationService();
+        
+        $this->dispatch('/api/attribute');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
         $this->assertControllerName('ent\controller\attribute');
         $this->assertActionName('list');
-        $this->assertMatchedRouteName('attribute');
+        $this->assertMatchedRouteName('zfcadmin/attribute');
     }
 
     public function testGetListIsAccessible()
     {
-        $this->dispatch('/attribute-rest');
+        $this->dispatch('/api/attribute-rest');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
@@ -41,7 +60,7 @@ class AttributeControllerTest extends AbstractControllerTestCase
 
     public function testGetIsAccessible()
     {
-        $this->dispatch('/attribute-rest/2', 'GET');
+        $this->dispatch('/api/attribute-rest/2', 'GET');
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');

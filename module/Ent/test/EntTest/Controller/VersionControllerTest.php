@@ -7,9 +7,25 @@ use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 class VersionControllerTest extends AbstractControllerTestCase
 {
 
+    protected $traceError = true;
+    protected $serviceManager;
+
     protected function setUp()
     {
         $this->setApplicationConfig(require 'config/application.config.php');
+    }
+
+    protected function mockAuthorizationService()
+    {
+        $this->serviceManager = $this->getApplicationServiceLocator();
+        $this->serviceManager->setAllowOverride(true);
+
+        $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
+        $authService->expects($this->any())
+                ->method('isGranted')
+                ->will($this->returnValue(true));
+
+        $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
     }
 
     /*     * ************************************
@@ -26,7 +42,7 @@ class VersionControllerTest extends AbstractControllerTestCase
         $this->assertModuleName('ent');
         $this->assertControllerName('ent\controller\version');
         $this->assertActionName('index');
-        $this->assertMatchedRouteName('version');
+        $this->assertMatchedRouteName('zfcadmin/version');
     }
 
     /*     * ******************************************
