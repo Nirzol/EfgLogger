@@ -3,6 +3,7 @@
     <project name="ENT" source="../" workdir="build/phpdox">
         <collector publiconly="false">
             <include mask="*.php" />
+            <exclude mask="**vendor**"/>
         </collector>
 
         <generator output="build">
