@@ -54,7 +54,8 @@ class LogDoctrineService extends DoctrineService implements ServiceInterface
     {
         $repository = $this->em->getRepository('Ent\Entity\EntLog');
 
-        return $repository->findAll();
+//        return $repository->findAll();
+                return $repository->findBy(array(), array( "logOnline" => "DESC"), 100);
     }
 
     public function getById($id, $form = null)

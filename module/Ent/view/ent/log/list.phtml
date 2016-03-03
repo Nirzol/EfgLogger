@@ -1,6 +1,6 @@
 <?php $this->headTitle($this->translate('Liste des logs')); ?>
 
-<h1><?= $this->translate('Liste des logs') ?></h1>
+<h1><?= $this->translate('Liste des 100 derniers logs') ?></h1>
 
 <p>
     <a href="<?= $this->url('zfcadmin/log/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs"><?= $this->translate('Ajouter un log') ?></a>
@@ -29,7 +29,8 @@
         <th>&nbsp;</th>
         <th>&nbsp;</th>        
     </tr>
-    <?php foreach ($listLogs as $log) : ?>
+    
+    <?php foreach ($this->listLogs as $log) : ?>
         <tr>
             <td>
                 <?= $this->escapeHtml($log->getLogLogin()) ?>
