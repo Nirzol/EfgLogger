@@ -26,7 +26,7 @@ class VersionControllerFactory implements FactoryInterface
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
 
-        $service = $sm->get('Ent\Service\Version');
+        $service = $sm->get('Ent\Service\VersionDoctrineORM');
 
         $controller = new VersionController($service);
 

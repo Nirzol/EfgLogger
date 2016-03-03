@@ -8,19 +8,20 @@
 
 namespace Ent\Service;
 
-use Ent\Service\GenericEntityServiceInterface;
 use Zend\Form\Form;
 use Doctrine\ORM\EntityManager;
 use Ent\Entity\EntVersion;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Ent\InputFilter\VersionInputFilter;
+use Ent\Service\DoctrineService;
+use ZfcRbac\Service\AuthorizationService;
 
 /**
  * Description of VersionDoctrineService
  *
  * @author sebbar
  */
-class VersionDoctrineService implements GenericEntityServiceInterface
+class VersionDoctrineService extends DoctrineService implements ServiceInterface
 {
 
     /**
@@ -28,9 +29,25 @@ class VersionDoctrineService implements GenericEntityServiceInterface
      */
     protected $entityManager;
 
-    public function __construct(EntityManager $em)
+    /**
+     *
+     * @var AuthorizationService
+     */
+    protected $authorizationService;
+    
+    public function __construct(EntityManager $em, AuthorizationService $authorizationService)
     {
         $this->entityManager = $em;
+        $this->authorizationService = $authorizationService;
+    }
+
+    public function matching(\Doctrine\Common\Collections\Criteria $criteria)
+    {
+        $repo = $this->entityManager->getRepository('Ent\Entity\EntVersion');
+
+        $repoMatching = $repo->matching($criteria);
+
+        return $repoMatching;
     }
 
     public function getAll()
@@ -54,6 +71,24 @@ class VersionDoctrineService implements GenericEntityServiceInterface
         }
 
         return $repoFind;
+    }
+
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntVersion');
+
+        $repoFindOneBy = $repo->findOneBy($criteria, $orderBy);
+
+        return $repoFindOneBy;
+    }
+
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $repo = $this->em->getRepository('Ent\Entity\EntVersion');
+
+        $repoFindBy = $repo->findBy($criteria, $orderBy, $limit, $offset);
+
+        return $repoFindBy;
     }
 
     /**
@@ -86,6 +121,10 @@ class VersionDoctrineService implements GenericEntityServiceInterface
         return $version;
     }
 
+    public function save(Form $form, $dataAssoc, $version = null) {
+        $this->insert( $form, $dataAssoc);
+    }
+    
     public function insert(Form $form, $dataAssoc)
     {
         $version = new EntVersion();
