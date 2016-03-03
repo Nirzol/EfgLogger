@@ -42,7 +42,10 @@ class ActionControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->actionForm = $this->prophesize(\Ent\Form\ActionForm::class);
 
-        $controller = new \Ent\Controller\ActionController($this->actionDoctrineService->reveal(), $this->actionForm->reveal());
+        $controller = new \Ent\Controller\ActionController(
+            $this->actionDoctrineService->reveal(),
+            $this->actionForm->reveal()
+        );
         $this->controller = $controller;
 
         $this->zfcRbacAuthorizationService = $this->prophesize(\ZfcRbac\Service\AuthorizationService::class);
@@ -51,7 +54,7 @@ class ActionControllerTest extends \PHPUnit_Framework_TestCase
         $pluginManager->expects($this->any())
                 ->method('get')
                 ->will($this->returnCallback(array($this, 'helperMockCallbackPluginManagerGet')));
-        
+
 //        $pluginManager = $this->prophesize(\Zend\Mvc\Controller\PluginManager::class)->addMethodProphecy(array('get'));
 //        $pluginManager->get()->willReturn(array($this, 'helperMockCallbackPluginManagerGet'))->shouldBeCalled();
 
@@ -60,7 +63,7 @@ class ActionControllerTest extends \PHPUnit_Framework_TestCase
         $controller->setPluginManager($pluginManager);
     }
 
-    public function setUpZfcUserAuthenticationPlugin($option)
+    public function setUpZfcRbacAuthorizationService($option)
     {
         if (array_key_exists('isGranted', $option)) {
             $return = (is_callable($option['isGranted'])) ? $this->returnCallback($option['isGranted']) : $this->returnValue($option['isGranted']);
@@ -87,7 +90,7 @@ class ActionControllerTest extends \PHPUnit_Framework_TestCase
         /* @var $controller \Ent\Controller\ActionController */
         $controller = $this->controller;
 
-        $this->setUpZfcUserAuthenticationPlugin(array(
+        $this->setUpZfcRbacAuthorizationService(array(
             'isGranted' => true
         ));
 
@@ -106,7 +109,6 @@ class ActionControllerTest extends \PHPUnit_Framework_TestCase
         }
         return (array_key_exists($key, $this->pluginManagerPlugins)) ? $this->pluginManagerPlugins[$key] : null;
     }
-
 
 //    public function testListActionIsAccessible()
 //    {
