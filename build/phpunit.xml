@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="Bootstrap.php"
+<phpunit bootstrap="./Bootstrap.php"
          backupGlobals="false"
          backupStaticAttributes="false"
          strict="true"
@@ -9,8 +9,8 @@
         <testsuite name="ENT">
             <!--      <directory suffix="Test.php">tests/unit/</directory>
             <directory suffix="Test.php">tests/integration/</directory>-->
-            <directory suffix="Test.php">../module/Ent/test/EntTest/Controller</directory>
-            <directory suffix="Test.php">../module/Ent/test/EntTest/Entity</directory>
+            <directory suffix="ActionControllerTest.php">../module/Ent/test/EntTest/Controller</directory>
+            <!--<directory suffix="Test.php">../module/Ent/test/EntTest/Entity</directory>-->
         </testsuite>
     </testsuites>
 <!--
