@@ -930,60 +930,60 @@ return array(
                             ),
                         ),
                     ),
-                ),
-            ),
-            'version' => array(
-                'type' => \Zend\Mvc\Router\Http\Literal::class,
-                'options' => array(
-                    'route' => '/api/version',
-                    'defaults' => array(
-                        'controller' => 'Ent\Controller\Version',
-                        'action' => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'add' => array(
+                    'version' => array(
                         'type' => \Zend\Mvc\Router\Http\Literal::class,
                         'options' => array(
-                            'route' => '/add',
+                            'route' => '/version',
                             'defaults' => array(
-                                'action' => 'add',
-                            ),
-                        ),
-                    ),
-                    'show' => array(
-                        'type' => Zend\Mvc\Router\Http\Segment::class,
-                        'options' => array(
-                            'route' => '/:id',
-                            'defaults' => array(
-                                'action' => 'show',
-                            ),
-                            'constraints' => array(
-                                'id' => '[1-9][0-9]*'
+                                'controller' => 'Ent\Controller\Version',
+                                'action' => 'index',
                             ),
                         ),
                         'may_terminate' => true,
                         'child_routes' => array(
-                            'update' => array(
-                                'type' => Zend\Mvc\Router\Http\Segment::class,
+                            'add' => array(
+                                'type' => \Zend\Mvc\Router\Http\Literal::class,
                                 'options' => array(
-                                    'route' => '/update',
+                                    'route' => '/add',
                                     'defaults' => array(
-                                        'action' => 'update',
+                                        'action' => 'add',
                                     ),
                                 ),
                             ),
-                            'delete' => array(
+                            'show' => array(
                                 'type' => Zend\Mvc\Router\Http\Segment::class,
                                 'options' => array(
-                                    'route' => '/delete',
+                                    'route' => '/:id',
                                     'defaults' => array(
-                                        'action' => 'delete',
+                                        'action' => 'show',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[1-9][0-9]*'
                                     ),
                                 ),
+                                'may_terminate' => true,
+                                'child_routes' => array(
+                                    'update' => array(
+                                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                                        'options' => array(
+                                            'route' => '/update',
+                                            'defaults' => array(
+                                                'action' => 'update',
+                                            ),
+                                        ),
+                                    ),
+                                    'delete' => array(
+                                        'type' => Zend\Mvc\Router\Http\Segment::class,
+                                        'options' => array(
+                                            'route' => '/delete',
+                                            'defaults' => array(
+                                                'action' => 'delete',
+                                            ),
+                                        ),
+                                    ),
+                                )
                             ),
-                        )
+                        ),
                     ),
                 ),
             ),

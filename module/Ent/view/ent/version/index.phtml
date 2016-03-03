@@ -10,7 +10,7 @@
 <h2><?php echo $this->escapeHtml($title); ?></h2>
 
 <p>
-    <a href="<?php echo $this->url('version/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter une nouvelle version</a>
+    <a href="<?php echo $this->url('zfcadmin/version/add', array('action' => 'add')); ?>" class="btn btn-primary btn-xs">Ajouter une nouvelle version</a>
 </p>
 <table class="table table-striped">  
     <tr>
@@ -29,13 +29,13 @@
                 <?= $this->escapeHtml($version->getVersionDate()->format('Y-m-d H:i:s')) ?>
             </td>
             <td>
-                <a href="<?= $this->url('version/show', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
+                <a href="<?= $this->url('zfcadmin/version/show', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-primary btn-xs">Détails</a>
             </td>
             <td>
-                <a href="<?= $this->url('version/show/update', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
+                <a href="<?= $this->url('zfcadmin/version/show/update', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-warning btn-xs">Modifier</a>
             </td>
             <td>
-                <a href="<?= $this->url('version/show/delete', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
+                <a href="<?= $this->url('zfcadmin/version/show/delete', ['id' => $this->escapeUrl($version->getId())]) ?>" class="btn btn-danger btn-xs">Supprimer</a>
             </td>
         </tr>
     <?php endforeach; ?>

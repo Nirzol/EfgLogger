@@ -2,7 +2,6 @@
 
 namespace Ent\Controller;
 
-use Ent\Service\GenericEntityServiceInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Ent\Form\VersionForm;
@@ -12,15 +11,20 @@ class VersionController extends AbstractActionController
 
     protected $service = null;
 
-    public function __construct(GenericEntityServiceInterface $iservice)
+    public function __construct(\Ent\Service\VersionDoctrineService $iservice)
     {
         $this->service = $iservice;
     }
 
     public function indexAction()
     {
+        
+        if (!$this->isGranted('list_log')) {
+            throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
+        }
+        
         $versions = $this->service->getAll();
-
+        
         return new ViewModel(array(
             'listVersions' => $versions
         ));
