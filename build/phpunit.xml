@@ -13,7 +13,7 @@
             <!--<directory suffix="Test.php">../module/Ent/test/EntTest/Entity</directory>-->
         </testsuite>
     </testsuites>
-<!--
+
     <logging>
         <log type="coverage-html" target="../build/coverage"/>
         <log type="coverage-clover" target="../build/logs/clover.xml"/>
@@ -26,7 +26,9 @@
             <directory suffix=".php">../</directory>
             <exclude>
                 <file>../public/index.php</file>
+                <directory suffix=".php">../vendor</directory>
+                <directory suffix=".php">../data</directory>
             </exclude>
         </whitelist>
-    </filter>-->
+    </filter>
 </phpunit>
