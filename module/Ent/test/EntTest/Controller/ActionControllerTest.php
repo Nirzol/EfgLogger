@@ -107,18 +107,7 @@ class ActionControllerTest extends \PHPUnit_Framework_TestCase
         return (array_key_exists($key, $this->pluginManagerPlugins)) ? $this->pluginManagerPlugins[$key] : null;
     }
 
-//    protected function mockAuthorizationService()
-//    {
-//        $this->serviceManager = $this->getApplicationServiceLocator();
-//        $this->serviceManager->setAllowOverride(true);
-//
-//        $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
-//        $authService->expects($this->any())
-//                ->method('isGranted')
-//                ->will($this->returnValue(true));
-//
-//        $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
-//    }
+
 //    public function testListActionIsAccessible()
 //    {
 //

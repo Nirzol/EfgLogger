@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <phpdox xmlns="http://xml.phpdox.net/config">
-    <project name="ENT" source="../" workdir="build/phpdox">
+    <project name="ENT" source="../" workdir="../build/phpdox">
         <collector publiconly="false">
             <include mask="*.php" />
             <exclude mask="**vendor**"/>
         </collector>
 
-        <generator output="build">
+        <generator output="../build">
             <build engine="html" enabled="true" output="api">
                 <file extension="html" />
             </build>
