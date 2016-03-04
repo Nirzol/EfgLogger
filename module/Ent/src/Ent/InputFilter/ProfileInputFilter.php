@@ -133,23 +133,23 @@ class ProfileInputFilter extends InputFilter
     public function appendEditValidator($id)
     {
         $this->add(
-                array(
-                    'name' => 'profileName',
-                    'validators' => array(
-                        array(
-                            'name' => 'Ent\Validator\NoOtherEntityExists',
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntProfile'),
-                                'fields' => 'profileName',
-                                'id' => $id, //
-                                'id_getter' => 'getProfileId', //getter for ID
-                                'messages' => array(
-                                    'objectFound' => 'This profile already exists in database.',
-                                ),
+            array(
+                'name' => 'profileName',
+                'validators' => array(
+                    array(
+                        'name' => 'Ent\Validator\NoOtherEntityExists',
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntProfile'),
+                            'fields' => 'profileName',
+                            'id' => $id, //
+                            'id_getter' => 'getProfileId', //getter for ID
+                            'messages' => array(
+                                'objectFound' => 'This profile already exists in database.',
                             ),
                         ),
-                    )
+                    ),
                 )
+            )
         );
         return $this;
     }
@@ -157,21 +157,20 @@ class ProfileInputFilter extends InputFilter
     public function appendAddValidator()
     {
         $this->add(
-                array(
-                    'name' => 'profileName', //unique field name
-                    'validators' => array(
-                        array(
-                            'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntProfile'),
-                                'fields' => 'profileName',
-                                'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This profile already exists in database.'),
-                            ),
+            array(
+                'name' => 'profileName', //unique field name
+                'validators' => array(
+                    array(
+                        'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntProfile'),
+                            'fields' => 'profileName',
+                            'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This profile already exists in database.'),
                         ),
-                    )
+                    ),
                 )
+            )
         );
         return $this;
     }
-
 }

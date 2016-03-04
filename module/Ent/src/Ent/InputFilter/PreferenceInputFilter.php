@@ -58,5 +58,4 @@ class PreferenceInputFilter extends InputFilter
             ),
         ));
     }
-
 }

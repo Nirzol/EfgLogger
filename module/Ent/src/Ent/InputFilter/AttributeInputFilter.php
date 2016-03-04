@@ -84,23 +84,23 @@ class AttributeInputFilter extends InputFilter
     public function appendEditValidator($id)
     {
         $this->add(
-                array(
-                    'name' => 'attributeName',
-                    'validators' => array(
-                        array(
-                            'name' => 'Ent\Validator\NoOtherEntityExists',
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntAttribute'),
-                                'fields' => 'attributeName',
-                                'id' => $id, //
-                                'id_getter' => 'getAttributeId', //getter for ID
-                                'messages' => array(
-                                    'objectFound' => 'This attribute already exists in database.',
-                                ),
+            array(
+                'name' => 'attributeName',
+                'validators' => array(
+                    array(
+                        'name' => 'Ent\Validator\NoOtherEntityExists',
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntAttribute'),
+                            'fields' => 'attributeName',
+                            'id' => $id, //
+                            'id_getter' => 'getAttributeId', //getter for ID
+                            'messages' => array(
+                                'objectFound' => 'This attribute already exists in database.',
                             ),
                         ),
-                    )
+                    ),
                 )
+            )
         );
         return $this;
     }
@@ -108,21 +108,20 @@ class AttributeInputFilter extends InputFilter
     public function appendAddValidator()
     {
         $this->add(
-                array(
-                    'name' => 'attributeName', //unique field name
-                    'validators' => array(
-                        array(
-                            'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntAttribute'),
-                                'fields' => 'attributeName',
-                                'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This attribute already exists in database.'),
-                            ),
+            array(
+                'name' => 'attributeName', //unique field name
+                'validators' => array(
+                    array(
+                        'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntAttribute'),
+                            'fields' => 'attributeName',
+                            'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This attribute already exists in database.'),
                         ),
-                    )
+                    ),
                 )
+            )
         );
         return $this;
     }
-
 }

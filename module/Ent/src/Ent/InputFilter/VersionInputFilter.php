@@ -9,11 +9,13 @@ use Zend\InputFilter\InputFilter;
  *
  * @author sebbar
  */
-class VersionInputFilter extends InputFilter {
-    public function __construct() {
-        
+class VersionInputFilter extends InputFilter
+{
+
+    public function __construct()
+    {
+
         // Filtre pour l'entite EntVersion
-        
         // champ version
         $input = new \Zend\InputFilter\Input('version');
         $input->setRequired(true);
@@ -32,14 +34,14 @@ class VersionInputFilter extends InputFilter {
         $input = new \Zend\InputFilter\Input('versionCommentaire');
         $input->setRequired(false);
         $filter = new \Zend\Filter\StringTrim();
-        $input->getFilterChain()->attach($filter);        
+        $input->getFilterChain()->attach($filter);
         $filter = new \Zend\Filter\StripTags();
         $input->getFilterChain()->attach($filter);
         $validator = new \Zend\Validator\StringLength();
         $validator->setMax(250);
         $input->getValidatorChain()->attach($validator);
         $this->add($input);
-        
+
         // Filtre pour le champ versionDate
 //        $input = new \Zend\InputFilter\Input('versionDate');
 //        $input->setRequired(true);
@@ -51,6 +53,5 @@ class VersionInputFilter extends InputFilter {
 //        $validator->setFormat('Y-m-d');
 //        $input->getFilterChain()->attach($validator);
 //        $this->add($input);
-        
     }
 }
