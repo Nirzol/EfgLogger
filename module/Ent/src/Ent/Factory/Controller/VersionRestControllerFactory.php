@@ -22,21 +22,21 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class VersionRestControllerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
-        
+
         $service = $sm->get('Ent\Service\Version');
-        
+
         /* @var $serviceLocator ObjectManager */
         $om = $sm->get('Doctrine\ORM\EntityManager');
-        
+
         $hydrator = new DoctrineObject($om);
-        
+
         $controller = new VersionRestController($service, $hydrator);
-        
+
         return ($controller);
     }
-
 }
-

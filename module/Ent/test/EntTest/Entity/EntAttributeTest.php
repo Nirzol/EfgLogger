@@ -12,25 +12,31 @@ use PHPUnit_Framework_TestCase;
  */
 class EntAttributeTest extends PHPUnit_Framework_TestCase
 {
+
     protected $attribute;
-    
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->attribute = new EntAttribute();
     }
-    
-    public static function setUpBeforeClass() {
-        require_once __DIR__. '/../../../src/Ent/Entity/EntAttribute.php';
+
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/../../../src/Ent/Entity/EntAttribute.php';
     }
-    
-    protected function tearDown() {
+
+    protected function tearDown()
+    {
         parent::tearDown();
     }
-    
-    public static function tearDownAfterClass() {
+
+    public static function tearDownAfterClass()
+    {
         parent::tearDownAfterClass();
     }
-    
-    public function testInitValuesAreNull() {
+
+    public function testInitValuesAreNull()
+    {
         $this->assertNull($this->attribute->getAttributeId());
         $this->assertNull($this->attribute->getAttributeName());
         $this->assertNull($this->attribute->getAttributeLibelle());

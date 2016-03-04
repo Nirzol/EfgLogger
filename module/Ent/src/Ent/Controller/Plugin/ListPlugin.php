@@ -12,20 +12,20 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
  */
 class ListPlugin extends AbstractPlugin
 {
-    
     /* @var $listService ListDoctrineService */
+
     protected $listService;
-    
+
     // Connexion LDAP direct into Factory
-    public function __construct($listService) {
+    public function __construct($listService)
+    {
         $this->listService = $listService;
     }
 
     public function getListLibelle($listId)
     {
         $item = $this->listService->getById($listId);
-        
+
         return $item->getListLibelle();
     }
-
 }

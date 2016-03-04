@@ -34,7 +34,7 @@ class VersionDoctrineService extends DoctrineService implements ServiceInterface
      * @var AuthorizationService
      */
     protected $authorizationService;
-    
+
     public function __construct(EntityManager $em, AuthorizationService $authorizationService)
     {
         $this->entityManager = $em;
@@ -93,7 +93,7 @@ class VersionDoctrineService extends DoctrineService implements ServiceInterface
 
     /**
      * Returns the last inserted enterprise object
-     *  
+     *
      * @return type Ent\Entity\EntVersion
      */
     public function getLastInserted()
@@ -121,10 +121,11 @@ class VersionDoctrineService extends DoctrineService implements ServiceInterface
         return $version;
     }
 
-    public function save(Form $form, $dataAssoc, $version = null) {
-        $this->insert( $form, $dataAssoc);
+    public function save(Form $form, $dataAssoc, $version = null)
+    {
+        $this->insert($form, $dataAssoc);
     }
-    
+
     public function insert(Form $form, $dataAssoc)
     {
         $version = new EntVersion();
@@ -169,5 +170,4 @@ class VersionDoctrineService extends DoctrineService implements ServiceInterface
 
         return $version;
     }
-
 }

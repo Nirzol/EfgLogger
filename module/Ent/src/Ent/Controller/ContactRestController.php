@@ -198,5 +198,4 @@ class ContactRestController extends AbstractRestfulController
 //            ),
 //        ));
     }
-
 }

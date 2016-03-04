@@ -12,25 +12,31 @@ use PHPUnit_Framework_TestCase;
  */
 class EntProfileTest extends PHPUnit_Framework_TestCase
 {
+
     protected $profile;
-    
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->profile = new EntProfile();
     }
-    
-    public static function setUpBeforeClass() {
-        require_once __DIR__. '/../../../src/Ent/Entity/EntProfile.php';
+
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/../../../src/Ent/Entity/EntProfile.php';
     }
-    
-    protected function tearDown() {
+
+    protected function tearDown()
+    {
         parent::tearDown();
     }
-    
-    public static function tearDownAfterClass() {
+
+    public static function tearDownAfterClass()
+    {
         parent::tearDownAfterClass();
     }
-    
-    public function testInitValuesAreNull() {
+
+    public function testInitValuesAreNull()
+    {
         $this->assertNull($this->profile->getProfileId());
         $this->assertNull($this->profile->getProfileLdap());
         $this->assertNull($this->profile->getProfileName());

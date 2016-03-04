@@ -20,15 +20,17 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class VersionDoctrineORMServiceFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
-        
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+
         /* @var $serviceLocator ObjectManager */
         $om = $serviceLocator->get('Doctrine\ORM\EntityManager');
-        
+
         $authorizationService = $serviceLocator->get('\ZfcRbac\Service\AuthorizationService');
 
         $service = new VersionDoctrineService($om, $authorizationService);
-        
-        return $service;        
+
+        return $service;
     }
 }

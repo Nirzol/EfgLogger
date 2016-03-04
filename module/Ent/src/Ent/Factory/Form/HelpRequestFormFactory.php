@@ -11,16 +11,16 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author mdjimbi
  */
-
 class HelpRequestFormFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
-        $service         = $serviceLocator->getServiceLocator();
-        $entityManager    = $service->get('Doctrine\ORM\EntityManager');
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        $service = $serviceLocator->getServiceLocator();
+        $entityManager = $service->get('Doctrine\ORM\EntityManager');
 
         $form = new HelpRequestForm($entityManager);
 
         return $form;
     }
-
 }

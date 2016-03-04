@@ -12,25 +12,31 @@ use PHPUnit_Framework_TestCase;
  */
 class EntStatusTest extends PHPUnit_Framework_TestCase
 {
+
     protected $status;
-    
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->status = new EntStatus();
     }
-    
-    public static function setUpBeforeClass() {
-        require_once __DIR__. '/../../../src/Ent/Entity/EntStatus.php';
+
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/../../../src/Ent/Entity/EntStatus.php';
     }
-    
-    protected function tearDown() {
+
+    protected function tearDown()
+    {
         parent::tearDown();
     }
-    
-    public static function tearDownAfterClass() {
+
+    public static function tearDownAfterClass()
+    {
         parent::tearDownAfterClass();
     }
-    
-    public function testInitValuesAreNull() {
+
+    public function testInitValuesAreNull()
+    {
         $this->assertNull($this->status->getStatusId());
         $this->assertNull($this->status->getStatusName());
         $this->assertNull($this->status->getStatusLibelle());

@@ -142,7 +142,7 @@ class IndexController extends AbstractActionController
 //        return array( $versions, $bdVersionEo);
     }
 
-    function getQuotaroot($pass)
+    private function getQuotaroot($pass)
     {
 //        if(!$socket = @fsockopen("imap-i.infr.univ-paris5.fr", 143);
 //        return false;
@@ -263,5 +263,4 @@ class IndexController extends AbstractActionController
 //echo 'request: '.$request.'<br/>'; 
 ////echo 'login: '.$receive.'<br/>'; 
     }
-
 }

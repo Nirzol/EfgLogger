@@ -10,26 +10,33 @@ use PHPUnit_Framework_TestCase;
  *
  * @author fandria
  */
-class EntServiceTest extends PHPUnit_Framework_TestCase {
+class EntServiceTest extends PHPUnit_Framework_TestCase
+{
+
     protected $service;
-    
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->service = new EntService();
     }
-    
-    public static function setUpBeforeClass() {
-        require_once __DIR__. '/../../../src/Ent/Entity/EntService.php';
+
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/../../../src/Ent/Entity/EntService.php';
     }
-    
-    protected function tearDown() {
+
+    protected function tearDown()
+    {
         parent::tearDown();
     }
-    
-    public static function tearDownAfterClass() {
+
+    public static function tearDownAfterClass()
+    {
         parent::tearDownAfterClass();
     }
-    
-    public function testInitValuesAreNull() {
+
+    public function testInitValuesAreNull()
+    {
         $this->assertNull($this->service->getServiceId());
         $this->assertNull($this->service->getServiceName());
         $this->assertNull($this->service->getServiceLibelle());

@@ -11,9 +11,8 @@ use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
  */
 class ContactControllerTest extends AbstractControllerTestCase
 {
-    
+
     protected $traceError = true;
-    
     protected $serviceManager;
 
     protected function setUp()
@@ -28,8 +27,8 @@ class ContactControllerTest extends AbstractControllerTestCase
 
         $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
         $authService->expects($this->any())
-                ->method('isGranted')
-                ->will($this->returnValue(true));
+            ->method('isGranted')
+            ->will($this->returnValue(true));
 
         $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
     }
@@ -38,7 +37,7 @@ class ContactControllerTest extends AbstractControllerTestCase
     {
 
         $this->mockAuthorizationService();
-        
+
         $this->dispatch('/api/contact');
 
         $this->assertResponseStatusCode(200);
@@ -68,5 +67,4 @@ class ContactControllerTest extends AbstractControllerTestCase
         $this->assertControllerName('ent\controller\contactrest');
         $this->assertActionName('get');
     }
-
 }

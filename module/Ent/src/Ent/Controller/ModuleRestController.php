@@ -191,5 +191,4 @@ class ModuleRestController extends AbstractRestfulController
 //            ),
 //        ));
     }
-
 }

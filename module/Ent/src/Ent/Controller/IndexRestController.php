@@ -99,15 +99,15 @@ class IndexRestController extends AbstractRestfulController
                 $dataAssoc = $entPlugin->prepareLogData($user, true, $action->getActionId());
 
                 $this->logService->insert($this->logForm, $dataAssoc);
-                
-                // Update user profile 
+
+                // Update user profile
                 $profiles = $this->profileService->getAll();
                 $users = array($user);
                 $this->entPlugin()->updateUserProfile($users, $profiles, $this->userForm, $this->userService);
 
 //                $lastConnection = $user->getUserLastConnection();
 //                $_SESSION['lastConnection'] = $lastConnection;
-                
+
                 $container->lastConnection = $user->getUserLastConnection();
 
 //                $profiles = null;
@@ -134,7 +134,6 @@ class IndexRestController extends AbstractRestfulController
             }
             $data['passPhrase'] = $_SESSION['passPhrase'];
 //            $data['lastConnection'] = $_SESSION['lastConnection'];
-            
 //            if (!isset($container->passPhrase)) {
 //                $container->passPhrase = rand();
 //            }
@@ -142,12 +141,11 @@ class IndexRestController extends AbstractRestfulController
             $data['lastConnection'] = $container->lastConnection;
 
             $data['ipAddress'] = $_SERVER['REMOTE_ADDR'];
-            
+
             $container->getManager()->getStorage()->clear('entLogger');
 
 //            error_log("session: ".json_encode($_SESSION['lastConnection']));
 //            error_log("session: ".json_encode($container->lastConnection));
-
 //            $success = true;
 //            $successMessage = 'ok';
 //            $errorMessage = '';
@@ -160,9 +158,9 @@ class IndexRestController extends AbstractRestfulController
 //            $errorMessage = 'Not logged';
         }
 
-            $success = true;
-            $successMessage = 'ok';
-            $errorMessage = '';
+        $success = true;
+        $successMessage = 'ok';
+        $errorMessage = '';
 
         return new JsonModel(array(
             'data' => $data,
@@ -248,7 +246,7 @@ class IndexRestController extends AbstractRestfulController
 //    }
 //    /**
 //     * Verifie si l'utilisateur a deja ete logge ($_SESSION["is_logged"] existe)
-//     * 
+//     *
 //     * @param type $param
 //     * @return type
 //     */

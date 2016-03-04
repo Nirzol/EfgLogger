@@ -126,5 +126,4 @@ class ContactController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/contact');
     }
-
 }

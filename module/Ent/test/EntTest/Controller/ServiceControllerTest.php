@@ -67,5 +67,4 @@ class ServiceControllerTest extends AbstractControllerTestCase
         $this->assertControllerName('ent\controller\servicerest');
         $this->assertActionName('get');
     }
-
 }

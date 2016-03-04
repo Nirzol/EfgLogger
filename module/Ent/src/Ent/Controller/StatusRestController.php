@@ -14,7 +14,7 @@ class StatusRestController extends AbstractRestfulController
 {
 
     /**
-     * 
+     *
      * @var StatusDoctrineService
      */
     protected $statusService;
@@ -189,5 +189,4 @@ class StatusRestController extends AbstractRestfulController
 //            ),
 //        ));
     }
-
 }

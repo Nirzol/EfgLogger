@@ -10,26 +10,33 @@ use PHPUnit_Framework_TestCase;
  *
  * @author fandria
  */
-class EntStructureTest extends PHPUnit_Framework_TestCase {
+class EntStructureTest extends PHPUnit_Framework_TestCase
+{
+
     protected $structure;
-    
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->structure = new EntStructure();
     }
-    
-    public static function setUpBeforeClass() {
-        require_once __DIR__. '/../../../src/Ent/Entity/EntStructure.php';
+
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/../../../src/Ent/Entity/EntStructure.php';
     }
-    
-    protected function tearDown() {
+
+    protected function tearDown()
+    {
         parent::tearDown();
     }
-    
-    public static function tearDownAfterClass() {
+
+    public static function tearDownAfterClass()
+    {
         parent::tearDownAfterClass();
     }
-    
-    public function testInitValuesAreNull() {
+
+    public function testInitValuesAreNull()
+    {
         $this->assertNull($this->structure->getStructureId());
         $this->assertNull($this->structure->getStructureFatherid());
         $this->assertNull($this->structure->getStructureType());

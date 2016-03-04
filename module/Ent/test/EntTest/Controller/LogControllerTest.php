@@ -22,8 +22,8 @@ class LogControllerTest extends AbstractControllerTestCase
 
         $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
         $authService->expects($this->any())
-                ->method('isGranted')
-                ->will($this->returnValue(true));
+            ->method('isGranted')
+            ->will($this->returnValue(true));
 
         $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
     }
@@ -31,13 +31,13 @@ class LogControllerTest extends AbstractControllerTestCase
     public function testListActionIsAccessible()
     {
         $this->mockAuthorizationService();
-        
+
         $mokService = $this->getMockBuilder(\Ent\Service\LogDoctrineService::class)->disableOriginalConstructor()->getMock();
         $mokService->expects($this->any())
-                ->method('getAll')
-                ->will($this->returnValue(array()));
+            ->method('getAll')
+            ->will($this->returnValue(array()));
         $this->serviceManager->setService(\Ent\Service\LogDoctrineService::class, $mokService);
-        
+
         $this->dispatch('/api/log');
 
         $this->assertResponseStatusCode(200);
@@ -68,7 +68,6 @@ class LogControllerTest extends AbstractControllerTestCase
 //        $this->assertActionName('update');
 //        $this->assertContains('true', $this->getResponse()->getContent());
 //    }
-
 //    public function testDeleteIsAccessible() {
 //        $this->dispatch('/api/log-rest/2', 'DELETE');
 //

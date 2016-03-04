@@ -42,5 +42,4 @@ class EntUserTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($this->user->getFkUpProfile());
         $this->assertEmpty($this->user->getFkUrRole());
     }
-
 }

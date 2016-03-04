@@ -11,25 +11,31 @@ use PHPUnit_Framework_TestCase;
  */
 class EntLogTest extends PHPUnit_Framework_TestCase
 {
+
     protected $log;
-    
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->log = new EntLog();
     }
-    
-    public static function setUpBeforeClass() {
-        require_once __DIR__. '/../../../src/Ent/Entity/EntLog.php';
+
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/../../../src/Ent/Entity/EntLog.php';
     }
-    
-    protected function tearDown() {
+
+    protected function tearDown()
+    {
         parent::tearDown();
     }
-    
-    public static function tearDownAfterClass() {
+
+    public static function tearDownAfterClass()
+    {
         parent::tearDownAfterClass();
     }
-    
-    public function testInitValuesAreNull() {
+
+    public function testInitValuesAreNull()
+    {
         $this->assertNull($this->log->getLogId());
         $this->assertNull($this->log->getLogDatetime());
         $this->assertEmpty($this->log->getLogIp());

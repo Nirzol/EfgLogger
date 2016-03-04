@@ -9,17 +9,18 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class PreferenceControllerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
-        
+
         $preferenceService = $sm->get('Ent\Service\PreferenceDoctrineORM');
-        
+
         $preferenceForm = $sm->get('FormElementManager')->get('Ent\Form\PreferenceForm');
-        
+
         $controller = new PreferenceController($preferenceService, $preferenceForm);
-        
+
         return $controller;
     }
-
 }

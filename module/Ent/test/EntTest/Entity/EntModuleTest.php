@@ -7,25 +7,31 @@ use PHPUnit_Framework_TestCase;
 
 class EntModuleTest extends PHPUnit_Framework_TestCase
 {
+
     protected $module;
-    
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->module = new EntModule();
     }
-    
-    public static function setUpBeforeClass() {
-        require_once __DIR__. '/../../../src/Ent/Entity/EntModule.php';
+
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/../../../src/Ent/Entity/EntModule.php';
     }
-    
-    protected function tearDown() {
+
+    protected function tearDown()
+    {
         parent::tearDown();
     }
-    
-    public static function tearDownAfterClass() {
+
+    public static function tearDownAfterClass()
+    {
         parent::tearDownAfterClass();
     }
-    
-    public function testInitValuesAreNull() {
+
+    public function testInitValuesAreNull()
+    {
         $this->assertNull($this->module->getModuleId());
         $this->assertNull($this->module->getModuleName());
         $this->assertNull($this->module->getModuleLibelle());

@@ -22,8 +22,8 @@ class ModuleControllerTest extends AbstractControllerTestCase
 
         $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
         $authService->expects($this->any())
-                ->method('isGranted')
-                ->will($this->returnValue(true));
+            ->method('isGranted')
+            ->will($this->returnValue(true));
 
         $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
     }
@@ -45,21 +45,21 @@ class ModuleControllerTest extends AbstractControllerTestCase
     public function testShowActionContainsWithMock()
     {
         $mockService = $this->getMockBuilder(\Ent\Service\ModuleDoctrineService::class)
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         //$mockService->expects($this->once())
         $mockService->expects($this->any())
-                ->method('getById')
-                ->willReturn((new \Ent\Entity\EntModule)
-                        ->setModuleId('2')
-                        ->setModuleName('permissionController')
-                        ->setModuleLibelle('Permission Controller')
-                        ->setModuleDescription('Permission Controller'));
+            ->method('getById')
+            ->willReturn((new \Ent\Entity\EntModule)
+                ->setModuleId('2')
+                ->setModuleName('permissionController')
+                ->setModuleLibelle('Permission Controller')
+                ->setModuleDescription('Permission Controller'));
 
         $this->getApplicationServiceLocator()
-                ->setAllowOverride(true)
-                ->setService('Ent\Service\ModuleDoctrineService', $mockService);
+            ->setAllowOverride(true)
+            ->setService('Ent\Service\ModuleDoctrineService', $mockService);
 
         $this->dispatch('/api/module/2');
 

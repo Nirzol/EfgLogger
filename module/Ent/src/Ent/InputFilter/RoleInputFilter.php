@@ -23,7 +23,7 @@ class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterf
                 array('name' => 'StringTrim'),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'permissions',
             'required' => false,
@@ -90,23 +90,23 @@ class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterf
     public function appendEditValidator($id)
     {
         $this->add(
-                array(
-                    'name' => 'name',
-                    'validators' => array(
-                        array(
-                            'name' => 'Ent\Validator\NoOtherEntityExists',
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntHierarchicalRole'),
-                                'fields' => 'name',
-                                'id' => $id, //
-                                'id_getter' => 'getId', //getter for ID
-                                'messages' => array(
-                                    'objectFound' => 'This role already exists in database.',
-                                ),
+            array(
+                'name' => 'name',
+                'validators' => array(
+                    array(
+                        'name' => 'Ent\Validator\NoOtherEntityExists',
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntHierarchicalRole'),
+                            'fields' => 'name',
+                            'id' => $id, //
+                            'id_getter' => 'getId', //getter for ID
+                            'messages' => array(
+                                'objectFound' => 'This role already exists in database.',
                             ),
                         ),
-                    )
+                    ),
                 )
+            )
         );
         return $this;
     }
@@ -114,21 +114,20 @@ class RoleInputFilter extends InputFilter //implements \Zend\Filter\FilterInterf
     public function appendAddValidator()
     {
         $this->add(
-                array(
-                    'name' => 'name', //unique field name
-                    'validators' => array(
-                        array(
-                            'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntHierarchicalRole'),
-                                'fields' => 'name',
-                                'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This role already exists in database.'),
-                            ),
+            array(
+                'name' => 'name', //unique field name
+                'validators' => array(
+                    array(
+                        'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntHierarchicalRole'),
+                            'fields' => 'name',
+                            'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This role already exists in database.'),
                         ),
-                    )
+                    ),
                 )
+            )
         );
         return $this;
     }
-
 }

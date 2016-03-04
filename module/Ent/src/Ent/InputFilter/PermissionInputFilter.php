@@ -49,25 +49,25 @@ class PermissionInputFilter extends InputFilter
     public function appendEditValidator($id)
     {
         $this->add(
-//            $this->getFactory()->createInput(
-                array(
-                    'name' => 'name',
-                    'validators' => array(
-                        array(
-                            'name' => 'Ent\Validator\NoOtherEntityExists',
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntPermission'),
-                                'fields' => 'name',
-                                'id' => $id, //
-                                'id_getter' => 'getId', //getter for ID
-                                'messages' => array(
-                                    'objectFound' => 'This permission already exists in database.',
-                                ),
+            //$this->getFactory()->createInput(
+            array(
+                'name' => 'name',
+                'validators' => array(
+                    array(
+                        'name' => 'Ent\Validator\NoOtherEntityExists',
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntPermission'),
+                            'fields' => 'name',
+                            'id' => $id, //
+                            'id_getter' => 'getId', //getter for ID
+                            'messages' => array(
+                                'objectFound' => 'This permission already exists in database.',
                             ),
                         ),
-                    )
+                    ),
                 )
-//                )
+            )
+            //)
         );
         return $this;
     }
@@ -75,23 +75,22 @@ class PermissionInputFilter extends InputFilter
     public function appendAddValidator()
     {
         $this->add(
-//                $this->getFactory()->createInput(
-                array(
-                    'name' => 'name', //unique field name
-                    'validators' => array(
-                        array(
-                            'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntPermission'),
-                                'fields' => 'name',
-                                'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This permission already exists in database.'),
-                            ),
+            //$this->getFactory()->createInput(
+            array(
+                'name' => 'name', //unique field name
+                'validators' => array(
+                    array(
+                        'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntPermission'),
+                            'fields' => 'name',
+                            'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This permission already exists in database.'),
                         ),
-                    )
+                    ),
                 )
-//                        )
+            )
+            //)
         );
         return $this;
     }
-
 }

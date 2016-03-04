@@ -102,7 +102,7 @@ class EntContact extends Ent
      *     @ORM\JoinColumn(name="fk_uc_user_id", referencedColumnName="user_id")
      *   }
      * )
-     */ 
+     */
     private $fkUcUser;
 
     /**
@@ -419,5 +419,4 @@ class EntContact extends Ent
     {
         $this->setContactLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
-
 }

@@ -10,26 +10,33 @@ use PHPUnit_Framework_TestCase;
  *
  * @author fandria
  */
-class EntContactTest extends PHPUnit_Framework_TestCase{
+class EntContactTest extends PHPUnit_Framework_TestCase
+{
+
     protected $contact;
-    
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->contact = new EntContact();
     }
-    
-    public static function setUpBeforeClass() {
-        require_once __DIR__. '/../../../src/Ent/Entity/EntContact.php';
+
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/../../../src/Ent/Entity/EntContact.php';
     }
-    
-    protected function tearDown() {
+
+    protected function tearDown()
+    {
         parent::tearDown();
     }
-    
-    public static function tearDownAfterClass() {
+
+    public static function tearDownAfterClass()
+    {
         parent::tearDownAfterClass();
     }
-    
-    public function testInitValuesAreNull() {
+
+    public function testInitValuesAreNull()
+    {
         $this->assertNull($this->contact->getContactId());
         $this->assertNull($this->contact->getContactName());
         $this->assertNull($this->contact->getContactLibelle());

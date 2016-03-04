@@ -191,5 +191,4 @@ class PermissionRestController extends AbstractRestfulController
 //            ),
 //        ));
     }
-
 }

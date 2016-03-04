@@ -21,17 +21,16 @@ class Ent
                     }
                     $resultArray[$key] = $this->subExctract($value, $hydrator, $owner);
                 }
+            } else if (is_object($value) && !($value instanceof DateTime)) {
+//                var_dump(get_class($value));
+                $resultArray[$key] = $value->toArray($hydrator);
             }
-//            else if (\is_object($value) && !($value instanceof DateTime) && $value instanceof \Doctrine\ORM\Proxy\Proxy) {
+            //            else if (\is_object($value) && !($value instanceof DateTime) && $value instanceof \Doctrine\ORM\Proxy\Proxy) {
 //                //TODO
 //                if ($proxy) {
 //                    $resultArray[$key] = $value->toArray($hydrator, null, false);
 //                }
-//            } 
-            else if (is_object($value) && !($value instanceof DateTime)) {
-//                var_dump(get_class($value));
-                $resultArray[$key] = $value->toArray($hydrator);
-            }
+//            }
         }
         return $resultArray;
     }
@@ -101,5 +100,4 @@ class Ent
 
         return $result;
     }
-
 }

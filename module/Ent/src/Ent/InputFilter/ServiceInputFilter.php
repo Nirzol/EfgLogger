@@ -86,7 +86,7 @@ class ServiceInputFilter extends InputFilter
             'validators' => array(
             ),
         ));
-        
+
         $attributes = $this->entityManager->getRepository('\Ent\Entity\EntAttribute')->findAll();
         foreach ($attributes as $attribute) {
             $this->add(array(
@@ -129,23 +129,23 @@ class ServiceInputFilter extends InputFilter
     public function appendEditValidator($id)
     {
         $this->add(
-                array(
-                    'name' => 'serviceName',
-                    'validators' => array(
-                        array(
-                            'name' => 'Ent\Validator\NoOtherEntityExists',
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntService'),
-                                'fields' => 'serviceName',
-                                'id' => $id, //
-                                'id_getter' => 'getServiceId', //getter for ID
-                                'messages' => array(
-                                    'objectFound' => 'This service already exists in database.',
-                                ),
+            array(
+                'name' => 'serviceName',
+                'validators' => array(
+                    array(
+                        'name' => 'Ent\Validator\NoOtherEntityExists',
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntService'),
+                            'fields' => 'serviceName',
+                            'id' => $id, //
+                            'id_getter' => 'getServiceId', //getter for ID
+                            'messages' => array(
+                                'objectFound' => 'This service already exists in database.',
                             ),
                         ),
-                    )
+                    ),
                 )
+            )
         );
         return $this;
     }
@@ -153,21 +153,20 @@ class ServiceInputFilter extends InputFilter
     public function appendAddValidator()
     {
         $this->add(
-                array(
-                    'name' => 'serviceName', //unique field name
-                    'validators' => array(
-                        array(
-                            'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntService'),
-                                'fields' => 'serviceName',
-                                'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This service already exists in database.'),
-                            ),
+            array(
+                'name' => 'serviceName', //unique field name
+                'validators' => array(
+                    array(
+                        'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntService'),
+                            'fields' => 'serviceName',
+                            'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This service already exists in database.'),
                         ),
-                    )
+                    ),
                 )
+            )
         );
         return $this;
     }
-
 }

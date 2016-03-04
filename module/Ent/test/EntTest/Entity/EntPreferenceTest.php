@@ -12,25 +12,31 @@ use PHPUnit_Framework_TestCase;
  */
 class EntPreferenceTest extends PHPUnit_Framework_TestCase
 {
+
     protected $preference;
-    
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->preference = new EntPreference();
     }
-    
-    public static function setUpBeforeClass() {
-        require_once __DIR__. '/../../../src/Ent/Entity/EntPreference.php';
+
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/../../../src/Ent/Entity/EntPreference.php';
     }
-    
-    protected function tearDown() {
+
+    protected function tearDown()
+    {
         parent::tearDown();
     }
-    
-    public static function tearDownAfterClass() {
+
+    public static function tearDownAfterClass()
+    {
         parent::tearDownAfterClass();
     }
-    
-    public function testInitValuesAreNull() {
+
+    public function testInitValuesAreNull()
+    {
         $this->assertNull($this->preference->getPrefId());
         $this->assertNull($this->preference->getPrefAttribute());
         $this->assertEmpty($this->preference->getFkPrefProfile());

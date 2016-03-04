@@ -12,13 +12,13 @@ class ListtypeController extends AbstractActionController
 {
 
     /**
-     * 
+     *
      * @var ListtypeDoctrineService
      */
     protected $listtypeService = null;
 
     /**
-     * 
+     *
      * @var ListtypeForm
      */
     protected $listtypeForm = null;
@@ -122,5 +122,4 @@ class ListtypeController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/listtype');
     }
-
 }

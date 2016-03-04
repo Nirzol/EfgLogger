@@ -80,8 +80,7 @@ class StructureRestController extends AbstractRestfulController
         }
 
         return new JsonModel(array(
-            'data' => $data)
-        );
+            'data' => $data));
     }
 
     public function get($id)
@@ -92,7 +91,7 @@ class StructureRestController extends AbstractRestfulController
         $data[] = $result->toArray($this->hydrator);
 
         return new JsonModel(
-                $result->toArray($this->hydrator)
+            $result->toArray($this->hydrator)
         );
 //        return new JsonModel(array(
 //            'data' => $data)
@@ -173,5 +172,4 @@ class StructureRestController extends AbstractRestfulController
 //            ),
 //        ));
     }
-
 }

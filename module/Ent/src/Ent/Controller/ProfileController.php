@@ -163,8 +163,8 @@ class ProfileController extends AbstractActionController
             'attributes' => $attributes,
             'preferenceServices' => $preferenceServices,
             'form' => $form->prepare(),
-                //            'services' => $services,
-                //            'preferenceAttribute' => Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT),
+            //            'services' => $services,
+            //            'preferenceAttribute' => Json::decode($preference->getPrefAttribute(), Json::TYPE_OBJECT),
         ));
     }
 
@@ -348,5 +348,4 @@ class ProfileController extends AbstractActionController
 
         return $this->redirect()->toRoute($toRoute);
     }
-
 }

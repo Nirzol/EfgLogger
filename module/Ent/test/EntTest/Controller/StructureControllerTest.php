@@ -37,5 +37,4 @@ class StructureControllerTest extends AbstractControllerTestCase
         $this->assertControllerName('ent\controller\structurerest');
         $this->assertActionName('get');
     }
-
 }

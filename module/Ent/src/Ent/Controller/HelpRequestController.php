@@ -12,13 +12,14 @@ use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class HelpRequestController extends AbstractActionController {
+class HelpRequestController extends AbstractActionController
+{
 
     /**
      * @var HelpRequestDoctrineService
      */
     protected $helpRequestService;
-    
+
     /**
      *
      * @var ContactDoctrineService
@@ -29,27 +30,27 @@ class HelpRequestController extends AbstractActionController {
      * @var Request
      */
     protected $request;
-    
+
     /**
      *
      * @var HelpRequestForm
      */
     protected $helpRequestForm;
-    
+
     /**
      *
      * @var HelpRequestInputFilter
      */
     protected $helpRequestInputFilter;
-    
+
     /**
      *
      * @var SearchLdapController
      */
 //    protected $searchLdapController;
-
 //    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter, SearchLdapController $searchLdapController) {
-    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter) {
+    public function __construct(ContactDoctrineService $contactService, HelpRequestDoctrineService $helpRequestService, HelpRequestForm $helpRequestForm, HelpRequestInputFilter $helpRequestInputFilter)
+    {
         $this->contactService = $contactService;
         $this->helpRequestService = $helpRequestService;
         $this->helpRequestForm = $helpRequestForm;
@@ -57,11 +58,13 @@ class HelpRequestController extends AbstractActionController {
 //        $this->searchLdapController = $searchLdapController;
     }
 
-    public function indexAction() {
+    public function indexAction()
+    {
         return new ViewModel();
     }
 
-    public function sendAction() {
+    public function sendAction()
+    {
         $form = $this->helpRequestForm;
 
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
@@ -73,20 +76,20 @@ class HelpRequestController extends AbstractActionController {
         }
 
         $request = $this->request;
-        
+
         if ($request->isPost()) {
-            
+
             $form->setInputFilter($this->helpRequestInputFilter);
 
             $post = array_merge_recursive($request->getPost()->toArray(), $request->getFiles()->toArray());
-            
+
             $form->setData($post);
-        
+
             if ($form->isValid()) {
                 $form->getData();
-                
+
                 $body = $request->getPost('message');
-                                              
+
                 $filePaths = $_FILES['image-file']['tmp_name'];
                 $fileNames = $_FILES['image-file']['name'];
 
@@ -94,32 +97,32 @@ class HelpRequestController extends AbstractActionController {
                 $senderName = $infoUser['displayname'][0];
                 $senderService = $infoUser['ou'][0];
                 //$senderPhone = $infoUser[0]['telephonenumber'][0];
-                
+
                 $id = (int) $request->getPost('contactDescription');
-                
+
                 /* @var $contact EntContact */
                 $contact = $this->contactService->getById($id);
                 $recipientMail = $contact->getContactMailto();
                 $recipientName = $contact->getContactName();
-                
+
                 $subject = $contact->getContactDescription();
-                
+
                 $mailAlt = $request->getPost('email');
-                
+
                 if (!empty($mailAlt)) {
                     //$message = $body."\n" ."\n" ."**** INFORMATIONS SUPPLEMENTAIRES ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService." \n "."Téléphone : ".$senderPhone." \n "."Mail alternatif : " .$mailAlt;
-                    $message = $body."\n" ."\n" ."**** INFORMATIONS SUPPLEMENTAIRES ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService." \n "."Mail alternatif : " .$mailAlt;
+                    $message = $body . "\n" . "\n" . "**** INFORMATIONS SUPPLEMENTAIRES ****" . "\n" . "Nom : " . $senderName . " \n " . "Service : " . $senderService . " \n " . "Mail alternatif : " . $mailAlt;
                 } else {
                     //$message = $body."\n" ."\n" ."**** INFORMATIONS SUPPLEMENTAIRES ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService." \n "."Téléphone : ".$senderPhone;
-                    $message = $body."\n" ."\n" ."**** INFORMATIONS SUPPLEMENTAIRES ****" . "\n" . "Nom : ".$senderName." \n "."Service : ".$senderService;
+                    $message = $body . "\n" . "\n" . "**** INFORMATIONS SUPPLEMENTAIRES ****" . "\n" . "Nom : " . $senderName . " \n " . "Service : " . $senderService;
                 }
-                               
+
                 if (empty($fileNames[0]) && empty($filePaths[0])) {
                     $transport = $this->helpRequestService->sendWithoutImage($subject, $message, $senderMail, $senderName, $recipientMail, $recipientName);
                 } else {
                     $transport = $this->helpRequestService->sendWithImage($message, $filePaths, $fileNames, $senderMail, $senderName, $recipientMail, $recipientName, $subject);
                 }
-                
+
                 if ($transport) {
                     $this->flashMessenger()->addSuccessMessage('Le mail de demande d\'aide a bien été envoyé');
                 }
@@ -136,5 +139,4 @@ class HelpRequestController extends AbstractActionController {
             'infoUser' => $infoUser
         ));
     }
-
 }

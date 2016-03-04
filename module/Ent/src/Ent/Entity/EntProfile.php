@@ -52,8 +52,8 @@ class EntProfile extends Ent
      * @ORM\Column(name="profile_description", type="text", nullable=true)
      */
     private $profileDescription;
-    
-     /**
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="profile_priority", type="integer", nullable=true)
@@ -87,7 +87,7 @@ class EntProfile extends Ent
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="fk_ps_service_id", referencedColumnName="service_id")
      *   }
-     * )     
+     * )
      * @Groups({"fkPsService"})
      */
     private $fkPsService = [];
@@ -205,7 +205,7 @@ class EntProfile extends Ent
     {
         return $this->profileDescription;
     }
-    
+
     /**
      * Set profilePriority
      *
@@ -380,5 +380,4 @@ class EntProfile extends Ent
     {
         $this->setProfileLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
-
 }

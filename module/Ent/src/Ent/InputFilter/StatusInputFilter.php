@@ -74,23 +74,23 @@ class StatusInputFilter extends InputFilter
     public function appendEditValidator($id)
     {
         $this->add(
-                array(
-                    'name' => 'statusName',
-                    'validators' => array(
-                        array(
-                            'name' => 'Ent\Validator\NoOtherEntityExists',
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntStatus'),
-                                'fields' => 'statusName',
-                                'id' => $id, //
-                                'id_getter' => 'getStatusId', //getter for ID
-                                'messages' => array(
-                                    'objectFound' => 'This status already exists in database.',
-                                ),
+            array(
+                'name' => 'statusName',
+                'validators' => array(
+                    array(
+                        'name' => 'Ent\Validator\NoOtherEntityExists',
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntStatus'),
+                            'fields' => 'statusName',
+                            'id' => $id, //
+                            'id_getter' => 'getStatusId', //getter for ID
+                            'messages' => array(
+                                'objectFound' => 'This status already exists in database.',
                             ),
                         ),
-                    )
+                    ),
                 )
+            )
         );
         return $this;
     }
@@ -98,21 +98,20 @@ class StatusInputFilter extends InputFilter
     public function appendAddValidator()
     {
         $this->add(
-                array(
-                    'name' => 'statusName', //unique field name
-                    'validators' => array(
-                        array(
-                            'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
-                            'options' => array(
-                                'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntStatus'),
-                                'fields' => 'statusName',
-                                'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This status already exists in database.'),
-                            ),
+            array(
+                'name' => 'statusName', //unique field name
+                'validators' => array(
+                    array(
+                        'name' => '\DoctrineModule\Validator\NoObjectExists', //use namespace
+                        'options' => array(
+                            'object_repository' => $this->entityManager->getRepository('Ent\Entity\EntStatus'),
+                            'fields' => 'statusName',
+                            'messages' => array(NoObjectExists::ERROR_OBJECT_FOUND => 'This status already exists in database.'),
                         ),
-                    )
+                    ),
                 )
+            )
         );
         return $this;
     }
-
 }

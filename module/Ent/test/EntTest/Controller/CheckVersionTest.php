@@ -13,9 +13,9 @@ class CheckVersionTest extends AbstractControllerTestCase
     }
 
     /*     * ******************************************
-     * 
+     *
      * Test du controlleur VersionRestController
-     * 
+     *
      */
 
     public function getVersionConfig()
@@ -37,7 +37,7 @@ class CheckVersionTest extends AbstractControllerTestCase
         $this->assertActionName('getList');
         $this->assertMatchedRouteName('version-rest');
         $json = $this->getResponse()->getContent();
-        $versions = json_decode($json, TRUE);
+        $versions = json_decode($json, true);
         $lastVersionArray = end($versions['data']);
         $lastVersion = $lastVersionArray['version'];
 
@@ -48,5 +48,4 @@ class CheckVersionTest extends AbstractControllerTestCase
         // Test du matching
         $this->assertEquals($bdVersionRequired, $lastVersion);
     }
-
 }

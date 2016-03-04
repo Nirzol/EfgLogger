@@ -12,25 +12,31 @@ use PHPUnit_Framework_TestCase;
  */
 class EntActionTest extends PHPUnit_Framework_TestCase
 {
+
     protected $action;
-    
-    protected function setUp() {
+
+    protected function setUp()
+    {
         $this->action = new EntAction();
     }
-    
-    public static function setUpBeforeClass() {
-        require_once __DIR__. '/../../../src/Ent/Entity/EntAction.php';
+
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/../../../src/Ent/Entity/EntAction.php';
     }
-    
-    protected function tearDown() {
+
+    protected function tearDown()
+    {
         parent::tearDown();
     }
-    
-    public static function tearDownAfterClass() {
+
+    public static function tearDownAfterClass()
+    {
         parent::tearDownAfterClass();
     }
-    
-    public function testInitValuesAreNull() {
+
+    public function testInitValuesAreNull()
+    {
         $this->assertNull($this->action->getActionId());
         $this->assertNull($this->action->getActionName());
         $this->assertNull($this->action->getActionLibelle());

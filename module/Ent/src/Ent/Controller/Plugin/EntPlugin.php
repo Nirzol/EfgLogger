@@ -221,5 +221,4 @@ class EntPlugin extends AbstractPlugin
 //        error_log(date('i:s'));
 //        set_time_limit($maxExecutionTime);
     }
-
 }
