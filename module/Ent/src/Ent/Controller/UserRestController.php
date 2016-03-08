@@ -414,7 +414,7 @@ class UserRestController extends AbstractRestfulController
 
     public function getServicesAction()
     {
-        error_log('hello');
+//        error_log('hello');
         $login = null;
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
@@ -467,7 +467,7 @@ class UserRestController extends AbstractRestfulController
             $errorMessage = 'Le login est null';
         }
 
-        error_log('bye');
+//        error_log('bye');
         return new JsonModel(array(
             'data' => $data,
             'success' => $success,

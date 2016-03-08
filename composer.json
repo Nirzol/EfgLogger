@@ -73,7 +73,8 @@
             "SearchLdap\\": "module/SearchLdap/src/SearchLdap",
             "Owa\\": "module/Owa/src/Owa",
             "Nuxeo\\": "module/Nuxeo/src/Nuxeo",
-            "Referentiel\\": "module/Referentiel/src/Referentiel"
+            "Referentiel\\": "module/Referentiel/src/Referentiel",
+            "EfgLogger\\": "module/EfgLogger/src/EfgLogger"
         }
     }
 }

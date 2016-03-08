@@ -14,7 +14,8 @@ $modules = array(
     'ZfcRbac',
     'JMSSerializerModule',
     'Owa',
-    'Referentiel'
+    'Referentiel',
+    'EfgLogger'
 );
 if ($env == 'development') {
     $modules[] = 'ZendDeveloperTools';
