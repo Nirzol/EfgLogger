@@ -86,19 +86,25 @@ class IndexRestController extends AbstractRestfulController
                 $userLogin = $authService->getIdentity()->getUserLogin();
 
                 /* @var $entPlugin EntPlugin */
-                $entPlugin = $this->EntPlugin();
+//                $entPlugin = $this->EntPlugin();
 //                $entPlugin->doSomething();
 
                 /* @var $user EntUser */
                 $user = $this->userService->findOneBy(array('userLogin' => $userLogin));
+                
                 /* @var $action EntAction */
-                $action = $this->actionService->findOneBy(array('actionName' => 'connection'));
-
+//                $action = $this->actionService->findOneBy(array('actionName' => 'connection'));
 //            $moduleID = $this->moduleService->findOneBy(array('moduleName' => $module));
-
-                $dataAssoc = $entPlugin->prepareLogData($user, true, $action->getActionId());
-
-                $this->logService->insert($this->logForm, $dataAssoc);
+//                $dataAssoc = $entPlugin->prepareLogData($user, true, $action->getActionId());
+//                $this->logService->insert($this->logForm, $dataAssoc);
+                
+                /* @var $logger \EfgLogger\Service\Logger */
+                $logger = $this->serviceLocator->get('logger');
+                $logger->addExtra(array(
+                    'log_login' => $userLogin,
+                    'log_action' => 7,
+                    'log_action_name' => 'connection'));
+                $logger->info('Connexion à ENT');
 
                 // Update user profile
                 $profiles = $this->profileService->getAll();
