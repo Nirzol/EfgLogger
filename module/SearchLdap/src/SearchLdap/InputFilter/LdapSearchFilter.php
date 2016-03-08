@@ -1,4 +1,5 @@
 <?php
+namespace SearchLdap\InputFilter;
 
 use Zend\Filter\StringTrim;
 use Zend\Filter\StripTags;
@@ -6,8 +7,6 @@ use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 use Zend\Validator\NotEmpty;
 use Zend\Validator\StringLength;
-
-namespace SearchLdap\InputFilter;
 
 /**
  * Description of LdapSearchFilter
