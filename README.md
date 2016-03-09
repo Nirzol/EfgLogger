@@ -1,7 +1,7 @@
 EfgLogger
 ===============
 
-This is module implement Doctrine log writer with Zend\log component.
+This module implements Doctrine log writer with Zend\log component.
 This is my first module so help to improve it ! :-)
 
 Installation and Use:

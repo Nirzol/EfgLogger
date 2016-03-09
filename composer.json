@@ -1,0 +1,23 @@
+{
+    "name": "nirzol/efg-logger",
+    "description": "Base module for custom loggers. This module implements Doctrine log writer with Zend log component.",
+    "authors": [
+        {
+            "name": "Nirzol",
+            "email": "grondin.eric@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "5.4",
+        "zendframework/zendframework": "2.3",
+        "doctrine/common": "^2.6",
+        "doctrine/orm": "2.4",
+        "doctrine/doctrine-module": "0.8",
+        "doctrine/doctrine-orm-module": "0.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "EfgLogger\\": "src/"
+        }
+    }
+}
