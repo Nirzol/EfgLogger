@@ -15,12 +15,6 @@ class EfgLoggerControllerFactory implements FactoryInterface
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
         $logger = $sm->get('Logger');
-//        $myLoggerName = 'Logger';
-//        if ($sm->has($myLoggerName)) {
-//            $logger = $sm->get($myLoggerName);
-//        } else {
-//            $logger = new NullLogger();
-//        }
 
         $service = new EfgLoggerController($logger);
 

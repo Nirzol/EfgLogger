@@ -4,7 +4,7 @@ namespace EfgLogger\Writer;
 
 use Zend\Log\Formatter\Db as DbFormatter;
 use Zend\Log\Writer\AbstractWriter;
-use EfgLogger\Entity\BaseLog;
+use EfgLogger\Entity\TableLog;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -26,7 +26,7 @@ class DoctrineWriter extends AbstractWriter
 
     /**
      *
-     * @var BaseLog
+     * @var TableLog
      */
     private $logEntity;
 
@@ -46,8 +46,7 @@ class DoctrineWriter extends AbstractWriter
     public function __construct($modelClass, EntityManager $entityManager, $columnMap = null)
     {
         if (!$modelClass || !class_exists($modelClass)) {
-            throw new \RuntimeException(__METHOD__ . " you need use entity name "
-            . "as param");
+            throw new \RuntimeException(__METHOD__ . " you need use entity name as param");
         }
         $this->em = $entityManager;
         $this->columnMap = $columnMap;
@@ -81,11 +80,6 @@ class DoctrineWriter extends AbstractWriter
             $this->checkEMConnection();
         }
     }
-
-//    public function getEntityManager()
-//    {
-//        return $this->em;
-//    }
 
     /**
      * reconnect
