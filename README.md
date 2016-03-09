@@ -6,7 +6,7 @@ This is my first module so help to improve it ! :-)
 
 Installation and Use:
 ---------------------
-Copy efglogger.global.php.dist int your config\autoload.
+Copy efglogger.global.php.dist into your config\autoload.
 Copy Entity\TableLog.php into you Entity Folder and launch your doctrine comand to create table  with the required columns.
 They are 'extra' columns used in this module like: 'log_login', 'log_session', 'log_url', 'log_ip', 'log_useragent', 'log_action', 'log_action_name',
 
