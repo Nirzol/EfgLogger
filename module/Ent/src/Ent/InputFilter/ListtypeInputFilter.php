@@ -65,5 +65,4 @@ class ListtypeInputFilter extends InputFilter
             ),
         ));
     }
-
 }

@@ -30,5 +30,4 @@ class PreferenceDoctrineORMServiceFactory implements FactoryInterface
 
         return $service;
     }
-
 }

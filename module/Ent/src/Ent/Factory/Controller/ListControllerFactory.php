@@ -23,5 +23,4 @@ class ListControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

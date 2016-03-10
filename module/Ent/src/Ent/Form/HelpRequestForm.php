@@ -52,5 +52,4 @@ class HelpRequestForm extends Form
         $element->setLabel('Adresse e-mail alternative');
         $this->add($element);
     }
-
 }

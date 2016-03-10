@@ -37,5 +37,4 @@ class InfoRestControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

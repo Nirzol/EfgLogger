@@ -127,5 +127,4 @@ class StatusController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/status');
     }
-
 }

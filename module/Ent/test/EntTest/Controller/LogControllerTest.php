@@ -71,7 +71,6 @@ class LogControllerTest extends AbstractControllerTestCase
 //    }
 //    public function testDeleteIsAccessible() {
 //        $this->dispatch('/api/log-rest/2', 'DELETE');
-//
 //        $this->assertResponseStatusCode(200);
 //        $this->assertModuleName('ent');
 //        $this->assertControllerName('ent\controller\logrest');

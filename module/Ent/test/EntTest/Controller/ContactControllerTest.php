@@ -62,7 +62,6 @@ class ContactControllerTest extends AbstractControllerTestCase
     public function testGetIsAccessible()
     {
         $this->dispatch('/api/contact-rest/1', 'GET');
-
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');
         $this->assertControllerName('ent\controller\contactrest');

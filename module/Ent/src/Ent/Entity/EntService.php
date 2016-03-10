@@ -386,5 +386,4 @@ class EntService extends Ent
     {
         $this->setServiceLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
-
 }

@@ -64,5 +64,4 @@ class RoleForm extends Form
             ),
         ));
     }
-
 }

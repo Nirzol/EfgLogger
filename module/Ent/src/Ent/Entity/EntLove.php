@@ -110,5 +110,4 @@ class EntLove extends Ent
     {
         return $this->loveStatus;
     }
-
 }

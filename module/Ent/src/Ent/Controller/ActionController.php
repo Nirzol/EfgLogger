@@ -129,5 +129,4 @@ class ActionController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/action');
     }
-
 }

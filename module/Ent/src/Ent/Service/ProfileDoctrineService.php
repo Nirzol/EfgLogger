@@ -166,5 +166,4 @@ class ProfileDoctrineService extends DoctrineService implements ServiceInterface
 
         return $profile;
     }
-
 }

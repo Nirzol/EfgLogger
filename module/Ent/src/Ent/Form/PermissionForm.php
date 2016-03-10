@@ -26,5 +26,4 @@ class PermissionForm extends Form
             ),
         ));
     }
-
 }

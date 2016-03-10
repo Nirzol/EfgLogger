@@ -129,5 +129,4 @@ class AttributeController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/attribute');
     }
-
 }

@@ -97,7 +97,6 @@ class VersionControllerTest extends AbstractControllerTestCase
      */
 //    public function testDeleteIsAccessible() {
 //        $this->dispatch('/profile-rest/2', 'DELETE');
-//
 //        $this->assertResponseStatusCode(200);
 //        $this->assertModuleName('ent');
 //        $this->assertControllerName('ent\controller\profilerest');

@@ -66,5 +66,4 @@ class HelpRequestInputFilter extends InputFilter
 
         $this->add($input);
     }
-
 }

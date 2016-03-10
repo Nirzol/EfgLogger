@@ -30,5 +30,4 @@ class LogDoctrineORMServiceFactory implements FactoryInterface
 
         return $service;
     }
-
 }

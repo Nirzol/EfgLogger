@@ -21,5 +21,4 @@ class ListPluginFactory implements FactoryInterface
 
         return $service;
     }
-
 }

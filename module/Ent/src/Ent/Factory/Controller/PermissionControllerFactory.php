@@ -23,5 +23,4 @@ class PermissionControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

@@ -41,5 +41,4 @@ class ListForm extends Form
             ),
         ));
     }
-
 }
