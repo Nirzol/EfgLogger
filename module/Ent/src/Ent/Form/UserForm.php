@@ -68,10 +68,13 @@ class UserForm extends Form
                 'object_manager' => $this->entityManager,
                 'target_class' => 'Ent\Entity\EntProfile',
                 'property' => 'profileName',
+                'label_generator' => function ($targetEntity) {
+                    return $targetEntity->getProfileLibelle() . ' --- (' . $targetEntity->getProfileName() . ')';
+                },
                 'is_method' => true,
             ),
         ));
-        
+
         $this->add(array(
             'type' => '\Zend\Form\Element\DateTime',
             'name' => 'userLastConnection',
@@ -86,5 +89,4 @@ class UserForm extends Form
             )
         ));
     }
-
 }
