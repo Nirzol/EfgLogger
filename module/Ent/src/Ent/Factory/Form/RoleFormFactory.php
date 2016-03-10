@@ -19,5 +19,4 @@ class RoleFormFactory implements FactoryInterface
 
         return $roleDorm;
     }
-
 }

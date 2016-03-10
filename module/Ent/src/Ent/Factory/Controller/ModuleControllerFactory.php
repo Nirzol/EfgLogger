@@ -23,5 +23,4 @@ class ModuleControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

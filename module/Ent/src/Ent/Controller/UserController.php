@@ -272,5 +272,4 @@ class UserController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/user');
     }
-
 }

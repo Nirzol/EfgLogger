@@ -39,5 +39,4 @@ class VersionRestControllerFactory implements FactoryInterface
 
         return ($controller);
     }
-
 }

@@ -19,5 +19,4 @@ class StatusFormFactory implements FactoryInterface
 
         return $statusForm;
     }
-
 }

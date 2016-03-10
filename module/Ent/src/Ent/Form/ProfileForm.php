@@ -165,5 +165,4 @@ class ProfileForm extends Form
 //        ));
         //Fieldset des services avec à l'intérieur un fieldset des attributs
     }
-
 }

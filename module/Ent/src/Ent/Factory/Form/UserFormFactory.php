@@ -19,5 +19,4 @@ class UserFormFactory implements FactoryInterface
 
         return $form;
     }
-
 }

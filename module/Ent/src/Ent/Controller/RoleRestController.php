@@ -193,5 +193,4 @@ class RoleRestController extends AbstractRestfulController
 //            ),
 //        ));
     }
-
 }

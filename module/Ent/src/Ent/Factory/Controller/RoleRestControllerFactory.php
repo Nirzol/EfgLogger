@@ -30,5 +30,4 @@ class RoleRestControllerFactory implements FactoryInterface
 
         return ($controller);
     }
-
 }

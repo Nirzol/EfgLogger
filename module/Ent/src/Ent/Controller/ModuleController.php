@@ -127,5 +127,4 @@ class ModuleController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/module');
     }
-
 }

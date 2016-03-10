@@ -30,5 +30,4 @@ class ListDoctrineORMServiceFactory implements FactoryInterface
 
         return $service;
     }
-
 }

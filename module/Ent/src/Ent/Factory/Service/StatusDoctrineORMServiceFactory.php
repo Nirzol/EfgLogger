@@ -30,5 +30,4 @@ class StatusDoctrineORMServiceFactory implements FactoryInterface
 
         return $service;
     }
-
 }

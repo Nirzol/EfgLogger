@@ -122,5 +122,4 @@ class ListController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/list');
     }
-
 }

@@ -26,5 +26,4 @@ class ProfileFormFactory implements FactoryInterface
 
         return $profileForm;
     }
-
 }

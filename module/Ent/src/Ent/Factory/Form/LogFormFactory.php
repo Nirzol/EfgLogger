@@ -19,5 +19,4 @@ class LogFormFactory implements FactoryInterface
 
         return $logForm;
     }
-
 }

@@ -24,5 +24,4 @@ class ContactFormFactory implements FactoryInterface
 
         return $contactForm;
     }
-
 }

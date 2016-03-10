@@ -33,5 +33,4 @@ class VersionDoctrineORMServiceFactory implements FactoryInterface
 
         return $service;
     }
-
 }

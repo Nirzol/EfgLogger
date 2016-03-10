@@ -35,5 +35,4 @@ class OwaRestControllerFactory implements FactoryInterface
         $owaRestController = new OwaRestController($owa);
         return $owaRestController;
     }
-
 }

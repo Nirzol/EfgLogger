@@ -19,5 +19,4 @@ class AttributeFormFactory implements FactoryInterface
 
         return $attributeForm;
     }
-
 }

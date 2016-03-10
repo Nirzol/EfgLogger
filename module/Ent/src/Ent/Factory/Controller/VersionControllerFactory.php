@@ -32,5 +32,4 @@ class VersionControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

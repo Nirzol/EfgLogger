@@ -136,5 +136,4 @@ class RoleController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/role');
     }
-
 }

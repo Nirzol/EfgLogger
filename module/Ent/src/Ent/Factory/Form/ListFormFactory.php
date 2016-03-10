@@ -19,5 +19,4 @@ class ListFormFactory implements FactoryInterface
 
         return $form;
     }
-
 }

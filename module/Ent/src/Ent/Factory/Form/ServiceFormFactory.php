@@ -24,5 +24,4 @@ class ServiceFormFactory implements FactoryInterface
 
         return $form;
     }
-
 }

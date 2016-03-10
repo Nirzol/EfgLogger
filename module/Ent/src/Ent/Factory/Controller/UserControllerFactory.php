@@ -30,5 +30,4 @@ class UserControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

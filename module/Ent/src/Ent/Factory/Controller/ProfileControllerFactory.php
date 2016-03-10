@@ -44,5 +44,4 @@ class ProfileControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

@@ -25,5 +25,4 @@ class StatusRestControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

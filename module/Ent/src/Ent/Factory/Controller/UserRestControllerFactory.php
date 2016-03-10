@@ -33,5 +33,4 @@ class UserRestControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

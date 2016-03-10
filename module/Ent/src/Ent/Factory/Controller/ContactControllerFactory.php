@@ -28,5 +28,4 @@ class ContactControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

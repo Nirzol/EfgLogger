@@ -30,5 +30,4 @@ class AttributeDoctrineORMServiceFactory implements FactoryInterface
 
         return $service;
     }
-
 }

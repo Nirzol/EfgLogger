@@ -166,5 +166,4 @@ class VersionRestController extends AbstractRestfulController
             ),
         ));
     }
-
 }

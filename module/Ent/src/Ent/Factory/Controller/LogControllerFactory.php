@@ -23,5 +23,4 @@ class LogControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

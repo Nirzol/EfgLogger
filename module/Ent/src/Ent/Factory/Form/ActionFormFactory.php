@@ -19,5 +19,4 @@ class ActionFormFactory implements FactoryInterface
 
         return $actionForm;
     }
-
 }

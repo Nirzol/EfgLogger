@@ -189,5 +189,4 @@ class StatusRestController extends AbstractRestfulController
 //            ),
 //        ));
     }
-
 }

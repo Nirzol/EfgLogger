@@ -106,5 +106,4 @@ class PermissionController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/permission');
     }
-
 }

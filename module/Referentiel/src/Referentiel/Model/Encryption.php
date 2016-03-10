@@ -78,5 +78,4 @@ class Encryption
         $decrypttext = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $crypttext, MCRYPT_MODE_ECB, $iv);
         return trim($decrypttext);
     }
-
 }

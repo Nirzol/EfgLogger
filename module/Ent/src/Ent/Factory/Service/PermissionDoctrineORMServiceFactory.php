@@ -30,5 +30,4 @@ class PermissionDoctrineORMServiceFactory implements FactoryInterface
 
         return $service;
     }
-
 }

@@ -40,5 +40,4 @@ class ReferentielPlugin extends AbstractPlugin
 //                echo $exc->getTraceAsString();
         }
     }
-
 }

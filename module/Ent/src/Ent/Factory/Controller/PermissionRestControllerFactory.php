@@ -25,5 +25,4 @@ class PermissionRestControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

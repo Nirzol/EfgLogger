@@ -38,5 +38,4 @@ class ServiceControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

@@ -19,5 +19,4 @@ class PermissionFormFactory implements FactoryInterface
 
         return $form;
     }
-
 }

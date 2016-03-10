@@ -23,5 +23,4 @@ class ActionControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

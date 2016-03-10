@@ -327,5 +327,4 @@ class PreferenceRestController extends AbstractRestfulController
             ),
         ));
     }
-
 }

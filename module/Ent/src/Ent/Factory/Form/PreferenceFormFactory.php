@@ -19,5 +19,4 @@ class PreferenceFormFactory implements FactoryInterface
 
         return $preferenceForm;
     }
-
 }

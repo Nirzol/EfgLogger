@@ -206,5 +206,4 @@ class InfoRestController extends AbstractRestfulController
             ),
         ));
     }
-
 }

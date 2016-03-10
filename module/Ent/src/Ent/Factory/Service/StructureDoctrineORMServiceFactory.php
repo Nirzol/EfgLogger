@@ -33,5 +33,4 @@ class StructureDoctrineORMServiceFactory implements FactoryInterface
 
         return $service;
     }
-
 }

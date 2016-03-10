@@ -19,5 +19,4 @@ class ModuleFormFactory implements FactoryInterface
 
         return $moduleForm;
     }
-
 }

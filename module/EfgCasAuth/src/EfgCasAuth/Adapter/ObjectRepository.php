@@ -21,7 +21,7 @@ class ObjectRepository extends BaseObjectRepository
             $options->getIdentityProperty() => $this->identity,
             'userStatus' => 1,
             'userPassword' => '',
-        ));
+            ));
         if (!$identity) {
             $this->authenticationResultInfo['code'] = Result::FAILURE_IDENTITY_NOT_FOUND;
             $this->authenticationResultInfo['messages'][] = 'A record with the supplied identity could not be found.';
@@ -30,5 +30,4 @@ class ObjectRepository extends BaseObjectRepository
         $authResult = $this->validateIdentity($identity);
         return $authResult;
     }
-
 }

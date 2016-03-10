@@ -25,5 +25,4 @@ class ActionRestControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

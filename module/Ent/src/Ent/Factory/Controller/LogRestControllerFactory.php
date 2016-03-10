@@ -30,5 +30,4 @@ class LogRestControllerFactory implements FactoryInterface
 
         return ($controller);
     }
-
 }

@@ -64,5 +64,4 @@ class Module implements ConfigProviderInterface, BootstrapListenerInterface //Au
 //                $t->getServiceManager()->get('ZfcRbac\View\Strategy\UnauthorizedStrategy')
 //        );
     }
-
 }

@@ -124,5 +124,4 @@ class VersionController extends AbstractActionController
             'version' => $version
         ));
     }
-
 }

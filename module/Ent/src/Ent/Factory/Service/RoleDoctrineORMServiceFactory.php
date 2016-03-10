@@ -34,5 +34,4 @@ class RoleDoctrineORMServiceFactory implements FactoryInterface
 
         return $service;
     }
-
 }

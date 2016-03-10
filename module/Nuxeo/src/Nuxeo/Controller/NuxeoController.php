@@ -122,5 +122,4 @@ class NuxeoController extends AbstractRestfulController
 
         return $documentsArray;
     }
-
 }

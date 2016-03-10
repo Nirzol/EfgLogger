@@ -191,5 +191,4 @@ class LogRestController extends AbstractRestfulController
 //            ),
 //        ));
     }
-
 }

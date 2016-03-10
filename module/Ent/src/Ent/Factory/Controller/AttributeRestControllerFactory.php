@@ -25,5 +25,4 @@ class AttributeRestControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

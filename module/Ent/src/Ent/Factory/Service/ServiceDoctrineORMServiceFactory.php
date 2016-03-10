@@ -35,5 +35,4 @@ class ServiceDoctrineORMServiceFactory implements FactoryInterface
 
         return $service;
     }
-
 }

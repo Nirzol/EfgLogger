@@ -26,5 +26,4 @@ class ReferentielServiceFactory implements FactoryInterface
 
         return $referentiel;
     }
-
 }

@@ -55,5 +55,4 @@ class NuxeoSession
         $newRequest = new NuxeoRequest($this->urlLoggedIn, $requestType, $this->headers);
         return $newRequest;
     }
-
 }

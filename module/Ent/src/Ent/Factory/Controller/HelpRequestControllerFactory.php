@@ -37,5 +37,4 @@ class HelpRequestControllerFactory implements FactoryInterface
 
         return $controller;
     }
-
 }

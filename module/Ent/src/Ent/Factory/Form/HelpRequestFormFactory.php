@@ -23,5 +23,4 @@ class HelpRequestFormFactory implements FactoryInterface
 
         return $form;
     }
-
 }

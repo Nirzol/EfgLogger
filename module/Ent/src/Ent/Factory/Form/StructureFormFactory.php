@@ -23,5 +23,4 @@ class StructureFormFactory implements FactoryInterface
 
         return $form;
     }
-
 }

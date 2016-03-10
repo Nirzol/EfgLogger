@@ -29,5 +29,4 @@ class OwaFactory implements FactoryInterface
 
         return $owa;
     }
-
 }
