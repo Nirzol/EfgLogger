@@ -154,7 +154,7 @@ class PermissionDoctrineService extends DoctrineService implements ServiceInterf
     public function delete($id)
     {
         $permission = $this->getById($id);
-        
+
         $this->em->remove($permission);
         $this->em->flush();
     }

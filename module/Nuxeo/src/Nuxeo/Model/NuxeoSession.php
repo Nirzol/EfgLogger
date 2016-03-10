@@ -11,24 +11,24 @@ use Nuxeo\Model\NuxeoRequest;
  *
  * @author     Arthur GALLOUIN for NUXEO agallouin@nuxeo.com
  */
-class NuxeoSession {
+class NuxeoSession
+{
 
     private $url;
     private $username;
     private $password;
     private $userSession;
-    
     private $urlLoggedIn;
     private $headers;
 
-    public function __construct($url="http://localhost:8080/nuxeo/site/automation",
-            $username="Administrator", $password="Administrator", $headers = "Content-Type: application/json+nxrequest") {
-        
+    public function __construct($url = "http://localhost:8080/nuxeo/site/automation", $username = "Administrator", $password = "Administrator", $headers = "Content-Type: application/json+nxrequest")
+    {
+
         $this->url = $url;
         $this->username = $username;
         $this->password = $password;
         $this->userSession = $this->username . ":" . $this->password;
-        
+
         $this->urlLoggedIn = str_replace("http://", "", $url);
         if (strpos($url, 'https') !== false) {
             $this->urlLoggedIn = "https://" . $this->userSession . "@" . $this->urlLoggedIn;
@@ -37,10 +37,10 @@ class NuxeoSession {
         } else {
             throw Exception;
         }
-        
+
         $this->headers = $headers;
     }
-    
+
     /**
      * newRequest function
      *
@@ -50,8 +50,10 @@ class NuxeoSession {
      *               for exemple)
      * @author     Arthur GALLOUIN for NUXEO agallouin@nuxeo.com
      */
-    public function newRequest($requestType) {
+    public function newRequest($requestType)
+    {
         $newRequest = new NuxeoRequest($this->urlLoggedIn, $requestType, $this->headers);
         return $newRequest;
     }
+
 }

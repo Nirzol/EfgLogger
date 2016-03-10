@@ -133,7 +133,7 @@ class ProfileRestController extends AbstractRestfulController
     public function get($id)
     {
         $result = $this->profileService->getById($id);
-        
+
         /* @var $preference EntPreference */
         $preference = $this->preferenceService->findOneBy(array('fkPrefService' => null, 'fkPrefUser' => null, 'fkPrefProfile' => $id));
 
@@ -238,6 +238,7 @@ class ProfileRestController extends AbstractRestfulController
 //    {
 //
 //        $prefsProfile = null;
+//        
 //        foreach ($result->getFkPref() as $pref) {
 //            $service = null;
 //            if ($pref->getFkPrefService()) {

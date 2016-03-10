@@ -356,5 +356,4 @@ class ServiceController extends AbstractActionController
             $this->preferenceService->save($this->preferenceForm, $dataPreference, $prefProfile);
         }
     }
-
 }

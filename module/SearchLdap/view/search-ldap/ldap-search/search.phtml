@@ -44,121 +44,121 @@ $this->headTitle($title);
 <?php //echo '<br />'; ?>
 <?php //echo $this->formSubmit($form->get('submit')); ?>
 <?php echo $this->form()->closeTag; ?>
-<?php if(!empty($message)) : ?>
-<br>
-<div class="alert alert-danger">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong><?= $message; ?></strong>
-</div>
+<?php if (!empty($message)) : ?>
+    <br>
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong><?= $message; ?></strong>
+    </div>
 <?php endif; ?>
-<?php if(!empty($result)) : ?>
-<span class="col-sm-offset-3"><?php echo count($result); ?> utilisateur(s) trouvé(s) : </span>
-<select id="users_list">
-    <?php foreach ($result as $users) : ?>
-    <option value="<?php echo $users['uid'][0]; ?>"><?php echo $users['uid'][0]." (".$users['displayname'][0].")"?></option>
+<?php if (!empty($result)) : ?>
+    <span class="col-sm-offset-3"><?php echo count($result); ?> utilisateur(s) trouvé(s) : </span>
+    <select id="users_list">
+        <?php foreach ($result as $users) : ?>
+            <option value="<?php echo $users['uid'][0]; ?>"><?php echo $users['uid'][0] . " (" . $users['displayname'][0] . ")" ?></option>
+        <?php endforeach; ?>
+    </select>
+    <br />
+    <br>
+    <?php foreach ($result as $user): ?>
+        <table id ="<?php echo$user['uid'][0]; ?>" class="table table-striped col-sm-offset-3">
+            <tbody>
+                <tr>
+                    <?php if (isset($user['supanncivilite'][0])): ?>
+                        <td>supannCivilite</td>
+                        <td><?php echo $user['supanncivilite'][0]; ?></td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <?php if (isset($user['displayname'][0])): ?>
+                        <td>displayName</td>            
+                        <td><?php echo $user['displayname'][0]; ?></td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <?php if (isset($user['uid'][0])): ?>
+                        <td>uid</td>           
+                        <td><?php echo $user['uid'][0]; ?></td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <?php if (isset($user['sn'][0])): ?>
+                        <td>sn</td>            
+                        <td><?php echo $user['sn'][0]; ?></td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <?php if (isset($user['givenname'][0])): ?>
+                        <td>givenName</td>            
+                        <td><?php echo $user['givenname'][0]; ?></td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <?php if (isset($user['eeallowedservices'][0])): ?>
+                        <td>eeAllowedServices</td>            
+                        <td>
+                            <?php foreach ($user['eeallowedservices'] as $eeAllowedServices): ?>
+                                <?php echo $eeAllowedServices; ?><br>
+                            <?php endforeach; ?>
+                        </td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <?php if (isset($user['mail'][0])): ?>
+                        <td>mail</td>            
+                        <td><?php echo $user['mail'][0]; ?></td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <?php if (isset($user['mailhost'][0])): ?>
+                        <td>mailHost</td>            
+                        <td><?php echo $user['mailhost'][0]; ?></td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <?php if (isset($user['edupersonaffiliation'][0])): ?>
+                        <td>eduPersonAffiliation</td>            
+                        <td>
+                            <?php foreach ($user['edupersonaffiliation'] as $personAffiliation): ?>
+                                <?php echo $personAffiliation; ?><br>
+                            <?php endforeach; ?>
+                        </td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <?php if (isset($user['edupersonprimaryaffiliation'][0])): ?>
+                        <td>eduPersonPrimaryAffiliation</td>           
+                        <td><?php echo $user['edupersonprimaryaffiliation'][0]; ?></td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <?php if (isset($user['supannentiteaffectation'][0])): ?>
+                        <td>supannEntiteAffectation</td>           
+                        <td>
+                            <?php foreach ($user['supannentiteaffectation'] as $personAffectation): ?>
+                                <?php echo $personAffectation; ?><br>
+                            <?php endforeach; ?>
+                        </td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <?php if (isset($user['ou'][0])): ?>
+                        <td>ou</td>            
+                        <td><?php echo $user['ou'][0]; ?></td>
+                    <?php endif; ?>
+                </tr>
+            </tbody>
+        </table>
     <?php endforeach; ?>
-</select>
-<br />
-<br>
-<?php foreach ($result as $user): ?>
-<table id ="<?php echo$user['uid'][0]; ?>" class="table table-striped col-sm-offset-3">
-    <tbody>
-        <tr>
-            <?php if(isset($user['supanncivilite'][0])): ?>
-            <td>supannCivilite</td>
-            <td><?php echo $user['supanncivilite'][0]; ?></td>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <?php if(isset($user['displayname'][0])): ?>
-            <td>displayName</td>            
-            <td><?php echo $user['displayname'][0]; ?></td>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <?php if(isset($user['uid'][0])): ?>
-            <td>uid</td>           
-            <td><?php echo $user['uid'][0]; ?></td>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <?php if(isset($user['sn'][0])): ?>
-            <td>sn</td>            
-            <td><?php echo $user['sn'][0]; ?></td>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <?php if(isset($user['givenname'][0])): ?>
-            <td>givenName</td>            
-            <td><?php echo $user['givenname'][0]; ?></td>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <?php if(isset($user['eeallowedservices'][0])): ?>
-            <td>eeAllowedServices</td>            
-            <td>
-                <?php foreach ($user['eeallowedservices'] as $eeAllowedServices): ?>
-                <?php echo $eeAllowedServices; ?><br>
-                <?php endforeach; ?>
-            </td>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <?php if(isset($user['mail'][0])): ?>
-            <td>mail</td>            
-            <td><?php echo $user['mail'][0]; ?></td>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <?php if(isset($user['mailhost'][0])): ?>
-            <td>mailHost</td>            
-            <td><?php echo $user['mailhost'][0]; ?></td>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <?php if(isset($user['edupersonaffiliation'][0])): ?>
-            <td>eduPersonAffiliation</td>            
-            <td>
-                <?php foreach ($user['edupersonaffiliation'] as $personAffiliation): ?>
-                <?php echo $personAffiliation; ?><br>
-                <?php endforeach; ?>
-            </td>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <?php if(isset($user['edupersonprimaryaffiliation'][0])): ?>
-            <td>eduPersonPrimaryAffiliation</td>           
-            <td><?php echo $user['edupersonprimaryaffiliation'][0]; ?></td>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <?php if(isset($user['supannentiteaffectation'][0])): ?>
-            <td>supannEntiteAffectation</td>           
-            <td>
-                <?php foreach ($user['supannentiteaffectation'] as $personAffectation): ?>
-                <?php echo $personAffectation; ?><br>
-                <?php endforeach; ?>
-            </td>
-            <?php endif; ?>
-        </tr>
-        <tr>
-            <?php if(isset($user['ou'][0])): ?>
-            <td>ou</td>            
-            <td><?php echo $user['ou'][0]; ?></td>
-            <?php endif; ?>
-        </tr>
-    </tbody>
-</table>
-<?php endforeach; ?>
 <?php endif; ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('.table').hide();
-        $('#'+$("#users_list option:first").val()).show();
+        $('#' + $("#users_list option:first").val()).show();
         $('#users_list').change(function () {
             $('.table').hide();
-            $('#'+$(this).val()).show();
+            $('#' + $(this).val()).show();
         });
-});
+    });
 </script>

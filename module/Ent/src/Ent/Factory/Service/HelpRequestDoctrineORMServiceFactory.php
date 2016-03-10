@@ -24,4 +24,5 @@ class HelpRequestDoctrineORMServiceFactory implements FactoryInterface
 
         return $service;
     }
+
 }

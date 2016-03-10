@@ -13,17 +13,21 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author fandria
  */
-class OwaFactory implements FactoryInterface {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+class OwaFactory implements FactoryInterface
+{
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
 
         $config = $sm->get('config');
-        
+
         $ews = new EwsConnection($config['owa_config']['host'], $config['owa_config']['username'], $config['owa_config']['password'], $config['owa_config']['version']);
-        
+
         $owa = new Owa($ews);
-        
+
         return $owa;
     }
+
 }

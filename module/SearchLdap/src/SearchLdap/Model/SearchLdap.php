@@ -26,7 +26,12 @@ class SearchLdap
      */
     public function searchUser($itemToSearch)
     {
-        $filter = '(|(cn=*' . $itemToSearch . '*)(givenname=*' . $itemToSearch . '*)(sn=*' . $itemToSearch . '*)(uid=*' . $itemToSearch . '*)(displayname=*' . $itemToSearch . '*)(mail=*' . $itemToSearch . '*))';
+        $filter = '(|(cn=*' . $itemToSearch . '*)'
+            . '(givenname=*' . $itemToSearch . '*)'
+            . '(sn=*' . $itemToSearch . '*)'
+            . '(uid=*' . $itemToSearch . '*)'
+            . '(displayname=*' . $itemToSearch . '*)'
+            . '(mail=*' . $itemToSearch . '*))';
 
         $searchResult = $this->ldap->searchEntries($filter);
 
@@ -37,7 +42,16 @@ class SearchLdap
 
     public function searchUserStaff($itemToSearch)
     {
-        $filter = '(&(|(cn=*' . $itemToSearch . '*)(givenname=*' . $itemToSearch . '*)(sn=*' . $itemToSearch . '*)(uid=*' . $itemToSearch . '*)(displayname=*' . $itemToSearch . '*)(mail=*' . $itemToSearch . '*))(|(edupersonprimaryaffiliation=staff)(edupersonprimaryaffiliation=teacher)(edupersonprimaryaffiliation=faculty)(edupersonprimaryaffiliation=affiliate)))';
+        $filter = '(&(|(cn=*' . $itemToSearch . '*)'
+            . '(givenname=*' . $itemToSearch . '*)'
+            . '(sn=*' . $itemToSearch . '*)'
+            . '(uid=*' . $itemToSearch . '*)'
+            . '(displayname=*' . $itemToSearch . '*)'
+            . '(mail=*' . $itemToSearch . '*))'
+            . '(|(edupersonprimaryaffiliation=staff)'
+            . '(edupersonprimaryaffiliation=teacher)'
+            . '(edupersonprimaryaffiliation=faculty)'
+            . '(edupersonprimaryaffiliation=affiliate)))';
 
         $searchResult = $this->ldap->searchEntries($filter);
 
@@ -48,7 +62,13 @@ class SearchLdap
 
     public function searchUserStudent($itemToSearch)
     {
-        $filter = '(&(|(cn=*' . $itemToSearch . '*)(givenname=*' . $itemToSearch . '*)(sn=*' . $itemToSearch . '*)(uid=*' . $itemToSearch . '*)(displayname=*' . $itemToSearch . '*)(mail=*' . $itemToSearch . '*))(edupersonprimaryaffiliation=student))';
+        $filter = '(&(|(cn=*' . $itemToSearch . '*)'
+            . '(givenname=*' . $itemToSearch . '*)'
+            . '(sn=*' . $itemToSearch . '*)'
+            . '(uid=*' . $itemToSearch . '*)'
+            . '(displayname=*' . $itemToSearch . '*)'
+            . '(mail=*' . $itemToSearch . '*))'
+            . '(edupersonprimaryaffiliation=student))';
 
         $searchResult = $this->ldap->searchEntries($filter);
 
@@ -87,7 +107,7 @@ class SearchLdap
     /**
      * For filter ldap search : filter ldap syntax
      * Filter by ldap syntax
-     * 
+     *
      * @param string $filterSyntax
      * @return array
      */
@@ -131,9 +151,9 @@ class SearchLdap
 
 //    private function ldapConnect() {
 //        $options = $this->searchLdapConfig;
-//        
+//
 //        $ldap = new Ldap($options);
-//        
+//
 //        return $ldap;
 //    }
 //    public function searchUser($searchValue) {
@@ -152,13 +172,13 @@ class SearchLdap
 //            // Recherche avec un nom prénom ou prénom nom
 //            $nomPrenom = explode(" ", $searchValue);
 //            $count = count($nomPrenom);
-//            
+//
 //            // Recherche avec le cn
 //            $filterCn = "cn=";
-//            
+//
 //            // Recherche avec le displayname
 //            $filterDn = "displayname=";
-//            
+//
 //            for($i = 0; $i < $count; $i++) {
 //                if($i < $count-1) {
 //                    $filterCn .= "$nomPrenom[$i]"." ";
@@ -168,14 +188,14 @@ class SearchLdap
 //                    $filterDn .= "$nomPrenom[$i]";
 //                }
 //            }
-//            
+//
 //            $filter = "(|($filterCn)($filterDn))";
 //        } else if(strpos($searchValue, "&") !== false) {
 //            // Recherche avec filtre Personnel ou Etudiant
 //            $searchValues = preg_split("/&/", $searchValue);
-//            
+//
 //            if ($searchValues[1] === 'Personnel') {
-//                // Pour le filtre Personnel, on recherche les personnes dont l'edupersonprimaryaffiliation est égale à staff ou faculty 
+//                // Pour le filtre Personnel, on recherche les personnes dont l'edupersonprimaryaffiliation est égale à staff ou faculty
 //                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."))(|(edupersonprimaryaffiliation=staff)(edupersonprimaryaffiliation=faculty)))";
 //            } else if ($searchValues[1] === 'Etudiant') {
 //                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."))(edupersonprimaryaffiliation=student))";
@@ -184,11 +204,11 @@ class SearchLdap
 //            // Recherche avec un uid ou un nom
 //            $filter = "(uid=" . $searchValue . ")";
 //        }
-//        
+//
 //        $searchResult = $ldap->searchEntries($filter);
-//        
+//
 //        $ldap->disconnect();
-//        
+//
 //        return (count($searchResult) > 0 ? $searchResult[0] : 0);
 //    }
 //    public function searchUser($searchValue) {
@@ -204,14 +224,14 @@ class SearchLdap
 //            // Recherche avec une adresse email
 //            $filter = "(mail=". $searchValue.")";
 //        } elseif(strpos($searchValue, " ") !== false){
-//            // Recherche avec un nom prénom ou prénom nom           
+//            // Recherche avec un nom prénom ou prénom nom
 //            $filter = "(|(cn=".$searchValue.")(displayName=".$searchValue."))";
 //        } else if(strpos($searchValue, "&") !== false) {
 //            // Recherche avec filtre Personnel ou Etudiant
 //            $searchValues = preg_split("/&/", $searchValue);
-//            
+//
 //            if ($searchValues[1] === 'Personnel') {
-//                // Pour le filtre Personnel, on recherche les personnes dont l'edupersonprimaryaffiliation est égale à staff ou faculty 
+//                // Pour le filtre Personnel, on recherche les personnes dont l'edupersonprimaryaffiliation est égale à staff ou faculty
 //                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."))(|(edupersonprimaryaffiliation=staff)(edupersonprimaryaffiliation=faculty)))";
 //            } else if ($searchValues[1] === 'Etudiant') {
 //                $filter = "(&(|(sn=".$searchValues[0]."*)(uid=".$searchValues[0]."))(edupersonprimaryaffiliation=student))";
@@ -220,53 +240,53 @@ class SearchLdap
 //            // Recherche avec un uid ou un nom
 //            $filter = "(uid=" . $searchValue . ")";
 //        }
-//        
+//
 //        $searchResult = $ldap->searchEntries($filter);
-//        
+//
 //        $ldap->disconnect();
-//        
+//
 //        return (count($searchResult) > 0 ? $searchResult[0] : 0);
 //    }
 //    public function getPrimaryAffiliationByUid($uid) {
 //        $ldap = $this->ldapConnect();
-//        
+//
 //        $filter = "(uid=" . $uid . ")";
-//        
+//
 //        $searchResult = $ldap->searchEntries($filter);
 //        if (!empty($searchResult)) {
 //            $ldap->disconnect();
 //            return ($searchResult[0]['edupersonprimaryaffiliation']) ? $searchResult[0]['edupersonprimaryaffiliation'][0] : null;
 //        }
-//        
+//
 //        return null;
-//        
+//
 //    }
 //    public function getMailHostByUid($uid) {
 //        $ldap = $this->ldapConnect();
-//        
+//
 //        $filter = "(uid=" . $uid . ")";
-//        
+//
 //        $searchResult = $ldap->searchEntries($filter);
 //        if (!empty($searchResult)) {
 //            $ldap->disconnect();
 //            return ($searchResult[0]['mailhost']) ? $searchResult[0]['mailhost'][0] : null;
 //        }
-//        
+//
 //        return null;
-//        
+//
 //    }
-//    
+//
 //    public function getMailByUid($uid) {
 //        $ldap = $this->ldapConnect();
-//        
+//
 //        $filter = "(uid=" . $uid . ")";
-//        
+//
 //        $searchResult = $ldap->searchEntries($filter);
 //        if (!empty($searchResult)) {
 //            $ldap->disconnect();
 //            return ($searchResult[0]['mail']) ? $searchResult[0]['mail'][0] : null;
 //        }
-//        
+//
 //        return null;
-//    } 
+//    }
 }

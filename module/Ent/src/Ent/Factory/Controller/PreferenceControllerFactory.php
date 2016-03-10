@@ -23,4 +23,5 @@ class PreferenceControllerFactory implements FactoryInterface
 
         return $controller;
     }
+
 }

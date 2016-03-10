@@ -38,7 +38,7 @@ class StatusController extends AbstractActionController
         if (!$this->isGranted('list_status')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $listStatus = $this->statusService->getAll();
 
         return new ViewModel(array(
@@ -51,7 +51,7 @@ class StatusController extends AbstractActionController
         if (!$this->isGranted('add_status')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $form = $this->statusForm;
 
         if ($this->request->isPost()) {
@@ -74,7 +74,7 @@ class StatusController extends AbstractActionController
         if (!$this->isGranted('show_status')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $status = $this->statusService->getById($id);
@@ -93,7 +93,7 @@ class StatusController extends AbstractActionController
         if (!$this->isGranted('update_status')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
         $form = $this->statusForm;
         $status = $this->statusService->getById($id, $form);
@@ -118,7 +118,7 @@ class StatusController extends AbstractActionController
         if (!$this->isGranted('delete_status')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $this->statusService->delete($id);
@@ -127,4 +127,5 @@ class StatusController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/status');
     }
+
 }

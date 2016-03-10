@@ -159,7 +159,6 @@ class InfoRestController extends AbstractRestfulController
 
                 if (strcmp($mailHost, 'mataram.parisdescartes.fr') !== 0) {
 //                if ($mailHost === $this->owaConfig['mataram']) {
-
 //                    $mail = $this->searchLdapController->getMailByUid($login);
                     $mail = $this->SearchLdapPlugin()->getMailByUid($login);
 

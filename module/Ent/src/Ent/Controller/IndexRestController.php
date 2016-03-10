@@ -91,13 +91,13 @@ class IndexRestController extends AbstractRestfulController
 
                 /* @var $user EntUser */
                 $user = $this->userService->findOneBy(array('userLogin' => $userLogin));
-                
+
                 /* @var $action EntAction */
 //                $action = $this->actionService->findOneBy(array('actionName' => 'connection'));
 //            $moduleID = $this->moduleService->findOneBy(array('moduleName' => $module));
 //                $dataAssoc = $entPlugin->prepareLogData($user, true, $action->getActionId());
 //                $this->logService->insert($this->logForm, $dataAssoc);
-                
+
                 /* @var $logger \EfgLogger\Service\Logger */
                 $logger = $this->serviceLocator->get('logger');
                 $logger->addExtra(array(
@@ -258,6 +258,7 @@ class IndexRestController extends AbstractRestfulController
 //     */
 //    public function isUserLoggedIn()
 //    {
+//    
 //
 //        $idSession = $this->getSessionId();
 //        return ( (isset($idSession) && ($idSession != '') && isset($_SESSION["is_logged"]) && ($_SESSION["is_logged"] === true)));

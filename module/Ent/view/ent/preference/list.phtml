@@ -31,40 +31,36 @@
             </td>
             <td>
                 <?php
-                if($preference->getFkPrefUser()){
+                if ($preference->getFkPrefUser()) {
                     echo $this->escapeHtml($preference->getFkPrefUser()->getUserLogin());
-                }
-                else {
+                } else {
                     echo 'Aucun lien avec l\'user';
                 }
                 ?>
             </td>
             <td>
                 <?php
-                if($preference->getFkPrefService()){
+                if ($preference->getFkPrefService()) {
                     echo $this->escapeHtml($preference->getFkPrefService()->getServiceName());
-                }
-                else {
+                } else {
                     echo 'Aucun lien avec le service';
                 }
                 ?>
             </td>
             <td>
                 <?php
-                if($preference->getFkPrefProfile()){
+                if ($preference->getFkPrefProfile()) {
                     echo $this->escapeHtml($preference->getFkPrefProfile()->getProfileName());
-                }
-                else {
+                } else {
                     echo 'Aucun lien avec le profile';
                 }
                 ?>
             </td>
             <td>
                 <?php
-                if($preference->getFkPrefStatus()){
+                if ($preference->getFkPrefStatus()) {
                     echo $this->escapeHtml($preference->getFkPrefStatus()->getStatusName());
-                }
-                else {
+                } else {
                     echo 'Mettre un status en place !!! ';
                 }
                 ?>

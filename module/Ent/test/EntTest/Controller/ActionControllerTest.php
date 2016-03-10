@@ -52,8 +52,8 @@ class ActionControllerTest extends \PHPUnit_Framework_TestCase
 
         $pluginManager = $this->getMock('Zend\Mvc\Controller\PluginManager', array('get'));
         $pluginManager->expects($this->any())
-                ->method('get')
-                ->will($this->returnCallback(array($this, 'helperMockCallbackPluginManagerGet')));
+            ->method('get')
+            ->will($this->returnCallback(array($this, 'helperMockCallbackPluginManagerGet')));
 
 //        $pluginManager = $this->prophesize(\Zend\Mvc\Controller\PluginManager::class)->addMethodProphecy(array('get'));
 //        $pluginManager->get()->willReturn(array($this, 'helperMockCallbackPluginManagerGet'))->shouldBeCalled();
@@ -114,7 +114,7 @@ class ActionControllerTest extends \PHPUnit_Framework_TestCase
 //    {
 //
 //        $this->mockAuthorizationService();
-//        
+//
 //        $actionService = $this->getMockBuilder(\Ent\Service\ActionDoctrineService::class)->disableOriginalConstructor()->getMock();
 //        $actionService->expects($this->any())
 //                ->method('getAll')

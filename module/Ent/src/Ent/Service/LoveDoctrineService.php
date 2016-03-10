@@ -10,8 +10,10 @@ use Ent\Entity\EntLove;
  *
  * @author fandria
  */
-class LoveDoctrineService extends DoctrineService {
-     /**
+class LoveDoctrineService extends DoctrineService
+{
+
+    /**
      *
      * @var EntityManager
      */
@@ -35,4 +37,5 @@ class LoveDoctrineService extends DoctrineService {
 
         return $repository->findAll();
     }
+
 }

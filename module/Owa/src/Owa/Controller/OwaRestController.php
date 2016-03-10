@@ -12,11 +12,12 @@ use Zend\View\Model\JsonModel;
  *
  * @author fandria
  */
-class OwaRestController extends AbstractRestfulController {
-    
+class OwaRestController extends AbstractRestfulController
+{
     /* @var $owa Owa */
+
     protected $owa;
-    
+
     /* @var $searchLdapController SearchLdapController */
     protected $searchLdapController;
 
@@ -33,7 +34,7 @@ class OwaRestController extends AbstractRestfulController {
         $success = true;
         $successMessage = 'ok';
         $errorMessage = '';
-        
+
         return new JsonModel(array(
             'data' => $data,
             'success' => $success,
@@ -43,9 +44,10 @@ class OwaRestController extends AbstractRestfulController {
             ),
         ));
     }
-    
-    public function getMailNotifAction() {
-        
+
+    public function getMailNotifAction()
+    {
+
         $login = null;
         $authService = $this->serviceLocator->get('Zend\Authentication\AuthenticationService');
         if ($authService->hasIdentity()) {
@@ -56,7 +58,7 @@ class OwaRestController extends AbstractRestfulController {
         $success = false;
         $successMessage = '';
         $errorMessage = '';
-        
+
         $mail = null;
         if (!is_null($login)) {
 //            $mail = $this->searchLdapController->getMailByUid($login);
@@ -65,10 +67,10 @@ class OwaRestController extends AbstractRestfulController {
             if (!is_null($owa)) {
                 $owa->setImpersonation($mail);
                 $mails = $owa->getUnreadMails();
-                
+
                 if (!is_null($mails)) {
                     $number = $owa->getNumberOfUnread($mails);
-                
+
                     $data = $number;
                     $success = true;
                     $successMessage = 'ok';
@@ -76,14 +78,13 @@ class OwaRestController extends AbstractRestfulController {
                 } else {
                     $errorMessage = 'Mails non récupérés';
                 }
-               
             }
         } else {
             $errorMessage = 'User non authentifié';
         }
-        
-        
-        
+
+
+
         return new JsonModel(array(
             'number' => $data,
             'success' => $success,
@@ -93,7 +94,7 @@ class OwaRestController extends AbstractRestfulController {
             ),
         ));
     }
-    
+
 //    public function getCalendarNotifAction() {
 //        $login = 'fandria';
 //        

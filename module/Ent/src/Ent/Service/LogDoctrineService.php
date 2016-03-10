@@ -55,7 +55,7 @@ class LogDoctrineService extends DoctrineService implements ServiceInterface
         $repository = $this->em->getRepository('Ent\Entity\EntLog');
 
 //        return $repository->findAll();
-                return $repository->findBy(array(), array( "logOnline" => "DESC"), 100);
+        return $repository->findBy(array(), array("logOnline" => "DESC"), 100);
     }
 
     public function getById($id, $form = null)
@@ -165,7 +165,6 @@ class LogDoctrineService extends DoctrineService implements ServiceInterface
 //
 //        return null;
 //    }
-
 //    /**
 //     * Sauvegarde d'un eo
 //     * 
@@ -181,7 +180,6 @@ class LogDoctrineService extends DoctrineService implements ServiceInterface
 //
 //        return null;
 //    }
-
 //    public function insertArray($dataArray)
 //    {
 //
@@ -205,7 +203,6 @@ class LogDoctrineService extends DoctrineService implements ServiceInterface
 //
 //        return $anEntLog;
 //    }
-
 //    public function insert(Form $form, $dataAssoc)
 //    {
 //        $eo = new EntLog();
@@ -274,7 +271,6 @@ class LogDoctrineService extends DoctrineService implements ServiceInterface
 //
 //        return $eo;
 //    }
-
 //    
 //    public function logEvent($event) {
 //        

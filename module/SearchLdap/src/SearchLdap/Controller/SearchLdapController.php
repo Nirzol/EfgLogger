@@ -53,7 +53,7 @@ class SearchLdapController extends AbstractRestfulController
     {
         $response = $this->getResponse();
         $response->getHeaders()
-                ->addHeaderLine('Allow', implode(',', $this->_getMethod()));
+            ->addHeaderLine('Allow', implode(',', $this->_getMethod()));
         return $response;
     }
 

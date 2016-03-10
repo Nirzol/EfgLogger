@@ -8,6 +8,7 @@ class LogControllerTest extends AbstractControllerTestCase
 {
 
     protected $traceError = true;
+    
     protected $serviceManager;
 
     protected function setUp()

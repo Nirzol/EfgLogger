@@ -170,4 +170,5 @@ class VersionDoctrineService extends DoctrineService implements ServiceInterface
 
         return $version;
     }
+
 }

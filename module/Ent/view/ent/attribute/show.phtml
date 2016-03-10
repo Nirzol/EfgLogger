@@ -15,8 +15,7 @@
     <?php
     if ($attribute->getFkAttributeListtype()) {
         echo $this->escapeHtml($attribute->getFkAttributeListtype()->getListtypeLibelle());
-    }
-    else{
+    } else {
         echo $this->translate('Pas de liste attachée');
     }
     ?>

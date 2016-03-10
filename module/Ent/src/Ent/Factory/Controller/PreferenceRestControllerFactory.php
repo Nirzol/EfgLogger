@@ -30,4 +30,5 @@ class PreferenceRestControllerFactory implements FactoryInterface
 
         return $controller;
     }
+
 }

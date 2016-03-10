@@ -95,10 +95,10 @@ foreach ($services as $service) {
 //                                            $preferenceAttribute = json_decode($preference->getPrefAttribute());
                                             foreach ($preferenceAttribute as $value) {
 //                                                foreach ($value->{'serviceAttributeData'} as $att) {
-                                                    if ($value->{'attributeId'} === $attribute->getAttributeId()) {
-                                                        $valueAttribute = $value->{'attributeValue'};
-                                                        break;
-                                                    }
+                                                if ($value->{'attributeId'} === $attribute->getAttributeId()) {
+                                                    $valueAttribute = $value->{'attributeValue'};
+                                                    break;
+                                                }
 //                                                }
                                             }
 //                                            break;
@@ -115,13 +115,13 @@ foreach ($services as $service) {
                                         <div class="form-group<?php if ($form->get($getServiceAttributes)->getMessages()) echo ' has-error'; ?>">
                                             <div class="col-xs-12">
                                                 <?= $this->formLabel($form->get($getServiceAttributes)->setLabelAttributes(['class' => 'control-label'])) ?>
-                                                        <?php                                         
-                                                        if ($attribute->getFkAttributeListtype()) {
-                                                            echo $this->formSelect($form->get($getServiceAttributes)->setAttribute('class', '')->setValue($valueAttribute));
-                                                        } else {
-                                                            echo $this->formText($form->get($getServiceAttributes)->setAttribute('class', 'form-control')->setValue($valueAttribute));
-                                                        }
-                                                        ?>
+                                                <?php
+                                                if ($attribute->getFkAttributeListtype()) {
+                                                    echo $this->formSelect($form->get($getServiceAttributes)->setAttribute('class', '')->setValue($valueAttribute));
+                                                } else {
+                                                    echo $this->formText($form->get($getServiceAttributes)->setAttribute('class', 'form-control')->setValue($valueAttribute));
+                                                }
+                                                ?>
                                                 <div id="helpBlock" class="help-block">
                                                     <?= $this->formElementErrors($form->get($getServiceAttributes)) ?>           
                                                 </div>
@@ -136,8 +136,8 @@ foreach ($services as $service) {
                                     <?php
                                 }
                             }
-                            if ($i != 3 && $i!=0) {
-                                echo $i . '</div>' ;
+                            if ($i != 3 && $i != 0) {
+                                echo $i . '</div>';
                             }
                             ?>
                         </div>

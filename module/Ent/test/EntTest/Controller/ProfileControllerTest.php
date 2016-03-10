@@ -13,6 +13,7 @@ class ProfileControllerTest extends AbstractControllerTestCase
 {
 
     protected $traceError = true;
+    
     protected $serviceManager;
 
     protected function setUp()
@@ -27,8 +28,8 @@ class ProfileControllerTest extends AbstractControllerTestCase
 
         $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
         $authService->expects($this->any())
-                ->method('isGranted')
-                ->will($this->returnValue(true));
+            ->method('isGranted')
+            ->will($this->returnValue(true));
 
         $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
     }

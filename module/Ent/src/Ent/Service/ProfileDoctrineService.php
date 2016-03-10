@@ -62,7 +62,7 @@ class ProfileDoctrineService extends DoctrineService implements ServiceInterface
 
         return $repository->findAll();
     }
-    
+
 //    public function getAllIdAndName()
 //    {
 //        $repository = $this->em->createQuery('SELECT p.profileId, p.profileName FROM Ent\Entity\EntProfile p');

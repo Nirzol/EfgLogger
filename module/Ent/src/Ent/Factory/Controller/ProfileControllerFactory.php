@@ -23,9 +23,9 @@ class ProfileControllerFactory implements FactoryInterface
         $profileService = $sm->get('Ent\Service\ProfileDoctrineORM');
 
         $profileForm = $sm->get('FormElementManager')->get('Ent\Form\ProfileForm');
-        
+
         $preferenceForm = $sm->get('FormElementManager')->get('Ent\Form\PreferenceForm');
-        
+
         $attributeService = $sm->get('Ent\Service\AttributeDoctrineORM');
 
         $serviceService = $sm->get('Ent\Service\ServiceDoctrineORM');

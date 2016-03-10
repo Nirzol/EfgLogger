@@ -365,5 +365,4 @@ class EntLog extends Ent
             $this->setLogDatetime(date_create(date('Y-m-d H:i:s')));
         }
     }
-
 }

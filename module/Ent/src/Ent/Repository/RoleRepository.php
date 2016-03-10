@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class RoleRepository extends EntityRepository
 {
-    
+
     public function findAllExceptOne($roleID = 0)
     {
         /* @var $query \Doctrine\Common\Collections\Criteria */

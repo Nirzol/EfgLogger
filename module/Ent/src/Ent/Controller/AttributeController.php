@@ -40,7 +40,7 @@ class AttributeController extends AbstractActionController
         if (!$this->isGranted('list_attribute')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $listAttritutes = $this->attributeService->getAll();
 
         return new ViewModel(array(
@@ -53,7 +53,7 @@ class AttributeController extends AbstractActionController
         if (!$this->isGranted('add_attribute')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $form = $this->attributeForm;
 
         if ($this->request->isPost()) {
@@ -76,7 +76,7 @@ class AttributeController extends AbstractActionController
         if (!$this->isGranted('show_attribute')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $attribute = $this->attributeService->getById($id);
@@ -95,7 +95,7 @@ class AttributeController extends AbstractActionController
         if (!$this->isGranted('update_attribute')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
         $form = $this->attributeForm;
         $attribute = $this->attributeService->getById($id, $form);
@@ -120,7 +120,7 @@ class AttributeController extends AbstractActionController
         if (!$this->isGranted('delete_attribute')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $this->attributeService->delete($id);
@@ -129,4 +129,5 @@ class AttributeController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/attribute');
     }
+
 }

@@ -40,7 +40,7 @@ class LogController extends AbstractActionController
         if (!$this->isGranted('list_log')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $listLogs = $this->logService->getAll();
 
         return new ViewModel(array(
@@ -53,7 +53,7 @@ class LogController extends AbstractActionController
         if (!$this->isGranted('add_log')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $form = $this->logForm;
 
         if ($this->request->isPost()) {
@@ -76,7 +76,7 @@ class LogController extends AbstractActionController
         if (!$this->isGranted('show_log')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $log = $this->logService->getById($id);
@@ -95,7 +95,7 @@ class LogController extends AbstractActionController
         if (!$this->isGranted('update_log')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
         $form = $this->logForm;
         $log = $this->logService->getById($id, $form);
@@ -120,7 +120,7 @@ class LogController extends AbstractActionController
         if (!$this->isGranted('delete_log')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $this->logService->delete($id);

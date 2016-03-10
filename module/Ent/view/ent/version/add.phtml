@@ -1,29 +1,29 @@
 <?php
-    $title = "Ajout d'une version";
-    $this->headTitle($title);
+$title = "Ajout d'une version";
+$this->headTitle($title);
 ?>
 <h2><?php echo $this->escapeHtml($title); ?></h2>
 
 <!-- Version -->
-<?=$this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate'))?>
-<div class="form-group<?php if($form->get('version')->getMessages()) echo ' has-error'; ?>">
-    <?=$this->formLabel($form->get('version')->setLabelAttributes(['class' => 'col-sm-2 control-label']))?>
+<?= $this->form()->openTag($form->setAttribute('class', 'form-horizontal')->setAttribute('novalidate', 'novalidate')) ?>
+<div class="form-group<?php if ($form->get('version')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('version')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
-        <?=$this->formText($form->get('version')->setAttribute('class', 'form-control'))?>
+        <?= $this->formText($form->get('version')->setAttribute('class', 'form-control')) ?>
     </div>
     <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
-        <?=$this->formElementErrors($form->get('version'))?>           
+        <?= $this->formElementErrors($form->get('version')) ?>           
     </div>
 </div>
 
 <!-- Commentaire -->
-<div class="form-group<?php if($form->get('versionCommentaire')->getMessages()) echo ' has-error'; ?>">
-    <?=$this->formLabel($form->get('versionCommentaire')->setLabelAttributes(['class' => 'col-sm-2 control-label']))?>
+<div class="form-group<?php if ($form->get('versionCommentaire')->getMessages()) echo ' has-error'; ?>">
+    <?= $this->formLabel($form->get('versionCommentaire')->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
     <div class="col-sm-10">
-        <?=$this->formTextarea($form->get('versionCommentaire')->setAttribute('class', 'form-control'))?>
+        <?= $this->formTextarea($form->get('versionCommentaire')->setAttribute('class', 'form-control')) ?>
     </div>
     <div id="helpBlock " class="help-block col-sm-offset-2 col-sm-10">
-        <?=$this->formElementErrors($form->get('versionCommentaire'))?>           
+        <?= $this->formElementErrors($form->get('versionCommentaire')) ?>           
     </div>
 </div>
 

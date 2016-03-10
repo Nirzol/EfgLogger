@@ -142,7 +142,7 @@ class EntList extends Ent
     {
         return $this->listLastUpdate;
     }
-    
+
     /**
      * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
      *
@@ -153,5 +153,4 @@ class EntList extends Ent
     {
         $this->setListLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
-
 }

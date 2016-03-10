@@ -47,5 +47,4 @@ class SearchLdapPlugin extends AbstractPlugin
 
         return null;
     }
-
 }

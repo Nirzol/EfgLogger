@@ -78,7 +78,14 @@ class EntPlugin extends AbstractPlugin
         $attributesData = $attributeService->findBy($criteria, array('attributeId' => 'ASC'));
         $i = 0;
         // ajout de la valeur dans le array global
-        $attributesDataArray = Json::decode($serializer->serialize($attributesData, 'json', SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()), Json::TYPE_ARRAY);
+        $attributesDataArray = Json::decode(
+            $serializer->serialize(
+                $attributesData,
+                'json',
+                SerializationContext::create()->setGroups(array('Default'))->enableMaxDepthChecks()
+            ),
+            Json::TYPE_ARRAY
+        );
 
         foreach ($attributesDataArray as $key => $attributeData) {
             $attributesDataArray[$attributeData['attributeName']] = $attributesDataArray[$key];

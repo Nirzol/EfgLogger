@@ -3,16 +3,16 @@ $title = "Détails de la version";
 ?>
 <h2><?php echo $this->escapeHtml($title); ?></h2>
 <p>
-    <b>Version :</b> <?php echo $this->escapeHtml($version->getVersion())?>
+    <b>Version :</b> <?php echo $this->escapeHtml($version->getVersion()) ?>
 </p>
 <p>
-    <b>Commentaire :</b> <?php echo $this->escapeHtml($version->getVersionCommentaire())?>
+    <b>Commentaire :</b> <?php echo $this->escapeHtml($version->getVersionCommentaire()) ?>
 </p>
 <p>
-    <b>Date de création :</b> <?php echo $version->getVersionDate()->format('Y-m-d H:i:s');?>
+    <b>Date de création :</b> <?php echo $version->getVersionDate()->format('Y-m-d H:i:s'); ?>
 </p>
-<?php if($version->getVersionLastUpdate() != null) :?>
-<p>
-    <b>Date de modification :</b> <?php echo $version->getVersionLastUpdate()->format('Y-m-d H:i:s');?>
-</p>
+<?php if ($version->getVersionLastUpdate() != null) : ?>
+    <p>
+        <b>Date de modification :</b> <?php echo $version->getVersionLastUpdate()->format('Y-m-d H:i:s'); ?>
+    </p>
 <?php endif; ?>

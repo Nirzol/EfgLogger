@@ -35,4 +35,5 @@ class ProfileRestControllerFactory implements FactoryInterface
 
         return $controller;
     }
+
 }

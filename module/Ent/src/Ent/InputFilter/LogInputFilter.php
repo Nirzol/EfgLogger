@@ -139,4 +139,5 @@ class LogInputFilter extends InputFilter
             ),
         ));
     }
+
 }

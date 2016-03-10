@@ -18,57 +18,57 @@
 
 <table class="table table-striped">
     <thead>
-    <tr>
-        <th><?= $this->translate('Service Name') ?></th>
-        <th><?= $this->translate('Service Libelle') ?></th>
-        <th><?= $this->translate('Service Description') ?></th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-    </tr>
+        <tr>
+            <th><?= $this->translate('Service Name') ?></th>
+            <th><?= $this->translate('Service Libelle') ?></th>
+            <th><?= $this->translate('Service Description') ?></th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
     </thead>
     <tbody  class="searchable">
-    <?php foreach ($services as $service) : ?>
-        <tr>
-            <td>
-                <?= $this->escapeHtml($service->getServiceName()) ?>
-            </td>
-            <td>
-                <?= $this->escapeHtml($service->getServiceLibelle()) ?>
-            </td>
-            <td>
-                <?= $this->escapeHtml($service->getServiceDescription()) ?>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/service/show/delete', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/service/show/deleteProfile', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-info btn-xs"><?= $this->translate('Delete into Profil') ?></a>
-            </td>
-            <td>
-                &nbsp;
-            </td>
-            <td>
-                &nbsp;
-            </td>
-            <td>
-                &nbsp;
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/service/show', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/service/show/update', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/service/show/updateProfile', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-info btn-xs"><?= $this->translate('Update Profil') ?></a>
-            </td>
-        </tr>
-    <?php endforeach; ?>
+        <?php foreach ($services as $service) : ?>
+            <tr>
+                <td>
+                    <?= $this->escapeHtml($service->getServiceName()) ?>
+                </td>
+                <td>
+                    <?= $this->escapeHtml($service->getServiceLibelle()) ?>
+                </td>
+                <td>
+                    <?= $this->escapeHtml($service->getServiceDescription()) ?>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/service/show/delete', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/service/show/deleteProfile', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-info btn-xs"><?= $this->translate('Delete into Profil') ?></a>
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/service/show', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/service/show/update', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/service/show/updateProfile', ['id' => $this->escapeUrl($service->getServiceId())]) ?>" class="btn btn-info btn-xs"><?= $this->translate('Update Profil') ?></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
     </tbody>
 </table>

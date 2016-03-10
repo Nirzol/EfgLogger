@@ -20,41 +20,41 @@
 
 <table class="table table-striped">  
     <thead>
-    <tr>
-        <th><?= $this->translate('Nom du profile') ?></th>
-        <th><?= $this->translate('Label du profile') ?></th>
-        <th><?= $this->translate('Priorité du profile') ?></th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>   
-        <!--<th>&nbsp;</th>-->     
-    </tr>
+        <tr>
+            <th><?= $this->translate('Nom du profile') ?></th>
+            <th><?= $this->translate('Label du profile') ?></th>
+            <th><?= $this->translate('Priorité du profile') ?></th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>   
+            <!--<th>&nbsp;</th>-->     
+        </tr>
     </thead>
     <tbody  class="searchable">
-    <?php foreach ($listProfiles as $profile) : ?>
-        <tr>
-            <td>
-                <?= $this->escapeHtml($profile->getProfileName()) ?>
-            </td>
-            <td>
-                <?= $this->escapeHtml($profile->getProfileLibelle()) ?>
-            </td>
-            <td>
-                <?= $this->escapeHtml($profile->getProfilePriority()) ?>
-            </td>
-<!--            <td>
-                <a href="<?= $this->url('zfcadmin/profile/profiling', ['idd' => $this->escapeUrl($profile->getProfileId())]); ?>" class="btn btn-warning btn-xs"><?= $this->translate('Mettre à jour les profils des users - peut être très long !!!') ?></a>
-            </td>-->
-            <td>
-                <a href="<?= $this->url('zfcadmin/profile/show', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails');?></a>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/profile/show/update', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier');?></a>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/profile/show/delete', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer');?></a>
-            </td>
-        </tr>
-    <?php endforeach; ?>
+        <?php foreach ($listProfiles as $profile) : ?>
+            <tr>
+                <td>
+                    <?= $this->escapeHtml($profile->getProfileName()) ?>
+                </td>
+                <td>
+                    <?= $this->escapeHtml($profile->getProfileLibelle()) ?>
+                </td>
+                <td>
+                    <?= $this->escapeHtml($profile->getProfilePriority()) ?>
+                </td>
+    <!--            <td>
+                    <a href="<?= $this->url('zfcadmin/profile/profiling', ['idd' => $this->escapeUrl($profile->getProfileId())]); ?>" class="btn btn-warning btn-xs"><?= $this->translate('Mettre à jour les profils des users - peut être très long !!!') ?></a>
+                </td>-->
+                <td>
+                    <a href="<?= $this->url('zfcadmin/profile/show', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails'); ?></a>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/profile/show/update', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier'); ?></a>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/profile/show/delete', ['id' => $this->escapeUrl($profile->getProfileId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer'); ?></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
     </tbody>
 </table>

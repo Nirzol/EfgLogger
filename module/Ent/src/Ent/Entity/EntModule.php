@@ -169,8 +169,8 @@ class EntModule extends Ent
     {
         return $this->moduleLastUpdate;
     }
-    
-     /**
+
+    /**
      * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
      *
      * @ORM\PrePersist
@@ -179,11 +179,9 @@ class EntModule extends Ent
     public function updatedTimestamps()
     {
         $this->setModuleLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
-
 //        if($this->getCreatedAt() == null)
 //        {
 //            $this->setCreatedAt(date('Y-m-d H:i:s'));
 //        }
     }
-
 }

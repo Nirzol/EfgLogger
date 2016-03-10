@@ -221,6 +221,7 @@ class ServiceRestController extends AbstractRestfulController
 //        $successMessage = '';
 //        $errorMessage = '';
 //
+//
 //        if ($result) {
 //            /* @var $result EntHierarchicalRole */
 //            $data[0] = $result->toArray($this->hydrator);

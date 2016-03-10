@@ -27,8 +27,8 @@ class StatusControllerTest extends AbstractControllerTestCase
 
         $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
         $authService->expects($this->any())
-                ->method('isGranted')
-                ->will($this->returnValue(true));
+            ->method('isGranted')
+            ->will($this->returnValue(true));
 
         $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
     }
@@ -36,7 +36,7 @@ class StatusControllerTest extends AbstractControllerTestCase
     public function testListActionIsAccessible()
     {
         $this->mockAuthorizationService();
-        
+
         $this->dispatch('/api/status');
 
         $this->assertResponseStatusCode(200);
@@ -60,7 +60,15 @@ class StatusControllerTest extends AbstractControllerTestCase
     public function testUpdateIsAccessible()
     {
 
-        $this->dispatch('/api/status-rest/1', 'PUT', array('statusName' => 'testStatusRestUpdate', 'statusLibelle' => 'libelle update', 'statusDescription' => 'description update'));
+        $this->dispatch(
+            '/api/status-rest/1',
+            'PUT',
+            array(
+                'statusName' => 'testStatusRestUpdate',
+                'statusLibelle' => 'libelle update',
+                'statusDescription' => 'description update'
+            )
+        );
 
         $this->assertResponseStatusCode(200);
         $this->assertModuleName('ent');

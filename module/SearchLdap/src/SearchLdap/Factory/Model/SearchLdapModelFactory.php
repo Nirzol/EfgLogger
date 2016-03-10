@@ -14,7 +14,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class SearchLdapModelFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
 
@@ -26,5 +28,4 @@ class SearchLdapModelFactory implements FactoryInterface
 
         return $searchLdapModel;
     }
-
 }

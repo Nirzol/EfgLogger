@@ -173,7 +173,7 @@ class EntVersion extends Ent
 
         return $this;
     }
-    
+
     /**
      * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
      *
@@ -184,5 +184,4 @@ class EntVersion extends Ent
     {
         $this->setVersionLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
-
 }

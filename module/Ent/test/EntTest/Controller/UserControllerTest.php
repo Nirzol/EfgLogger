@@ -22,8 +22,8 @@ class UserControllerTest extends AbstractControllerTestCase
 
         $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
         $authService->expects($this->any())
-                ->method('isGranted')
-                ->will($this->returnValue(true));
+            ->method('isGranted')
+            ->will($this->returnValue(true));
 
         $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
     }
@@ -32,7 +32,7 @@ class UserControllerTest extends AbstractControllerTestCase
     public function testListActionIsAccessible()
     {
         $this->mockAuthorizationService();
-        
+
         $this->dispatch('/api/user');
 
 //        var_dump($this->getResponse()->getContent());
@@ -63,7 +63,7 @@ class UserControllerTest extends AbstractControllerTestCase
     public function testShowActionContainsUserWithMysql()
     {
         $this->mockAuthorizationService();
-        
+
         $this->dispatch('/api/user/16');
 
         // On vérifie via un selecteur CSS (attention tous n'existent pas)
@@ -135,7 +135,6 @@ class UserControllerTest extends AbstractControllerTestCase
 //        $this->assertActionName('update');
 //        $this->assertContains('true', $this->getResponse()->getContent());
 //    }
-
 //    
 //    // REST delete
 //    public function testDeleteIsAccessible() {

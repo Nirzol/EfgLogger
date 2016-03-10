@@ -87,13 +87,12 @@ if ($attributes) {
             $preferenceServiceAttribute = reset($preferenceServiceAttributeToArray);
 
             $serviceId = $preferenceServiceAttribute['serviceData']['serviceId'];
-            
+
 //            foreach ($preferenceServiceAttribute['serviceAttributeData'] as $key => $value) {
 //                $preferenceServiceAttribute['serviceAttributeData'][$value['attributeName']] = $preferenceServiceAttribute['serviceAttributeData'][$key];
 //                unset($preferenceServiceAttribute['serviceAttributeData'][$key]);
 //            }
 //            ksort($preferenceServiceAttribute['serviceAttributeData']);
-            
             ?>
             <div class="modal fade" id="<?php echo 'serviceIdModal' . $serviceId; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog modal-lg" role="document">
@@ -108,18 +107,15 @@ if ($attributes) {
                                     <?php
                                     $i = 0;
                                     foreach ($attributes as $attribute) {
-                                        if(isset($preferenceServiceAttribute['serviceAttributeData'][$attribute->getAttributeName()])){
+                                        if (isset($preferenceServiceAttribute['serviceAttributeData'][$attribute->getAttributeName()])) {
                                             $serviceAttributeData = $preferenceServiceAttribute['serviceAttributeData'][$attribute->getAttributeName()];
-                                        }else{
+                                        } else {
                                             $serviceAttributeData['attributeId'] = $attribute->getAttributeId();
                                             $serviceAttributeData['attributeValue'] = '';
                                             $serviceAttributeData['fkAttributeListtype'] = $attribute->getFkAttributeListtype();
                                         }
 //                                    }
-                                    
-                                    
 //                                    $attributesArrayReplace = array_replace($attributesArray, $preferenceServiceAttribute['serviceAttributeData']);
-
 //                                    foreach ($attributesArrayReplace as $serviceAttributeData) {
 
                                         $getServiceAttributes = 'serviceAttributes[' . $serviceId . '][' . $serviceAttributeData['attributeId'] . ']';
@@ -130,7 +126,6 @@ if ($attributes) {
                                             if (isset($serviceAttributeData['attributeValue'])) {
                                                 $valueAttribute = $serviceAttributeData['attributeValue'];
                                             }
-
                                         }
                                         $i++;
                                         if ($i === 1) {
@@ -142,7 +137,7 @@ if ($attributes) {
                                                 <div class="form-group<?php if ($form->get($getServiceAttributes)->getMessages()) echo ' has-error'; ?>">
                                                     <div class="col-xs-12">
                                                         <?= $this->formLabel($form->get($getServiceAttributes)->setLabelAttributes(['class' => 'control-label'])) ?>
-                                                        <?php                                         
+                                                        <?php
                                                         if (isset($serviceAttributeData['fkAttributeListtype']) && !empty($serviceAttributeData['fkAttributeListtype'])) {
                                                             echo $this->formSelect($form->get($getServiceAttributes)->setAttribute('class', '')->setValue($valueAttribute));
                                                         } else {
@@ -163,7 +158,7 @@ if ($attributes) {
                                             <?php
                                         }
                                     }
-                                    if ($i != 3 && $i!=0) {
+                                    if ($i != 3 && $i != 0) {
                                         echo '</div>';
                                     }
                                     ?>

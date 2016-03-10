@@ -13,6 +13,7 @@ use PHPUnit_Framework_TestCase;
 
 class SearchLdapControllerTest extends PHPUnit_Framework_TestCase
 {
+
     protected $controller;
     protected $request;
     protected $response;
@@ -23,9 +24,9 @@ class SearchLdapControllerTest extends PHPUnit_Framework_TestCase
     {
         $serviceManager = Bootstrap::getServiceManager();
         $this->controller = new SearchLdapController();
-        $this->request    = new Request();
+        $this->request = new Request();
         $this->routeMatch = new RouteMatch(array('controller' => 'getList'));
-        $this->event      = new MvcEvent();
+        $this->event = new MvcEvent();
         $config = $serviceManager->get('Config');
         $routerConfig = isset($config['router']) ? $config['router'] : array();
         $router = HttpRouter::factory($routerConfig);
@@ -35,25 +36,25 @@ class SearchLdapControllerTest extends PHPUnit_Framework_TestCase
         $this->controller->setEvent($this->event);
         $this->controller->setServiceLocator($serviceManager);
     }
-    
-    public function testGetListCanBeAccessed() {
+
+    public function testGetListCanBeAccessed()
+    {
         $result = $this->controller->dispatch($this->request);
-       
+
         /* @var $response Response */
         $response = $this->controller->getResponse();
-        
+
         $this->assertEquals(200, $response->getStatusCode());
     }
-    
-    public function testGetCanBeAccessed() {
+
+    public function testGetCanBeAccessed()
+    {
         $this->routeMatch->setParam('slug', 'mdjimbi');
-        
+
         $result = $this->controller->dispatch($this->request);
         /* @var $response Response */
         $response = $this->controller->getResponse();
-        
+
         $this->assertEquals(200, $response->getStatusCode());
     }
-    
-    
 }

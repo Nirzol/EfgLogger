@@ -1,4 +1,5 @@
 <?php
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,6 +28,7 @@ use ZfcRbac\Permission\PermissionInterface;
  */
 class EntPermission extends Ent implements PermissionInterface
 {
+
     /**
      * @var int|null
      *
@@ -48,7 +50,7 @@ class EntPermission extends Ent implements PermissionInterface
      */
     public function __construct($name)
     {
-        $this->name  = (string) $name;
+        $this->name = (string) $name;
     }
 
     /**

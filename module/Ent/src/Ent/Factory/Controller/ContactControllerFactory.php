@@ -19,7 +19,7 @@ class ContactControllerFactory implements FactoryInterface
     {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
-        
+
         $contactService = $sm->get('Ent\Service\ContactDoctrineORM');
 
         $contactForm = $sm->get('FormElementManager')->get('Ent\Form\ContactForm');

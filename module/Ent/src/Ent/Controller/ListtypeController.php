@@ -122,4 +122,5 @@ class ListtypeController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/listtype');
     }
+
 }

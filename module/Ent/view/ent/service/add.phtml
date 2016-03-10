@@ -55,7 +55,7 @@
                             <?= $this->formLabel($form->get($getServiceAttributes)->setLabelAttributes(['class' => 'col-sm-2 control-label'])) ?>
                             <?php
                             if ($attribute->getFkAttributeListtype()) {
-                                echo $this->formSelect($form->get($getServiceAttributes)->setAttribute('class', '')->setValue($valueAttribute));                                
+                                echo $this->formSelect($form->get($getServiceAttributes)->setAttribute('class', '')->setValue($valueAttribute));
                             } else {
                                 echo $this->formText($form->get($getServiceAttributes)->setAttribute('class', 'form-control')->setValue($valueAttribute));
                             }

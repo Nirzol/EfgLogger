@@ -8,6 +8,7 @@ class ModuleControllerTest extends AbstractControllerTestCase
 {
 
     protected $traceError = true;
+    
     protected $serviceManager;
 
     protected function setUp()

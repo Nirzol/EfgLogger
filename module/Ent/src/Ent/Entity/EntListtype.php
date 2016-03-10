@@ -181,8 +181,8 @@ class EntListtype extends Ent
     {
         return $this->listtypeLastUpdate;
     }
-    
-     /**
+
+    /**
      * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
      *
      * @ORM\PrePersist
@@ -191,11 +191,9 @@ class EntListtype extends Ent
     public function updatedTimestamps()
     {
         $this->setListtypeLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
-
 //        if($this->getCreatedAt() == null)
 //        {
 //            $this->setCreatedAt(date('Y-m-d H:i:s'));
 //        }
     }
-
 }

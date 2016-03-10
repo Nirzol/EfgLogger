@@ -14,7 +14,7 @@ class DoctrineService
     {
         foreach ($messages as $messagesKey => $message) {
             foreach ($message as $key => $value) {
-                error_log($messagesKey . ' -- ' .$key. ' : ' .$value);
+                error_log($messagesKey . ' -- ' . $key . ' : ' . $value);
             }
         }
     }

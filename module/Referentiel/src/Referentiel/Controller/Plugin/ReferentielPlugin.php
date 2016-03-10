@@ -12,19 +12,22 @@ use Zend\Soap\Client;
  *
  * @author fandria
  */
-class ReferentielPlugin extends AbstractPlugin {
-    
-    public function getOwaAccount($username, $password) {
-        $code = $username.$password;
-        
+class ReferentielPlugin extends AbstractPlugin
+{
+
+    public function getOwaAccount($username, $password)
+    {
+        $code = $username . $password;
+
         $decode = Encryption::decode($code);
         $pieces = explode('/', $decode);
-        
+
         $credential = array($pieces[0], $pieces[1]);
         return $credential;
     }
-    
-    public function getAccountFromRef($fromRef) {
+
+    public function getAccountFromRef($fromRef)
+    {
         $client = new Client($fromRef);
         try {
             if (!is_null($client)) {
@@ -37,4 +40,5 @@ class ReferentielPlugin extends AbstractPlugin {
 //                echo $exc->getTraceAsString();
         }
     }
+
 }

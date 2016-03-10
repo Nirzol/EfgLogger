@@ -2,13 +2,13 @@
 
 <h2><?= $this->translate('Détails d\'une action') ?></h2>
 <p>
-    <?= $this->translate('Nom de l\'action :') ?> <?php echo $this->escapeHtml($action->getActionName())?>
+    <?= $this->translate('Nom de l\'action :') ?> <?php echo $this->escapeHtml($action->getActionName()) ?>
 </p>
 <p>
-    <?= $this->translate('Libellé de l\'action :') ?> <?php echo $this->escapeHtml($action->getActionLibelle())?>
+    <?= $this->translate('Libellé de l\'action :') ?> <?php echo $this->escapeHtml($action->getActionLibelle()) ?>
 </p>
 <p>
-    <?= $this->translate('Description de l\'action :') ?> <?php echo $this->escapeHtml($action->getActionDescription())?>
+    <?= $this->translate('Description de l\'action :') ?> <?php echo $this->escapeHtml($action->getActionDescription()) ?>
 </p>
 
 <p>
@@ -16,8 +16,7 @@
     <?php
     if ($action->getActionLastUpdate() != null) {
         echo $action->getActionLastUpdate()->format('d-m-Y H:i:s');
-    }
-    else {
+    } else {
         echo $this->translate('Aucune mise à jour');
     }
     ?>

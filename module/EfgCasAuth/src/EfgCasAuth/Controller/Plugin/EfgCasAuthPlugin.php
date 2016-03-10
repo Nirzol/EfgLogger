@@ -5,11 +5,11 @@ namespace EfgCasAuth\Controller\Plugin;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\ServiceLocatorInterface;
+
 //use ZfcUser\Authentication\Adapter\AdapterChain as AuthAdapter;
 
 class EfgCasAuthPlugin extends AbstractPlugin
 {
-
     /**
      * @var AuthAdapter
      */

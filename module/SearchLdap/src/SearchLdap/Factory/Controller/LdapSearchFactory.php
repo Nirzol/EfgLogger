@@ -16,9 +16,11 @@ use Zend\Ldap\Ldap;
  *
  * @author mdjimbi
  */
+class LdapSearchFactory implements FactoryInterface
+{
 
-class LdapSearchFactory implements FactoryInterface {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         /* @var $serviceLocator ControllerManager */
         $sm = $serviceLocator->getServiceLocator();
 
@@ -26,13 +28,12 @@ class LdapSearchFactory implements FactoryInterface {
         $ldap = new Ldap($config['searchldap_config']);
 
         $searchLdapModel = new SearchLdap($ldap);
-        
+
         $searchForm = new LdapSearchForm();
         $searchFilter = new LdapSearchFilter();
-        
+
         $LdapSearchController = new LdapSearchController($searchLdapModel, $searchForm, $searchFilter);
 
         return $LdapSearchController;
     }
-
 }

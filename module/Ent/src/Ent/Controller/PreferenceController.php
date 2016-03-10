@@ -40,7 +40,7 @@ class PreferenceController extends AbstractActionController
         if (!$this->isGranted('list_preference')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $preferences = $this->preferenceService->getAll();
 
         return new ViewModel(array(
@@ -53,7 +53,7 @@ class PreferenceController extends AbstractActionController
         if (!$this->isGranted('add_preference')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $form = $this->preferenceForm;
 
         if ($this->request->isPost()) {
@@ -76,7 +76,7 @@ class PreferenceController extends AbstractActionController
         if (!$this->isGranted('show_preference')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $preference = $this->preferenceService->getById($id);
@@ -95,7 +95,7 @@ class PreferenceController extends AbstractActionController
         if (!$this->isGranted('update_preference')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
         $form = $this->preferenceForm;
         $preference = $this->preferenceService->getById($id, $form);
@@ -120,7 +120,7 @@ class PreferenceController extends AbstractActionController
         if (!$this->isGranted('delete_preference')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $this->preferenceService->delete($id);

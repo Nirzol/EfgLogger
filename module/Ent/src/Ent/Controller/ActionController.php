@@ -40,7 +40,7 @@ class ActionController extends AbstractActionController
         if (!$this->isGranted('list_action')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $listActions = $this->actionService->getAll();
 
         return new ViewModel(array(
@@ -53,7 +53,7 @@ class ActionController extends AbstractActionController
         if (!$this->isGranted('add_action')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $form = $this->actionForm;
 
         if ($this->request->isPost()) {
@@ -76,7 +76,7 @@ class ActionController extends AbstractActionController
         if (!$this->isGranted('show_action')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $action = $this->actionService->getById($id);
@@ -95,7 +95,7 @@ class ActionController extends AbstractActionController
         if (!$this->isGranted('update_action')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
         $form = $this->actionForm;
         $action = $this->actionService->getById($id, $form);
@@ -120,7 +120,7 @@ class ActionController extends AbstractActionController
         if (!$this->isGranted('delete_action')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $this->actionService->delete($id);
@@ -129,4 +129,5 @@ class ActionController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/action');
     }
+
 }

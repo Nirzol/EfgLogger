@@ -38,7 +38,7 @@ class ModuleController extends AbstractActionController
         if (!$this->isGranted('list_module')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $listModules = $this->moduleService->getAll();
 
         return new ViewModel(array(
@@ -51,7 +51,7 @@ class ModuleController extends AbstractActionController
         if (!$this->isGranted('add_module')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $form = $this->moduleForm;
 
         if ($this->request->isPost()) {
@@ -74,7 +74,7 @@ class ModuleController extends AbstractActionController
         if (!$this->isGranted('show_module')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $module = $this->moduleService->getById($id);
@@ -93,7 +93,7 @@ class ModuleController extends AbstractActionController
         if (!$this->isGranted('update_module')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
         $form = $this->moduleForm;
         $module = $this->moduleService->getById($id, $form);
@@ -118,7 +118,7 @@ class ModuleController extends AbstractActionController
         if (!$this->isGranted('delete_module')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $this->moduleService->delete($id);

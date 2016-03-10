@@ -8,6 +8,7 @@ class VersionControllerTest extends AbstractControllerTestCase
 {
 
     protected $traceError = true;
+    
     protected $serviceManager;
 
     protected function setUp()
@@ -22,8 +23,8 @@ class VersionControllerTest extends AbstractControllerTestCase
 
         $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
         $authService->expects($this->any())
-                ->method('isGranted')
-                ->will($this->returnValue(true));
+            ->method('isGranted')
+            ->will($this->returnValue(true));
 
         $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
     }
@@ -36,15 +37,15 @@ class VersionControllerTest extends AbstractControllerTestCase
 
     public function testIndexActionIsAccessible()
     {
-        
+
         $this->mockAuthorizationService();
-       
+
         $mokService = $this->getMockBuilder(\Ent\Service\VersionDoctrineService::class)->disableOriginalConstructor()->getMock();
         $mokService->expects($this->any())
-                ->method('getAll')
-                ->will($this->returnValue(array()));
+            ->method('getAll')
+            ->will($this->returnValue(array()));
         $this->serviceManager->setService(\Ent\Service\VersionDoctrineService::class, $mokService);
-        
+
         $this->dispatch('/api/version');
 
         $this->assertResponseStatusCode(200);

@@ -22,12 +22,11 @@ class SearchLdapPluginFactory implements FactoryInterface
         $sm = $serviceLocator->getServiceLocator();
 
         $config = $sm->get('Config');
-        
+
         $ldap = new Ldap($config['searchldap_config']);
 
         $searchLdapModel = new \SearchLdap\Model\SearchLdap($ldap);
 
         return new SearchLdapPlugin($searchLdapModel);
     }
-
 }

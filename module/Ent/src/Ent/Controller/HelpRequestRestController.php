@@ -162,5 +162,4 @@ class HelpRequestRestController extends AbstractRestfulController
 //            'data' => $data
 //        ));
     }
-
 }

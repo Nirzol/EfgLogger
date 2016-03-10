@@ -24,11 +24,10 @@
 
 <p>
     <?= $this->translate('Dernière mise à jour :') ?> 
-    <?php 
+    <?php
     if ($contact->getContactLastUpdate() != null) {
         echo $contact->getContactLastUpdate()->format('d-m-Y H:i:s');
-    }
-    else {
+    } else {
         echo $this->translate('Aucune mise à jour');
     }
     ?>

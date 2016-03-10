@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EntPreference extends Ent
 {
+
     /**
      * @var integer
      *
@@ -229,7 +230,7 @@ class EntPreference extends Ent
     {
         return $this->fkPrefProfile;
     }
-    
+
     /**
      * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
      *

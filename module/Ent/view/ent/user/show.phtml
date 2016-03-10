@@ -20,8 +20,7 @@
     <?php
     if ($user->getUserLastUpdate() != null) {
         echo $user->getUserLastUpdate()->format('d-m-Y H:i:s');
-    }
-    else {
+    } else {
         echo $this->translate('Aucune mise à jour');
     }
     ?>

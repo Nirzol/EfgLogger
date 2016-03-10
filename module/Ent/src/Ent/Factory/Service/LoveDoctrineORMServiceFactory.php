@@ -13,7 +13,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author fandria
  */
-class LoveDoctrineORMServiceFactory implements FactoryInterface {
+class LoveDoctrineORMServiceFactory implements FactoryInterface
+{
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /* @var $serviceLocator ObjectManager */
@@ -25,4 +27,5 @@ class LoveDoctrineORMServiceFactory implements FactoryInterface {
 
         return $service;
     }
+
 }

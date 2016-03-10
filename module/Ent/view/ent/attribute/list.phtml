@@ -17,37 +17,37 @@
 </div>
 <table class="table table-striped">  
     <thead>
-    <tr>
-        <th><?=$this->translate('Nom de l\'attribut')?></th>
-        <th><?=$this->translate('Libellé')?></th>
-        <th><?=$this->translate('Description')?></th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>        
-    </tr>
+        <tr>
+            <th><?= $this->translate('Nom de l\'attribut') ?></th>
+            <th><?= $this->translate('Libellé') ?></th>
+            <th><?= $this->translate('Description') ?></th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>        
+        </tr>
     </thead>
     <tbody  class="searchable">
-    <?php foreach ($listAttributes as $attribute) : ?>
-        <tr>
-            <td>
-                <?= $this->escapeHtml($attribute->getAttributeName()) ?>
-            </td>
-            <td>
-                <?= $this->escapeHtml($attribute->getAttributeLibelle()) ?>
-            </td>
-            <td>
-                <?= $this->escapeHtml($attribute->getAttributeDescription()) ?>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/attribute/show', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/attribute/show/update', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
-            </td>
-            <td>
-                <a href="<?= $this->url('zfcadmin/attribute/show/delete', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
-            </td>
-        </tr>
-    <?php endforeach; ?>
+        <?php foreach ($listAttributes as $attribute) : ?>
+            <tr>
+                <td>
+                    <?= $this->escapeHtml($attribute->getAttributeName()) ?>
+                </td>
+                <td>
+                    <?= $this->escapeHtml($attribute->getAttributeLibelle()) ?>
+                </td>
+                <td>
+                    <?= $this->escapeHtml($attribute->getAttributeDescription()) ?>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/attribute/show', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-primary btn-xs"><?= $this->translate('Détails') ?></a>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/attribute/show/update', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-warning btn-xs"><?= $this->translate('Modifier') ?></a>
+                </td>
+                <td>
+                    <a href="<?= $this->url('zfcadmin/attribute/show/delete', ['id' => $this->escapeUrl($attribute->getAttributeId())]) ?>" class="btn btn-danger btn-xs"><?= $this->translate('Supprimer') ?></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
     </tbody>
 </table>

@@ -11,7 +11,7 @@ use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
  */
 class PreferenceControllerTest extends AbstractControllerTestCase
 {
-    
+
     protected $traceError = true;
     
     protected $serviceManager;
@@ -28,8 +28,8 @@ class PreferenceControllerTest extends AbstractControllerTestCase
 
         $authService = $this->getMockBuilder(\ZfcRbac\Service\AuthorizationService::class)->disableOriginalConstructor()->getMock();
         $authService->expects($this->any())
-                ->method('isGranted')
-                ->will($this->returnValue(true));
+            ->method('isGranted')
+            ->will($this->returnValue(true));
 
         $this->serviceManager->setService(\ZfcRbac\Service\AuthorizationService::class, $authService);
     }
@@ -38,7 +38,7 @@ class PreferenceControllerTest extends AbstractControllerTestCase
     {
 
         $this->mockAuthorizationService();
-        
+
         $this->dispatch('/api/preference');
 
         $this->assertResponseStatusCode(200);

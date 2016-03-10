@@ -2,13 +2,13 @@
 
 <h2><?= $this->translate('Détails d\'un status') ?></h2>
 <p>
-    <?= $this->translate('Nom du status :') ?> <?php echo $this->escapeHtml($status->getStatusName())?>
+    <?= $this->translate('Nom du status :') ?> <?php echo $this->escapeHtml($status->getStatusName()) ?>
 </p>
 <p>
-    <?= $this->translate('Libellé du status :') ?> <?php echo $this->escapeHtml($status->getStatusLibelle())?>
+    <?= $this->translate('Libellé du status :') ?> <?php echo $this->escapeHtml($status->getStatusLibelle()) ?>
 </p>
 <p>
-    <?= $this->translate('Description du status :') ?> <?php echo $this->escapeHtml($status->getStatusDescription())?>
+    <?= $this->translate('Description du status :') ?> <?php echo $this->escapeHtml($status->getStatusDescription()) ?>
 </p>
 
 <p>
@@ -16,8 +16,7 @@
     <?php
     if ($status->getStatusLastUpdate() != null) {
         echo $status->getStatusLastUpdate()->format('d-m-Y H:i:s');
-    }
-    else {
+    } else {
         echo $this->translate('Aucune mise à jour');
     }
     ?>

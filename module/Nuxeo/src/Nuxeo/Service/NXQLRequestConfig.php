@@ -34,7 +34,7 @@ class NXQLRequestConfig
     public function getRequest($paramArray)
     {
 
-        $nxqlQuery = NULL;
+        $nxqlQuery = null;
 //        var_dump($paramArray);
 
         if (!is_null($paramArray) && (count($paramArray) > 0)) {
@@ -70,16 +70,16 @@ class NXQLRequestConfig
     }
 
     /**
-     * 
+     *
      * @param type $username
      * @param type $path
      * @param type $tag
      * @param type $ancestor
-     * @return string : 
+     * @return string :
      *          la requete NXQL des documents pour :
      *                  $username, $path exclusive $ancestor, meta tag $tag
      */
-    public function getDocumentsRequest($username, $path = NULL, $tag = NULL, $ancestor = NULL)
+    public function getDocumentsRequest($username, $path = null, $tag = null, $ancestor = null)
     {
 
         $paramArray = array();
@@ -89,7 +89,7 @@ class NXQLRequestConfig
         }
 
         // "path" est exclusive a "ancestor" (soit l'un soit l'autre)
-        if (isset($path) && ($path !== NULL)) {
+        if (isset($path) && ($path !== null)) {
             $paramArray["path"] = $path;
         } elseif (isset($ancestor)) {
             $paramArray["ancestor"] = $ancestor;
@@ -103,24 +103,23 @@ class NXQLRequestConfig
     }
 
     /**
-     * 
+     *
      * @param type $path
      * @param type $ancestor
      * @return type String :
-     *      La requete pour les Foldes dans un pere ou-exclusive un ancetre 
+     *      La requete pour les Foldes dans un pere ou-exclusive un ancetre
      */
-    public function getFoldersRequest($path, $ancestor = NULL)
+    public function getFoldersRequest($path, $ancestor = null)
     {
 
         $paramArray = array();
 
-        if (isset($path) && $path !== NULL) {
+        if (isset($path) && $path !== null) {
             $paramArray["path"] = $path;
-        } elseif (isset($ancestor) && $ancestor !== NULL) {
+        } elseif (isset($ancestor) && $ancestor !== null) {
             $paramArray["ancestor"] = $path;
         }
 
         return $this->getRequest($paramArray);
     }
-
 }

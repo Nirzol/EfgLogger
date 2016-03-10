@@ -15,6 +15,7 @@ use Zend\Form\Form;
  */
 class ServiceDoctrineService extends DoctrineService implements ServiceInterface
 {
+
     /**
      *
      * @var EntityManager

@@ -96,15 +96,16 @@ class PreferenceDoctrineService extends DoctrineService implements ServiceInterf
 
         return $repoFindOneBy;
     }
+
     public function queryFindOneBy($criteria)
     {
         $repo = $this->em->getRepository('Ent\Entity\EntPreference');
         $query = $repo->createQueryBuilder('p')
-                ->select('p.prefAttribute')
-                ->leftJoin('p.fkPrefProfile', 'c')
-                ->orderBy('c.profileName', 'ASC')
-                ->where($criteria);
-                 
+            ->select('p.prefAttribute')
+            ->leftJoin('p.fkPrefProfile', 'c')
+            ->orderBy('c.profileName', 'ASC')
+            ->where($criteria);
+
         return $query->getQuery()->getSingleResult();
     }
 

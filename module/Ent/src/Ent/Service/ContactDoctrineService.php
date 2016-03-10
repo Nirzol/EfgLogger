@@ -117,7 +117,7 @@ class ContactDoctrineService extends DoctrineService implements ServiceInterface
         if (!$form->isValid()) {
             return null;
         }
-        
+
         $this->em->persist($contact);
         $this->em->flush();
 
@@ -148,7 +148,7 @@ class ContactDoctrineService extends DoctrineService implements ServiceInterface
     public function delete($id)
     {
         $contact = $this->getById($id);
-        
+
         $this->em->remove($contact);
         $this->em->flush();
     }

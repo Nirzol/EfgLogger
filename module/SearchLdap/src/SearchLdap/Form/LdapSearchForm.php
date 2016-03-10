@@ -9,11 +9,13 @@ use Zend\Form\Form;
  *
  * @author mdjimbi
  */
+class LdapSearchForm extends Form
+{
 
-class LdapSearchForm extends Form {
-    public function __construct($name = null) {
+    public function __construct($name = null)
+    {
         parent::__construct('searchLdap');
-        
+
         $this->add(array(
             'name' => 'searchValue',
             'type' => 'Text',
@@ -21,7 +23,7 @@ class LdapSearchForm extends Form {
                 'label' => 'Nom, login, mail ou (filtre ldap) : ',
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'submit',
             'type' => 'Submit',
@@ -31,7 +33,7 @@ class LdapSearchForm extends Form {
                 'class' => 'btn btn-primary'
             ),
         ));
-        
+
         $this->add(array(
             'type' => 'Zend\Form\Element\Checkbox',
             'name' => 'userTypeStaff',
@@ -42,7 +44,7 @@ class LdapSearchForm extends Form {
                 'unchecked_value' => '0'
             ),
         ));
-        
+
         $this->add(array(
             'type' => 'Zend\Form\Element\Checkbox',
             'name' => 'userTypeStudent',

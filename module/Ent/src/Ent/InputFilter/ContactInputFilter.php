@@ -116,4 +116,5 @@ class ContactInputFilter extends InputFilter
             ),
         ));
     }
+
 }

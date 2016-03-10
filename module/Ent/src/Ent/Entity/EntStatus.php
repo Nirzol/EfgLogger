@@ -156,8 +156,8 @@ class EntStatus extends Ent
     {
         return $this->statusLastUpdate;
     }
-    
-     /**
+
+    /**
      * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
      *
      * @ORM\PrePersist
@@ -167,5 +167,4 @@ class EntStatus extends Ent
     {
         $this->setStatusLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
-
 }

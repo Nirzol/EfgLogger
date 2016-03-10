@@ -25,7 +25,7 @@ class EfgCasAuthPluginFactory implements FactoryInterface
 //        $authAdapter = $serviceManager->get('ZfcUser\Authentication\Adapter\AdapterChain');
         $controllerPlugin = new EfgCasAuthPlugin();
         $controllerPlugin
-                ->setAuthService($authService)
+            ->setAuthService($authService)
 //                ->setAuthAdapter($authAdapter)
         ;
         return $controllerPlugin;

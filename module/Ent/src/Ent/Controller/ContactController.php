@@ -37,7 +37,7 @@ class ContactController extends AbstractActionController
         if (!$this->isGranted('list_contact')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $contacts = $this->contactService->getAll();
 
         return new ViewModel(array(
@@ -50,7 +50,7 @@ class ContactController extends AbstractActionController
         if (!$this->isGranted('add_contact')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $form = $this->contactForm;
 
         if ($this->request->isPost()) {
@@ -73,7 +73,7 @@ class ContactController extends AbstractActionController
         if (!$this->isGranted('show_contact')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $contact = $this->contactService->getById($id);
@@ -92,7 +92,7 @@ class ContactController extends AbstractActionController
         if (!$this->isGranted('update_contact')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
         $form = $this->contactForm;
         $contact = $this->contactService->getById($id, $form);
@@ -117,7 +117,7 @@ class ContactController extends AbstractActionController
         if (!$this->isGranted('delete_contact')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $id = $this->params('id');
 
         $this->contactService->delete($id);
@@ -126,4 +126,5 @@ class ContactController extends AbstractActionController
 
         return $this->redirect()->toRoute('zfcadmin/contact');
     }
+
 }

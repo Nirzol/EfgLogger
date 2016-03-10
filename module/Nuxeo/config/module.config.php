@@ -11,9 +11,9 @@ return array(
             'nuxeo' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/api/nuxeo[/:id]',
+                    'route' => '/api/nuxeo[/:id]',
                     'constraints' => array(
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'Nuxeo\Controller\Nuxeo',

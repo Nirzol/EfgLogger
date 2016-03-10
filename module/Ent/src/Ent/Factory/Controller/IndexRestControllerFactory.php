@@ -18,15 +18,15 @@ class IndexRestControllerFactory implements FactoryInterface
         $sm = $serviceLocator->getServiceLocator();
 
         $logService = $sm->get('Ent\Service\LogDoctrineORM');
-        
+
         $userService = $sm->get('Ent\Service\UserDoctrineORM');
-        
+
         $actionService = $sm->get('Ent\Service\ActionDoctrineORM');
-        
+
         $profileService = $sm->get('Ent\Service\ProfileDoctrineORM');
-        
+
         $logForm = $sm->get('FormElementManager')->get('Ent\Form\LogForm');
-        
+
         $userForm = $sm->get('FormElementManager')->get('Ent\Form\UserForm');
 
         /* @var $serviceLocator ObjectManager */

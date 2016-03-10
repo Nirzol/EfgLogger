@@ -58,4 +58,5 @@ class NoOtherEntityExists extends \DoctrineModule\Validator\NoObjectExists
         }
         return true;
     }
+
 }

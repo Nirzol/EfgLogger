@@ -7,16 +7,20 @@ namespace Referentiel\Service;
  *
  * @author fandria
  */
-class ReferentielService {
-    
+class ReferentielService
+{
+
     protected $referentielSoap;
 
-    public function __construct($referentielSoap) {
+    public function __construct($referentielSoap)
+    {
         $this->referentielSoap = $referentielSoap;
     }
-    
+
     /* pwd compte de servce personnel */
-    public function getOWAServiceAccount() {
+
+    public function getOWAServiceAccount()
+    {
         try {
             if (!is_null($this->referentielSoap)) {
                 $pwd = $this->referentielSoap->getParametre('owa');
@@ -27,4 +31,5 @@ class ReferentielService {
 //                echo $exc->getTraceAsString();
         }
     }
+
 }

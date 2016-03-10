@@ -9,40 +9,49 @@ namespace Nuxeo\Model;
  *
  * @author     Arthur GALLOUIN for NUXEO agallouin@nuxeo.com
  */
-class NuxeoDocument {
+class NuxeoDocument
+{
 
-    Private $object;
-    Private $properties;
+    private $object;
+    private $properties;
 
-    Public function __construct($newDocument) {
+    public function __construct($newDocument)
+    {
         $this->object = $newDocument;
-        if (array_key_exists('properties', $this->object))
+        if (array_key_exists('properties', $this->object)) {
             $this->properties = $this->object['properties'];
-        else
+        } else {
             $this->properties = null;
+        }
     }
 
-    public function getUid() {
+    public function getUid()
+    {
         return $this->object['uid'];
     }
 
-    public function getPath() {
+    public function getPath()
+    {
         return $this->object['path'];
     }
 
-    public function getType() {
+    public function getType()
+    {
         return $this->object['type'];
     }
 
-    public function getState() {
+    public function getState()
+    {
         return $this->object['state'];
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->object['title'];
     }
 
-    Public function output() {
+    public function output()
+    {
         $value = sizeof($this->object);
 
         for ($test = 0; $test < $value - 1; $test++) {
@@ -50,25 +59,27 @@ class NuxeoDocument {
             next($this->object);
         }
 
-        if ($this->properties !== NULL) {
+        if ($this->properties !== null) {
             $value = sizeof($this->properties);
             for ($test = 0; $test < $value; $test++) {
                 echo '<td>' . key($this->properties) . ' : ' .
-                     current($this->properties) . '</td>';
+                current($this->properties) . '</td>';
                 next($this->properties);
             }
         }
     }
 
-    public function getObject() {
+    public function getObject()
+    {
         return $this->object;
     }
 
-    public function getProperty($schemaNamePropertyName) {
+    public function getProperty($schemaNamePropertyName)
+    {
         if (array_key_exists($schemaNamePropertyName, $this->properties)) {
             return $this->properties[$schemaNamePropertyName];
-        }
-        else
+        } else {
             return null;
+        }
     }
 }

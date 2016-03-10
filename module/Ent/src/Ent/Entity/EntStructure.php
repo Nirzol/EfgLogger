@@ -232,7 +232,7 @@ class EntStructure extends Ent
     {
         return $this->structureLastUpdate;
     }
-    
+
     /**
      * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
      *
@@ -243,5 +243,4 @@ class EntStructure extends Ent
     {
         $this->setStructureLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
     }
-
 }

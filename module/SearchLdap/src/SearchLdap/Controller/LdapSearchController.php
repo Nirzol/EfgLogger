@@ -42,8 +42,11 @@ class LdapSearchController extends AbstractActionController
      */
     protected $searchLdapFilter;
 
-    public function __construct(SearchLdap $searchLdapModel, LdapSearchForm $searchLdapForm, LdapSearchFilter $searchLdapFilter)
-    {
+    public function __construct(
+        SearchLdap $searchLdapModel,
+        LdapSearchForm $searchLdapForm,
+        LdapSearchFilter $searchLdapFilter
+    ) {
         $this->searchLdapModel = $searchLdapModel;
         $this->searchLdapForm = $searchLdapForm;
         $this->searchLdapFilter = $searchLdapFilter;
@@ -99,5 +102,4 @@ class LdapSearchController extends AbstractActionController
             'message' => $message,
         ));
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace SearchLdap\InputFilter;
 
 use Zend\Filter\StringTrim;
@@ -35,5 +36,4 @@ class LdapSearchFilter extends InputFilter
 
         $this->add($input);
     }
-
 }

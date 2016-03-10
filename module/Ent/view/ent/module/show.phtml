@@ -16,8 +16,7 @@
     <?php
     if ($module->getModuleLastUpdate() != null) {
         echo $module->getModuleLastUpdate()->format('d-m-Y H:i:s');
-    }
-    else {
+    } else {
         echo $this->translate('Aucune mise à jour');
     }
     ?>

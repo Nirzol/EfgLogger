@@ -12,7 +12,7 @@ class AuthController extends AbstractActionController
 {
 
     /**
-     * 
+     *
      * @var Request
      */
     protected $request = null;
@@ -33,7 +33,7 @@ class AuthController extends AbstractActionController
 
     public function loginAction()
     {
-        //if already login, redirect to index page 
+        //if already login, redirect to index page
 //        if ($this->authService->hasIdentity()) {
 //            return $this->redirect()->toRoute('home');
 //        }
@@ -44,7 +44,7 @@ class AuthController extends AbstractActionController
     {
         $configCas = $this->configCas;
 
-        // Enable debugging      
+        // Enable debugging
         if ($configCas['cas_debug']) {
             phpCAS::setDebug($configCas['cas_debug_file']);
         }
@@ -81,7 +81,7 @@ class AuthController extends AbstractActionController
         if (phpCAS::isAuthenticated()) {
             $adapter = $this->authService->getAdapter();
 
-            // setCredential doit recevoir le MDP 
+            // setCredential doit recevoir le MDP
             // mais vu qu'on utilise CAS le mdp est VIDE !!!!
             $adapter->setIdentityValue(phpCAS::getUser());
             $adapter->setCredentialValue('');
@@ -111,13 +111,13 @@ class AuthController extends AbstractActionController
             phpCAS::forceAuthentication();
             die();
         }
-        
+
         return $this->redirect()->toUrl($redirectTo);
     }
 
     public function logoutAction()
     {
-        // if not login, redirect to home page 
+        // if not login, redirect to home page
         if (!$this->authService->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
@@ -126,7 +126,7 @@ class AuthController extends AbstractActionController
 
         $configCas = $this->configCas;
 
-        // Enable debugging      
+        // Enable debugging
         if ($configCas['cas_debug']) {
             phpCAS::setDebug($configCas['cas_debug_file']);
         }
@@ -156,5 +156,4 @@ class AuthController extends AbstractActionController
 
         return $base;
     }
-
 }

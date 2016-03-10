@@ -18,13 +18,13 @@ class VersionController extends AbstractActionController
 
     public function indexAction()
     {
-        
+
         if (!$this->isGranted('list_log')) {
             throw new \ZfcRbac\Exception\UnauthorizedException('You are not allowed !');
         }
-        
+
         $versions = $this->service->getAll();
-        
+
         return new ViewModel(array(
             'listVersions' => $versions
         ));

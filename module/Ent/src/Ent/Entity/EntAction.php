@@ -156,7 +156,7 @@ class EntAction extends Ent
     {
         return $this->actionLastUpdate;
     }
-    
+
     /**
      * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
      *
@@ -165,7 +165,7 @@ class EntAction extends Ent
      */
     public function updatedTimestamps()
     {
-        $this->setActionLastUpdate(date_create(date('Y-m-d H:i:s'))); //date('Y-m-d H:i:s')  new \DateTime("now")
+        //date('Y-m-d H:i:s')  new \DateTime("now")
+        $this->setActionLastUpdate(date_create(date('Y-m-d H:i:s')));
     }
-
 }

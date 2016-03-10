@@ -109,7 +109,6 @@ class Bootstrap
         }
         return $dir . '/' . $path;
     }
-
 }
 
 Bootstrap::init();
