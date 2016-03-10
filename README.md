@@ -3,6 +3,7 @@ EfgLogger
 
 This module implements Doctrine log writer with Zend\log component.
 This is my first module so help to improve it ! :-)
+http://gamers.re/technologie/zend-framework-2/zend-framework-2-zendlog-et-doctrine/
 
 Installation and Use:
 ---------------------
