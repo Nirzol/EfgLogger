@@ -45,7 +45,7 @@ class Module
                         'log_useragent' => $request->getServer()->get('HTTP_USER_AGENT'),
                         'log_url' => $request->getRequestUri(),
                         'log_session' => $container->getDefaultManager()->getId(),
-                    ));
+                ));
             }
         }
     }

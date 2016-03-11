@@ -65,7 +65,7 @@ class DoctrineWriter extends AbstractWriter
             $dataToInsert = $this->mapEventIntoColumn($event, $this->columnMap);
         }
 //        var_dump($event, $dataToInsert);
-        
+
         $this->logEntity = new $this->modelClass();
         $this->logEntity->exchangeArray($dataToInsert);
         if ($event['extra']) {
@@ -128,7 +128,7 @@ class DoctrineWriter extends AbstractWriter
         }
         return $data;
     }
-    
+
     /**
      * Transform event into column for the db table
      *
