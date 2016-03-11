@@ -68,8 +68,8 @@ class Logger extends \Zend\Log\Logger
      */
     public function log($priority, $message, $extra = [])
     {
-        $this->log($priority, $message, $this->getExtra());
-//        parent::log($priority, $message, $this->getExtraWithContextMerged($extra));
+//        $this->log($priority, $message, $this->getExtra());
+        parent::log($priority, $message, $this->getExtraWithContextMerged($extra));
     }
 
     /**
@@ -77,12 +77,12 @@ class Logger extends \Zend\Log\Logger
      * @param array $context
      * @return type
      */
-//    private function getExtraWithContextMerged(array $context = array())
-//    {
-//        $extra = $this->getExtra();
-//        if (!empty($context)) {
-//            $extra = array_merge($extra, $context);
-//        }
-//        return $extra;
-//    }
+    private function getExtraWithContextMerged(array $context = array())
+    {
+        $extra = $this->getExtra();
+        if (!empty($context)) {
+            $extra = array_merge($extra, $context);
+        }
+        return $extra;
+    }
 }
